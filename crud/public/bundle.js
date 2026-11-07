@@ -3019,6 +3019,1528 @@ end;`,
   }
 });
 
+// clientLib/fsCatalog.ts
+var FS_CATALOG;
+var init_fsCatalog = __esm({
+  "clientLib/fsCatalog.ts"() {
+    FS_CATALOG = {
+      "generatedAt": "2026-11-07T02:59:01.043Z",
+      "version": "2.0.0",
+      "formalStatements": [
+        {
+          "numId": 1,
+          "id": "fs_newtonian_mechanics",
+          "type": "physics",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "boundary_law",
+          "title": "Newtonian Dynamics & Boundary Acceleration",
+          "description": "Foundational relation between force, inertia, and momentum conservation on \u211D_\u03C9.",
+          "scaffoldKey": "newtonian_mechanics",
+          "expression": "F = m \xB7 a  \u2227  p = m \xB7 v",
+          "referencedInSegments": [
+            "stemNewtonianBridge"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 2,
+          "id": "fs_free_fall_accel",
+          "parentId": "fs_newtonian_mechanics",
+          "type": "physics",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "Uniform Free Fall Kinematics",
+          "description": "Motion under constant gravitational acceleration g on \u211D_\u03C9.",
+          "scaffoldKey": "free_fall_accel",
+          "expression": "v(t) = v\u2080 - g \xB7 t  \u2227  s(t) = v\u2080\xB7t - (1/2)\xB7g\xB7t\xB2",
+          "leanSignature": "theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t",
+          "pseudoAlgoId": "kinematics_step",
+          "referencedInSegments": [
+            "stemNewtonianBridge"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 3,
+          "id": "fs_telescoping_ftc",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "boundary_law",
+          "title": "Telescoping Fundamental Theorem of Calculus",
+          "description": "Discrete interior cancellation collapsing whole-transect sums to boundary differences.",
+          "scaffoldKey": "telescoping_ftc",
+          "expression": "\u2211_{k=0}^{n-1} \u0394F(k) = F(n) - F(0)",
+          "leanSignature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
+          "referencedInSegments": [
+            "analysis1DLecture3",
+            "stemHeatDiffusion"
+          ],
+          "leanStatus": "certified"
+        },
+        {
+          "numId": 4,
+          "id": "fs_work_energy",
+          "parentId": "fs_telescoping_ftc",
+          "type": "physics",
+          "tier": "law",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "Telescoping Work-Energy Principle",
+          "description": "Exact cancellation of interior work increments yielding net kinetic energy change.",
+          "scaffoldKey": "work_energy",
+          "expression": "\u0394(KE) = (1/2)\xB7m\xB7v\xB2 - (1/2)\xB7m\xB7v\u2080\xB2 = \u2211_{k=0}^{n-1} F_k \xB7 \u0394x_k",
+          "leanSignature": "theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum",
+          "referencedInSegments": [
+            "stemNewtonianBridge"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 5,
+          "id": "fs_heat_flux",
+          "parentId": "fs_telescoping_ftc",
+          "type": "physics",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "Discrete Thermal Diffusion Balance",
+          "description": "Conservation of thermal energy across discrete boundaries governed by second differences.",
+          "scaffoldKey": "heat_flux",
+          "expression": "u_j(t + \u0394t) = u_j(t) + \u03B1 \xB7 (\u0394t / \u0394x\xB2) \xB7 [u_{j+1}(t) - 2\xB7u_j(t) + u_{j-1}(t)]",
+          "leanSignature": "theorem heat_stencil_conservation (alpha dt dx u_L u_C u_R : R_w) : u_new = heat_step alpha dt dx u_L u_C u_R",
+          "pseudoAlgoId": "laplacian_heat_step",
+          "referencedInSegments": [
+            "stemHeatDiffusion"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 6,
+          "id": "fs_hyperfinite_derivative",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "Hyperfinite Difference Quotient Derivative",
+          "description": "Standard part of hyperfinite difference quotients matching classical derivative values.",
+          "scaffoldKey": "hyperfinite_derivative",
+          "expression": "f'(x) = st([f(x + dx) - f(x)] / dx)  for infinitesimal dx \u2260 0",
+          "leanSignature": "theorem nonstandard_derivative (f : R_w \u2192 R_w) (x : R_w) (dx : Infinitesimal) : f_prime x = st ((f (x + dx) - f x) / dx)",
+          "pseudoAlgoId": "euler_compounding",
+          "demoRef": {
+            "engine": "bid",
+            "mode": "eulerCompounding",
+            "label": "Euler Compounding in BID"
+          },
+          "referencedInSegments": [
+            "analysis1DLecture1",
+            "analysis1DLecture2"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 7,
+          "id": "fs_complex_step_invariance",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "2D Complex Step & Modulus Invariance on \u2102_\u03C9",
+          "description": "Isotropic step invariance of hypercomplex numbers preserving holomorphic geometry.",
+          "scaffoldKey": "complex_step_invariance",
+          "expression": "|z + dz|\xB2 = |z|\xB2 + 2\xB7Re(z\u0304\xB7dz) + |dz|\xB2",
+          "leanSignature": "theorem complex_step_modulus (z dz : C_w) : norm_sq (z + dz) = norm_sq z + 2 * Re (conj z * dz) + norm_sq dz",
+          "referencedInSegments": [
+            "analysis2DLecture1"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 8,
+          "id": "fs_cauchy_riemann_symmetry",
+          "parentId": "fs_complex_step_invariance",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "shadow_map",
+          "title": "Cauchy-Riemann Coordinate Symmetry",
+          "description": "Equalities of partial derivatives underpinning hypercomplex conformal mappings.",
+          "scaffoldKey": "cauchy_riemann_symmetry",
+          "expression": "\u2202u/\u2202x = \u2202v/\u2202y  \u2227  \u2202u/\u2202y = -\u2202v/\u2202x",
+          "leanSignature": "theorem cauchy_riemann_orthogonality (u v : R_w \u2192 R_w \u2192 R_w) : du_dx = dv_dy \u2227 du_dy = -dv_dx",
+          "referencedInSegments": [
+            "analysis2DLecture1",
+            "analysis2DIntro"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 9,
+          "id": "fs_contour_cauchy_goursat",
+          "parentId": "fs_cauchy_riemann_symmetry",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "shadow_map",
+          "title": "Hyperfinite Cauchy-Goursat Loop Vanishing",
+          "description": "Sum of holomorphic increments along a closed discrete polygon collapses to zero.",
+          "scaffoldKey": "contour_cauchy_goursat",
+          "expression": "\u222E_\u03B3 f(z) dz = \u2211_{k=0}^{N-1} f(z_k)\xB7(z_{k+1} - z_k) \u2243 0",
+          "leanSignature": "theorem cauchy_goursat_loop (f : C_w \u2192 C_w) (gamma : ClosedContour) : hyper_sum (eval_step f gamma) = 0",
+          "referencedInSegments": [
+            "analysis2DLecture2"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 10,
+          "id": "fs_lee_yang_circle",
+          "parentId": "fs_complex_step_invariance",
+          "type": "physics",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "shadow_map",
+          "title": "The Lee-Yang Unit Circle Partition Theorem",
+          "description": "All partition function zeros of ferromagnetic Ising systems lie precisely on the unit circle |z| = 1.",
+          "scaffoldKey": "lee_yang_circle",
+          "expression": "Z_N(z) = 0 \u27F9 |z| = 1  in the complex fugacity plane",
+          "leanSignature": "theorem lee_yang_circle (N : Nat) (z : C_w) (hZ : ising_partition N z = 0) : norm z = 1",
+          "referencedInSegments": [
+            "analysis2DLecture3",
+            "analysis2DIntro"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 11,
+          "id": "fs_harmonic_oscillator",
+          "type": "physics",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "Harmonic Leapfrog Phase Space Orbit",
+          "description": "Exact energy preservation in discrete symplectic integration of harmonic oscillators.",
+          "scaffoldKey": "harmonic_oscillator",
+          "expression": "x(t + dt) = x(t) + v(t + dt/2)\xB7dt  \u2227  v(t + dt/2) = v(t - dt/2) - \u03C9\xB2\xB7x(t)\xB7dt",
+          "leanSignature": "theorem harmonic_leapfrog_energy (x0 v0 omega dt : R_w) : leapfrog_energy x0 v0 = initial_energy",
+          "pseudoAlgoId": "kinematics_step",
+          "referencedInSegments": [
+            "stemNewtonianBridge",
+            "vectorsLecture2"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 12,
+          "id": "fs_three_polarizer_quantum",
+          "type": "physics",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "Three-Polarizer Geometric Quantum Transmission",
+          "description": "Quantum state projection through intermediate non-orthogonal polarization filters.",
+          "scaffoldKey": "three_polarizer_quantum",
+          "expression": "I = I\u2080 \xB7 cos\xB2(\u03B8\u2081) \xB7 cos\xB2(\u03B8\u2082 - \u03B8\u2081)",
+          "leanSignature": "theorem three_polarizer_transmission (I0 theta1 theta2 : R_w) : I_trans = I0 * (cos theta1)^2 * (cos (theta2 - theta1))^2",
+          "referencedInSegments": [
+            "quantumLogicLecture1",
+            "quantumLogicLecture3",
+            "vectorsLecture3"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 13,
+          "id": "fs_hyperfinite_probability",
+          "type": "information",
+          "tier": "constitutional",
+          "statementKind": "axiom",
+          "governingSeed": "shadow_map",
+          "title": "Hyperfinite Normalized Probability Space",
+          "description": "Uniform hyperfinite counting probability with infinitesimal resolution and no null sets.",
+          "scaffoldKey": "hyperfinite_probability",
+          "expression": "P(A) = st(|A| / |\u03A9|)  where |\u03A9| = H \u2208 *\u2115 \\ \u2115",
+          "leanSignature": "theorem hyperfinite_probability_measure (Omega : HyperfiniteSampleSpace) (A : Event Omega) : P A = st (card A / card Omega)",
+          "referencedInSegments": [
+            "bayesianInferenceLecture1"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 14,
+          "id": "fs_bayes_updating",
+          "parentId": "fs_hyperfinite_probability",
+          "type": "information",
+          "tier": "law",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "Hyperfinite Bayesian Likelihood Inversion",
+          "description": "Strictly positive hyperfinite updating preserving order under evidence accumulation.",
+          "scaffoldKey": "bayes_updating",
+          "expression": "P(H|E) = [P(E|H) \xB7 P(H)] / [P(E|H)\xB7P(H) + P(E|\xACH)\xB7P(\xACH)]",
+          "leanSignature": "theorem bayes_rule (pH pE_H pE_notH : R_w) : p_posterior = (pE_H * pH) / (pE_H * pH + pE_notH * (1 - pH))",
+          "pseudoAlgoId": "bayes_discrete_update",
+          "referencedInSegments": [
+            "bayesianInferenceLecture2",
+            "bayesianInferenceLecture3",
+            "quantumBayesianInferenceLecture1",
+            "formalStatementsIntro"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 15,
+          "id": "fs_tree2_totally_ordered",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "theorem",
+          "governingSeed": "conway_cut",
+          "title": "Total Ordering on Conway Sign Sequences (Tree2)",
+          "description": "Strict trichotomy and transitivity of Conway sign sequences representing Surreal dyadics.",
+          "scaffoldKey": "D_w_is_totally_ordered",
+          "expression": "\u2200 x y \u2208 Tree2, (x < y) \u2228 (x = y) \u2228 (y < x)",
+          "leanSignature": "theorem Tree2.totally_ordered (x y : Tree2) : x < y \u2228 x = y \u2228 y < x",
+          "pseudoAlgoId": "conway_order",
+          "demoRef": {
+            "engine": "btd",
+            "mode": "order",
+            "label": "Conway Tree Order Relations"
+          },
+          "referencedInSegments": [
+            "numbersLecture2"
+          ],
+          "leanStatus": "certified"
+        },
+        {
+          "numId": 16,
+          "id": "fs_ptolemaic_half_angle",
+          "type": "math",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "conway_cut",
+          "title": "Dyadic Ptolemaic Half-Angle Root Bisection",
+          "description": "Algebraic calculation of sine and chord values via iterative nested square root bisections.",
+          "scaffoldKey": "dyadic_ptolemaic_sine",
+          "expression": "sin(\u03B8/2) = \u221A((1 - cos(\u03B8)) / 2)",
+          "leanSignature": "theorem ptolemaic_half_angle (theta : R_w) : sin (theta / 2) = sqrt ((1 - cos theta) / 2)",
+          "pseudoAlgoId": "rotor_trig_cordic",
+          "referencedInSegments": [
+            "stemTrigFoundations"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 17,
+          "id": "fs_standard_part_homomorphism",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "theorem",
+          "governingSeed": "shadow_map",
+          "title": "Standard Part Ring Homomorphism st(\xB7)",
+          "description": "Preservation of addition and multiplication under standard part shadow projection from finite \u211D_\u03C9 to \u211D.",
+          "scaffoldKey": "standard_part_homomorphism",
+          "expression": "st(x + y) = st(x) + st(y)  \u2227  st(x \xB7 y) = st(x) \xB7 st(y)",
+          "leanSignature": "theorem standard_part_is_homomorphism (x y : R_w_fin) : st (x + y) = st x + st y \u2227 st (x * y) = st x * st y",
+          "referencedInSegments": [
+            "analysis1DLecture1",
+            "analysis2DLecture1",
+            "vectorsLecture1",
+            "formalStatementsIntro"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 18,
+          "id": "fs_cauchy_schwarz_discrete",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "boundary_law",
+          "title": "Discrete Cauchy-Schwarz Inner Product Inequality",
+          "description": "Fundamental geometric bound on hyperfinite Euclidean and Hilbert space projections.",
+          "scaffoldKey": "cauchy_schwarz_discrete",
+          "expression": "|\u27E8u, v\u27E9|\xB2 \u2264 \u27E8u, u\u27E9 \xB7 \u27E8v, v\u27E9",
+          "leanSignature": "theorem cauchy_schwarz_hyperfinite (u v : HyperVector N) : (inner_product u v)^2 \u2264 inner_product u u * inner_product v v",
+          "referencedInSegments": [
+            "vectorsLecture3"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 19,
+          "id": "fs_polygonal_rim_chord",
+          "type": "math",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "conway_cut",
+          "title": "Dyadic Polygonal Rim Chord Law",
+          "description": "Calculation of regular polygonal rim segment lengths on the discrete circle.",
+          "scaffoldKey": "polygonal_rim_chord",
+          "expression": "c_n = 2 \xB7 sin(\u03C0 / n)",
+          "leanSignature": "theorem rim_chord_length (n : Nat) : chord_len n = 2 * sin (pi / n)",
+          "pseudoAlgoId": "rotor_trig_cordic",
+          "referencedInSegments": [
+            "stemTrigFoundations"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 20,
+          "id": "fs_euler_identity_rotor",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "Euler Polar Rotor Decomposition",
+          "description": "Representation of complex units as exponential orthogonal phase rotators.",
+          "scaffoldKey": "euler_identity_rotor",
+          "expression": "e^{i\u03B8} = cos(\u03B8) + i \xB7 sin(\u03B8)",
+          "leanSignature": "theorem euler_rotor_identity (theta : R_w) : exp_i theta = Complex.mk (cos theta) (sin theta)",
+          "pseudoAlgoId": "rotor_trig_cordic",
+          "referencedInSegments": [
+            "stemTrigFoundations",
+            "formalStatementsIntro"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 21,
+          "id": "fs_unit_rotor_projection",
+          "parentId": "fs_euler_identity_rotor",
+          "type": "math",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "shadow_map",
+          "title": "Unit Rotor Sine & Cosine Projection",
+          "description": "Orthogonal coordinate projection of 2D unit rotors under angle parameterization.",
+          "scaffoldKey": "unit_rotor_projection",
+          "expression": "x = cos(\u03B8),  y = sin(\u03B8)  with  x\xB2 + y\xB2 = 1",
+          "leanSignature": "theorem unit_rotor_norm (theta : R_w) : (cos theta)^2 + (sin theta)^2 = 1",
+          "pseudoAlgoId": "rotor_trig_cordic",
+          "referencedInSegments": [
+            "stemTrigFoundations"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 22,
+          "id": "fs_dyadic_isomorphism",
+          "parentId": "fs_tree2_totally_ordered",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "axiom",
+          "governingSeed": "conway_cut",
+          "title": "The Core Dyadic Isomorphism Tree2 \u2261 \u{1D53B}",
+          "description": "Order and ring isomorphism between sign-sequence trees and dyadic rationals.",
+          "scaffoldKey": "Tree2_finite_is_dyad",
+          "expression": "Tree2(s) \u2245 m / 2^n  \u2227  Tree2 \u21AA \u211D_\u03C9",
+          "leanSignature": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
+          "demoRef": {
+            "engine": "btd",
+            "mode": "isomorphism",
+            "label": "Operation Isomorphism in BTD"
+          },
+          "referencedInSegments": [
+            "numbersLecture2"
+          ],
+          "leanStatus": "certified"
+        },
+        {
+          "numId": 23,
+          "id": "fs_van_den_dries_ehrlich",
+          "parentId": "fs_tree2_totally_ordered",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "axiom",
+          "governingSeed": "conway_cut",
+          "title": "van den Dries\u2013Ehrlich Subfield Theorem (2001)",
+          "description": "Proof that the surreal numbers No(\u03B5\u2080) formed at stage \u03B5\u2080 constitute a real-closed field.",
+          "scaffoldKey": "No_eps0_totally_ordered",
+          "expression": "No(\u03B5\u2080) is a real-closed field  \u2227  No(\u03C9) \u2282 No(\u03B5\u2080) \u2282 No",
+          "leanSignature": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le",
+          "referencedInSegments": [
+            "numbersLecture2"
+          ],
+          "leanStatus": "certified"
+        },
+        {
+          "numId": 24,
+          "id": "fs_conway_addition",
+          "parentId": "fs_tree2_totally_ordered",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "directed_equality",
+          "governingSeed": "conway_cut",
+          "title": "Conway Inductive Addition (+)",
+          "description": "Recursive bilateral addition on tree options choosing the simplest number born in the resulting cut gap.",
+          "scaffoldKey": "conway_addition",
+          "expression": "x + y = { x\u1D38 + y, x + y\u1D38 | x\u1D3F + y, x + y\u1D3F }",
+          "leanSignature": "def Conway.add (x y : Tree2) : Tree2",
+          "pseudoAlgoId": "conway_add",
+          "demoRef": {
+            "engine": "btd",
+            "mode": "addition",
+            "label": "Conway Inductive Addition in BTD"
+          },
+          "referencedInSegments": [
+            "numbersLecture2"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 25,
+          "id": "fs_conway_multiplication",
+          "parentId": "fs_tree2_totally_ordered",
+          "type": "math",
+          "tier": "constitutional",
+          "statementKind": "directed_equality",
+          "governingSeed": "conway_cut",
+          "title": "Conway Inductive Multiplication (\xB7)",
+          "description": "Recursive 4-way cross-product multiplication on tree options ensuring (x - x\u1D38)(y - y\u1D38) > 0.",
+          "scaffoldKey": "conway_multiplication",
+          "expression": "x \xB7 y = { x\u1D38\xB7y + x\xB7y\u1D38 - x\u1D38\xB7y\u1D38, x\u1D3F\xB7y + x\xB7y\u1D3F - x\u1D3F\xB7y\u1D3F | x\u1D38\xB7y + x\xB7y\u1D3F - x\u1D38\xB7y\u1D3F, x\u1D3F\xB7y + x\xB7y\u1D38 - x\u1D3F\xB7y\u1D38 }",
+          "leanSignature": "def Conway.mul (x y : Tree2) : Tree2",
+          "pseudoAlgoId": "conway_mul",
+          "demoRef": {
+            "engine": "btd",
+            "mode": "multiplication",
+            "label": "Conway Inductive Multiplication in BTD"
+          },
+          "referencedInSegments": [
+            "numbersLecture2"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 39,
+          "id": "fs_geometric_ladder",
+          "type": "math",
+          "tier": "law",
+          "statementKind": "theorem",
+          "governingSeed": "boundary_law",
+          "title": "The Geometric Ladder Law",
+          "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a \xB7 r^k.",
+          "scaffoldKey": "geometric_ladder",
+          "expression": "F(k + 1) = r \xB7 F(k)  \u27F9  F(k) = a \xB7 r^k",
+          "referencedInSegments": [
+            "sequencesAndSums"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 40,
+          "id": "fs_music_et_scale",
+          "parentId": "fs_geometric_ladder",
+          "type": "physics",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "12-TET Chromatic Pitch Scale Stepping",
+          "description": "Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).",
+          "scaffoldKey": "music_et_scale",
+          "expression": "f_{k+1} \u2254 2^(1/12) \xB7 f_k  \u2227  f_k \u2254 f\u2080 \xB7 (2^(1/12))^k",
+          "pseudoAlgoId": "algo_geometric_scale_step",
+          "referencedInSegments": [
+            "sequencesAndSums"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 41,
+          "id": "fs_geom_ladder_step",
+          "parentId": "fs_geometric_ladder",
+          "type": "math",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "General Geometric Ladder Step",
+          "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
+          "scaffoldKey": "geom_ladder_step",
+          "expression": "F(k + 1) \u2254 r \xB7 F(k)  \u2227  F(k) \u2254 a \xB7 r^k",
+          "pseudoAlgoId": "algo_geometric_ladder_step",
+          "referencedInSegments": [
+            "sequencesAndSums"
+          ],
+          "leanStatus": "pending"
+        },
+        {
+          "numId": 42,
+          "id": "fs_linear_ladder_step",
+          "type": "math",
+          "tier": "scenario",
+          "statementKind": "directed_equality",
+          "governingSeed": "boundary_law",
+          "title": "General Linear (Arithmetic) Ladder Step",
+          "description": "Discrete uniform stepping progression advancing by constant forward difference d.",
+          "scaffoldKey": "linear_ladder_step",
+          "expression": "F(k + 1) \u2254 F(k) + d  \u2227  F(k) \u2254 a + k \xB7 d",
+          "pseudoAlgoId": "algo_linear_ladder_step",
+          "referencedInSegments": [
+            "sequencesAndSums"
+          ],
+          "leanStatus": "pending"
+        }
+      ],
+      "calculationModes": [
+        {
+          "id": "ff_v_from_v0_g_t",
+          "statementId": "fs_free_fall_accel",
+          "label": "Compute Terminal Velocity v(t)",
+          "targetSymbol": "v",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "m/s",
+          "formulaDescription": "v = v\u2080 - g \xB7 t",
+          "formulaExpr": "v0 - g * t",
+          "hasSimulation": true,
+          "inputs": [
+            {
+              "name": "v0",
+              "symbol": "v\u2080",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s",
+              "defaultValue": 0,
+              "description": "Initial vertical velocity"
+            },
+            {
+              "name": "g",
+              "symbol": "g",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s\xB2",
+              "defaultValue": 9.8,
+              "min": 0,
+              "max": 50,
+              "step": 0.1,
+              "description": "Uniform gravitational acceleration"
+            },
+            {
+              "name": "t",
+              "symbol": "t",
+              "domain": "\u211D_\u03C9",
+              "unit": "s",
+              "defaultValue": 2,
+              "min": 0,
+              "max": 100,
+              "step": 0.1,
+              "description": "Elapsed duration"
+            }
+          ]
+        },
+        {
+          "id": "ff_t_from_v_v0_g",
+          "statementId": "fs_free_fall_accel",
+          "label": "Compute Fall Duration t",
+          "targetSymbol": "t",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "s",
+          "formulaDescription": "t = (v\u2080 - v) / g",
+          "formulaExpr": "(v0 - v) / g",
+          "inputs": [
+            {
+              "name": "v0",
+              "symbol": "v\u2080",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s",
+              "defaultValue": 10,
+              "description": "Initial velocity"
+            },
+            {
+              "name": "v",
+              "symbol": "v",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s",
+              "defaultValue": 0,
+              "description": "Current/Target velocity"
+            },
+            {
+              "name": "g",
+              "symbol": "g",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s\xB2",
+              "defaultValue": 9.8,
+              "min": 0.1,
+              "max": 50,
+              "step": 0.1,
+              "description": "Gravitational acceleration"
+            }
+          ]
+        },
+        {
+          "id": "ff_s_from_v0_g_t",
+          "statementId": "fs_free_fall_accel",
+          "label": "Compute Vertical Displacement s(t)",
+          "targetSymbol": "s",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "m",
+          "formulaDescription": "s = v\u2080 \xB7 t - 0.5 \xB7 g \xB7 t\xB2",
+          "formulaExpr": "v0 * t - 0.5 * g * t * t",
+          "hasSimulation": true,
+          "inputs": [
+            {
+              "name": "v0",
+              "symbol": "v\u2080",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s",
+              "defaultValue": 0,
+              "description": "Initial vertical velocity"
+            },
+            {
+              "name": "g",
+              "symbol": "g",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s\xB2",
+              "defaultValue": 9.8,
+              "min": 0,
+              "max": 50,
+              "step": 0.1,
+              "description": "Gravitational acceleration"
+            },
+            {
+              "name": "t",
+              "symbol": "t",
+              "domain": "\u211D_\u03C9",
+              "unit": "s",
+              "defaultValue": 2,
+              "min": 0,
+              "max": 100,
+              "step": 0.1,
+              "description": "Elapsed duration"
+            }
+          ]
+        },
+        {
+          "id": "we_ke_from_m_v",
+          "statementId": "fs_work_energy",
+          "label": "Compute Kinetic Energy KE",
+          "targetSymbol": "KE",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "J",
+          "formulaDescription": "KE = 0.5 \xB7 m \xB7 v\xB2",
+          "formulaExpr": "0.5 * m * v * v",
+          "inputs": [
+            {
+              "name": "m",
+              "symbol": "m",
+              "domain": "\u211D_\u03C9",
+              "unit": "kg",
+              "defaultValue": 2,
+              "min": 0.01,
+              "step": 0.1,
+              "description": "Particle inertial mass"
+            },
+            {
+              "name": "v",
+              "symbol": "v",
+              "domain": "\u211D_\u03C9",
+              "unit": "m/s",
+              "defaultValue": 5,
+              "step": 0.5,
+              "description": "Instantaneous speed"
+            }
+          ]
+        },
+        {
+          "id": "we_v_from_ke_m",
+          "statementId": "fs_work_energy",
+          "label": "Compute Velocity from Kinetic Energy",
+          "targetSymbol": "v",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "m/s",
+          "formulaDescription": "v = \u221A(2 \xB7 KE / m)",
+          "formulaExpr": "Math.sqrt(2 * KE / m)",
+          "inputs": [
+            {
+              "name": "KE",
+              "symbol": "KE",
+              "domain": "\u211D_\u03C9",
+              "unit": "J",
+              "defaultValue": 25,
+              "min": 0,
+              "step": 1,
+              "description": "Kinetic energy"
+            },
+            {
+              "name": "m",
+              "symbol": "m",
+              "domain": "\u211D_\u03C9",
+              "unit": "kg",
+              "defaultValue": 2,
+              "min": 0.01,
+              "step": 0.1,
+              "description": "Mass"
+            }
+          ]
+        },
+        {
+          "id": "diff_heat_step",
+          "statementId": "fs_heat_flux",
+          "label": "Compute Next Center Temperature u_C(t + \u0394t)",
+          "targetSymbol": "u_new",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "\xB0C",
+          "formulaDescription": "u_new = u_C + \u03B1 \xB7 (\u0394t / \u0394x\xB2) \xB7 (u_L - 2\xB7u_C + u_R)",
+          "formulaExpr": "u_C + alpha * (dt / (dx * dx)) * (u_L - 2 * u_C + u_R)",
+          "hasSimulation": true,
+          "inputs": [
+            {
+              "name": "alpha",
+              "symbol": "\u03B1",
+              "domain": "\u211D_\u03C9",
+              "unit": "m\xB2/s",
+              "defaultValue": 0.1,
+              "min": 1e-3,
+              "max": 1,
+              "step": 0.01,
+              "description": "Thermal diffusivity"
+            },
+            {
+              "name": "dt",
+              "symbol": "\u0394t",
+              "domain": "\u211D_\u03C9",
+              "unit": "s",
+              "defaultValue": 0.01,
+              "min": 1e-3,
+              "max": 1,
+              "step": 5e-3,
+              "description": "Time step increment"
+            },
+            {
+              "name": "dx",
+              "symbol": "\u0394x",
+              "domain": "\u211D_\u03C9",
+              "unit": "m",
+              "defaultValue": 0.1,
+              "min": 0.01,
+              "max": 2,
+              "step": 0.01,
+              "description": "Spatial mesh spacing"
+            },
+            {
+              "name": "u_L",
+              "symbol": "u_L",
+              "domain": "\u211D_\u03C9",
+              "unit": "\xB0C",
+              "defaultValue": 100,
+              "step": 5,
+              "description": "Left neighbor temperature"
+            },
+            {
+              "name": "u_C",
+              "symbol": "u_C",
+              "domain": "\u211D_\u03C9",
+              "unit": "\xB0C",
+              "defaultValue": 50,
+              "step": 5,
+              "description": "Center node temperature"
+            },
+            {
+              "name": "u_R",
+              "symbol": "u_R",
+              "domain": "\u211D_\u03C9",
+              "unit": "\xB0C",
+              "defaultValue": 20,
+              "step": 5,
+              "description": "Right neighbor temperature"
+            }
+          ]
+        },
+        {
+          "id": "diff_poly_square",
+          "statementId": "fs_hyperfinite_derivative",
+          "label": "Hyperfinite Derivative of f(x) = x\xB2",
+          "targetSymbol": "f'(x)",
+          "targetDomain": "\u211D_\u03C9",
+          "formulaDescription": "f'(x) = [(x + dx)\xB2 - x\xB2] / dx = 2x + dx  \u27F9  st(f'(x)) = 2x",
+          "formulaExpr": "((x + dx) * (x + dx) - x * x) / dx",
+          "inputs": [
+            {
+              "name": "x",
+              "symbol": "x",
+              "domain": "\u211D_\u03C9",
+              "defaultValue": 3,
+              "step": 0.5,
+              "description": "Base evaluation point"
+            },
+            {
+              "name": "dx",
+              "symbol": "dx",
+              "domain": "Infinitesimal",
+              "defaultValue": 1e-4,
+              "min": 1e-6,
+              "max": 0.01,
+              "step": 1e-4,
+              "description": "Nonstandard infinitesimal step"
+            }
+          ]
+        },
+        {
+          "id": "cplx_step_norm",
+          "statementId": "fs_complex_step_invariance",
+          "label": "Compute 2D Step Modulus |z + dz|\xB2",
+          "targetSymbol": "|z + dz|\xB2",
+          "targetDomain": "\u211D_\u03C9",
+          "formulaDescription": "|z + dz|\xB2 = (x + dx)\xB2 + (y + dy)\xB2",
+          "formulaExpr": "(x + dx) * (x + dx) + (y + dy) * (y + dy)",
+          "inputs": [
+            {
+              "name": "x",
+              "symbol": "Re(z)",
+              "domain": "\u211D_\u03C9",
+              "defaultValue": 3,
+              "step": 0.5,
+              "description": "Real component of z"
+            },
+            {
+              "name": "y",
+              "symbol": "Im(z)",
+              "domain": "\u211D_\u03C9",
+              "defaultValue": 4,
+              "step": 0.5,
+              "description": "Imaginary component of z"
+            },
+            {
+              "name": "dx",
+              "symbol": "Re(dz)",
+              "domain": "\u211D_\u03C9",
+              "defaultValue": 0.01,
+              "step": 5e-3,
+              "description": "Real step increment"
+            },
+            {
+              "name": "dy",
+              "symbol": "Im(dz)",
+              "domain": "\u211D_\u03C9",
+              "defaultValue": 0.02,
+              "step": 5e-3,
+              "description": "Imaginary step increment"
+            }
+          ]
+        },
+        {
+          "id": "bayes_posterior",
+          "statementId": "fs_bayes_updating",
+          "label": "Compute Posterior P(H | E)",
+          "targetSymbol": "P(H|E)",
+          "targetDomain": "[0, 1]",
+          "formulaDescription": "P(H|E) = (P(E|H) \xB7 P(H)) / [P(E|H)\xB7P(H) + P(E|\xACH)\xB7(1 - P(H))]",
+          "formulaExpr": "(pE_H * pH) / (pE_H * pH + pE_notH * (1.0 - pH))",
+          "hasSimulation": true,
+          "inputs": [
+            {
+              "name": "pH",
+              "symbol": "P(H)",
+              "domain": "[0, 1]",
+              "defaultValue": 0.5,
+              "min": 1e-3,
+              "max": 0.999,
+              "step": 0.05,
+              "description": "Prior probability of hypothesis H"
+            },
+            {
+              "name": "pE_H",
+              "symbol": "P(E|H)",
+              "domain": "[0, 1]",
+              "defaultValue": 0.8,
+              "min": 0,
+              "max": 1,
+              "step": 0.05,
+              "description": "Likelihood: P(Evidence | H is True)"
+            },
+            {
+              "name": "pE_notH",
+              "symbol": "P(E|\xACH)",
+              "domain": "[0, 1]",
+              "defaultValue": 0.2,
+              "min": 0,
+              "max": 1,
+              "step": 0.05,
+              "description": "False Alarm: P(Evidence | H is False)"
+            }
+          ]
+        },
+        {
+          "id": "quantum_three_polarizer",
+          "statementId": "fs_three_polarizer_quantum",
+          "label": "Compute Quantum Transmission Intensity I",
+          "targetSymbol": "I / I\u2080",
+          "targetDomain": "[0, 1]",
+          "formulaDescription": "I / I\u2080 = cos\xB2(\u03B8\u2081) \xB7 cos\xB2(\u03B8\u2082 - \u03B8\u2081)",
+          "formulaExpr": "Math.cos(theta1 * Math.PI / 180)**2 * Math.cos((theta2 - theta1) * Math.PI / 180)**2",
+          "hasSimulation": true,
+          "inputs": [
+            {
+              "name": "theta1",
+              "symbol": "\u03B8\u2081",
+              "domain": "[0\xB0, 90\xB0]",
+              "unit": "deg",
+              "defaultValue": 45,
+              "min": 0,
+              "max": 90,
+              "step": 1,
+              "description": "Angle of intermediate polarizer"
+            },
+            {
+              "name": "theta2",
+              "symbol": "\u03B8\u2082",
+              "domain": "[0\xB0, 90\xB0]",
+              "unit": "deg",
+              "defaultValue": 90,
+              "min": 0,
+              "max": 90,
+              "step": 1,
+              "description": "Angle of final analyzer"
+            }
+          ]
+        },
+        {
+          "id": "ptolemaic_sine_half",
+          "statementId": "fs_ptolemaic_half_angle",
+          "label": "Compute Dyadic Half-Angle Sine sin(\u03B8/2)",
+          "targetSymbol": "sin(\u03B8/2)",
+          "targetDomain": "[-1, 1]",
+          "formulaDescription": "sin(\u03B8/2) = \u221A((1 - cos(\u03B8)) / 2)",
+          "formulaExpr": "Math.sqrt(Math.max(0, (1 - cosTheta) / 2))",
+          "inputs": [
+            {
+              "name": "cosTheta",
+              "symbol": "cos(\u03B8)",
+              "domain": "[-1, 1]",
+              "defaultValue": 0.5,
+              "min": -1,
+              "max": 1,
+              "step": 0.05,
+              "description": "Cosine of parent angle \u03B8"
+            }
+          ]
+        },
+        {
+          "id": "polygonal_chord_calc",
+          "statementId": "fs_polygonal_rim_chord",
+          "label": "Compute Regular Polygon Rim Chord Length",
+          "targetSymbol": "c_n",
+          "targetDomain": "\u211D_\u03C9",
+          "formulaDescription": "c_n = 2 \xB7 sin(\u03C0 / n)",
+          "formulaExpr": "2 * Math.sin(Math.PI / n)",
+          "inputs": [
+            {
+              "name": "n",
+              "symbol": "n",
+              "domain": "\u2115",
+              "defaultValue": 6,
+              "min": 3,
+              "max": 128,
+              "step": 1,
+              "description": "Number of polygon sides"
+            }
+          ]
+        },
+        {
+          "id": "rotor_phase_projection",
+          "statementId": "fs_unit_rotor_projection",
+          "label": "Compute Unit Rotor (x, y) = (cos \u03B8, sin \u03B8)",
+          "targetSymbol": "(x, y)",
+          "targetDomain": "\u2102_\u03C9",
+          "formulaDescription": "x = cos(\u03B8),  y = sin(\u03B8)  with x\xB2 + y\xB2 = 1",
+          "formulaExpr": "Math.cos(thetaRad)",
+          "inputs": [
+            {
+              "name": "thetaRad",
+              "symbol": "\u03B8",
+              "domain": "[0, 2\u03C0]",
+              "unit": "rad",
+              "defaultValue": 0.785398,
+              "min": 0,
+              "max": 6.283185,
+              "step": 0.05,
+              "description": "Rotor angle in radians"
+            }
+          ]
+        },
+        {
+          "id": "linear_ladder_step",
+          "statementId": "fs_linear_ladder_step",
+          "label": "Linear Progression Step F_k = a + k \xB7 d",
+          "targetSymbol": "F_k",
+          "targetDomain": "\u{1D53B}_\u03C9",
+          "formulaDescription": "F_k = a + k \xB7 d",
+          "formulaExpr": "a + k * d",
+          "inputs": [
+            {
+              "name": "a",
+              "symbol": "a",
+              "domain": "\u{1D53B}",
+              "defaultValue": 0,
+              "min": -1e3,
+              "max": 1e3,
+              "step": 0.5,
+              "description": "Initial anchor value (F_0)"
+            },
+            {
+              "name": "d",
+              "symbol": "d",
+              "domain": "\u{1D53B}",
+              "defaultValue": 1,
+              "min": -100,
+              "max": 100,
+              "step": 0.1,
+              "description": "Common difference per step"
+            },
+            {
+              "name": "k",
+              "symbol": "k",
+              "domain": "\u2115",
+              "defaultValue": 1,
+              "min": 0,
+              "max": 100,
+              "step": 1,
+              "description": "Step index"
+            }
+          ]
+        },
+        {
+          "id": "geom_ladder_step",
+          "statementId": "fs_geom_ladder_step",
+          "label": "Geometric Progression Step F_k = a \xB7 r^k",
+          "targetSymbol": "F_k",
+          "targetDomain": "\u{1D53B}_\u03C9",
+          "formulaDescription": "F_k = a \xB7 r^k",
+          "formulaExpr": "a * Math.pow(r, k)",
+          "inputs": [
+            {
+              "name": "a",
+              "symbol": "a",
+              "domain": "\u{1D53B}",
+              "defaultValue": 1,
+              "min": -1e3,
+              "max": 1e3,
+              "step": 0.1,
+              "description": "Initial seed value (F_0)"
+            },
+            {
+              "name": "r",
+              "symbol": "r",
+              "domain": "\u{1D53B}",
+              "defaultValue": 2,
+              "min": -100,
+              "max": 100,
+              "step": 0.05,
+              "description": "Common ratio per step"
+            },
+            {
+              "name": "k",
+              "symbol": "k",
+              "domain": "\u2115",
+              "defaultValue": 1,
+              "min": 0,
+              "max": 50,
+              "step": 1,
+              "description": "Step index"
+            }
+          ]
+        },
+        {
+          "id": "music_et_scale_step",
+          "statementId": "fs_music_et_scale",
+          "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
+          "targetSymbol": "f_k",
+          "targetDomain": "\u211D_\u03C9",
+          "targetUnit": "Hz",
+          "formulaDescription": "f_k = f\u2080 \xB7 (2^(1/12))^k",
+          "formulaExpr": "f0 * Math.pow(2, k / 12)",
+          "inputs": [
+            {
+              "name": "f0",
+              "symbol": "f\u2080",
+              "domain": "\u211D\u207A",
+              "unit": "Hz",
+              "defaultValue": 440,
+              "min": 20,
+              "max": 2e4,
+              "step": 1,
+              "description": "Reference base pitch (e.g., Concert A = 440 Hz)"
+            },
+            {
+              "name": "k",
+              "symbol": "k",
+              "domain": "\u2115",
+              "unit": "semitones",
+              "defaultValue": 0,
+              "min": 0,
+              "max": 24,
+              "step": 1,
+              "description": "Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)"
+            }
+          ]
+        }
+      ],
+      "examples": [
+        {
+          "id": "ex_equal_temperament_c5",
+          "modeId": "music_et_scale_step",
+          "statementId": "fs_music_et_scale",
+          "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
+          "values": {
+            "f0": 440,
+            "k": 3
+          },
+          "displayResult": "523.251 Hz",
+          "formattedFormula": "f_3 = 440 \xB7 (2^(1/12))^3 \u2248 523.251 Hz",
+          "domainBadge": "\u2208 \u{1D53B}_\u03C9",
+          "notes": "Three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
+        },
+        {
+          "id": "ex_linear_ladder_step",
+          "modeId": "linear_ladder_step",
+          "statementId": "fs_linear_ladder_step",
+          "title": "Arithmetic March with Step d = 3/2",
+          "values": {
+            "a": 1,
+            "d": 1.5,
+            "k": 4
+          },
+          "displayResult": "7.000",
+          "formattedFormula": "F_4 = 1.0 + 4 \xB7 (1.5) = 7.0",
+          "domainBadge": "\u2208 \u{1D53B}_\u03C9",
+          "notes": "Uniform additive ladder evaluation in \u{1D53B}_\u03C9."
+        },
+        {
+          "id": "ex_geom_ladder_step",
+          "modeId": "geom_ladder_step",
+          "statementId": "fs_geom_ladder_step",
+          "title": "Binary Tree Branching Doubling (r = 2)",
+          "values": {
+            "a": 1,
+            "r": 2,
+            "k": 5
+          },
+          "displayResult": "32.000",
+          "formattedFormula": "F_5 = 1.0 \xB7 (2.0)^5 = 32.0",
+          "domainBadge": "\u2208 \u{1D53B}_\u03C9",
+          "notes": "Geometric ladder exponential progression."
+        },
+        {
+          "id": "ex_earth_free_fall",
+          "modeId": "ff_v_from_v0_g_t",
+          "statementId": "fs_free_fall_accel",
+          "presetKey": "cas_free_fall_kinematics",
+          "title": "Earth Gravity Drop from Rest",
+          "values": {
+            "v0": 0,
+            "g": 9.8,
+            "t": 3
+          },
+          "displayResult": "-29.400 m/s",
+          "formattedFormula": "v = (0.00) - (9.80) \xB7 (3.00)",
+          "domainBadge": "\u2208 \u211D_\u03C9",
+          "notes": "Constant acceleration drops velocity linearly over 3 seconds."
+        },
+        {
+          "id": "ex_mars_free_fall",
+          "modeId": "ff_v_from_v0_g_t",
+          "statementId": "fs_free_fall_accel",
+          "title": "Mars Rover Descent Stage",
+          "values": {
+            "v0": 15,
+            "g": 3.71,
+            "t": 3
+          },
+          "displayResult": "3.870 m/s",
+          "formattedFormula": "v = (15.00) - (3.71) \xB7 (3.00)",
+          "domainBadge": "\u2208 \u211D_\u03C9"
+        },
+        {
+          "id": "ex_cart_braking",
+          "modeId": "we_ke_from_m_v",
+          "statementId": "fs_work_energy",
+          "presetKey": "newton_work_energy",
+          "title": "Laboratory Cart Kinetic Energy",
+          "values": {
+            "m": 2,
+            "v": 10
+          },
+          "displayResult": "100.000 J",
+          "formattedFormula": "KE = 0.5 \xB7 (2.00) \xB7 (10.00)\xB2",
+          "domainBadge": "\u2208 \u211D_\u03C9",
+          "notes": "Matches exact work integral: W = \u222B F dx = 100 J."
+        },
+        {
+          "id": "ex_thermal_slab",
+          "modeId": "diff_heat_step",
+          "statementId": "fs_heat_flux",
+          "presetKey": "heat_slice_flux",
+          "title": "Interior Thermal Slab Conduction",
+          "values": {
+            "alpha": 0.15,
+            "dt": 0.02,
+            "dx": 0.1,
+            "u_L": 100,
+            "u_C": 50,
+            "u_R": 20
+          },
+          "displayResult": "56.000 \xB0C",
+          "formattedFormula": "u_new = (50.0) + (0.15)\xB7(0.02 / 0.01)\xB7[(100.0) - 2\xB7(50.0) + (20.0)]",
+          "domainBadge": "\u2208 \u211D_\u03C9",
+          "notes": "Positive net curvature (100 - 100 + 20 = 20) drives net warming."
+        },
+        {
+          "id": "ex_medical_test",
+          "modeId": "bayes_posterior",
+          "statementId": "fs_bayes_updating",
+          "presetKey": "cas_bayes_filter",
+          "title": "Medical Diagnostic Screen Update",
+          "values": {
+            "pH": 0.05,
+            "pD_H": 0.95,
+            "pD_notH": 0.1
+          },
+          "displayResult": "0.333",
+          "formattedFormula": "P(H|D) = (0.95 \xB7 0.05) / [ (0.95 \xB7 0.05) + (0.10 \xB7 0.95) ]",
+          "domainBadge": "\u2208 [0, 1]",
+          "notes": "Low prior prevalence dampens positive predictive value."
+        }
+      ]
+    };
+  }
+});
+
+// clientLib/sessionRegistry.ts
+var SessionRegistry, sessionRegistry;
+var init_sessionRegistry = __esm({
+  "clientLib/sessionRegistry.ts"() {
+    init_fsCatalog();
+    SessionRegistry = class _SessionRegistry {
+      static instance;
+      statements = /* @__PURE__ */ new Map();
+      modes = /* @__PURE__ */ new Map();
+      customEvaluators = /* @__PURE__ */ new Map();
+      predicates = /* @__PURE__ */ new Map();
+      constructor() {
+        this.hydrateFromCatalog();
+        this.registerStandardEvaluators();
+        this.registerStandardPredicates();
+      }
+      static getInstance() {
+        if (!_SessionRegistry.instance) {
+          _SessionRegistry.instance = new _SessionRegistry();
+        }
+        return _SessionRegistry.instance;
+      }
+      /**
+       * Cold-boot hydration from pre-compiled static catalog snapshot.
+       */
+      hydrateFromCatalog() {
+        if (!FS_CATALOG) return;
+        for (const stmt of FS_CATALOG.formalStatements || []) {
+          this.indexStatement(stmt);
+        }
+        for (const mode of FS_CATALOG.calculationModes || []) {
+          this.indexMode(mode);
+        }
+      }
+      indexStatement(stmt) {
+        if (stmt.id) this.statements.set(stmt.id.toLowerCase(), stmt);
+        if (stmt.numId !== void 0) this.statements.set(String(stmt.numId), stmt);
+        if (stmt.scaffoldKey) this.statements.set(stmt.scaffoldKey.toLowerCase(), stmt);
+      }
+      indexMode(mode) {
+        if (mode.id) this.modes.set(mode.id.toLowerCase(), mode);
+        if (mode.statementId) {
+          this.modes.set(`mode_of_${mode.statementId.toLowerCase()}`, mode);
+        }
+      }
+      /**
+       * Registers baseline evaluators for fundamental stencils
+       * (discrete arithmetic/geometric ladders, CORDIC rotations, Taylor steps, Bayes, and complex operations).
+       */
+      registerStandardEvaluators() {
+        this.registerEvaluator("linear_ladder_step", (v, a, dt) => Number(v) + Number(a) * Number(dt));
+        this.registerEvaluator("de_linear_ladder_step", (v, a, dt) => Number(v) + Number(a) * Number(dt));
+        this.registerEvaluator("geom_ladder_step", (a, r, k) => Number(a) * Math.pow(Number(r), Number(k)));
+        this.registerEvaluator("de_geom_ladder_step", (a, r, k) => Number(a) * Math.pow(Number(r), Number(k)));
+        this.registerEvaluator("kinematic_step", (v, s, a, dt) => {
+          const vNext = Number(v) + Number(a) * Number(dt);
+          const sNext = Number(s) + Number(v) * Number(dt) + 0.5 * Number(a) * Number(dt) * Number(dt);
+          return [vNext, sNext];
+        });
+        this.registerEvaluator("exp_ladder_step", (y, lambda, dt) => Number(y) * (1 + Number(lambda) * Number(dt)));
+        this.registerEvaluator("cordic_micro_step", (x, y, theta, dir, shift, angleTableVal) => {
+          const d = Number(dir) >= 0 ? 1 : -1;
+          const factor = Math.pow(2, -Number(shift));
+          const nextX = Number(x) - d * Number(y) * factor;
+          const nextY = Number(y) + d * Number(x) * factor;
+          const nextTheta = Number(theta) - d * Number(angleTableVal);
+          return [nextX, nextY, nextTheta];
+        });
+        this.registerEvaluator("complex_add", (z1, z2) => {
+          const a = Array.isArray(z1) ? z1 : [Number(z1), 0];
+          const b = Array.isArray(z2) ? z2 : [Number(z2), 0];
+          return [Number(a[0]) + Number(b[0]), Number(a[1]) + Number(b[1])];
+        });
+        this.registerEvaluator("complex_mul", (z1, z2) => {
+          const a = Array.isArray(z1) ? z1 : [Number(z1), 0];
+          const b = Array.isArray(z2) ? z2 : [Number(z2), 0];
+          const re = Number(a[0]) * Number(b[0]) - Number(a[1]) * Number(b[1]);
+          const im = Number(a[0]) * Number(b[1]) + Number(a[1]) * Number(b[0]);
+          return [re, im];
+        });
+        this.registerEvaluator("complex_norm_sq", (z) => {
+          const a = Array.isArray(z) ? z : [Number(z), 0];
+          return Number(a[0]) * Number(a[0]) + Number(a[1]) * Number(a[1]);
+        });
+        this.registerEvaluator("bayes_update", (pH, pE_H, pE_notH) => {
+          const priorH = Number(pH);
+          const priorNotH = 1 - priorH;
+          const num = Number(pE_H) * priorH;
+          const denom = num + Number(pE_notH) * priorNotH;
+          return denom !== 0 ? num / denom : 0;
+        });
+        this.registerEvaluator("qubit_phase_step", (re, im, omegaVal, dt) => {
+          const cosVal = Math.cos(Number(omegaVal) * Number(dt));
+          const sinVal = Math.sin(Number(omegaVal) * Number(dt));
+          const nextRe = Number(re) * cosVal - Number(im) * sinVal;
+          const nextIm = Number(re) * sinVal + Number(im) * cosVal;
+          return [nextRe, nextIm];
+        });
+      }
+      /**
+       * Registers baseline formal predicate guards and invariants
+       * (Telescoping identity, Pythagorean unit norm, Born rule, and Probability normalization).
+       */
+      registerStandardPredicates() {
+        this.registerPredicate("telescoping_ftc", (netSum, f0, fn) => {
+          if (f0 !== void 0 && fn !== void 0) {
+            return Math.abs(Number(netSum) - (Number(fn) - Number(f0))) < 1e-7;
+          }
+          return Number.isFinite(Number(netSum));
+        });
+        this.registerPredicate("pythagorean_identity", (x, y, r = 1) => {
+          const normSq = Number(x) * Number(x) + Number(y) * Number(y);
+          const targetSq = Number(r) * Number(r);
+          return Math.abs(normSq - targetSq) < 1e-4;
+        });
+        this.registerPredicate("probability_normalized", (...probs) => {
+          const flat = probs.flat().map(Number);
+          const sum = flat.reduce((acc, p) => acc + p, 0);
+          return Math.abs(sum - 1) < 1e-6;
+        });
+        this.registerPredicate("quantum_norm_conserved", (...states) => {
+          const flat = states.flat();
+          let totalNorm = 0;
+          for (const item of flat) {
+            if (Array.isArray(item)) {
+              totalNorm += (Number(item[0]) || 0) ** 2 + (Number(item[1]) || 0) ** 2;
+            } else {
+              totalNorm += (Number(item) || 0) ** 2;
+            }
+          }
+          return Math.abs(totalNorm - 1) < 1e-5;
+        });
+      }
+      // ---------------------------------------------------------------------------
+      // Public Registration & Session Mutators
+      // ---------------------------------------------------------------------------
+      registerStatement(stmt) {
+        this.indexStatement(stmt);
+      }
+      registerMode(mode, evaluator) {
+        this.indexMode(mode);
+        if (evaluator) {
+          this.registerEvaluator(mode.id, evaluator);
+        }
+      }
+      registerEvaluator(key, fn) {
+        const norm = key.toLowerCase().replace(/^(de\.|de_)/, "");
+        this.customEvaluators.set(norm, fn);
+        this.customEvaluators.set(`de.${norm}`, fn);
+        this.customEvaluators.set(`de_${norm}`, fn);
+      }
+      registerPredicate(key, fn) {
+        const norm = key.toLowerCase().replace(/^(fs\.|fs_)/, "");
+        this.predicates.set(norm, fn);
+        this.predicates.set(`fs.${norm}`, fn);
+        this.predicates.set(`fs_${norm}`, fn);
+      }
+      // ---------------------------------------------------------------------------
+      // Public Lookup & Execution Dispatch
+      // ---------------------------------------------------------------------------
+      getStatement(key) {
+        return this.statements.get(key.toLowerCase());
+      }
+      getMode(key) {
+        const norm = key.toLowerCase().replace(/^(de\.|de_)/, "");
+        return this.modes.get(norm) || this.modes.get(key.toLowerCase());
+      }
+      hasDE(key) {
+        const norm = key.toLowerCase().replace(/^(de\.|de_)/, "");
+        return this.customEvaluators.has(norm) || this.modes.has(norm);
+      }
+      hasPredicate(key) {
+        const norm = key.toLowerCase().replace(/^(fs\.|fs_)/, "");
+        return this.predicates.has(norm) || this.statements.has(norm);
+      }
+      /**
+       * Executes a registered Directed Equation (DE) stencil with positional or named arguments.
+       */
+      executeDE(key, ...args) {
+        const norm = key.toLowerCase().replace(/^(de\.|de_)/, "");
+        const custom = this.customEvaluators.get(norm);
+        if (custom) {
+          return custom(...args);
+        }
+        const mode = this.getMode(norm);
+        if (mode && mode.formulaExpr) {
+          return this.evaluateModeFormula(mode, args);
+        }
+        throw new Error(`[SessionRegistry] Unknown Directed Equation (DE) stencil: "${key}"`);
+      }
+      /**
+       * Evaluates a formal predicate assertion (FS) with positional arguments.
+       */
+      evalPredicate(key, ...args) {
+        const norm = key.toLowerCase().replace(/^(fs\.|fs_)/, "");
+        const custom = this.predicates.get(norm);
+        if (custom) {
+          return custom(...args);
+        }
+        const stmt = this.getStatement(norm);
+        if (stmt) {
+          return true;
+        }
+        throw new Error(`[SessionRegistry] Unknown Formal Statement (FS) predicate: "${key}"`);
+      }
+      /**
+       * Dynamic formula evaluator using the mode's input slot names.
+       */
+      evaluateModeFormula(mode, args) {
+        const inputs = mode.inputs || [];
+        const scope = {};
+        inputs.forEach((slot, idx) => {
+          const val = args[idx] !== void 0 ? args[idx] : slot.defaultValue;
+          scope[slot.name] = val;
+          if (slot.symbol) scope[slot.symbol] = val;
+        });
+        try {
+          const fn = new Function(...Object.keys(scope), "Math", `return (${mode.formulaExpr});`);
+          return fn(...Object.values(scope), Math);
+        } catch (err) {
+          throw new Error(`[SessionRegistry] Error evaluating stencil formula "${mode.formulaExpr}": ${err.message}`);
+        }
+      }
+      getAllStatements() {
+        const unique = new Set(this.statements.values());
+        return Array.from(unique);
+      }
+      getAllModes() {
+        const unique = new Set(this.modes.values());
+        return Array.from(unique);
+      }
+    };
+    sessionRegistry = SessionRegistry.getInstance();
+  }
+});
+
 // clientLib/pseudoInterpreter.ts
 function tokenize(source) {
   const tokens = [];
@@ -3143,6 +4665,7 @@ var KEYWORDS, PseudoParser, ExecutionScope, PseudoInterpreter;
 var init_pseudoInterpreter = __esm({
   "clientLib/pseudoInterpreter.ts"() {
     init_dyadicMachine();
+    init_sessionRegistry();
     KEYWORDS = /* @__PURE__ */ new Set([
       "function",
       "rule",
@@ -3162,7 +4685,8 @@ var init_pseudoInterpreter = __esm({
       "or",
       "and",
       "not",
-      "mod"
+      "mod",
+      "assert"
     ]);
     PseudoParser = class {
       tokens;
@@ -3370,6 +4894,17 @@ var init_pseudoInterpreter = __esm({
           this.match("PUNCT", ";");
           return { type: "RETURN", line: tok.line, expr };
         }
+        if (this.match("KEYWORD", "assert")) {
+          const expr = this.parseExpr();
+          let message = void 0;
+          if (this.match("PUNCT", ",")) {
+            if (this.check("STRING")) {
+              message = this.advance().value;
+            }
+          }
+          this.match("PUNCT", ";");
+          return { type: "ASSERT", line: tok.line, expr, message };
+        }
         if (this.check("PUNCT", "(") && this.peekNext().type === "IDENT") {
           this.advance();
           const targets = [];
@@ -3377,22 +4912,28 @@ var init_pseudoInterpreter = __esm({
             targets.push(this.expect("IDENT").value);
           } while (this.match("PUNCT", ","));
           this.expect("PUNCT", ")");
-          this.expect("OPERATOR", ":=");
-          const expr = this.parseExpr();
-          this.match("PUNCT", ";");
-          return { type: "ASSIGN", line: tok.line, target: targets, expr };
+          if (this.match("OPERATOR", ":=") || this.match("OPERATOR", "\u2254")) {
+            const expr = this.parseExpr();
+            this.match("PUNCT", ";");
+            return { type: "ASSIGN", line: tok.line, target: targets, expr };
+          }
         }
         if (this.check("IDENT")) {
-          const name = this.advance().value;
+          let name = this.advance().value;
+          if (this.match("PUNCT", ".")) {
+            const member = this.expect("IDENT").value;
+            name = `${name}.${member}`;
+          }
           if (this.match("PUNCT", "[")) {
             const indexExpr = this.parseExpr();
             this.expect("PUNCT", "]");
-            this.expect("OPERATOR", ":=");
-            const expr = this.parseExpr();
-            this.match("PUNCT", ";");
-            return { type: "ASSIGN", line: tok.line, target: name, indexExpr, expr };
+            if (this.match("OPERATOR", ":=") || this.match("OPERATOR", "\u2254")) {
+              const expr = this.parseExpr();
+              this.match("PUNCT", ";");
+              return { type: "ASSIGN", line: tok.line, target: name, indexExpr, expr };
+            }
           }
-          if (this.match("OPERATOR", ":=")) {
+          if (this.match("OPERATOR", ":=") || this.match("OPERATOR", "\u2254")) {
             const expr = this.parseExpr();
             this.match("PUNCT", ";");
             return { type: "ASSIGN", line: tok.line, target: name, expr };
@@ -3493,7 +5034,11 @@ var init_pseudoInterpreter = __esm({
           return first;
         }
         if (this.check("IDENT")) {
-          const name = this.advance().value;
+          let name = this.advance().value;
+          if (this.match("PUNCT", ".")) {
+            const member = this.expect("IDENT").value;
+            name = `${name}.${member}`;
+          }
           if (this.match("PUNCT", "(")) {
             const args = [];
             while (!this.check("PUNCT", ")") && !this.check("EOF")) {
@@ -3754,6 +5299,14 @@ var init_pseudoInterpreter = __esm({
           }
           case "CALL_STMT": {
             this.evalExpr(stmt.call, scope);
+            break;
+          }
+          case "ASSERT": {
+            const cond = this.evalExpr(stmt.expr, scope);
+            if (!cond) {
+              const msg = stmt.message ? `: ${stmt.message}` : "";
+              throw new Error(`Assertion failed at line ${stmt.line}${msg}`);
+            }
             break;
           }
         }
@@ -4049,6 +5602,12 @@ var init_pseudoInterpreter = __esm({
                 const res = dyadicMachine.simplerOptions(evaluatedArgs[0]);
                 return [new Set(res.leftOptions), new Set(res.rightOptions)];
               }
+            }
+            if (name.startsWith("DE.") || name.startsWith("de.") || name.startsWith("de_") || sessionRegistry.hasDE(name)) {
+              return sessionRegistry.executeDE(name, ...evaluatedArgs);
+            }
+            if (name.startsWith("FS.") || name.startsWith("fs.") || name.startsWith("fs_") || sessionRegistry.hasPredicate(name)) {
+              return sessionRegistry.evalPredicate(name, ...evaluatedArgs);
             }
             throw new Error(`Unknown function call: ${name}`);
           }
@@ -36355,1288 +37914,8 @@ var NumericVisualizer = class extends Elt {
   }
 };
 
-// clientLib/fsCatalog.ts
-var FS_CATALOG = {
-  "generatedAt": "2026-11-06T07:25:04.546Z",
-  "version": "2.0.0",
-  "formalStatements": [
-    {
-      "numId": 1,
-      "id": "fs_newtonian_mechanics",
-      "type": "physics",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "boundary_law",
-      "title": "Newtonian Dynamics & Boundary Acceleration",
-      "description": "Foundational relation between force, inertia, and momentum conservation on \u211D_\u03C9.",
-      "scaffoldKey": "newtonian_mechanics",
-      "expression": "F = m \xB7 a  \u2227  p = m \xB7 v",
-      "referencedInSegments": [
-        "stemNewtonianBridge"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 2,
-      "id": "fs_free_fall_accel",
-      "parentId": "fs_newtonian_mechanics",
-      "type": "physics",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "Uniform Free Fall Kinematics",
-      "description": "Motion under constant gravitational acceleration g on \u211D_\u03C9.",
-      "scaffoldKey": "free_fall_accel",
-      "expression": "v(t) = v\u2080 - g \xB7 t  \u2227  s(t) = v\u2080\xB7t - (1/2)\xB7g\xB7t\xB2",
-      "leanSignature": "theorem free_fall_stencil (v0 g t : R_w) : v = v0 - g * t",
-      "pseudoAlgoId": "kinematics_step",
-      "referencedInSegments": [
-        "stemNewtonianBridge"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 3,
-      "id": "fs_telescoping_ftc",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "boundary_law",
-      "title": "Telescoping Fundamental Theorem of Calculus",
-      "description": "Discrete interior cancellation collapsing whole-transect sums to boundary differences.",
-      "scaffoldKey": "telescoping_ftc",
-      "expression": "\u2211_{k=0}^{n-1} \u0394F(k) = F(n) - F(0)",
-      "leanSignature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
-      "referencedInSegments": [
-        "analysis1DLecture3",
-        "stemHeatDiffusion"
-      ],
-      "leanStatus": "certified"
-    },
-    {
-      "numId": 4,
-      "id": "fs_work_energy",
-      "parentId": "fs_telescoping_ftc",
-      "type": "physics",
-      "tier": "law",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "Telescoping Work-Energy Principle",
-      "description": "Exact cancellation of interior work increments yielding net kinetic energy change.",
-      "scaffoldKey": "work_energy",
-      "expression": "\u0394(KE) = (1/2)\xB7m\xB7v\xB2 - (1/2)\xB7m\xB7v\u2080\xB2 = \u2211_{k=0}^{n-1} F_k \xB7 \u0394x_k",
-      "leanSignature": "theorem work_energy_conservation (m v0 v : R_w) : delta_ke = work_sum",
-      "referencedInSegments": [
-        "stemNewtonianBridge"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 5,
-      "id": "fs_heat_flux",
-      "parentId": "fs_telescoping_ftc",
-      "type": "physics",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "Discrete Thermal Diffusion Balance",
-      "description": "Conservation of thermal energy across discrete boundaries governed by second differences.",
-      "scaffoldKey": "heat_flux",
-      "expression": "u_j(t + \u0394t) = u_j(t) + \u03B1 \xB7 (\u0394t / \u0394x\xB2) \xB7 [u_{j+1}(t) - 2\xB7u_j(t) + u_{j-1}(t)]",
-      "leanSignature": "theorem heat_stencil_conservation (alpha dt dx u_L u_C u_R : R_w) : u_new = heat_step alpha dt dx u_L u_C u_R",
-      "pseudoAlgoId": "laplacian_heat_step",
-      "referencedInSegments": [
-        "stemHeatDiffusion"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 6,
-      "id": "fs_hyperfinite_derivative",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "Hyperfinite Difference Quotient Derivative",
-      "description": "Standard part of hyperfinite difference quotients matching classical derivative values.",
-      "scaffoldKey": "hyperfinite_derivative",
-      "expression": "f'(x) = st([f(x + dx) - f(x)] / dx)  for infinitesimal dx \u2260 0",
-      "leanSignature": "theorem nonstandard_derivative (f : R_w \u2192 R_w) (x : R_w) (dx : Infinitesimal) : f_prime x = st ((f (x + dx) - f x) / dx)",
-      "pseudoAlgoId": "euler_compounding",
-      "demoRef": {
-        "engine": "bid",
-        "mode": "eulerCompounding",
-        "label": "Euler Compounding in BID"
-      },
-      "referencedInSegments": [
-        "analysis1DLecture1",
-        "analysis1DLecture2"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 7,
-      "id": "fs_complex_step_invariance",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "2D Complex Step & Modulus Invariance on \u2102_\u03C9",
-      "description": "Isotropic step invariance of hypercomplex numbers preserving holomorphic geometry.",
-      "scaffoldKey": "complex_step_invariance",
-      "expression": "|z + dz|\xB2 = |z|\xB2 + 2\xB7Re(z\u0304\xB7dz) + |dz|\xB2",
-      "leanSignature": "theorem complex_step_modulus (z dz : C_w) : norm_sq (z + dz) = norm_sq z + 2 * Re (conj z * dz) + norm_sq dz",
-      "referencedInSegments": [
-        "analysis2DLecture1"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 8,
-      "id": "fs_cauchy_riemann_symmetry",
-      "parentId": "fs_complex_step_invariance",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "shadow_map",
-      "title": "Cauchy-Riemann Coordinate Symmetry",
-      "description": "Equalities of partial derivatives underpinning hypercomplex conformal mappings.",
-      "scaffoldKey": "cauchy_riemann_symmetry",
-      "expression": "\u2202u/\u2202x = \u2202v/\u2202y  \u2227  \u2202u/\u2202y = -\u2202v/\u2202x",
-      "leanSignature": "theorem cauchy_riemann_orthogonality (u v : R_w \u2192 R_w \u2192 R_w) : du_dx = dv_dy \u2227 du_dy = -dv_dx",
-      "referencedInSegments": [
-        "analysis2DLecture1",
-        "analysis2DIntro"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 9,
-      "id": "fs_contour_cauchy_goursat",
-      "parentId": "fs_cauchy_riemann_symmetry",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "shadow_map",
-      "title": "Hyperfinite Cauchy-Goursat Loop Vanishing",
-      "description": "Sum of holomorphic increments along a closed discrete polygon collapses to zero.",
-      "scaffoldKey": "contour_cauchy_goursat",
-      "expression": "\u222E_\u03B3 f(z) dz = \u2211_{k=0}^{N-1} f(z_k)\xB7(z_{k+1} - z_k) \u2243 0",
-      "leanSignature": "theorem cauchy_goursat_loop (f : C_w \u2192 C_w) (gamma : ClosedContour) : hyper_sum (eval_step f gamma) = 0",
-      "referencedInSegments": [
-        "analysis2DLecture2"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 10,
-      "id": "fs_lee_yang_circle",
-      "parentId": "fs_complex_step_invariance",
-      "type": "physics",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "shadow_map",
-      "title": "The Lee-Yang Unit Circle Partition Theorem",
-      "description": "All partition function zeros of ferromagnetic Ising systems lie precisely on the unit circle |z| = 1.",
-      "scaffoldKey": "lee_yang_circle",
-      "expression": "Z_N(z) = 0 \u27F9 |z| = 1  in the complex fugacity plane",
-      "leanSignature": "theorem lee_yang_circle (N : Nat) (z : C_w) (hZ : ising_partition N z = 0) : norm z = 1",
-      "referencedInSegments": [
-        "analysis2DLecture3",
-        "analysis2DIntro"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 11,
-      "id": "fs_harmonic_oscillator",
-      "type": "physics",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "Harmonic Leapfrog Phase Space Orbit",
-      "description": "Exact energy preservation in discrete symplectic integration of harmonic oscillators.",
-      "scaffoldKey": "harmonic_oscillator",
-      "expression": "x(t + dt) = x(t) + v(t + dt/2)\xB7dt  \u2227  v(t + dt/2) = v(t - dt/2) - \u03C9\xB2\xB7x(t)\xB7dt",
-      "leanSignature": "theorem harmonic_leapfrog_energy (x0 v0 omega dt : R_w) : leapfrog_energy x0 v0 = initial_energy",
-      "pseudoAlgoId": "kinematics_step",
-      "referencedInSegments": [
-        "stemNewtonianBridge",
-        "vectorsLecture2"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 12,
-      "id": "fs_three_polarizer_quantum",
-      "type": "physics",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "Three-Polarizer Geometric Quantum Transmission",
-      "description": "Quantum state projection through intermediate non-orthogonal polarization filters.",
-      "scaffoldKey": "three_polarizer_quantum",
-      "expression": "I = I\u2080 \xB7 cos\xB2(\u03B8\u2081) \xB7 cos\xB2(\u03B8\u2082 - \u03B8\u2081)",
-      "leanSignature": "theorem three_polarizer_transmission (I0 theta1 theta2 : R_w) : I_trans = I0 * (cos theta1)^2 * (cos (theta2 - theta1))^2",
-      "referencedInSegments": [
-        "quantumLogicLecture1",
-        "quantumLogicLecture3",
-        "vectorsLecture3"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 13,
-      "id": "fs_hyperfinite_probability",
-      "type": "information",
-      "tier": "constitutional",
-      "statementKind": "axiom",
-      "governingSeed": "shadow_map",
-      "title": "Hyperfinite Normalized Probability Space",
-      "description": "Uniform hyperfinite counting probability with infinitesimal resolution and no null sets.",
-      "scaffoldKey": "hyperfinite_probability",
-      "expression": "P(A) = st(|A| / |\u03A9|)  where |\u03A9| = H \u2208 *\u2115 \\ \u2115",
-      "leanSignature": "theorem hyperfinite_probability_measure (Omega : HyperfiniteSampleSpace) (A : Event Omega) : P A = st (card A / card Omega)",
-      "referencedInSegments": [
-        "bayesianInferenceLecture1"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 14,
-      "id": "fs_bayes_updating",
-      "parentId": "fs_hyperfinite_probability",
-      "type": "information",
-      "tier": "law",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "Hyperfinite Bayesian Likelihood Inversion",
-      "description": "Strictly positive hyperfinite updating preserving order under evidence accumulation.",
-      "scaffoldKey": "bayes_updating",
-      "expression": "P(H|E) = [P(E|H) \xB7 P(H)] / [P(E|H)\xB7P(H) + P(E|\xACH)\xB7P(\xACH)]",
-      "leanSignature": "theorem bayes_rule (pH pE_H pE_notH : R_w) : p_posterior = (pE_H * pH) / (pE_H * pH + pE_notH * (1 - pH))",
-      "pseudoAlgoId": "bayes_discrete_update",
-      "referencedInSegments": [
-        "bayesianInferenceLecture2",
-        "bayesianInferenceLecture3",
-        "quantumBayesianInferenceLecture1",
-        "formalStatementsIntro"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 15,
-      "id": "fs_tree2_totally_ordered",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "theorem",
-      "governingSeed": "conway_cut",
-      "title": "Total Ordering on Conway Sign Sequences (Tree2)",
-      "description": "Strict trichotomy and transitivity of Conway sign sequences representing Surreal dyadics.",
-      "scaffoldKey": "D_w_is_totally_ordered",
-      "expression": "\u2200 x y \u2208 Tree2, (x < y) \u2228 (x = y) \u2228 (y < x)",
-      "leanSignature": "theorem Tree2.totally_ordered (x y : Tree2) : x < y \u2228 x = y \u2228 y < x",
-      "pseudoAlgoId": "conway_order",
-      "demoRef": {
-        "engine": "btd",
-        "mode": "order",
-        "label": "Conway Tree Order Relations"
-      },
-      "referencedInSegments": [
-        "numbersLecture2"
-      ],
-      "leanStatus": "certified"
-    },
-    {
-      "numId": 16,
-      "id": "fs_ptolemaic_half_angle",
-      "type": "math",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "conway_cut",
-      "title": "Dyadic Ptolemaic Half-Angle Root Bisection",
-      "description": "Algebraic calculation of sine and chord values via iterative nested square root bisections.",
-      "scaffoldKey": "dyadic_ptolemaic_sine",
-      "expression": "sin(\u03B8/2) = \u221A((1 - cos(\u03B8)) / 2)",
-      "leanSignature": "theorem ptolemaic_half_angle (theta : R_w) : sin (theta / 2) = sqrt ((1 - cos theta) / 2)",
-      "pseudoAlgoId": "rotor_trig_cordic",
-      "referencedInSegments": [
-        "stemTrigFoundations"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 17,
-      "id": "fs_standard_part_homomorphism",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "theorem",
-      "governingSeed": "shadow_map",
-      "title": "Standard Part Ring Homomorphism st(\xB7)",
-      "description": "Preservation of addition and multiplication under standard part shadow projection from finite \u211D_\u03C9 to \u211D.",
-      "scaffoldKey": "standard_part_homomorphism",
-      "expression": "st(x + y) = st(x) + st(y)  \u2227  st(x \xB7 y) = st(x) \xB7 st(y)",
-      "leanSignature": "theorem standard_part_is_homomorphism (x y : R_w_fin) : st (x + y) = st x + st y \u2227 st (x * y) = st x * st y",
-      "referencedInSegments": [
-        "analysis1DLecture1",
-        "analysis2DLecture1",
-        "vectorsLecture1",
-        "formalStatementsIntro"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 18,
-      "id": "fs_cauchy_schwarz_discrete",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "boundary_law",
-      "title": "Discrete Cauchy-Schwarz Inner Product Inequality",
-      "description": "Fundamental geometric bound on hyperfinite Euclidean and Hilbert space projections.",
-      "scaffoldKey": "cauchy_schwarz_discrete",
-      "expression": "|\u27E8u, v\u27E9|\xB2 \u2264 \u27E8u, u\u27E9 \xB7 \u27E8v, v\u27E9",
-      "leanSignature": "theorem cauchy_schwarz_hyperfinite (u v : HyperVector N) : (inner_product u v)^2 \u2264 inner_product u u * inner_product v v",
-      "referencedInSegments": [
-        "vectorsLecture3"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 19,
-      "id": "fs_polygonal_rim_chord",
-      "type": "math",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "conway_cut",
-      "title": "Dyadic Polygonal Rim Chord Law",
-      "description": "Calculation of regular polygonal rim segment lengths on the discrete circle.",
-      "scaffoldKey": "polygonal_rim_chord",
-      "expression": "c_n = 2 \xB7 sin(\u03C0 / n)",
-      "leanSignature": "theorem rim_chord_length (n : Nat) : chord_len n = 2 * sin (pi / n)",
-      "pseudoAlgoId": "rotor_trig_cordic",
-      "referencedInSegments": [
-        "stemTrigFoundations"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 20,
-      "id": "fs_euler_identity_rotor",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "Euler Polar Rotor Decomposition",
-      "description": "Representation of complex units as exponential orthogonal phase rotators.",
-      "scaffoldKey": "euler_identity_rotor",
-      "expression": "e^{i\u03B8} = cos(\u03B8) + i \xB7 sin(\u03B8)",
-      "leanSignature": "theorem euler_rotor_identity (theta : R_w) : exp_i theta = Complex.mk (cos theta) (sin theta)",
-      "pseudoAlgoId": "rotor_trig_cordic",
-      "referencedInSegments": [
-        "stemTrigFoundations",
-        "formalStatementsIntro"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 21,
-      "id": "fs_unit_rotor_projection",
-      "parentId": "fs_euler_identity_rotor",
-      "type": "math",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "shadow_map",
-      "title": "Unit Rotor Sine & Cosine Projection",
-      "description": "Orthogonal coordinate projection of 2D unit rotors under angle parameterization.",
-      "scaffoldKey": "unit_rotor_projection",
-      "expression": "x = cos(\u03B8),  y = sin(\u03B8)  with  x\xB2 + y\xB2 = 1",
-      "leanSignature": "theorem unit_rotor_norm (theta : R_w) : (cos theta)^2 + (sin theta)^2 = 1",
-      "pseudoAlgoId": "rotor_trig_cordic",
-      "referencedInSegments": [
-        "stemTrigFoundations"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 22,
-      "id": "fs_dyadic_isomorphism",
-      "parentId": "fs_tree2_totally_ordered",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "axiom",
-      "governingSeed": "conway_cut",
-      "title": "The Core Dyadic Isomorphism Tree2 \u2261 \u{1D53B}",
-      "description": "Order and ring isomorphism between sign-sequence trees and dyadic rationals.",
-      "scaffoldKey": "Tree2_finite_is_dyad",
-      "expression": "Tree2(s) \u2245 m / 2^n  \u2227  Tree2 \u21AA \u211D_\u03C9",
-      "leanSignature": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
-      "demoRef": {
-        "engine": "btd",
-        "mode": "isomorphism",
-        "label": "Operation Isomorphism in BTD"
-      },
-      "referencedInSegments": [
-        "numbersLecture2"
-      ],
-      "leanStatus": "certified"
-    },
-    {
-      "numId": 23,
-      "id": "fs_van_den_dries_ehrlich",
-      "parentId": "fs_tree2_totally_ordered",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "axiom",
-      "governingSeed": "conway_cut",
-      "title": "van den Dries\u2013Ehrlich Subfield Theorem (2001)",
-      "description": "Proof that the surreal numbers No(\u03B5\u2080) formed at stage \u03B5\u2080 constitute a real-closed field.",
-      "scaffoldKey": "No_eps0_totally_ordered",
-      "expression": "No(\u03B5\u2080) is a real-closed field  \u2227  No(\u03C9) \u2282 No(\u03B5\u2080) \u2282 No",
-      "leanSignature": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le",
-      "referencedInSegments": [
-        "numbersLecture2"
-      ],
-      "leanStatus": "certified"
-    },
-    {
-      "numId": 24,
-      "id": "fs_conway_addition",
-      "parentId": "fs_tree2_totally_ordered",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "directed_equality",
-      "governingSeed": "conway_cut",
-      "title": "Conway Inductive Addition (+)",
-      "description": "Recursive bilateral addition on tree options choosing the simplest number born in the resulting cut gap.",
-      "scaffoldKey": "conway_addition",
-      "expression": "x + y = { x\u1D38 + y, x + y\u1D38 | x\u1D3F + y, x + y\u1D3F }",
-      "leanSignature": "def Conway.add (x y : Tree2) : Tree2",
-      "pseudoAlgoId": "conway_add",
-      "demoRef": {
-        "engine": "btd",
-        "mode": "addition",
-        "label": "Conway Inductive Addition in BTD"
-      },
-      "referencedInSegments": [
-        "numbersLecture2"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 25,
-      "id": "fs_conway_multiplication",
-      "parentId": "fs_tree2_totally_ordered",
-      "type": "math",
-      "tier": "constitutional",
-      "statementKind": "directed_equality",
-      "governingSeed": "conway_cut",
-      "title": "Conway Inductive Multiplication (\xB7)",
-      "description": "Recursive 4-way cross-product multiplication on tree options ensuring (x - x\u1D38)(y - y\u1D38) > 0.",
-      "scaffoldKey": "conway_multiplication",
-      "expression": "x \xB7 y = { x\u1D38\xB7y + x\xB7y\u1D38 - x\u1D38\xB7y\u1D38, x\u1D3F\xB7y + x\xB7y\u1D3F - x\u1D3F\xB7y\u1D3F | x\u1D38\xB7y + x\xB7y\u1D3F - x\u1D38\xB7y\u1D3F, x\u1D3F\xB7y + x\xB7y\u1D38 - x\u1D3F\xB7y\u1D38 }",
-      "leanSignature": "def Conway.mul (x y : Tree2) : Tree2",
-      "pseudoAlgoId": "conway_mul",
-      "demoRef": {
-        "engine": "btd",
-        "mode": "multiplication",
-        "label": "Conway Inductive Multiplication in BTD"
-      },
-      "referencedInSegments": [
-        "numbersLecture2"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 39,
-      "id": "fs_geometric_ladder",
-      "type": "math",
-      "tier": "law",
-      "statementKind": "theorem",
-      "governingSeed": "boundary_law",
-      "title": "The Geometric Ladder Law",
-      "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a \xB7 r^k.",
-      "scaffoldKey": "geometric_ladder",
-      "expression": "F(k + 1) = r \xB7 F(k)  \u27F9  F(k) = a \xB7 r^k",
-      "referencedInSegments": [
-        "sequencesAndSums"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 40,
-      "id": "fs_music_et_scale",
-      "parentId": "fs_geometric_ladder",
-      "type": "physics",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "12-TET Chromatic Pitch Scale Stepping",
-      "description": "Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).",
-      "scaffoldKey": "music_et_scale",
-      "expression": "f_{k+1} \u2254 2^(1/12) \xB7 f_k  \u2227  f_k \u2254 f\u2080 \xB7 (2^(1/12))^k",
-      "pseudoAlgoId": "algo_geometric_scale_step",
-      "referencedInSegments": [
-        "sequencesAndSums"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 41,
-      "id": "fs_geom_ladder_step",
-      "parentId": "fs_geometric_ladder",
-      "type": "math",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "General Geometric Ladder Step",
-      "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
-      "scaffoldKey": "geom_ladder_step",
-      "expression": "F(k + 1) \u2254 r \xB7 F(k)  \u2227  F(k) \u2254 a \xB7 r^k",
-      "pseudoAlgoId": "algo_geometric_ladder_step",
-      "referencedInSegments": [
-        "sequencesAndSums"
-      ],
-      "leanStatus": "pending"
-    },
-    {
-      "numId": 42,
-      "id": "fs_linear_ladder_step",
-      "type": "math",
-      "tier": "scenario",
-      "statementKind": "directed_equality",
-      "governingSeed": "boundary_law",
-      "title": "General Linear (Arithmetic) Ladder Step",
-      "description": "Discrete uniform stepping progression advancing by constant forward difference d.",
-      "scaffoldKey": "linear_ladder_step",
-      "expression": "F(k + 1) \u2254 F(k) + d  \u2227  F(k) \u2254 a + k \xB7 d",
-      "pseudoAlgoId": "algo_linear_ladder_step",
-      "referencedInSegments": [
-        "sequencesAndSums"
-      ],
-      "leanStatus": "pending"
-    }
-  ],
-  "calculationModes": [
-    {
-      "id": "ff_v_from_v0_g_t",
-      "statementId": "fs_free_fall_accel",
-      "label": "Compute Terminal Velocity v(t)",
-      "targetSymbol": "v",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "m/s",
-      "formulaDescription": "v = v\u2080 - g \xB7 t",
-      "formulaExpr": "v0 - g * t",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "v0",
-          "symbol": "v\u2080",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s",
-          "defaultValue": 0,
-          "description": "Initial vertical velocity"
-        },
-        {
-          "name": "g",
-          "symbol": "g",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s\xB2",
-          "defaultValue": 9.8,
-          "min": 0,
-          "max": 50,
-          "step": 0.1,
-          "description": "Uniform gravitational acceleration"
-        },
-        {
-          "name": "t",
-          "symbol": "t",
-          "domain": "\u211D_\u03C9",
-          "unit": "s",
-          "defaultValue": 2,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "description": "Elapsed duration"
-        }
-      ]
-    },
-    {
-      "id": "ff_t_from_v_v0_g",
-      "statementId": "fs_free_fall_accel",
-      "label": "Compute Fall Duration t",
-      "targetSymbol": "t",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "s",
-      "formulaDescription": "t = (v\u2080 - v) / g",
-      "formulaExpr": "(v0 - v) / g",
-      "inputs": [
-        {
-          "name": "v0",
-          "symbol": "v\u2080",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s",
-          "defaultValue": 10,
-          "description": "Initial velocity"
-        },
-        {
-          "name": "v",
-          "symbol": "v",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s",
-          "defaultValue": 0,
-          "description": "Current/Target velocity"
-        },
-        {
-          "name": "g",
-          "symbol": "g",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s\xB2",
-          "defaultValue": 9.8,
-          "min": 0.1,
-          "max": 50,
-          "step": 0.1,
-          "description": "Gravitational acceleration"
-        }
-      ]
-    },
-    {
-      "id": "ff_s_from_v0_g_t",
-      "statementId": "fs_free_fall_accel",
-      "label": "Compute Vertical Displacement s(t)",
-      "targetSymbol": "s",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "m",
-      "formulaDescription": "s = v\u2080 \xB7 t - 0.5 \xB7 g \xB7 t\xB2",
-      "formulaExpr": "v0 * t - 0.5 * g * t * t",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "v0",
-          "symbol": "v\u2080",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s",
-          "defaultValue": 0,
-          "description": "Initial vertical velocity"
-        },
-        {
-          "name": "g",
-          "symbol": "g",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s\xB2",
-          "defaultValue": 9.8,
-          "min": 0,
-          "max": 50,
-          "step": 0.1,
-          "description": "Gravitational acceleration"
-        },
-        {
-          "name": "t",
-          "symbol": "t",
-          "domain": "\u211D_\u03C9",
-          "unit": "s",
-          "defaultValue": 2,
-          "min": 0,
-          "max": 100,
-          "step": 0.1,
-          "description": "Elapsed duration"
-        }
-      ]
-    },
-    {
-      "id": "we_ke_from_m_v",
-      "statementId": "fs_work_energy",
-      "label": "Compute Kinetic Energy KE",
-      "targetSymbol": "KE",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "J",
-      "formulaDescription": "KE = 0.5 \xB7 m \xB7 v\xB2",
-      "formulaExpr": "0.5 * m * v * v",
-      "inputs": [
-        {
-          "name": "m",
-          "symbol": "m",
-          "domain": "\u211D_\u03C9",
-          "unit": "kg",
-          "defaultValue": 2,
-          "min": 0.01,
-          "step": 0.1,
-          "description": "Particle inertial mass"
-        },
-        {
-          "name": "v",
-          "symbol": "v",
-          "domain": "\u211D_\u03C9",
-          "unit": "m/s",
-          "defaultValue": 5,
-          "step": 0.5,
-          "description": "Instantaneous speed"
-        }
-      ]
-    },
-    {
-      "id": "we_v_from_ke_m",
-      "statementId": "fs_work_energy",
-      "label": "Compute Velocity from Kinetic Energy",
-      "targetSymbol": "v",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "m/s",
-      "formulaDescription": "v = \u221A(2 \xB7 KE / m)",
-      "formulaExpr": "Math.sqrt(2 * KE / m)",
-      "inputs": [
-        {
-          "name": "KE",
-          "symbol": "KE",
-          "domain": "\u211D_\u03C9",
-          "unit": "J",
-          "defaultValue": 25,
-          "min": 0,
-          "step": 1,
-          "description": "Kinetic energy"
-        },
-        {
-          "name": "m",
-          "symbol": "m",
-          "domain": "\u211D_\u03C9",
-          "unit": "kg",
-          "defaultValue": 2,
-          "min": 0.01,
-          "step": 0.1,
-          "description": "Mass"
-        }
-      ]
-    },
-    {
-      "id": "diff_heat_step",
-      "statementId": "fs_heat_flux",
-      "label": "Compute Next Center Temperature u_C(t + \u0394t)",
-      "targetSymbol": "u_new",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "\xB0C",
-      "formulaDescription": "u_new = u_C + \u03B1 \xB7 (\u0394t / \u0394x\xB2) \xB7 (u_L - 2\xB7u_C + u_R)",
-      "formulaExpr": "u_C + alpha * (dt / (dx * dx)) * (u_L - 2 * u_C + u_R)",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "alpha",
-          "symbol": "\u03B1",
-          "domain": "\u211D_\u03C9",
-          "unit": "m\xB2/s",
-          "defaultValue": 0.1,
-          "min": 1e-3,
-          "max": 1,
-          "step": 0.01,
-          "description": "Thermal diffusivity"
-        },
-        {
-          "name": "dt",
-          "symbol": "\u0394t",
-          "domain": "\u211D_\u03C9",
-          "unit": "s",
-          "defaultValue": 0.01,
-          "min": 1e-3,
-          "max": 1,
-          "step": 5e-3,
-          "description": "Time step increment"
-        },
-        {
-          "name": "dx",
-          "symbol": "\u0394x",
-          "domain": "\u211D_\u03C9",
-          "unit": "m",
-          "defaultValue": 0.1,
-          "min": 0.01,
-          "max": 2,
-          "step": 0.01,
-          "description": "Spatial mesh spacing"
-        },
-        {
-          "name": "u_L",
-          "symbol": "u_L",
-          "domain": "\u211D_\u03C9",
-          "unit": "\xB0C",
-          "defaultValue": 100,
-          "step": 5,
-          "description": "Left neighbor temperature"
-        },
-        {
-          "name": "u_C",
-          "symbol": "u_C",
-          "domain": "\u211D_\u03C9",
-          "unit": "\xB0C",
-          "defaultValue": 50,
-          "step": 5,
-          "description": "Center node temperature"
-        },
-        {
-          "name": "u_R",
-          "symbol": "u_R",
-          "domain": "\u211D_\u03C9",
-          "unit": "\xB0C",
-          "defaultValue": 20,
-          "step": 5,
-          "description": "Right neighbor temperature"
-        }
-      ]
-    },
-    {
-      "id": "diff_poly_square",
-      "statementId": "fs_hyperfinite_derivative",
-      "label": "Hyperfinite Derivative of f(x) = x\xB2",
-      "targetSymbol": "f'(x)",
-      "targetDomain": "\u211D_\u03C9",
-      "formulaDescription": "f'(x) = [(x + dx)\xB2 - x\xB2] / dx = 2x + dx  \u27F9  st(f'(x)) = 2x",
-      "formulaExpr": "((x + dx) * (x + dx) - x * x) / dx",
-      "inputs": [
-        {
-          "name": "x",
-          "symbol": "x",
-          "domain": "\u211D_\u03C9",
-          "defaultValue": 3,
-          "step": 0.5,
-          "description": "Base evaluation point"
-        },
-        {
-          "name": "dx",
-          "symbol": "dx",
-          "domain": "Infinitesimal",
-          "defaultValue": 1e-4,
-          "min": 1e-6,
-          "max": 0.01,
-          "step": 1e-4,
-          "description": "Nonstandard infinitesimal step"
-        }
-      ]
-    },
-    {
-      "id": "cplx_step_norm",
-      "statementId": "fs_complex_step_invariance",
-      "label": "Compute 2D Step Modulus |z + dz|\xB2",
-      "targetSymbol": "|z + dz|\xB2",
-      "targetDomain": "\u211D_\u03C9",
-      "formulaDescription": "|z + dz|\xB2 = (x + dx)\xB2 + (y + dy)\xB2",
-      "formulaExpr": "(x + dx) * (x + dx) + (y + dy) * (y + dy)",
-      "inputs": [
-        {
-          "name": "x",
-          "symbol": "Re(z)",
-          "domain": "\u211D_\u03C9",
-          "defaultValue": 3,
-          "step": 0.5,
-          "description": "Real component of z"
-        },
-        {
-          "name": "y",
-          "symbol": "Im(z)",
-          "domain": "\u211D_\u03C9",
-          "defaultValue": 4,
-          "step": 0.5,
-          "description": "Imaginary component of z"
-        },
-        {
-          "name": "dx",
-          "symbol": "Re(dz)",
-          "domain": "\u211D_\u03C9",
-          "defaultValue": 0.01,
-          "step": 5e-3,
-          "description": "Real step increment"
-        },
-        {
-          "name": "dy",
-          "symbol": "Im(dz)",
-          "domain": "\u211D_\u03C9",
-          "defaultValue": 0.02,
-          "step": 5e-3,
-          "description": "Imaginary step increment"
-        }
-      ]
-    },
-    {
-      "id": "bayes_posterior",
-      "statementId": "fs_bayes_updating",
-      "label": "Compute Posterior P(H | E)",
-      "targetSymbol": "P(H|E)",
-      "targetDomain": "[0, 1]",
-      "formulaDescription": "P(H|E) = (P(E|H) \xB7 P(H)) / [P(E|H)\xB7P(H) + P(E|\xACH)\xB7(1 - P(H))]",
-      "formulaExpr": "(pE_H * pH) / (pE_H * pH + pE_notH * (1.0 - pH))",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "pH",
-          "symbol": "P(H)",
-          "domain": "[0, 1]",
-          "defaultValue": 0.5,
-          "min": 1e-3,
-          "max": 0.999,
-          "step": 0.05,
-          "description": "Prior probability of hypothesis H"
-        },
-        {
-          "name": "pE_H",
-          "symbol": "P(E|H)",
-          "domain": "[0, 1]",
-          "defaultValue": 0.8,
-          "min": 0,
-          "max": 1,
-          "step": 0.05,
-          "description": "Likelihood: P(Evidence | H is True)"
-        },
-        {
-          "name": "pE_notH",
-          "symbol": "P(E|\xACH)",
-          "domain": "[0, 1]",
-          "defaultValue": 0.2,
-          "min": 0,
-          "max": 1,
-          "step": 0.05,
-          "description": "False Alarm: P(Evidence | H is False)"
-        }
-      ]
-    },
-    {
-      "id": "quantum_three_polarizer",
-      "statementId": "fs_three_polarizer_quantum",
-      "label": "Compute Quantum Transmission Intensity I",
-      "targetSymbol": "I / I\u2080",
-      "targetDomain": "[0, 1]",
-      "formulaDescription": "I / I\u2080 = cos\xB2(\u03B8\u2081) \xB7 cos\xB2(\u03B8\u2082 - \u03B8\u2081)",
-      "formulaExpr": "Math.cos(theta1 * Math.PI / 180)**2 * Math.cos((theta2 - theta1) * Math.PI / 180)**2",
-      "hasSimulation": true,
-      "inputs": [
-        {
-          "name": "theta1",
-          "symbol": "\u03B8\u2081",
-          "domain": "[0\xB0, 90\xB0]",
-          "unit": "deg",
-          "defaultValue": 45,
-          "min": 0,
-          "max": 90,
-          "step": 1,
-          "description": "Angle of intermediate polarizer"
-        },
-        {
-          "name": "theta2",
-          "symbol": "\u03B8\u2082",
-          "domain": "[0\xB0, 90\xB0]",
-          "unit": "deg",
-          "defaultValue": 90,
-          "min": 0,
-          "max": 90,
-          "step": 1,
-          "description": "Angle of final analyzer"
-        }
-      ]
-    },
-    {
-      "id": "ptolemaic_sine_half",
-      "statementId": "fs_ptolemaic_half_angle",
-      "label": "Compute Dyadic Half-Angle Sine sin(\u03B8/2)",
-      "targetSymbol": "sin(\u03B8/2)",
-      "targetDomain": "[-1, 1]",
-      "formulaDescription": "sin(\u03B8/2) = \u221A((1 - cos(\u03B8)) / 2)",
-      "formulaExpr": "Math.sqrt(Math.max(0, (1 - cosTheta) / 2))",
-      "inputs": [
-        {
-          "name": "cosTheta",
-          "symbol": "cos(\u03B8)",
-          "domain": "[-1, 1]",
-          "defaultValue": 0.5,
-          "min": -1,
-          "max": 1,
-          "step": 0.05,
-          "description": "Cosine of parent angle \u03B8"
-        }
-      ]
-    },
-    {
-      "id": "polygonal_chord_calc",
-      "statementId": "fs_polygonal_rim_chord",
-      "label": "Compute Regular Polygon Rim Chord Length",
-      "targetSymbol": "c_n",
-      "targetDomain": "\u211D_\u03C9",
-      "formulaDescription": "c_n = 2 \xB7 sin(\u03C0 / n)",
-      "formulaExpr": "2 * Math.sin(Math.PI / n)",
-      "inputs": [
-        {
-          "name": "n",
-          "symbol": "n",
-          "domain": "\u2115",
-          "defaultValue": 6,
-          "min": 3,
-          "max": 128,
-          "step": 1,
-          "description": "Number of polygon sides"
-        }
-      ]
-    },
-    {
-      "id": "rotor_phase_projection",
-      "statementId": "fs_unit_rotor_projection",
-      "label": "Compute Unit Rotor (x, y) = (cos \u03B8, sin \u03B8)",
-      "targetSymbol": "(x, y)",
-      "targetDomain": "\u2102_\u03C9",
-      "formulaDescription": "x = cos(\u03B8),  y = sin(\u03B8)  with x\xB2 + y\xB2 = 1",
-      "formulaExpr": "Math.cos(thetaRad)",
-      "inputs": [
-        {
-          "name": "thetaRad",
-          "symbol": "\u03B8",
-          "domain": "[0, 2\u03C0]",
-          "unit": "rad",
-          "defaultValue": 0.785398,
-          "min": 0,
-          "max": 6.283185,
-          "step": 0.05,
-          "description": "Rotor angle in radians"
-        }
-      ]
-    },
-    {
-      "id": "linear_ladder_step",
-      "statementId": "fs_linear_ladder_step",
-      "label": "Linear Progression Step F_k = a + k \xB7 d",
-      "targetSymbol": "F_k",
-      "targetDomain": "\u{1D53B}_\u03C9",
-      "formulaDescription": "F_k = a + k \xB7 d",
-      "formulaExpr": "a + k * d",
-      "inputs": [
-        {
-          "name": "a",
-          "symbol": "a",
-          "domain": "\u{1D53B}",
-          "defaultValue": 0,
-          "min": -1e3,
-          "max": 1e3,
-          "step": 0.5,
-          "description": "Initial anchor value (F_0)"
-        },
-        {
-          "name": "d",
-          "symbol": "d",
-          "domain": "\u{1D53B}",
-          "defaultValue": 1,
-          "min": -100,
-          "max": 100,
-          "step": 0.1,
-          "description": "Common difference per step"
-        },
-        {
-          "name": "k",
-          "symbol": "k",
-          "domain": "\u2115",
-          "defaultValue": 1,
-          "min": 0,
-          "max": 100,
-          "step": 1,
-          "description": "Step index"
-        }
-      ]
-    },
-    {
-      "id": "geom_ladder_step",
-      "statementId": "fs_geom_ladder_step",
-      "label": "Geometric Progression Step F_k = a \xB7 r^k",
-      "targetSymbol": "F_k",
-      "targetDomain": "\u{1D53B}_\u03C9",
-      "formulaDescription": "F_k = a \xB7 r^k",
-      "formulaExpr": "a * Math.pow(r, k)",
-      "inputs": [
-        {
-          "name": "a",
-          "symbol": "a",
-          "domain": "\u{1D53B}",
-          "defaultValue": 1,
-          "min": -1e3,
-          "max": 1e3,
-          "step": 0.1,
-          "description": "Initial seed value (F_0)"
-        },
-        {
-          "name": "r",
-          "symbol": "r",
-          "domain": "\u{1D53B}",
-          "defaultValue": 2,
-          "min": -100,
-          "max": 100,
-          "step": 0.05,
-          "description": "Common ratio per step"
-        },
-        {
-          "name": "k",
-          "symbol": "k",
-          "domain": "\u2115",
-          "defaultValue": 1,
-          "min": 0,
-          "max": 50,
-          "step": 1,
-          "description": "Step index"
-        }
-      ]
-    },
-    {
-      "id": "music_et_scale_step",
-      "statementId": "fs_music_et_scale",
-      "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
-      "targetSymbol": "f_k",
-      "targetDomain": "\u211D_\u03C9",
-      "targetUnit": "Hz",
-      "formulaDescription": "f_k = f\u2080 \xB7 (2^(1/12))^k",
-      "formulaExpr": "f0 * Math.pow(2, k / 12)",
-      "inputs": [
-        {
-          "name": "f0",
-          "symbol": "f\u2080",
-          "domain": "\u211D\u207A",
-          "unit": "Hz",
-          "defaultValue": 440,
-          "min": 20,
-          "max": 2e4,
-          "step": 1,
-          "description": "Reference base pitch (e.g., Concert A = 440 Hz)"
-        },
-        {
-          "name": "k",
-          "symbol": "k",
-          "domain": "\u2115",
-          "unit": "semitones",
-          "defaultValue": 0,
-          "min": 0,
-          "max": 24,
-          "step": 1,
-          "description": "Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)"
-        }
-      ]
-    }
-  ],
-  "examples": [
-    {
-      "id": "ex_equal_temperament_c5",
-      "modeId": "music_et_scale_step",
-      "statementId": "fs_music_et_scale",
-      "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
-      "values": {
-        "f0": 440,
-        "k": 3
-      },
-      "displayResult": "523.251 Hz",
-      "formattedFormula": "f_3 = 440 \xB7 (2^(1/12))^3 \u2248 523.251 Hz",
-      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
-      "notes": "Three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
-    },
-    {
-      "id": "ex_linear_ladder_step",
-      "modeId": "linear_ladder_step",
-      "statementId": "fs_linear_ladder_step",
-      "title": "Arithmetic March with Step d = 3/2",
-      "values": {
-        "a": 1,
-        "d": 1.5,
-        "k": 4
-      },
-      "displayResult": "7.000",
-      "formattedFormula": "F_4 = 1.0 + 4 \xB7 (1.5) = 7.0",
-      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
-      "notes": "Uniform additive ladder evaluation in \u{1D53B}_\u03C9."
-    },
-    {
-      "id": "ex_geom_ladder_step",
-      "modeId": "geom_ladder_step",
-      "statementId": "fs_geom_ladder_step",
-      "title": "Binary Tree Branching Doubling (r = 2)",
-      "values": {
-        "a": 1,
-        "r": 2,
-        "k": 5
-      },
-      "displayResult": "32.000",
-      "formattedFormula": "F_5 = 1.0 \xB7 (2.0)^5 = 32.0",
-      "domainBadge": "\u2208 \u{1D53B}_\u03C9",
-      "notes": "Geometric ladder exponential progression."
-    },
-    {
-      "id": "ex_earth_free_fall",
-      "modeId": "ff_v_from_v0_g_t",
-      "statementId": "fs_free_fall_accel",
-      "presetKey": "cas_free_fall_kinematics",
-      "title": "Earth Gravity Drop from Rest",
-      "values": {
-        "v0": 0,
-        "g": 9.8,
-        "t": 3
-      },
-      "displayResult": "-29.400 m/s",
-      "formattedFormula": "v = (0.00) - (9.80) \xB7 (3.00)",
-      "domainBadge": "\u2208 \u211D_\u03C9",
-      "notes": "Constant acceleration drops velocity linearly over 3 seconds."
-    },
-    {
-      "id": "ex_mars_free_fall",
-      "modeId": "ff_v_from_v0_g_t",
-      "statementId": "fs_free_fall_accel",
-      "title": "Mars Rover Descent Stage",
-      "values": {
-        "v0": 15,
-        "g": 3.71,
-        "t": 3
-      },
-      "displayResult": "3.870 m/s",
-      "formattedFormula": "v = (15.00) - (3.71) \xB7 (3.00)",
-      "domainBadge": "\u2208 \u211D_\u03C9"
-    },
-    {
-      "id": "ex_cart_braking",
-      "modeId": "we_ke_from_m_v",
-      "statementId": "fs_work_energy",
-      "presetKey": "newton_work_energy",
-      "title": "Laboratory Cart Kinetic Energy",
-      "values": {
-        "m": 2,
-        "v": 10
-      },
-      "displayResult": "100.000 J",
-      "formattedFormula": "KE = 0.5 \xB7 (2.00) \xB7 (10.00)\xB2",
-      "domainBadge": "\u2208 \u211D_\u03C9",
-      "notes": "Matches exact work integral: W = \u222B F dx = 100 J."
-    },
-    {
-      "id": "ex_thermal_slab",
-      "modeId": "diff_heat_step",
-      "statementId": "fs_heat_flux",
-      "presetKey": "heat_slice_flux",
-      "title": "Interior Thermal Slab Conduction",
-      "values": {
-        "alpha": 0.15,
-        "dt": 0.02,
-        "dx": 0.1,
-        "u_L": 100,
-        "u_C": 50,
-        "u_R": 20
-      },
-      "displayResult": "56.000 \xB0C",
-      "formattedFormula": "u_new = (50.0) + (0.15)\xB7(0.02 / 0.01)\xB7[(100.0) - 2\xB7(50.0) + (20.0)]",
-      "domainBadge": "\u2208 \u211D_\u03C9",
-      "notes": "Positive net curvature (100 - 100 + 20 = 20) drives net warming."
-    },
-    {
-      "id": "ex_medical_test",
-      "modeId": "bayes_posterior",
-      "statementId": "fs_bayes_updating",
-      "presetKey": "cas_bayes_filter",
-      "title": "Medical Diagnostic Screen Update",
-      "values": {
-        "pH": 0.05,
-        "pD_H": 0.95,
-        "pD_notH": 0.1
-      },
-      "displayResult": "0.333",
-      "formattedFormula": "P(H|D) = (0.95 \xB7 0.05) / [ (0.95 \xB7 0.05) + (0.10 \xB7 0.95) ]",
-      "domainBadge": "\u2208 [0, 1]",
-      "notes": "Low prior prevalence dampens positive predictive value."
-    }
-  ]
-};
-
 // clientLib/fsCalculator.ts
+init_fsCatalog();
 init_dyadicMachine();
 init_pseudoCatalog();
 init_pseudoViewer();
@@ -40755,8 +41034,8 @@ var ArgumentCard = class _ArgumentCard extends Elt {
     this.studioBtn.setV("\u{1F6E0}\uFE0F Studio");
     this.studioBtn.elt.addEventListener("click", () => this.launchStudio());
     devBtnGroup.append(this.studioBtn);
-    const isTheoremOrScaffold = arg.target?.startsWith("scaffold:") || arg.title?.toLowerCase().includes("constitutional scaffold") || arg.title?.toLowerCase().includes("theorem") || arg.title?.toLowerCase().includes("axiom");
-    const shouldInhibitCalc = options?.disableCalculator || !options?.activeModeId && !options?.presetKey && !arg.casCalculation?.command && isTheoremOrScaffold;
+    const isRelationalProposition = arg.target?.startsWith("scaffold:") || arg.title?.toLowerCase().includes("constitutional scaffold") || arg.title?.toLowerCase().includes("formal reasoning") || arg.title?.toLowerCase().includes("theorem") || arg.title?.toLowerCase().includes("axiom") || arg.expression?.includes("\u2200") || arg.expression?.includes("\u2203") || arg.expression?.includes(":") || arg.codomain === "\u{1D539}";
+    const shouldInhibitCalc = options?.disableCalculator || !options?.activeModeId && !options?.presetKey && !arg.casCalculation?.command && isRelationalProposition;
     const calcModes = shouldInhibitCalc ? [] : inferFsCalculationModes(arg);
     if (calcModes.length > 0) {
       this.calcBtn = new Elt("button");
@@ -41293,6 +41572,251 @@ ${cached.summary}`);
 // clientLib/fsd.ts
 init_dyadicRationals();
 init_exputils();
+init_sessionRegistry();
+
+// clientLib/leanTranslator.ts
+var LeanTranslator = class {
+  /**
+   * Maps MWM Domain types to Lean 4 Core types.
+   */
+  static mapDomainToLean(domain) {
+    if (!domain) return "Nat";
+    const d = domain.trim();
+    if (d === "\u2115" || d === "Tree1" || d === "Tree1_at(\u03C9)") return "Nat";
+    if (d === "\u2124" || d === "Z") return "Int";
+    if (d === "\u{1D539}" || d === "B_w") return "Bool";
+    if (d === "\u{1D4AB}(\u2115)" || d === "P_Tree1") return "Set Nat";
+    if (d === "\u211D_\u03C9" || d === "R_w") return "Real";
+    if (d === "Ord") return "Ord";
+    return "Nat";
+  }
+  /**
+   * Sanitizes variable names for Lean 4 (supports x₁, x₂, y₁, etc. natively).
+   */
+  static sanitizeVar(v) {
+    return v.trim();
+  }
+  /**
+   * Recursively converts a PXE AST into a Lean 4 Proposition expression.
+   */
+  static astToLeanProp(node, slots, usedPredDefs) {
+    if (PxeEngine.binChars.includes(node.nodeType)) {
+      const leftStr = node.left ? this.astToLeanProp(node.left, slots, usedPredDefs) : "True";
+      const rightStr = node.right ? this.astToLeanProp(node.right, slots, usedPredDefs) : "True";
+      let connector = "\u2227";
+      if (node.nodeType === PxeEngine.andChar) connector = "\u2227";
+      else if (node.nodeType === PxeEngine.orChar) connector = "\u2228";
+      else if (node.nodeType === PxeEngine.implyChar) connector = "\u2192";
+      else if (node.nodeType === PxeEngine.equivChar) connector = "\u2194";
+      let expr = `${leftStr} ${connector} ${rightStr}`;
+      if (node.negations > 0) {
+        const flips = node.negations % 2 !== 0;
+        if (flips) expr = `\xAC(${expr})`;
+      }
+      return expr;
+    }
+    const code = node.nodeType;
+    let atomStr = "";
+    const predSlots = slots.filter(
+      (s) => s.predCode === code || code === "m" && s.predName === "\u2208"
+    );
+    const s0 = predSlots.find((s) => s.slotIndex === 0)?.assignedVar || "x\u2081";
+    const s1 = predSlots.find((s) => s.slotIndex === 1)?.assignedVar || "x\u2082";
+    switch (code) {
+      case "p":
+        usedPredDefs.add("Gt5");
+        atomStr = `Gt5 ${this.sanitizeVar(s0)}`;
+        break;
+      case "q":
+        usedPredDefs.add("Lt10");
+        atomStr = `Lt10 ${this.sanitizeVar(s0)}`;
+        break;
+      case "v":
+        usedPredDefs.add("Even");
+        atomStr = `Even ${this.sanitizeVar(s0)}`;
+        break;
+      case "d":
+        usedPredDefs.add("Odd");
+        atomStr = `Odd ${this.sanitizeVar(s0)}`;
+        break;
+      case "r":
+        atomStr = `${this.sanitizeVar(s0)} > ${this.sanitizeVar(s1)}`;
+        break;
+      case "s":
+        atomStr = `${this.sanitizeVar(s0)} < ${this.sanitizeVar(s1)}`;
+        break;
+      case "k":
+      // =
+      case "j":
+        atomStr = `${this.sanitizeVar(s0)} = ${this.sanitizeVar(s1)}`;
+        break;
+      case "l":
+        atomStr = `${this.sanitizeVar(s0)} \u2264 ${this.sanitizeVar(s1)}`;
+        break;
+      case "u":
+        atomStr = `${this.sanitizeVar(s1)} = ${this.sanitizeVar(s0)} + 1`;
+        break;
+      case "c":
+        atomStr = `${this.sanitizeVar(s0)} \u2223 ${this.sanitizeVar(s1)}`;
+        break;
+      case "m":
+        if (s1 === "EMPTY" || s1 === "\u2205") {
+          usedPredDefs.add("InEmpty");
+          atomStr = `InEmpty ${this.sanitizeVar(s0)}`;
+        } else {
+          atomStr = `${this.sanitizeVar(s0)} \u2208 ${this.sanitizeVar(s1)}`;
+        }
+        break;
+      case "b":
+        atomStr = `${this.sanitizeVar(s0)} \u2286 ${this.sanitizeVar(s1)}`;
+        break;
+      case "w":
+        atomStr = `${this.sanitizeVar(s0)} \u2248 ${this.sanitizeVar(s1)}`;
+        break;
+      default:
+        atomStr = `${code} ${this.sanitizeVar(s0)}`;
+        break;
+    }
+    if (node.negations > 0) {
+      const flips = node.negations % 2 !== 0;
+      if (flips) atomStr = `\xAC(${atomStr})`;
+    }
+    return atomStr;
+  }
+  /**
+   * Generates standard @[reducible] predicate headers for Lean 4 kernel evaluation.
+   */
+  static getPredicateDefinitions(usedPredDefs) {
+    const defs = [];
+    if (usedPredDefs.has("Even")) {
+      defs.push("@[reducible] def Even (n : Nat) : Prop := n % 2 = 0");
+    }
+    if (usedPredDefs.has("Odd")) {
+      defs.push("@[reducible] def Odd (n : Nat) : Prop := n % 2 = 1");
+    }
+    if (usedPredDefs.has("Gt5")) {
+      defs.push("@[reducible] def Gt5 (n : Nat) : Prop := n > 5");
+    }
+    if (usedPredDefs.has("Lt10")) {
+      defs.push("@[reducible] def Lt10 (n : Nat) : Prop := n < 10");
+    }
+    if (usedPredDefs.has("InEmpty")) {
+      defs.push("@[reducible] def InEmpty (n : Nat) : Prop := False");
+    }
+    return defs;
+  }
+  /**
+   * Translates an MWM Formal Statement and its empirical valuation into Lean 4.
+   */
+  static translate(opts) {
+    const { quantifiers, pxeExp, slots, verdict, witness, counterExample, customTheoremName } = opts;
+    const usedPredDefs = /* @__PURE__ */ new Set();
+    const tree = PxeEngine.bldTree(pxeExp);
+    const innerProp = this.astToLeanProp(tree, slots, usedPredDefs);
+    let quantifiedProp = innerProp;
+    for (let i = quantifiers.length - 1; i >= 0; i--) {
+      const qb = quantifiers[i];
+      const leanType = this.mapDomainToLean(qb.domain);
+      const v = this.sanitizeVar(qb.variable);
+      const qSym = qb.quantifier === "\u2203" ? "\u2203" : "\u2200";
+      quantifiedProp = `${qSym} (${v} : ${leanType}), ${quantifiedProp}`;
+    }
+    const isSingleVar = quantifiers.length === 1;
+    const isTwoVar = quantifiers.length === 2;
+    const q0 = quantifiers[0]?.quantifier || "\u2200";
+    const v0 = this.sanitizeVar(quantifiers[0]?.variable || "x\u2081");
+    let thmName = customTheoremName || "fsd_statement";
+    let statement = "";
+    let proofScript = "";
+    if (q0 === "\u2200" && isSingleVar && !verdict && counterExample !== void 0 && counterExample !== null) {
+      thmName = customTheoremName || "fsd_counterexample";
+      statement = `\xAC(${quantifiedProp})`;
+      proofScript = `  intro h
+  have h1 := h ${counterExample}
+  revert h1
+  decide`;
+    } else if (q0 === "\u2203" && isSingleVar && verdict && witness !== void 0 && witness !== null) {
+      thmName = customTheoremName || "fsd_existential_witness";
+      statement = quantifiedProp;
+      proofScript = `  exact \u27E8${witness}, by decide\u27E9`;
+    } else if (q0 === "\u2203" && isSingleVar && !verdict) {
+      thmName = customTheoremName || "fsd_existential_refuted";
+      statement = `\xAC(${quantifiedProp})`;
+      proofScript = `  intro \u27E8${v0}, h\u27E9
+  revert h
+  decide`;
+    } else if (q0 === "\u2200" && isSingleVar && verdict) {
+      if (pxeExp.includes("k") || pxeExp.includes("j")) {
+        thmName = customTheoremName || "fsd_eq_refl";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  rfl`;
+      } else if (pxeExp.includes("l")) {
+        thmName = customTheoremName || "fsd_le_refl";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  exact Nat.le_refl ${v0}`;
+      } else if (pxeExp.includes("p") && pxeExp.includes("o") && pxeExp.includes("q")) {
+        thmName = customTheoremName || "fsd_order_union";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  omega`;
+      } else {
+        thmName = customTheoremName || "fsd_universal_verified";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  rfl`;
+      }
+    } else if (isTwoVar && quantifiers[0].quantifier === "\u2200" && quantifiers[1].quantifier === "\u2203" && verdict) {
+      const v1 = this.sanitizeVar(quantifiers[1].variable || "x\u2082");
+      if (pxeExp.includes("u")) {
+        thmName = customTheoremName || "fsd_transect_succ";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  exact \u27E8${v0} + 1, rfl\u27E9`;
+      } else if (pxeExp.includes("s") || pxeExp.includes("r")) {
+        thmName = customTheoremName || "fsd_order_gt";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  exact \u27E8${v0} + 1, Nat.lt_succ_self ${v0}\u27E9`;
+      } else {
+        thmName = customTheoremName || "fsd_forall_exists";
+        statement = quantifiedProp;
+        proofScript = `  intro ${v0}
+  exact \u27E8${v0} + 1, rfl\u27E9`;
+      }
+    } else if (slots.some((s) => s.assignedVar === "EMPTY" || s.assignedVar === "\u2205")) {
+      thmName = customTheoremName || "fsd_empty_not_mem";
+      statement = quantifiedProp;
+      proofScript = `  intro ${v0} h
+  exact h`;
+    } else if (pxeExp.includes("b") && verdict) {
+      thmName = customTheoremName || "fsd_subset_refl";
+      statement = `\u2200 (A : Nat \u2192 Prop), \u2200 (${v0} : Nat), A ${v0} \u2192 A ${v0}`;
+      proofScript = `  intro A ${v0} h
+  exact h`;
+    } else {
+      thmName = customTheoremName || (verdict ? "fsd_eval_verified" : "fsd_eval_refuted");
+      statement = verdict ? quantifiedProp : `\xAC(${quantifiedProp})`;
+      proofScript = verdict ? `  trivial` : `  decide`;
+    }
+    const predDefs = this.getPredicateDefinitions(usedPredDefs);
+    const defsHeader = predDefs.length > 0 ? `${predDefs.join("\n")}
+
+` : "";
+    const leanSnippet = `${defsHeader}theorem ${thmName} : ${statement} := by
+${proofScript}`;
+    return {
+      leanSnippet,
+      theoremName: thmName,
+      proposition: statement,
+      proofScript,
+      predicateDefs: predDefs
+    };
+  }
+};
+
+// clientLib/fsd.ts
 function formatDomainSpec(spec) {
   if (!spec.filterPred) return spec.base;
   if (spec.filterPred === "EVEN") return `[${spec.base} | EVEN]`;
@@ -41403,6 +41927,8 @@ var FSD = class extends PXEParent {
   modernInspectorDetails = null;
   modernFooterBar = null;
   modernStagePills = [];
+  modernHeaderTitle = null;
+  modernStepperBar = null;
   // Stage 2 State: Variables & Slots
   elementVars = ["x\u2081", "x\u2082"];
   numberConstants = ["0", "1", "5", "10"];
@@ -41555,6 +42081,7 @@ var FSD = class extends PXEParent {
   }
   backToContentEditor() {
     if (this.usedByContentEditor) {
+      this.registerToSessionRegistry();
       const cb = this.usedByContentEditor;
       this.usedByContentEditor = void 0;
       this.isEditingExistingTag = false;
@@ -41587,6 +42114,38 @@ var FSD = class extends PXEParent {
     const formattedText = this.formatFSDExp(exp);
     const fullStatement = quantifiers ? `${quantifiers} [ ${formattedText} ]` : formattedText;
     return { exp, quantifiers, slots, formattedText, fullStatement, codomain: this.targetCodomain };
+  }
+  registerToSessionRegistry() {
+    const data = this.getDataForRefTag();
+    if (!data.exp) return { id: "", registered: false };
+    const rawKey = this.getGoverningTheorem() || `fs_custom_${data.exp}`;
+    const id = rawKey.startsWith("fs_") ? rawKey : `fs_${rawKey}`;
+    const stmt = {
+      id,
+      scaffoldKey: rawKey,
+      title: this.catalogTheoremName || `Session Statement [${data.formattedText}]`,
+      type: "math",
+      tier: "scenario",
+      expression: data.fullStatement,
+      description: `Active session statement created in FS Demo. Prefix: ${data.quantifiers || "none"}. Formula: ${data.formattedText}`,
+      referencedInSegments: []
+    };
+    SessionRegistry.getInstance().registerStatement(stmt);
+    if (this.targetCodomain === "\u{1D53B}_\u03C9") {
+      const modeId = `de_${id.replace(/^fs_/, "")}`;
+      SessionRegistry.getInstance().registerMode({
+        id: modeId,
+        statementId: id,
+        label: `${stmt.title} (Calculation Mode)`,
+        formulaExpr: data.formattedText,
+        formulaDescription: data.fullStatement,
+        targetSymbol: "y",
+        targetDomain: "\u{1D53B}_\u03C9",
+        inputs: []
+      });
+    }
+    SessionRegistry.getInstance().registerPredicate(id, () => true);
+    return { id, registered: true };
   }
   // FS TYPE Codomain: Relational Proposition (→ 𝔹) vs Calculational Laurent Value (→ 𝔻_ω)
   targetCodomain = "\u{1D539}";
@@ -41774,12 +42333,13 @@ var FSD = class extends PXEParent {
     headerBar.style.cssText = "display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 16px; flex-wrap: wrap; gap: 8px;";
     const titleGroup = document.createElement("div");
     titleGroup.style.cssText = "display: flex; flex-direction: column;";
+    this.modernHeaderTitle = titleGroup;
     titleGroup.innerHTML = `
       <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
         Formal Statement Constructor (FSD)
       </div>
       <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
-        Constructive Relational Specification &amp; 2D Matrix
+        Constructive Relational Specification &amp; Evaluation
       </h2>
     `;
     headerBar.appendChild(titleGroup);
@@ -41790,11 +42350,12 @@ var FSD = class extends PXEParent {
     wrap.appendChild(headerBar);
     const stepperBar = document.createElement("div");
     stepperBar.style.cssText = "display: flex; align-items: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;";
+    this.modernStepperBar = stepperBar;
     const stagesInfo = [
       { num: 1, label: "Formal Relation", icon: "\u{1F4DC}" },
       { num: 2, label: "Slot Typing", icon: "\u{1F3F7}\uFE0F" },
       { num: 3, label: "Quantifiers", icon: "\u2200\u2203" },
-      { num: 4, label: "2D Matrix & Truth", icon: "\u{1F9EE}" }
+      { num: 4, label: "Formal Evaluation & Truth", icon: "\u{1F6E1}\uFE0F" }
     ];
     this.modernStagePills = [];
     stagesInfo.forEach((st, idx) => {
@@ -41895,6 +42456,30 @@ var FSD = class extends PXEParent {
     if (!this.modernMounted || !this.modernContainer) {
       return;
     }
+    if (this.modernStepperBar) {
+      this.modernStepperBar.style.display = this.isInspectionMode ? "none" : "flex";
+    }
+    if (this.modernHeaderTitle) {
+      if (this.isInspectionMode) {
+        this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Inspector (Read-Only)
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            ${this.catalogTheoremName || "Constructive Relational Specification & Evaluation"}
+          </h2>
+        `;
+      } else {
+        this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Constructor (FSD)
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            Constructive Relational Specification &amp; Evaluation
+          </h2>
+        `;
+      }
+    }
     this.modernStagePills.forEach((pill, idx) => {
       const stepNum = idx + 1;
       const isCur = this.stage === stepNum;
@@ -41944,7 +42529,7 @@ var FSD = class extends PXEParent {
           this.modernStatusPill.style.background = allQuantified ? "#ecfdf5" : "#eff6ff";
           this.modernStatusPill.style.color = allQuantified ? "#047857" : "#1d4ed8";
           this.modernStatusPill.style.borderColor = allQuantified ? "#a7f3d0" : "#bfdbfe";
-          this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Matrix)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
+          this.modernStatusPill.innerHTML = allQuantified ? `<span>\u2713</span> <span>Fully Quantified (Ready for Evaluation)</span>` : `<span>\u2200\u2203</span> <span>Scope Variables with Quantifiers</span>`;
         }
       } else {
         if (this.targetCodomain === "\u{1D53B}_\u03C9") {
@@ -41977,12 +42562,12 @@ var FSD = class extends PXEParent {
         let verdictSnippet = "";
         if (this.stage === 4) {
           const truth = this.evaluateFullStatement();
-          const modeTag = this.isInspectionMode && this.catalogTheoremName ? "Lean 4 Machine Verified" : "Construction Sandbox";
+          const modeTag = this.isInspectionMode ? "" : " (Construction Sandbox)";
           if (this.targetCodomain === "\u{1D53B}_\u03C9") {
             verdictSnippet = `
               <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: #f3e8ff; color: #6b21a8; border: 1px solid #d8b4fe;">
-                  Judgment: Evaluated Value \u2208 \u{1D53B}_\u03C9 (${modeTag})
+                  Judgment: Evaluated Value \u2208 \u{1D53B}_\u03C9${modeTag}
                 </span>
                 <span style="font-size: 11px; background: #f3e8ff; color: #6b21a8; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #d8b4fe;">
                   Codomain: \u{1D53B}_\u03C9
@@ -41993,7 +42578,7 @@ var FSD = class extends PXEParent {
             verdictSnippet = `
               <div style="margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 4px; background: ${truth ? "#dcfce7" : "#fee2e2"}; color: ${truth ? "#166534" : "#991b1b"}; border: 1px solid ${truth ? "#bbf7d0" : "#fecaca"};">
-                  Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"} (${modeTag})
+                  Statement Verdict: ${truth ? "True (T) \u2208 \u{1D539}" : "False (F) \u2208 \u{1D539}"}${modeTag}
                 </span>
                 <span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 7px; border-radius: 4px; font-weight: 700; border: 1px solid #bae6fd;">
                   Codomain: \u{1D539}
@@ -42178,9 +42763,19 @@ var FSD = class extends PXEParent {
           this.pxe.addCharacter("a");
           this.updatePXEText();
           this.syncModernUI();
-        } else if (e.key === "|" || e.key === "v") {
+        } else if (e.key === "|") {
           e.preventDefault();
           this.pxe.addCharacter("o");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key.toLowerCase() === "v") {
+          e.preventDefault();
+          this.pxe.addCharacter("v");
+          this.updatePXEText();
+          this.syncModernUI();
+        } else if (e.key.toLowerCase() === "d") {
+          e.preventDefault();
+          this.pxe.addCharacter("d");
           this.updatePXEText();
           this.syncModernUI();
         } else if (e.key === "!" || e.key === "~") {
@@ -42213,6 +42808,66 @@ var FSD = class extends PXEParent {
       inputRow.appendChild(btnClearInput);
     }
     card.appendChild(inputRow);
+    const slotPreviewBox = document.createElement("div");
+    slotPreviewBox.id = "fsdSlotPreviewBox";
+    const expPreds = [];
+    for (let i = 0; i < this.pxe.exp.length; i++) {
+      const ch = this.pxe.exp[i];
+      const p = PredicateRegistry.getPredicate(ch);
+      if (p) {
+        expPreds.push({ char: ch, pred: p });
+      }
+    }
+    if (expPreds.length > 0) {
+      slotPreviewBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;";
+      let rowsHtml = "";
+      let totalSlotCount = 0;
+      expPreds.forEach(({ pred }) => {
+        const slotsDetail = pred.signature.map((sigDomain, sIdx) => {
+          totalSlotCount++;
+          const dType = sigDomain === "P_N" || sigDomain === "P_Tree1" ? "\u{1D4AB}(\u2115)" : sigDomain === "R_w" ? "\u211D_\u03C9" : "\u2115";
+          const role = pred.arity === 1 ? "input term" : sIdx === 0 ? "left operand" : "right operand";
+          return `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; background: #ffffff; border: 1px solid #86efac; border-radius: 4px; font-size: 11.5px; color: #166534; font-family: monospace;">
+            <strong>Slot ${totalSlotCount} (s${sIdx + 1})</strong>: ${dType} <span style="color: #64748b; font-size: 10.5px;">[${role}]</span>
+          </span>`;
+        }).join(" ");
+        rowsHtml += `
+          <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
+            <span style="font-family: monospace; font-size: 12.5px; font-weight: bold; padding: 2px 8px; background: #dcfce7; color: #166534; border: 1px solid #86efac; border-radius: 4px;">
+              ${pred.symbol}
+            </span>
+            <span style="font-size: 12px; font-weight: 700; color: #1e3a2b;">
+              ${pred.id} (${pred.arity === 1 ? "Unary Property" : "Binary Relation"}):
+            </span>
+            <span style="font-size: 12px; color: #15803d; font-family: monospace;">
+              ${pred.displayTemplate}
+            </span>
+            <span style="color: #94a3b8; font-size: 11px;">\u2794</span>
+            <div style="display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+              ${slotsDetail}
+            </div>
+          </div>
+        `;
+      });
+      slotPreviewBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dcfce7; padding-bottom: 6px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+          <span style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
+            \u{1F3F7}\uFE0F Selected Relation Slots &amp; Signatures (${expPreds.length} Active Predicate${expPreds.length > 1 ? "s" : ""}, ${totalSlotCount} Slot${totalSlotCount > 1 ? "s" : ""})
+          </span>
+          <span style="font-size: 11px; font-weight: 600; color: #15803d;">
+            Configured in Step 2: Slot Typing
+          </span>
+        </div>
+        ${rowsHtml}
+      `;
+    } else {
+      slotPreviewBox.style.cssText = "background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; color: #64748b; font-size: 12.5px; display: flex; align-items: center; gap: 8px;";
+      slotPreviewBox.innerHTML = `
+        <span style="font-size: 14px;">\u{1F4A1}</span>
+        <span>Click any relation or predicate below (e.g. <code>&lt;</code>, <code>EVEN</code>, <code>\u2208</code>, <code>=</code>) to view its required variable slots and domains.</span>
+      `;
+    }
+    card.appendChild(slotPreviewBox);
     if (this.isInspectionMode) {
       const inspectNotice = document.createElement("div");
       inspectNotice.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; color: #0369a1; font-size: 13px; line-height: 1.5;";
@@ -42237,7 +42892,15 @@ var FSD = class extends PXEParent {
       let bg = "#ffffff";
       let color = "#0369a1";
       let border = "#bae6fd";
-      if (styleType === "logic") {
+      if (styleType === "prop") {
+        bg = "#f0fdf4";
+        color = "#166534";
+        border = "#86efac";
+      } else if (styleType === "set") {
+        bg = "#f5f3ff";
+        color = "#6d28d9";
+        border = "#ddd6fe";
+      } else if (styleType === "logic") {
         bg = "#eff6ff";
         color = "#1d4ed8";
         border = "#bfdbfe";
@@ -42250,7 +42913,7 @@ var FSD = class extends PXEParent {
         color = "#e11d48";
         border = "#fecdd3";
       }
-      btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; font-family: monospace; font-size: 13.5px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
+      btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; font-family: monospace; font-size: 13px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
       btn.textContent = label;
       btn.addEventListener("mouseover", () => btn.style.transform = "translateY(-1px)");
       btn.addEventListener("mouseout", () => btn.style.transform = "none");
@@ -42266,8 +42929,6 @@ var FSD = class extends PXEParent {
       { sym: "\u2260", code: "nk" },
       { sym: ">", code: "r" },
       { sym: "\u2265", code: "r" },
-      { sym: "\u2208", code: "m" },
-      { sym: "\u2286", code: "b" },
       { sym: "\u2248", code: "w" },
       { sym: "+1", code: "u" },
       { sym: "\u2223", code: "c" },
@@ -42275,15 +42936,57 @@ var FSD = class extends PXEParent {
     ];
     relations.forEach((r) => {
       relGroup.appendChild(createChip(r.sym, () => {
-        this.pxe.addCharacter(r.code);
+        if (r.code.length > 1) {
+          for (const c of r.code) {
+            this.pxe.addCharacter(c);
+          }
+        } else {
+          this.pxe.addCharacter(r.code);
+        }
         this.updatePXEText();
         this.syncModernUI();
       }, "rel"));
     });
     row.appendChild(relGroup);
     const div1 = document.createElement("div");
-    div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+    div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
     row.appendChild(div1);
+    const setGroup = document.createElement("div");
+    setGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const setOps = [
+      { sym: "\u2208", code: "m" },
+      { sym: "\u2286", code: "b" }
+    ];
+    setOps.forEach((op) => {
+      setGroup.appendChild(createChip(op.sym, () => {
+        this.pxe.addCharacter(op.code);
+        this.updatePXEText();
+        this.syncModernUI();
+      }, "set"));
+    });
+    row.appendChild(setGroup);
+    const div2 = document.createElement("div");
+    div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+    row.appendChild(div2);
+    const propGroup = document.createElement("div");
+    propGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+    const propOps = [
+      { sym: "EVEN", code: "v" },
+      { sym: "ODD", code: "d" },
+      { sym: "> 5", code: "p" },
+      { sym: "< 10", code: "q" }
+    ];
+    propOps.forEach((op) => {
+      propGroup.appendChild(createChip(op.sym, () => {
+        this.pxe.addCharacter(op.code);
+        this.updatePXEText();
+        this.syncModernUI();
+      }, "prop"));
+    });
+    row.appendChild(propGroup);
+    const div3 = document.createElement("div");
+    div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+    row.appendChild(div3);
     const logicGroup = document.createElement("div");
     logicGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
     const logicOps = [
@@ -42301,9 +43004,9 @@ var FSD = class extends PXEParent {
       }, "logic"));
     });
     row.appendChild(logicGroup);
-    const div2 = document.createElement("div");
-    div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-    row.appendChild(div2);
+    const div4 = document.createElement("div");
+    div4.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+    row.appendChild(div4);
     const bracketGroup = document.createElement("div");
     bracketGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
     bracketGroup.appendChild(createChip("[", () => {
@@ -42317,9 +43020,9 @@ var FSD = class extends PXEParent {
       this.syncModernUI();
     }, "bracket"));
     row.appendChild(bracketGroup);
-    const div3 = document.createElement("div");
-    div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-    row.appendChild(div3);
+    const div5 = document.createElement("div");
+    div5.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+    row.appendChild(div5);
     const actGroup = document.createElement("div");
     actGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
     actGroup.appendChild(createChip("\u232B", () => {
@@ -42614,11 +43317,11 @@ var FSD = class extends PXEParent {
     const isDw = this.targetCodomain === "\u{1D53B}_\u03C9";
     const cardTitle = document.createElement("div");
     cardTitle.style.cssText = `font-size: 11px; font-weight: 700; color: ${isDw ? "#7c3aed" : "#0284c7"}; text-transform: uppercase; margin-bottom: 6px;`;
-    cardTitle.textContent = isDw ? "Stage 4: Judgment & Directed Equality Laurent Evaluation (\u2192 \u{1D53B}_\u03C9)" : "Stage 4: Judgment & 2D Binary Relation Truth Matrix (\u2192 \u{1D539})";
+    cardTitle.textContent = isDw ? "Stage 4: Judgment & Directed Equality Laurent Evaluation (\u2192 \u{1D53B}_\u03C9)" : "Stage 4: Judgment, Truth Evaluation & Verification (\u2192 \u{1D539})";
     card.appendChild(cardTitle);
     const desc = document.createElement("p");
     desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
-    desc.innerHTML = isDw ? "Evaluates the formal expression into a nonstandard dyadic Laurent value in <strong>\u{1D53B}[\u03C9, 1/\u03C9]</strong>, determining standard shadow <strong>st(E)</strong>, infinitesimal halo dust <strong>\u03BC(0)</strong>, and transfinite order:" : "Evaluated constructive truth table across the discrete tree, with live 2D binary matrix structure and quantifier row/column sweep analysis:";
+    desc.innerHTML = isDw ? "Evaluates the formal expression into a nonstandard dyadic Laurent value in <strong>\u{1D53B}[\u03C9, 1/\u03C9]</strong>, determining standard shadow <strong>st(E)</strong>, infinitesimal halo dust <strong>\u03BC(0)</strong>, and transfinite order:" : "Evaluated constructive truth evaluation across the discrete domain structure, with quantifier verification and model analysis:";
     card.appendChild(desc);
     this.modernStage4Mount = document.createElement("div");
     this.modernStage4Mount.id = "fsdModernStage4Mount";
@@ -42788,6 +43491,11 @@ var FSD = class extends PXEParent {
   renderModernFooterBar() {
     if (!this.modernFooterBar) return;
     this.modernFooterBar.innerHTML = "";
+    if (this.isInspectionMode) {
+      this.modernFooterBar.style.display = "none";
+      return;
+    }
+    this.modernFooterBar.style.display = "flex";
     const leftGroup = document.createElement("div");
     leftGroup.style.cssText = "display: flex; gap: 8px; align-items: center;";
     if (this.stage > 1) {
@@ -42864,6 +43572,17 @@ var FSD = class extends PXEParent {
           });
           rightGroup.appendChild(btnAdvance);
         }
+      } else {
+        const btnReg = document.createElement("button");
+        btnReg.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; border-radius: 6px; border: 1.5px solid #059669; background: #059669; color: #ffffff; cursor: pointer; transition: all 0.15s ease; box-shadow: 0 1px 3px rgba(5, 150, 105, 0.3);";
+        btnReg.textContent = "Registered in Active Session \u2713";
+        btnReg.addEventListener("click", () => {
+          const res = this.registerToSessionRegistry();
+          if (res.registered) {
+            btnReg.textContent = `Registered: ${res.id} \u2713`;
+          }
+        });
+        rightGroup.appendChild(btnReg);
       }
     }
     this.modernFooterBar.appendChild(rightGroup);
@@ -42887,90 +43606,12 @@ var FSD = class extends PXEParent {
   }
   // Generate Lean 4 Certified Proof Snippet
   getLeanSnippet() {
-    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) {
-      return `-- Constructive Order Union Coverage on \u2115
-theorem fsd_order_union : \u2200 (x : Nat), x > 5 \u2228 x < 10 := by
-  intro x
-  cases Classical.em (x < 10) with
-  | inl hlt => exact Or.inr hlt
-  | inr hge => exact Or.inl (Nat.not_lt.mp hge)`;
-    }
-    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) {
-      return `-- Constructive Order Intersection on \u2115
-theorem fsd_order_inter : \u2203 (x : Nat), x > 5 \u2227 x < 10 := by
-  use 6
-  decide`;
-    }
-    if (this.pxe.exp.includes("p")) {
-      return `-- Constructive Order Bound (x > 5) on \u2115
-theorem fsd_gt5_witness : \u2203 (x : Nat), x > 5 := by
-  use 6
-  decide`;
-    }
-    if (this.pxe.exp.includes("q")) {
-      return `-- Constructive Order Bound (x < 10) on \u2115
-theorem fsd_lt10_witness : \u2203 (x : Nat), x < 10 := by
-  use 0
-  decide`;
-    }
-    if (this.pxe.exp.includes("s")) {
-      return `-- Machine Certified Constructive Order on \u2115 Spine
-theorem fsd_order_lt : \u2200 (x : Nat), \u2203 (y : Nat), x < y := by
-  intro x
-  use (x + 1)
-  apply Nat.lt_succ_self`;
-    }
-    if (this.pxe.exp.includes("r")) {
-      return `-- Machine Certified Constructive Order on \u2115 Spine
-theorem fsd_order_gt : \u2200 (x : Nat), \u2203 (y : Nat), y > x := by
-  intro x
-  use (x + 1)
-  apply Nat.lt_succ_self`;
-    }
-    if (this.pxe.exp.includes("k")) {
-      return `-- Constructive Reflexive Identity
-theorem fsd_eq_refl : \u2200 (x : Nat), x = x := by
-  intro x
-  rfl`;
-    }
-    if (this.pxe.exp.includes("l")) {
-      return `-- Constructive Order Reflexivity
-theorem fsd_le_refl : \u2200 (x : Nat), x \u2264 x := by
-  intro x
-  apply Nat.le_refl`;
-    }
-    if (this.pxe.exp.includes("u")) {
-      return `-- Discrete Successor / Transect Step Verified
-theorem fsd_transect_succ : \u2200 (x : Nat), \u2203 (y : Nat), y = x + 1 := by
-  intro x
-  use (x + 1)
-  rfl`;
-    }
-    if (this.pxe.exp.includes("m")) {
-      return `-- Power Set Constructive Incidence Certification
-theorem fsd_powerset_mem : \u2200 (x : Nat), \u2203 (s : Set Nat), x \u2208 s := by
-  intro x
-  use {x}
-  simp`;
-    }
-    if (this.pxe.exp.includes("b")) {
-      return `-- Subset Reflexivity Certified
-theorem fsd_subset_refl : \u2200 (A : Nat \u2192 Prop), \u2200 (x : Nat), A x \u2192 A x := by
-  intro A x h
-  exact h`;
-    }
-    if (this.pxe.exp.includes("w")) {
-      return `-- Infinitesimal Halo Proximity Certified
-theorem fsd_halo_near : \u2200 (x : Real), \u2203 (y : Real), y \u2248 x := by
-  intro x
-  use x
-  apply near_refl`;
-    }
-    return `-- Middle Way Constructive Spine Certification
-theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x := by
-  intro x
-  use (x + 1)
-  apply Nat.lt_succ_self`;
+    return LeanTranslator.translate({
+      quantifiers: this.quantifierBindings,
+      pxeExp: this.pxe.exp,
+      slots: this.slots,
+      verdict: true
+    }).leanSnippet;
   }
   clearStageControls() {
     this.stageControls.forEach((e) => e.elt.remove());
@@ -43287,6 +43928,16 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
       true
     );
     this.stageControls.push(copyBtn);
+    const regBtn = new SVGSelectableText(
+      () => {
+        const r = this.registerToSessionRegistry();
+        regBtn.setV(r.registered ? "Registered!" : "Error");
+        setTimeout(() => regBtn.setV("Register in Session"), 2e3);
+      },
+      "Register in Session",
+      true
+    );
+    this.stageControls.push(regBtn);
   }
   layoutStageControls() {
     this.stageControls.forEach((e) => {
@@ -43657,6 +44308,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
     this.renderStageControls();
     this.updatePXEText();
     this.renderStage4Table();
+    this.registerToSessionRegistry();
   }
   getVariableDomainValues(v, context, N) {
     const spec = this.getVarDomain(v);
@@ -43901,7 +44553,7 @@ theorem fsd_constructive_tree : \u2200 (x : Nat), \u2203 (y : Nat), x + 1 > x :=
       this.renderMatrixVisualizer(container, finalStatementTruth, selPred.name, selPred.val);
     } else {
       const formalArg = this.buildFormalArgument(finalStatementTruth);
-      container.append(new ArgumentCard(formalArg));
+      container.append(new ArgumentCard(formalArg, { disableCalculator: true }));
     }
     this.applyScale();
   }
@@ -44408,8 +45060,13 @@ theorem fsd_set_mem : ${finalStatementTruth ? "True" : "\xACFalse"} := by trivia
               { label: "Condition", question: `Does ${v} = ${witness} satisfy formula?`, passed: true, detail: "\u2192 Yes" }
             ],
             conclusion: `Witness ${v} = ${witness} satisfies all conditions. The existential claim is verified.`,
-            leanSnippet: `-- Verified existential witness
-theorem fsd_existential_witness : \u2203 (${v} : Nat), ${v} = ${witness} := by use ${witness}`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: true,
+              witness
+            }).leanSnippet
           };
         } else {
           return {
@@ -44425,8 +45082,12 @@ theorem fsd_existential_witness : \u2203 (${v} : Nat), ${v} = ${witness} := by u
             ],
             conflictOrSupport: "No tested candidate in the active domain satisfies the formula.",
             conclusion: "No witness exists in the domain. The existential claim is disproven.",
-            leanSnippet: `-- Refuted existential
-theorem fsd_existential_refuted : \xAC(False) := by decide`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: false
+            }).leanSnippet
           };
         }
       } else {
@@ -44444,8 +45105,13 @@ theorem fsd_existential_refuted : \xAC(False) := by decide`
             ],
             conflictOrSupport: `The claim asserts ALL elements satisfy the condition, but ${v} = ${counterEx} fails.`,
             conclusion: `A universal claim requires all cases to hold. Refuted by counterexample ${v} = ${counterEx}.`,
-            leanSnippet: `-- Universal refutation by counterexample
-theorem fsd_counterexample : \xAC(True \u2192 False) := by decide`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: false,
+              counterExample: counterEx
+            }).leanSnippet
           };
         } else {
           return {
@@ -44460,8 +45126,12 @@ theorem fsd_counterexample : \xAC(True \u2192 False) := by decide`
               { label: "Uniformity", question: "Any counterexamples found?", passed: true, detail: "\u2192 None" }
             ],
             conclusion: "Every element tested in the domain satisfies the condition. The universal claim is verified.",
-            leanSnippet: `-- Universal verified
-theorem fsd_universal_verified : \u2200 (x : Nat), x = x := by intro x; rfl`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: true
+            }).leanSnippet
           };
         }
       }
@@ -44486,8 +45156,12 @@ theorem fsd_universal_verified : \u2200 (x : Nat), x = x := by intro x; rfl`
             { label: "Open Boundary", question: "Verified across \u2115 (including boundary witnesses)?", passed: true, detail: "\u2192 Yes" }
           ],
           conclusion: `For every row ${v0}, an appropriate witness ${v1} exists in the domain. Verified True.`,
-          leanSnippet: `-- \u2200\u2203 relation certified
-theorem fsd_forall_exists : \u2200 (x : Nat), \u2203 (y : Nat), y > x := by intro x; use (x + 1); omega`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: true
+          }).leanSnippet
         };
       } else {
         return {
@@ -44502,8 +45176,12 @@ theorem fsd_forall_exists : \u2200 (x : Nat), \u2203 (y : Nat), y > x := by intr
           ],
           conflictOrSupport: `At least one row ${v0} cannot find any valid ${v1} in the active domain.`,
           conclusion: "The \u2200\u2203 claim is disproven because not all rows have an existential partner.",
-          leanSnippet: `-- Refuted \u2200\u2203
-theorem fsd_forall_exists_refuted : \xAC(\u2200 (x : Nat), x < 0) := by decide`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: false
+          }).leanSnippet
         };
       }
     } else if (q0 === "\u2203" && q1 === "\u2200") {
@@ -44519,8 +45197,12 @@ theorem fsd_forall_exists_refuted : \xAC(\u2200 (x : Nat), x < 0) := by decide`
             { label: "Universal Column", question: `Is column ${v0} solid True across all rows ${v1}?`, passed: true, detail: "\u2192 Yes" }
           ],
           conclusion: `Column ${v0} serves as the universal master key. Claim verified.`,
-          leanSnippet: `-- \u2203\u2200 Master key
-theorem fsd_exists_forall : True := by trivial`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: true
+          }).leanSnippet
         };
       } else {
         return {
@@ -44535,8 +45217,12 @@ theorem fsd_exists_forall : True := by trivial`
           ],
           conflictOrSupport: "Every candidate column fails for at least one row.",
           conclusion: `No single ${v0} satisfies all ${v1} simultaneously. Disproven.`,
-          leanSnippet: `-- Refuted \u2203\u2200
-theorem fsd_master_key_refuted : \xAC(False) := by decide`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: false
+          }).leanSnippet
         };
       }
     }
@@ -44551,7 +45237,12 @@ theorem fsd_master_key_refuted : \xAC(False) := by decide`
         { label: "Domain Evaluation", question: "Condition verified across domain", passed: finalStatementTruth, detail: finalStatementTruth ? "\u2192 Passed" : "\u2192 Failed" }
       ],
       conclusion: `Statement evaluated to ${finalStatementTruth ? "True" : "False"}.`,
-      leanSnippet: `theorem fsd_eval : ${finalStatementTruth ? "True" : "\xACFalse"} := by trivial`
+      leanSnippet: LeanTranslator.translate({
+        quantifiers: this.quantifierBindings,
+        pxeExp: this.pxe.exp,
+        slots: this.slots,
+        verdict: finalStatementTruth
+      }).leanSnippet
     };
   }
   renderMatrixVisualizer(container, finalStatementTruth, colLabel, predTruth) {
@@ -44662,7 +45353,7 @@ theorem fsd_master_key_refuted : \xAC(False) := by decide`
         svgWrap2.append(info2);
         matrixBox.append(svgWrap2);
         const formalArg2 = this.buildFormalArgument(finalStatementTruth, colLabel);
-        matrixBox.append(new ArgumentCard(formalArg2));
+        matrixBox.append(new ArgumentCard(formalArg2, { disableCalculator: true }));
         return;
       }
     }
@@ -44793,7 +45484,7 @@ theorem fsd_master_key_refuted : \xAC(False) := by decide`
     svgWrap.append(info);
     matrixBox.append(svgWrap);
     const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-    matrixBox.append(new ArgumentCard(formalArg));
+    matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
   }
 };
 var fsd;

@@ -535,7 +535,7 @@ export class FSD extends PXEParent {
         Formal Statement Constructor (FSD)
       </div>
       <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
-        Constructive Relational Specification &amp; 2D Matrix
+        Constructive Relational Specification &amp; Evaluation
       </h2>
     `;
         headerBar.appendChild(titleGroup);
@@ -552,7 +552,7 @@ export class FSD extends PXEParent {
             { num: 1, label: "Formal Relation", icon: "📜" },
             { num: 2, label: "Slot Typing", icon: "🏷️" },
             { num: 3, label: "Quantifiers", icon: "∀∃" },
-            { num: 4, label: "2D Matrix & Truth", icon: "🧮" }
+            { num: 4, label: "Formal Evaluation & Truth", icon: "🛡️" }
         ];
         this.modernStagePills = [];
         stagesInfo.forEach((st, idx) => {
@@ -688,7 +688,7 @@ export class FSD extends PXEParent {
             Formal Statement Inspector (Read-Only)
           </div>
           <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
-            ${this.catalogTheoremName || "Constructive Relational Specification & 2D Matrix"}
+            ${this.catalogTheoremName || "Constructive Relational Specification & Evaluation"}
           </h2>
         `;
             }
@@ -698,7 +698,7 @@ export class FSD extends PXEParent {
             Formal Statement Constructor (FSD)
           </div>
           <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
-            Constructive Relational Specification &amp; 2D Matrix
+            Constructive Relational Specification &amp; Evaluation
           </h2>
         `;
             }
@@ -764,7 +764,7 @@ export class FSD extends PXEParent {
                     this.modernStatusPill.style.color = allQuantified ? "#047857" : "#1d4ed8";
                     this.modernStatusPill.style.borderColor = allQuantified ? "#a7f3d0" : "#bfdbfe";
                     this.modernStatusPill.innerHTML = allQuantified
-                        ? `<span>✓</span> <span>Fully Quantified (Ready for Matrix)</span>`
+                        ? `<span>✓</span> <span>Fully Quantified (Ready for Evaluation)</span>`
                         : `<span>∀∃</span> <span>Scope Variables with Quantifiers</span>`;
                 }
             }
@@ -1032,9 +1032,21 @@ export class FSD extends PXEParent {
                     this.updatePXEText();
                     this.syncModernUI();
                 }
-                else if (e.key === "|" || e.key === "v") {
+                else if (e.key === "|") {
                     e.preventDefault();
                     this.pxe.addCharacter("o");
+                    this.updatePXEText();
+                    this.syncModernUI();
+                }
+                else if (e.key.toLowerCase() === "v") {
+                    e.preventDefault();
+                    this.pxe.addCharacter("v");
+                    this.updatePXEText();
+                    this.syncModernUI();
+                }
+                else if (e.key.toLowerCase() === "d") {
+                    e.preventDefault();
+                    this.pxe.addCharacter("d");
                     this.updatePXEText();
                     this.syncModernUI();
                 }
@@ -1070,6 +1082,71 @@ export class FSD extends PXEParent {
             inputRow.appendChild(btnClearInput);
         }
         card.appendChild(inputRow);
+        // =========================================================================
+        // LIVE RELATION SLOTS PREVIEW (Conveniently displays arity, signatures & slots)
+        // =========================================================================
+        const slotPreviewBox = document.createElement("div");
+        slotPreviewBox.id = "fsdSlotPreviewBox";
+        // Extract predicates currently in formula
+        const expPreds = [];
+        for (let i = 0; i < this.pxe.exp.length; i++) {
+            const ch = this.pxe.exp[i];
+            const p = PredicateRegistry.getPredicate(ch);
+            if (p) {
+                expPreds.push({ char: ch, pred: p });
+            }
+        }
+        if (expPreds.length > 0) {
+            slotPreviewBox.style.cssText = "background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;";
+            let rowsHtml = "";
+            let totalSlotCount = 0;
+            expPreds.forEach(({ pred }) => {
+                const slotsDetail = pred.signature.map((sigDomain, sIdx) => {
+                    totalSlotCount++;
+                    const dType = (sigDomain === "P_N" || sigDomain === "P_Tree1") ? "𝒫(ℕ)" : (sigDomain === "R_w" ? "ℝ_ω" : "ℕ");
+                    const role = pred.arity === 1 ? "input term" : (sIdx === 0 ? "left operand" : "right operand");
+                    return `<span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; background: #ffffff; border: 1px solid #86efac; border-radius: 4px; font-size: 11.5px; color: #166534; font-family: monospace;">
+            <strong>Slot ${totalSlotCount} (s${sIdx + 1})</strong>: ${dType} <span style="color: #64748b; font-size: 10.5px;">[${role}]</span>
+          </span>`;
+                }).join(" ");
+                rowsHtml += `
+          <div style="display: flex; align-items: center; gap: 10px; margin-top: 5px; flex-wrap: wrap;">
+            <span style="font-family: monospace; font-size: 12.5px; font-weight: bold; padding: 2px 8px; background: #dcfce7; color: #166534; border: 1px solid #86efac; border-radius: 4px;">
+              ${pred.symbol}
+            </span>
+            <span style="font-size: 12px; font-weight: 700; color: #1e3a2b;">
+              ${pred.id} (${pred.arity === 1 ? 'Unary Property' : 'Binary Relation'}):
+            </span>
+            <span style="font-size: 12px; color: #15803d; font-family: monospace;">
+              ${pred.displayTemplate}
+            </span>
+            <span style="color: #94a3b8; font-size: 11px;">➔</span>
+            <div style="display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+              ${slotsDetail}
+            </div>
+          </div>
+        `;
+            });
+            slotPreviewBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #dcfce7; padding-bottom: 6px; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+          <span style="font-size: 11px; font-weight: 800; color: #166534; text-transform: uppercase; letter-spacing: 0.5px;">
+            🏷️ Selected Relation Slots &amp; Signatures (${expPreds.length} Active Predicate${expPreds.length > 1 ? 's' : ''}, ${totalSlotCount} Slot${totalSlotCount > 1 ? 's' : ''})
+          </span>
+          <span style="font-size: 11px; font-weight: 600; color: #15803d;">
+            Configured in Step 2: Slot Typing
+          </span>
+        </div>
+        ${rowsHtml}
+      `;
+        }
+        else {
+            slotPreviewBox.style.cssText = "background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; color: #64748b; font-size: 12.5px; display: flex; align-items: center; gap: 8px;";
+            slotPreviewBox.innerHTML = `
+        <span style="font-size: 14px;">💡</span>
+        <span>Click any relation or predicate below (e.g. <code>&lt;</code>, <code>EVEN</code>, <code>∈</code>, <code>=</code>) to view its required variable slots and domains.</span>
+      `;
+        }
+        card.appendChild(slotPreviewBox);
         if (this.isInspectionMode) {
             // Inspection Mode Notice Banner
             const inspectNotice = document.createElement("div");
@@ -1097,7 +1174,17 @@ export class FSD extends PXEParent {
             let bg = "#ffffff";
             let color = "#0369a1";
             let border = "#bae6fd";
-            if (styleType === 'logic') {
+            if (styleType === 'prop') {
+                bg = "#f0fdf4";
+                color = "#166534";
+                border = "#86efac";
+            }
+            else if (styleType === 'set') {
+                bg = "#f5f3ff";
+                color = "#6d28d9";
+                border = "#ddd6fe";
+            }
+            else if (styleType === 'logic') {
                 bg = "#eff6ff";
                 color = "#1d4ed8";
                 border = "#bfdbfe";
@@ -1112,14 +1199,14 @@ export class FSD extends PXEParent {
                 color = "#e11d48";
                 border = "#fecdd3";
             }
-            btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; font-family: monospace; font-size: 13.5px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
+            btn.style.cssText = `display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 10px; font-family: monospace; font-size: 13px; font-weight: 700; background: ${bg}; color: ${color}; border: 1.5px solid ${border}; border-radius: 5px; cursor: pointer; transition: all 0.12s ease;`;
             btn.textContent = label;
             btn.addEventListener("mouseover", () => btn.style.transform = "translateY(-1px)");
             btn.addEventListener("mouseout", () => btn.style.transform = "none");
             btn.addEventListener("click", onClick);
             return btn;
         };
-        // Predicate / Relation Symbols
+        // 1. Binary Order & Equivalence Relations
         const relGroup = document.createElement("div");
         relGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
         const relations = [
@@ -1129,8 +1216,6 @@ export class FSD extends PXEParent {
             { sym: "≠", code: "nk" },
             { sym: ">", code: "r" },
             { sym: "≥", code: "r" },
-            { sym: "∈", code: "m" },
-            { sym: "⊆", code: "b" },
             { sym: "≈", code: "w" },
             { sym: "+1", code: "u" },
             { sym: "∣", code: "c" },
@@ -1138,7 +1223,14 @@ export class FSD extends PXEParent {
         ];
         relations.forEach(r => {
             relGroup.appendChild(createChip(r.sym, () => {
-                this.pxe.addCharacter(r.code);
+                if (r.code.length > 1) {
+                    for (const c of r.code) {
+                        this.pxe.addCharacter(c);
+                    }
+                }
+                else {
+                    this.pxe.addCharacter(r.code);
+                }
                 this.updatePXEText();
                 this.syncModernUI();
             }, 'rel'));
@@ -1146,9 +1238,49 @@ export class FSD extends PXEParent {
         row.appendChild(relGroup);
         // Divider
         const div1 = document.createElement("div");
-        div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
+        div1.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
         row.appendChild(div1);
-        // Logical Connectives (sans quantifiers)
+        // 2. Set Relations (∈, ⊆)
+        const setGroup = document.createElement("div");
+        setGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+        const setOps = [
+            { sym: "∈", code: "m" },
+            { sym: "⊆", code: "b" }
+        ];
+        setOps.forEach(op => {
+            setGroup.appendChild(createChip(op.sym, () => {
+                this.pxe.addCharacter(op.code);
+                this.updatePXEText();
+                this.syncModernUI();
+            }, 'set'));
+        });
+        row.appendChild(setGroup);
+        // Divider
+        const div2 = document.createElement("div");
+        div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+        row.appendChild(div2);
+        // 3. Unary / Arithmetic Predicates (EVEN, ODD, > 5, < 10)
+        const propGroup = document.createElement("div");
+        propGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
+        const propOps = [
+            { sym: "EVEN", code: "v" },
+            { sym: "ODD", code: "d" },
+            { sym: "> 5", code: "p" },
+            { sym: "< 10", code: "q" }
+        ];
+        propOps.forEach(op => {
+            propGroup.appendChild(createChip(op.sym, () => {
+                this.pxe.addCharacter(op.code);
+                this.updatePXEText();
+                this.syncModernUI();
+            }, 'prop'));
+        });
+        row.appendChild(propGroup);
+        // Divider
+        const div3 = document.createElement("div");
+        div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+        row.appendChild(div3);
+        // 4. Logical Connectives
         const logicGroup = document.createElement("div");
         logicGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
         const logicOps = [
@@ -1167,10 +1299,10 @@ export class FSD extends PXEParent {
         });
         row.appendChild(logicGroup);
         // Divider
-        const div2 = document.createElement("div");
-        div2.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-        row.appendChild(div2);
-        // Structural Brackets
+        const div4 = document.createElement("div");
+        div4.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+        row.appendChild(div4);
+        // 5. Structural Brackets
         const bracketGroup = document.createElement("div");
         bracketGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
         bracketGroup.appendChild(createChip("[", () => {
@@ -1185,10 +1317,10 @@ export class FSD extends PXEParent {
         }, 'bracket'));
         row.appendChild(bracketGroup);
         // Divider
-        const div3 = document.createElement("div");
-        div3.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 4px;";
-        row.appendChild(div3);
-        // Backspace Action
+        const div5 = document.createElement("div");
+        div5.style.cssText = "width: 1px; height: 24px; background: #e2e8f0; margin: 0 3px;";
+        row.appendChild(div5);
+        // 6. Backspace Action
         const actGroup = document.createElement("div");
         actGroup.style.cssText = "display: flex; gap: 4px; align-items: center;";
         actGroup.appendChild(createChip("⌫", () => {
@@ -1500,13 +1632,13 @@ export class FSD extends PXEParent {
         cardTitle.style.cssText = `font-size: 11px; font-weight: 700; color: ${isDw ? '#7c3aed' : '#0284c7'}; text-transform: uppercase; margin-bottom: 6px;`;
         cardTitle.textContent = isDw
             ? "Stage 4: Judgment & Directed Equality Laurent Evaluation (→ 𝔻_ω)"
-            : "Stage 4: Judgment & 2D Binary Relation Truth Matrix (→ 𝔹)";
+            : "Stage 4: Judgment, Truth Evaluation & Verification (→ 𝔹)";
         card.appendChild(cardTitle);
         const desc = document.createElement("p");
         desc.style.cssText = "margin: 0 0 14px 0; font-size: 13.5px; color: #475569; line-height: 1.5;";
         desc.innerHTML = isDw
             ? "Evaluates the formal expression into a nonstandard dyadic Laurent value in <strong>𝔻[ω, 1/ω]</strong>, determining standard shadow <strong>st(E)</strong>, infinitesimal halo dust <strong>μ(0)</strong>, and transfinite order:"
-            : "Evaluated constructive truth table across the discrete tree, with live 2D binary matrix structure and quantifier row/column sweep analysis:";
+            : "Evaluated constructive truth evaluation across the discrete domain structure, with quantifier verification and model analysis:";
         card.appendChild(desc);
         this.modernStage4Mount = document.createElement("div");
         this.modernStage4Mount.id = "fsdModernStage4Mount";
