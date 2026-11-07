@@ -28,6 +28,7 @@ export const tables: TableConfig[] = [
             { column: 'lean_signature', label: 'Lean 4 Signature', canModify: true, len: 60, rows: 2 },
             { column: 'lean_snippet', label: 'Lean Code Snippet', canModify: true, len: 60, rows: 4 },
             { column: 'lean_decl_id', label: 'Governing Lean Declaration', canModify: true, len: 28 },
+            { column: 'last_verified_at', label: 'Last Lean 4 Verified', canModify: false, len: 25 },
             { column: 'status', label: 'Editorial Status', canModify: true, len: 16 }
         ]
     },

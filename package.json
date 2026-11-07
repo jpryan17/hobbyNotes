@@ -16,6 +16,7 @@
     "leanCache": "node ./nodeUtils/public/genLeanCache.js",
     "leanCache:force": "node ./nodeUtils/public/genLeanCache.js --force",
     "verifyFS": "npm run utilsC && node ./nodeUtils/public/verifyFormalStatements.js",
+    "verifyFS:force": "npm run utilsC && node ./nodeUtils/public/verifyFormalStatements.js --override",
     "catalog": "node ./nodeUtils/public/buildCatalog.js",
     "stencils": "npm run catalog",
     "survey": "node ./nodeUtils/public/surveySegs.js",

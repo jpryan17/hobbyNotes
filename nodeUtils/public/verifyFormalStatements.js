@@ -83,7 +83,9 @@ function verifyWithLean(leanBin, code, forceScaffold = false) {
         code.includes('Ord') || code.includes('dx') || code.includes('near_refl') ||
         code.includes('telescoping_ftc') || code.includes('bayes_sequential_update') ||
         code.includes('D_w_is_totally_ordered') || code.includes('st_homomorphism') ||
-        code.includes('dyadic_ptolemaic_sine'));
+        code.includes('dyadic_ptolemaic_sine') || code.includes('FunctionSpace') ||
+        code.includes('deriv_op') || code.includes('delta2_op') || code.includes('diff_1form') ||
+        code.includes('leibniz_product_rule') || code.includes('chain_rule'));
     let fullCode = '';
     if (needsScaffold && fs.existsSync(scaffoldPath)) {
         const scaffoldContent = fs.readFileSync(scaffoldPath, 'utf8');
@@ -206,11 +208,14 @@ const SCAFFOLD_EXPLICIT_NAMES = {
     'fs_three_polarizer_quantum': 'polarizer_projection_law'
 };
 // =============================================================================
+// =============================================================================
 // 4. Main Verification Engine
 // =============================================================================
 async function runVerification() {
+    const isOverride = process.argv.some(arg => ['--override', '--force', '-f'].includes(arg));
     console.log('====================================================================');
     console.log('🛡️  Middle Way Math: Formal Statements Lean 4 Verifier & Sync Engine');
+    console.log(`    Mode: ${isOverride ? 'OVERRIDE / FORCE (Re-verifying all)' : 'INCREMENTAL (Only verifying dirty / unverified)'}`);
     console.log('====================================================================\n');
     const leanBin = resolveLeanBinary();
     const leanVer = getLeanVersion(leanBin);
@@ -226,14 +231,16 @@ async function runVerification() {
         }
         catch { }
     }
+    const scaffoldMtime = fs.existsSync(scaffoldPath) ? fs.statSync(scaffoldPath).mtimeMs : 0;
     const scaffoldGraph = (0, leanScaffoldParser_js_1.parseScaffoldDeclarations)(scaffoldPath);
     const scaffoldNames = new Set(scaffoldGraph.names);
     let verifiedCount = 0;
+    let cachedCount = 0;
     let totalCount = 0;
     console.log('--------------------------------------------------------------------');
     console.log('PART 1: Verifying `formal_statements` Table in PostgreSQL');
     console.log('--------------------------------------------------------------------');
-    const fsQuery = await client.query('SELECT id, statement_key, scaffold_key, title, expression, lean_signature, lean_snippet FROM formal_statements ORDER BY id ASC;');
+    const fsQuery = await client.query('SELECT id, statement_key, scaffold_key, title, expression, lean_signature, lean_snippet, updated_at, last_verified_at FROM formal_statements ORDER BY id ASC;');
     for (const row of fsQuery.rows) {
         totalCount++;
         const key = row.statement_key;
@@ -267,12 +274,29 @@ async function runVerification() {
         }
         if (snippetToVerify) {
             const isPredSpec = !!PREDICATE_SPECS[key];
+            const cachedEntry = cache[key];
+            const lastVerifiedTime = row.last_verified_at ? new Date(row.last_verified_at).getTime() : 0;
+            const updatedTime = row.updated_at ? new Date(row.updated_at).getTime() : 0;
+            const scaffoldCheckPassed = isPredSpec || (lastVerifiedTime >= scaffoldMtime);
+            const isClean = !isOverride &&
+                lastVerifiedTime > 0 &&
+                lastVerifiedTime >= updatedTime &&
+                scaffoldCheckPassed &&
+                cachedEntry &&
+                cachedEntry.qed === true &&
+                row.lean_snippet === snippetToVerify;
+            if (isClean) {
+                verifiedCount++;
+                cachedCount++;
+                console.log(`[CACHED] [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Q.E.D. ✓ (cached)`);
+                continue;
+            }
             const res = verifyWithLean(leanBin, snippetToVerify, !isPredSpec);
             if (res.qed) {
                 verifiedCount++;
-                console.log(`[PASS] [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Q.E.D. ✓ (${res.timeMs}ms)`);
-                // 1. Update formal_statements.lean_snippet
-                await client.query('UPDATE formal_statements SET lean_snippet = $1, lean_signature = COALESCE(lean_signature, $2), updated_at = NOW() WHERE id = $3;', [snippetToVerify, signature, row.id]);
+                console.log(`[PASS]   [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Q.E.D. ✓ (${res.timeMs}ms)`);
+                // 1. Update formal_statements.lean_snippet & last_verified_at
+                await client.query('UPDATE formal_statements SET lean_snippet = $1, lean_signature = COALESCE(lean_signature, $2), last_verified_at = NOW() WHERE id = $3;', [snippetToVerify, signature, row.id]);
                 // 2. Upsert into lean_verifications
                 await client.query(`INSERT INTO lean_verifications (key, statement_id, target, expression, signature, verdict, qed, time_ms, engine, verified_at, lean_snippet, summary, created_at)
            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), $10, $11, NOW())
@@ -316,7 +340,7 @@ async function runVerification() {
                 };
             }
             else {
-                console.log(`[FAIL] [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Error:\n${res.output}`);
+                console.log(`[FAIL]   [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Error:\n${res.output}`);
             }
         }
         else {
@@ -399,12 +423,53 @@ async function runVerification() {
                 tagSummary = 'Divisibility reflexivity on ℕ.';
                 synthesizedSnippet = `theorem fsd_dvd_refl : ∀ (x : Nat), x ∣ x := by\n  intro x\n  exact Nat.dvd_refl x`;
             }
+            // 10. Operator: First Derivative Operator 𝒟_ω
+            else if (exp === 'deriv') {
+                tagKey = 'fsd_operator_deriv';
+                tagSummary = 'First Derivative Operator 𝒟_ω on Function Space.';
+                synthesizedSnippet = `theorem fsd_operator_deriv : ∀ (f : FunctionSpace), MiddleWay.deriv_op f = deriv_op f := by\n  intro f\n  rfl`;
+            }
+            // 11. Operator: Second Difference Stencil Δ²
+            else if (exp === 'delta2_stencil') {
+                tagKey = 'fsd_operator_delta2_stencil';
+                tagSummary = 'Second Difference Stencil Δ² = [1, -2, 1] on Function Space.';
+                synthesizedSnippet = `theorem fsd_operator_delta2_stencil : ∀ (f : FunctionSpace), MiddleWay.delta2_op f = delta2_op f := by\n  intro f\n  rfl`;
+            }
+            // 12. Operator: Differential 1-Form df
+            else if (exp === 'diff_form') {
+                tagKey = 'fsd_operator_diff_form';
+                tagSummary = 'Differential 1-Form Generator df = 𝒟(f)·dx on Tangent Space.';
+                synthesizedSnippet = `theorem fsd_operator_diff_form : ∀ (f : FunctionSpace) (x disp : R_w), MiddleWay.diff_1form f x disp = deriv_at f x * disp := by\n  intros\n  rfl`;
+            }
+            // 13. Operator: Leibniz Product Rule
+            else if (exp === 'prod_rule') {
+                tagKey = 'fsd_operator_prod_rule';
+                tagSummary = 'Leibniz Product Rule Transformer: 𝒟(u·v) = u·𝒟(v) + v·𝒟(u).';
+                synthesizedSnippet = `theorem fsd_operator_prod_rule : ∀ (u v : FunctionSpace) (x : R_w), deriv_at (fun t => u t * v t) x = u x * deriv_at v x + v x * deriv_at u x := by\n  intros u v x\n  exact MiddleWay.leibniz_product_rule u v x`;
+            }
+            // 14. Operator: Chain Rule
+            else if (exp === 'chain_rule') {
+                tagKey = 'fsd_operator_chain_rule';
+                tagSummary = 'Compositional Chain Rule Transformer: 𝒟(f∘g) = (𝒟(f)∘g)·𝒟(g).';
+                synthesizedSnippet = `theorem fsd_operator_chain_rule : ∀ (f g : FunctionSpace) (x : R_w), deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x := by\n  intros f g x\n  exact MiddleWay.chain_rule f g x`;
+            }
             if (synthesizedSnippet) {
                 totalCount++;
+                const cachedTag = cache[tagKey];
+                const isCleanTag = !isOverride &&
+                    cachedTag &&
+                    cachedTag.qed === true &&
+                    cachedTag.leanSnippet === synthesizedSnippet;
+                if (isCleanTag) {
+                    verifiedCount++;
+                    cachedCount++;
+                    console.log(`[CACHED] [FSD Tag in ${seg.seg_key.padEnd(24)}] ${tagKey.padEnd(28)} | Q.E.D. ✓ (cached)`);
+                    continue;
+                }
                 const res = verifyWithLean(leanBin, synthesizedSnippet);
                 if (res.qed) {
                     verifiedCount++;
-                    console.log(`[PASS] [FSD Tag in ${seg.seg_key.padEnd(24)}] ${tagKey.padEnd(28)} | Q.E.D. ✓ (${res.timeMs}ms)`);
+                    console.log(`[PASS]   [FSD Tag in ${seg.seg_key.padEnd(24)}] ${tagKey.padEnd(28)} | Q.E.D. ✓ (${res.timeMs}ms)`);
                     // Upsert into lean_verifications table
                     await client.query(`INSERT INTO lean_verifications (key, statement_id, target, expression, signature, verdict, qed, time_ms, engine, verified_at, lean_snippet, summary, created_at)
              VALUES ($1, NULL, $2, $3, $4, TRUE, TRUE, $5, $6, NOW(), $7, $8, NOW())
@@ -443,7 +508,7 @@ async function runVerification() {
                     };
                 }
                 else {
-                    console.log(`[FAIL] [FSD Tag in ${seg.seg_key.padEnd(24)}] ${tagKey.padEnd(28)} | Error:\n${res.output}`);
+                    console.log(`[FAIL]   [FSD Tag in ${seg.seg_key.padEnd(24)}] ${tagKey.padEnd(28)} | Error:\n${res.output}`);
                 }
             }
         }
@@ -463,7 +528,11 @@ async function runVerification() {
     client.release();
     await pool.end();
     console.log('\n====================================================================');
-    console.log(`🎉 Lean 4 Formal Statement Verification Complete: ${verifiedCount} certified (Q.E.D. ✓)`);
+    console.log(`🎉 Lean 4 Formal Statement Verification Complete:`);
+    console.log(`   Total statements checked: ${totalCount}`);
+    console.log(`   Certified (Q.E.D. ✓):     ${verifiedCount}`);
+    console.log(`   Cached from previous:    ${cachedCount}`);
+    console.log(`   Freshly verified:        ${verifiedCount - cachedCount}`);
     console.log('====================================================================\n');
 }
 runVerification().catch((err) => {

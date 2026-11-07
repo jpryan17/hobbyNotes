@@ -23,9 +23,20 @@ export class FSDRef extends HTMLElement {
       return;
     }
 
+    const isOperator = this.getAttribute("subtype") === "operator" ||
+      this.getAttribute("exp") === "deriv" ||
+      this.getAttribute("exp") === "delta2_stencil" ||
+      this.getAttribute("exp") === "diff_form" ||
+      this.getAttribute("exp") === "prod_rule" ||
+      this.getAttribute("exp") === "chain_rule";
     const isTier3 = this.getAttribute("tier") === "3";
-    const stdCol = isTier3 ? FSDRef.tier3StdColor : FSDRef.stdColor;
-    const overCol = isTier3 ? FSDRef.tier3OverColor : FSDRef.overColor;
+    const stdCol = isOperator ? "#0d9488" : (isTier3 ? FSDRef.tier3StdColor : FSDRef.stdColor);
+    const overCol = isOperator ? "#0f766e" : (isTier3 ? FSDRef.tier3OverColor : FSDRef.overColor);
+
+    if (isOperator && (!this.innerHTML || this.innerHTML.trim() === "")) {
+      const titleAttr = this.getAttribute("title") || this.getAttribute("template") || this.getAttribute("exp") || "Operator";
+      this.innerHTML = `𝒟 <b>${titleAttr}</b>`;
+    }
 
     this.setAttribute(
       "style",
@@ -71,7 +82,7 @@ export class FSDRef extends HTMLElement {
                s.scaffoldKey.toLowerCase() === cleanId
       );
 
-      if (tier === "3" || catalogStmt || matchedMode || matchedExample) {
+      if (!isOperator && (tier === "3" || catalogStmt || matchedMode || matchedExample)) {
         const isPureTheorem = !matchedMode && !matchedExample && (tier === "3" || catalogStmt?.statementKind === "theorem" || catalogStmt?.statementKind === "axiom" || catalogStmt?.tier === "constitutional");
         FSDRef.openScaffoldCard(scaffoldOrId, titleAttr, {
           autoOpenCalc: isPureTheorem ? false : autoOpenCalc,
@@ -109,7 +120,11 @@ export class FSDRef extends HTMLElement {
         quantifiers: quantifiersStr || undefined,
         slots: slotsStr || undefined,
         stage: stageStr || undefined,
-        theorem: this.getAttribute("scaffold") || this.getAttribute("theorem") || undefined
+        theorem: this.getAttribute("scaffold") || this.getAttribute("theorem") || undefined,
+        subtype: (this.getAttribute("subtype") as any) || (isOperator ? "operator" : undefined),
+        template: this.getAttribute("template") || (isOperator ? exp : undefined),
+        preset: this.getAttribute("preset") || undefined,
+        codomain: this.getAttribute("codomain") || (isOperator ? "[(exp) → 𝔻_ω]" : undefined)
       }, true);
     });
   }

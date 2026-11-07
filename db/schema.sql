@@ -228,6 +228,7 @@ CREATE TABLE formal_statements (
     lean_decl_id BIGINT REFERENCES lean_declarations(id) ON DELETE SET NULL,
     status editorial_status NOT NULL DEFAULT 'published',
     referenced_segments TEXT[] NOT NULL DEFAULT '{}',
+    last_verified_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

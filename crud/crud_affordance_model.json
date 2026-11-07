@@ -265,11 +265,12 @@
                 "label": "🔬 Formal Stage Scaffold (<fsd-ref>)",
                 "tag": "<fsd-ref id=\"...\">",
                 "source_table": "interactive_demos WHERE engine = 'fsd'",
-                "behavior": "Embeds four-stage formal structure stage visualizer widget supporting 3 MWM subtypes: (1) Propositional Statements (→ true), (2) Predicate Definitions (predicate_exp → 𝔹) with discrete truth vector runner and MWM pseudocode, and (3) Directed Equalities (numeric_exp → 𝔻_ω) with halo/nucleus decomposition calculator.",
+                "behavior": "Embeds formal structure stage visualizer widget supporting 4 MWM subtypes: (1) Propositional Statements (→ true), (2) Predicate Definitions (predicate_exp → 𝔹) with discrete truth vector runner and MWM pseudocode, (3) Directed Equalities (numeric_exp → 𝔻_ω) with halo/nucleus decomposition calculator, and (4) Operators / Functional Transformers ([(exp) → 𝔻_ω] ⟶ [(exp) → 𝔻_ω]) with discrete difference stencils, algebraic step-by-step expansion, and interactive coordinate transformation sandbox.",
                 "subtypes": {
                   "proposition": "Subtype 1: Propositional statement asserted to hold (→ true). 4-step wizard with constituent predicate inspector.",
                   "predicate": "Subtype 2: Relational function (predicate_exp → 𝔹) with operational MWM structured pseudocode block and discrete truth vector evaluation on ℕ = {1..8}.",
-                  "directed_equality": "Subtype 3: Computational assignment stencil (numeric_exp → 𝔻_ω) with nonstandard Laurent halo/nucleus decomposition calculator."
+                  "directed_equality": "Subtype 3: Computational assignment stencil (numeric_exp → 𝔻_ω) with nonstandard Laurent halo/nucleus decomposition calculator.",
+                  "operator": "Subtype 4: Operator / Functional Transformer ([(exp) → 𝔻_ω] ⟶ [(exp) → 𝔻_ω]) with differential and curvature stencils ([-1, 1]/dx, [1, -2, 1]), algebraic shadow resolution st, and live function transformation sandbox."
                 },
                 "mode_bar_selector": "#fsdSubtypeModeBar"
               }

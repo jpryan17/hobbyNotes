@@ -140,12 +140,15 @@ export class FSD extends PXEParent {
     modernStagePills = [];
     modernHeaderTitle = null;
     modernStepperBar = null;
-    // FS Subtype Mode Bar State (1: Proposition, 2: Predicate Defn, 3: Directed Equality)
+    // FS Subtype Mode Bar State (1: Proposition, 2: Predicate Defn, 3: Directed Equality, 4: Operator)
     fsSubtype = "proposition";
     modernSubtypeBar = null;
     modernSubtypeButtons = [];
     selectedPredicateId = "EVEN";
     selectedDeTemplate = "halo_decomp";
+    selectedOperatorTemplate = "deriv";
+    selectedOperatorPreset = "x^2";
+    operatorCoordX = 1.0;
     // Stage 2 State: Variables & Slots
     elementVars = ["x₁", "x₂"];
     numberConstants = ["0", "1", "5", "10"];
@@ -368,7 +371,7 @@ export class FSD extends PXEParent {
         SessionRegistry.getInstance().registerPredicate(id, () => true);
         return { id, registered: true };
     }
-    // FS TYPE Codomain: Relational Proposition (→ 𝔹) vs Calculational Laurent Value (→ 𝔻_ω)
+    // FS TYPE Codomain: Relational Proposition (→ 𝔹), Calculational Value (→ 𝔻_ω), or Function Space Endomorphism (→ [(exp) → 𝔻_ω])
     targetCodomain = "𝔹";
     // Mode flag: Reader Inspection (<fsd-ref>) vs Construction Sandbox (App Index)
     isInspectionMode = false;
@@ -689,7 +692,8 @@ export class FSD extends PXEParent {
         const subtypeStyleList = [
             { id: "proposition", bgActive: "#0284c7", borderActive: "#0284c7" },
             { id: "predicate", bgActive: "#059669", borderActive: "#059669" },
-            { id: "directed_equality", bgActive: "#7c3aed", borderActive: "#7c3aed" }
+            { id: "directed_equality", bgActive: "#7c3aed", borderActive: "#7c3aed" },
+            { id: "operator", bgActive: "#0d9488", borderActive: "#0d9488" }
         ];
         this.modernSubtypeButtons.forEach((btn, idx) => {
             const st = subtypeStyleList[idx];
@@ -741,6 +745,16 @@ export class FSD extends PXEParent {
           </h2>
         `;
             }
+            else if (this.fsSubtype === "operator") {
+                this.modernHeaderTitle.innerHTML = `
+          <div style="font-size: 11px; font-weight: 700; color: #0d9488; text-transform: uppercase; letter-spacing: 0.5px;">
+            Formal Statement Constructor • Subtype 4: Operator / Functional Transformer
+          </div>
+          <h2 style="margin: 2px 0 0 0; font-size: 19px; color: #0f172a; font-weight: 800; letter-spacing: -0.3px;">
+            Endomorphism on Function Space ([(numeric exp) → 𝔻_ω] ⟶ [(numeric exp) → 𝔻_ω])
+          </h2>
+        `;
+            }
             else {
                 this.modernHeaderTitle.innerHTML = `
           <div style="font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
@@ -774,6 +788,12 @@ export class FSD extends PXEParent {
                 this.modernStatusPill.style.color = "#6d28d9";
                 this.modernStatusPill.style.borderColor = "#ddd6fe";
                 this.modernStatusPill.innerHTML = `<span>𝒴</span> <span>Directed Equality: ${this.selectedDeTemplate} (→ 𝔻_ω)</span>`;
+            }
+            else if (this.fsSubtype === "operator") {
+                this.modernStatusPill.style.background = "#f0fdfa";
+                this.modernStatusPill.style.color = "#0f766e";
+                this.modernStatusPill.style.borderColor = "#99f6e4";
+                this.modernStatusPill.innerHTML = `<span>𝒟</span> <span>Operator: ${this.selectedOperatorTemplate} (Function Space Endomorphism)</span>`;
             }
             else if (this.stage === 1) {
                 if (this.isInspectionMode) {
@@ -979,6 +999,10 @@ export class FSD extends PXEParent {
         }
         if (this.fsSubtype === "directed_equality") {
             this.renderModernDirectedEqualityBuilder(this.modernStageCard);
+            return;
+        }
+        if (this.fsSubtype === "operator") {
+            this.renderModernOperatorBuilder(this.modernStageCard);
             return;
         }
         if (this.stage === 1) {
@@ -1432,6 +1456,14 @@ export class FSD extends PXEParent {
                 target: "numeric_exp → 𝔻_ω",
                 bgActive: "#7c3aed",
                 borderActive: "#7c3aed"
+            },
+            {
+                id: "operator",
+                label: "4: Operator / Transform",
+                icon: "𝒟",
+                target: "[(exp) → 𝔻_ω] → [(exp) → 𝔻_ω]",
+                bgActive: "#0d9488",
+                borderActive: "#0d9488"
             }
         ];
         this.modernSubtypeButtons = [];
@@ -1447,6 +1479,9 @@ export class FSD extends PXEParent {
                 this.fsSubtype = st.id;
                 if (st.id === "directed_equality") {
                     this.targetCodomain = "𝔻_ω";
+                }
+                else if (st.id === "operator") {
+                    this.targetCodomain = "[(exp) → 𝔻_ω]";
                 }
                 else {
                     this.targetCodomain = "𝔹";
@@ -1789,6 +1824,449 @@ export class FSD extends PXEParent {
                 eps: v.k * v.dx,
                 desc: `st(x) = ${v.x0.toFixed(2)}, halo dust = ${v.k > 0 ? '+' : ''}${v.k}·dx (${(v.k * v.dx).toFixed(6)})`
             })
+        };
+    }
+    // Operator / Function Space Transformer details lookup
+    getOperatorDetail(opKey, presetKey = "x^2") {
+        if (opKey === "delta2_stencil") {
+            const presets = [
+                { id: "x^2", label: "f(x) = x²", fnDesc: "f(x) = x²", derivDesc: "f''(x) = 2" },
+                { id: "x^3", label: "f(x) = x³", fnDesc: "f(x) = x³", derivDesc: "f''(x) = 6x" },
+                { id: "x^4", label: "f(x) = x⁴", fnDesc: "f(x) = x⁴", derivDesc: "f''(x) = 12x²" },
+                { id: "sin", label: "f(x) = sin(x)", fnDesc: "f(x) = sin(x)", derivDesc: "f''(x) = -sin(x)" }
+            ];
+            const curPreset = presets.find(p => p.id === presetKey) || presets[0];
+            return {
+                id: "delta2_stencil",
+                title: "Δ²[f] = f(x+dx) - 2f(x) + f(x-dx)",
+                formula: "Δ²[f] ≔ λx. [ f(x + dx) - 2·f(x) + f(x - dx) ]",
+                domain: "[(exp) → 𝔻_ω]",
+                codomain: "[(exp) → 𝔻_ω]",
+                signature: "rule SecondDiffOp(f : [(ℝ_ω) → ℝ_ω], dx : ℝ_ω) : [(ℝ_ω) → 𝔻_ω] ≔",
+                description: "Symmetric 3-point discrete curvature operator [1, -2, 1]. Measures twice the gap between the average of adjacent neighbors and the center point: Δ²f(x) = 2 · [(f(x-dx)+f(x+dx))/2 - f(x)]. Yields exact curvature shadow f''(x) = st(Δ²f / dx²).",
+                stencil: "[1, -2, 1] symmetric Laplacian stencil",
+                presets,
+                pseudocode: `rule SecondDiffOp(f : [(ℝ_ω) → ℝ_ω], dx : ℝ_ω) : [(ℝ_ω) → 𝔻_ω] ≔\nbegin\n    return λx. st( (f(x + dx) - 2 * f(x) + f(x - dx)) / (dx * dx) );\nend;`,
+                calcFn: (x, dx) => {
+                    let fx = 0, f_prime_x = 0, delta = 0, ratio = 0, dust = 0;
+                    let steps = [];
+                    if (curPreset.id === "x^2") {
+                        fx = x * x;
+                        f_prime_x = 2;
+                        const f_plus = Math.pow(x + dx, 2);
+                        const f_minus = Math.pow(x - dx, 2);
+                        delta = f_plus - 2 * fx + f_minus;
+                        ratio = delta / (dx * dx);
+                        dust = Math.abs(ratio - f_prime_x);
+                        steps = [
+                            `f(x) = ${x.toFixed(2)}² = ${fx.toFixed(4)}`,
+                            `f(x + dx) = (${x.toFixed(2)} + dx)² = ${x.toFixed(2)}² + 2(${x.toFixed(2)})dx + dx²`,
+                            `f(x - dx) = (${x.toFixed(2)} - dx)² = ${x.toFixed(2)}² - 2(${x.toFixed(2)})dx + dx²`,
+                            `Δ²f(x) = [x² + 2xdx + dx²] - 2x² + [x² - 2xdx + dx²] = 2·dx²`,
+                            `Curvature quotient: Δ²f(x) / dx² = (2·dx²) / dx² = 2.000000`,
+                            `Standard part shadow: st(Δ²f / dx²) = 2 (exact constant second difference)`
+                        ];
+                    }
+                    else if (curPreset.id === "x^3") {
+                        fx = Math.pow(x, 3);
+                        f_prime_x = 6 * x;
+                        const f_plus = Math.pow(x + dx, 3);
+                        const f_minus = Math.pow(x - dx, 3);
+                        delta = f_plus - 2 * fx + f_minus;
+                        ratio = delta / (dx * dx);
+                        dust = Math.abs(ratio - f_prime_x);
+                        steps = [
+                            `f(x) = ${x.toFixed(2)}³ = ${fx.toFixed(4)}`,
+                            `f(x ± dx) = x³ ± 3x²dx + 3xdx² ± dx³`,
+                            `Δ²f(x) = f(x+dx) - 2f(x) + f(x-dx) = 6x·dx²`,
+                            `Curvature quotient: Δ²f(x) / dx² = (6x·dx²) / dx² = ${(6 * x).toFixed(4)}`,
+                            `Standard part shadow: f''(x) = st(6x) = ${(6 * x).toFixed(4)}`
+                        ];
+                    }
+                    else if (curPreset.id === "x^4") {
+                        fx = Math.pow(x, 4);
+                        f_prime_x = 12 * x * x;
+                        const f_plus = Math.pow(x + dx, 4);
+                        const f_minus = Math.pow(x - dx, 4);
+                        delta = f_plus - 2 * fx + f_minus;
+                        ratio = delta / (dx * dx);
+                        dust = Math.abs(ratio - f_prime_x);
+                        steps = [
+                            `f(x) = ${x.toFixed(2)}⁴ = ${fx.toFixed(4)}`,
+                            `Δ²f(x) = 12x²·dx² + 2·dx⁴`,
+                            `Δ²f(x) / dx² = 12x² + 2·dx²`,
+                            `st(12x² + 2·dx²) = 12x² = ${(12 * x * x).toFixed(4)}`,
+                            `Infinitesimal halo dust: 2·dx² ≈ ${(2 * dx * dx).toExponential(4)}`
+                        ];
+                    }
+                    else {
+                        fx = Math.sin(x);
+                        f_prime_x = -Math.sin(x);
+                        const f_plus = Math.sin(x + dx);
+                        const f_minus = Math.sin(x - dx);
+                        delta = f_plus - 2 * fx + f_minus;
+                        ratio = delta / (dx * dx);
+                        dust = Math.abs(ratio - f_prime_x);
+                        steps = [
+                            `f(x) = sin(${x.toFixed(2)}) = ${fx.toFixed(4)}`,
+                            `Trigonometric identity: sin(x+dx) - 2sin(x) + sin(x-dx) = -4 sin(x) sin²(dx/2)`,
+                            `Curvature quotient: Δ²f / dx² ≈ -sin(x) = ${f_prime_x.toFixed(4)}`,
+                            `Standard part shadow: f''(x) = -sin(x) = ${f_prime_x.toFixed(4)}`
+                        ];
+                    }
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `Curvature f''(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}, stencil ratio = ${ratio.toFixed(6)}, dust = ${dust.toExponential(3)}`,
+                        expansionSteps: steps
+                    };
+                }
+            };
+        }
+        if (opKey === "diff_form") {
+            const presets = [
+                { id: "x^2", label: "f(x) = x²", fnDesc: "f(x) = x²", derivDesc: "df = 2x · dx" },
+                { id: "poly_1form", label: "f(x) = x³ - 3x", fnDesc: "f(x) = x³ - 3x", derivDesc: "df = (3x² - 3) · dx" },
+                { id: "tangent_approx", label: "Δf ≈ f'(x)·dx", fnDesc: "Linear Approximation", derivDesc: "Δf = f'(x)·dx + ε·dx" }
+            ];
+            const curPreset = presets.find(p => p.id === presetKey) || presets[0];
+            return {
+                id: "diff_form",
+                title: "df = 𝒟(f) · dx",
+                formula: "df ≔ λx. [ 𝒟_ω[f](x) · dx ]",
+                domain: "[(exp) → 𝔻_ω]",
+                codomain: "[(exp) → 𝔻_ω] ⊗ dx",
+                signature: "rule Diff1Form(f : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ⊗ dx ≔",
+                description: "Exterior derivative generator mapping a 0-form curve f into a differential 1-form covector df = f'(x) dx on the tangent space. Linearizes nonlinear curves locally within their infinitesimal halo μ(x).",
+                stencil: "Tangent covector: df(v) = f'(x) · v",
+                presets,
+                pseudocode: `rule Diff1Form(f : [(ℝ_ω) → ℝ_ω]) : 1-Form ≔\nbegin\n    return λx. ( DerivOp(f)(x) * dx );\nend;`,
+                calcFn: (x, dx) => {
+                    let fx = 0, f_prime_x = 0;
+                    let steps = [];
+                    if (curPreset.id === "x^2") {
+                        fx = x * x;
+                        f_prime_x = 2 * x;
+                        steps = [
+                            `Base point function value: f(${x.toFixed(2)}) = ${fx.toFixed(4)}`,
+                            `Tangent covector multiplier: f'(${x.toFixed(2)}) = 2(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}`,
+                            `Differential 1-form: df = ${f_prime_x.toFixed(4)} · dx`,
+                            `Infinitesimal displacement across step dx = ${dx.toFixed(6)}:`,
+                            `df(dx) = ${f_prime_x.toFixed(4)} × ${dx.toFixed(6)} = ${(f_prime_x * dx).toFixed(7)}`,
+                            `Actual increment: Δf = (${(x + dx).toFixed(6)})² - ${x.toFixed(2)}² = ${(Math.pow(x + dx, 2) - fx).toFixed(7)}`,
+                            `Halo dust error: ε·dx = Δf - df = ${(Math.pow(x + dx, 2) - fx - f_prime_x * dx).toExponential(4)}`
+                        ];
+                    }
+                    else if (curPreset.id === "poly_1form") {
+                        fx = Math.pow(x, 3) - 3 * x;
+                        f_prime_x = 3 * x * x - 3;
+                        steps = [
+                            `Base point function value: f(${x.toFixed(2)}) = ${fx.toFixed(4)}`,
+                            `Differential covector multiplier: 3(${x.toFixed(2)})² - 3 = ${f_prime_x.toFixed(4)}`,
+                            `Differential 1-form: df = (${(3 * x * x).toFixed(2)} - 3) · dx`,
+                            `Tangential evaluation: df(dx) = ${(f_prime_x * dx).toFixed(7)}`,
+                            `Local Linearity: every smooth curve is infinitesimally straight inside μ(x)`
+                        ];
+                    }
+                    else {
+                        fx = x * x;
+                        f_prime_x = 2 * x;
+                        steps = [
+                            `General local linearity theorem on ℝ_ω:`,
+                            `Δf = f(x + dx) - f(x) = f'(x)·dx + ε·dx &nbsp; (ε ≈ 0)`,
+                            `Dominant linear shadow: df = f'(x)·dx`,
+                            `Error bound: |Δf - df| / dx = |ε| ≈ 0 (vanishes under standard part st)`
+                        ];
+                    }
+                    const delta = f_prime_x * dx;
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio: f_prime_x,
+                        dust: 0,
+                        desc: `Differential 1-Form df = ${f_prime_x.toFixed(4)} · dx. Tangent covector evaluates displacement vector to scalar height increment.`,
+                        expansionSteps: steps
+                    };
+                }
+            };
+        }
+        if (opKey === "prod_rule") {
+            const presets = [
+                { id: "poly_prod", label: "(x²+1)(x³-1)", fnDesc: "u(x) = x²+1, v(x) = x³-1", derivDesc: "𝒟(uv) = 2x(x³-1) + 3x²(x²+1)" },
+                { id: "x_sin", label: "x · sin(x)", fnDesc: "u(x) = x, v(x) = sin(x)", derivDesc: "𝒟(uv) = sin(x) + x·cos(x)" }
+            ];
+            const curPreset = presets.find(p => p.id === presetKey) || presets[0];
+            return {
+                id: "prod_rule",
+                title: "Leibniz: 𝒟(u · v) = u·𝒟(v) + v·𝒟(u)",
+                formula: "𝒟(u · v) ≔ u·𝒟(v) + v·𝒟(u)",
+                domain: "[(exp) → 𝔻_ω] × [(exp) → 𝔻_ω]",
+                codomain: "[(exp) → 𝔻_ω]",
+                signature: "rule LeibnizRule(u, v : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔",
+                description: "Bilinear product derivative operator preserving the algebraic ring structure. Microscopic rectangle decomposition: Δ(uv) = u·dv + v·du + du·dv; dividing by dx and applying st isolates u·v' + v·u' since st((du/dx)·dv) = 0.",
+                stencil: "Bilinear product derivation",
+                presets,
+                pseudocode: `rule LeibnizRule(u, v : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔\nbegin\n    return λx. ( u(x) * DerivOp(v)(x) + v(x) * DerivOp(u)(x) );\nend;`,
+                calcFn: (x) => {
+                    let fx = 0, f_prime_x = 0;
+                    let steps = [];
+                    if (curPreset.id === "poly_prod") {
+                        const u = x * x + 1;
+                        const v = Math.pow(x, 3) - 1;
+                        const du = 2 * x;
+                        const dv = 3 * x * x;
+                        fx = u * v;
+                        f_prime_x = u * dv + v * du;
+                        steps = [
+                            `u(x) = x² + 1 = ${u.toFixed(4)}, &emsp; u'(x) = 2x = ${du.toFixed(4)}`,
+                            `v(x) = x³ - 1 = ${v.toFixed(4)}, &emsp; v'(x) = 3x² = ${dv.toFixed(4)}`,
+                            `Product value: (uv)(${x.toFixed(2)}) = ${u.toFixed(2)} × ${v.toFixed(2)} = ${fx.toFixed(4)}`,
+                            `Leibniz expansion: u·v' + v·u' = (${u.toFixed(2)})(${dv.toFixed(2)}) + (${v.toFixed(2)})(${du.toFixed(2)})`,
+                            `Term 1: u · 𝒟(v) = ${u.toFixed(2)} × ${dv.toFixed(2)} = ${(u * dv).toFixed(4)}`,
+                            `Term 2: v · 𝒟(u) = ${v.toFixed(2)} × ${du.toFixed(2)} = ${(v * du).toFixed(4)}`,
+                            `Sum: 𝒟(u·v) = ${(u * dv).toFixed(4)} + ${(v * du).toFixed(4)} = ${f_prime_x.toFixed(4)}`,
+                            `Corner rectangle dust: st((du/dx)·dv) = st(${du.toFixed(2)} · ${dv.toFixed(2)}dx) = 0`
+                        ];
+                    }
+                    else {
+                        const u = x;
+                        const v = Math.sin(x);
+                        const du = 1;
+                        const dv = Math.cos(x);
+                        fx = u * v;
+                        f_prime_x = u * dv + v * du;
+                        steps = [
+                            `u(x) = x = ${u.toFixed(4)}, &emsp; u'(x) = 1`,
+                            `v(x) = sin(x) = ${v.toFixed(4)}, &emsp; v'(x) = cos(x) = ${dv.toFixed(4)}`,
+                            `Leibniz expansion: u·v' + v·u' = ${u.toFixed(2)}(${dv.toFixed(4)}) + (${v.toFixed(4)})(1)`,
+                            `𝒟(x · sin(x)) = x·cos(x) + sin(x) = ${f_prime_x.toFixed(4)}`
+                        ];
+                    }
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta: 0,
+                        ratio: f_prime_x,
+                        dust: 0,
+                        desc: `Leibniz Product Derivative: 𝒟(u·v)(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}. Corner term du·dv vanishes identically under st.`,
+                        expansionSteps: steps
+                    };
+                }
+            };
+        }
+        if (opKey === "chain_rule") {
+            const presets = [
+                { id: "sin_x2", label: "sin(x²)", fnDesc: "f(u) = sin(u), g(x) = x²", derivDesc: "𝒟(f∘g) = cos(x²) · 2x" },
+                { id: "inv_poly", label: "1 / (x² + 1)", fnDesc: "f(u) = 1/u, g(x) = x² + 1", derivDesc: "𝒟(f∘g) = -2x / (x² + 1)²" }
+            ];
+            const curPreset = presets.find(p => p.id === presetKey) || presets[0];
+            return {
+                id: "chain_rule",
+                title: "Chain Rule: 𝒟(f ∘ g) = (𝒟(f) ∘ g) · 𝒟(g)",
+                formula: "𝒟(f ∘ g) ≔ (𝒟(f) ∘ g) · 𝒟(g)",
+                domain: "[(exp) → 𝔻_ω] × [(exp) → 𝔻_ω]",
+                codomain: "[(exp) → 𝔻_ω]",
+                signature: "rule ChainRule(f, g : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔",
+                description: "Compositional chain rule functor. On ℝ_ω, the intermediate differential quotient (dy/du)·(du/dx) represents exact non-zero field multiplication where du cancels identically without indeterminate forms.",
+                stencil: "Functorial composition",
+                presets,
+                pseudocode: `rule ChainRule(f, g : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔\nbegin\n    return λx. ( DerivOp(f)(g(x)) * DerivOp(g)(x) );\nend;`,
+                calcFn: (x) => {
+                    let fx = 0, f_prime_x = 0;
+                    let steps = [];
+                    if (curPreset.id === "sin_x2") {
+                        const u = x * x;
+                        const du_dx = 2 * x;
+                        fx = Math.sin(u);
+                        const df_du = Math.cos(u);
+                        f_prime_x = df_du * du_dx;
+                        steps = [
+                            `Inner function: u = g(x) = x² = ${u.toFixed(4)}`,
+                            `Outer function: f(u) = sin(u) = ${fx.toFixed(4)}`,
+                            `Inner rate: du/dx = g'(x) = 2x = ${du_dx.toFixed(4)}`,
+                            `Outer rate: dy/du = f'(u) = cos(u) = ${df_du.toFixed(4)}`,
+                            `Differential product on ℝ_ω: (dy/du) · (du/dx) = (cos(x²)) · (2x)`,
+                            `Exact intermediate cancellation: [ (dy / du) · du ] / dx = dy / dx`,
+                            `Standard part shadow: 𝒟(f∘g)(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}`
+                        ];
+                    }
+                    else {
+                        const u = x * x + 1;
+                        const du_dx = 2 * x;
+                        fx = 1 / u;
+                        const df_du = -1 / (u * u);
+                        f_prime_x = df_du * du_dx;
+                        steps = [
+                            `Inner function: u = g(x) = x² + 1 = ${u.toFixed(4)}`,
+                            `Outer function: f(u) = 1/u = ${fx.toFixed(4)}`,
+                            `Inner rate: du/dx = 2x = ${du_dx.toFixed(4)}`,
+                            `Outer rate: dy/du = -1/u² = ${df_du.toFixed(6)}`,
+                            `Chain Rule product: (-1/u²) · (2x) = -2x / (x² + 1)²`,
+                            `Evaluation at x = ${x.toFixed(2)}: ${f_prime_x.toFixed(6)}`
+                        ];
+                    }
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta: 0,
+                        ratio: f_prime_x,
+                        dust: 0,
+                        desc: `Chain Rule Composition: 𝒟(f∘g)(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}. Nonstandard du cancels identically.`,
+                        expansionSteps: steps
+                    };
+                }
+            };
+        }
+        // Default: deriv (First Derivative Operator)
+        const presets = [
+            { id: "x^2", label: "f(x) = x²", fnDesc: "f(x) = x²", derivDesc: "𝒟[f](x) = 2x" },
+            { id: "x^3", label: "f(x) = x³", fnDesc: "f(x) = x³", derivDesc: "𝒟[f](x) = 3x²" },
+            { id: "poly", label: "f(x) = x³ - 3x", fnDesc: "f(x) = x³ - 3x", derivDesc: "𝒟[f](x) = 3x² - 3" },
+            { id: "sin", label: "f(x) = sin(x)", fnDesc: "f(x) = sin(x)", derivDesc: "𝒟[f](x) = cos(x)" },
+            { id: "inv", label: "f(x) = 1/x", fnDesc: "f(x) = 1/x", derivDesc: "𝒟[f](x) = -1/x²" }
+        ];
+        const curPreset = presets.find(p => p.id === presetKey) || presets[0];
+        return {
+            id: "deriv",
+            title: "𝒟_ω[f] = λx. st((f(x+dx) - f(x))/dx)",
+            formula: "𝒟_ω[f] ≔ λx. st( [ f(x + dx) - f(x) ] / dx )",
+            domain: "[(exp) → 𝔻_ω]",
+            codomain: "[(exp) → 𝔻_ω]",
+            signature: "rule DerivOp(f : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔",
+            description: "First-order functional transformer mapping any differentiable curve expression f into its velocity/rate-of-change expression f'. Replaces the scalar point-evaluation compromise with genuine function-space endomorphism.",
+            stencil: "[-1, 1] / dx discrete difference quotient",
+            presets,
+            pseudocode: `rule DerivOp(f : [(ℝ_ω) → ℝ_ω]) : [(ℝ_ω) → 𝔻_ω] ≔\nbegin\n    return λx. st( (f(x + dx) - f(x)) / dx );\nend;`,
+            calcFn: (x, dx) => {
+                let fx = 0, f_prime_x = 0, f_plus = 0;
+                let steps = [];
+                if (curPreset.id === "x^2") {
+                    fx = x * x;
+                    f_prime_x = 2 * x;
+                    f_plus = Math.pow(x + dx, 2);
+                    const delta = f_plus - fx;
+                    const ratio = delta / dx;
+                    const dust = ratio - f_prime_x;
+                    steps = [
+                        `f(x) = ${x.toFixed(2)}² = ${fx.toFixed(4)}`,
+                        `f(x + dx) = (${x.toFixed(2)} + dx)² = ${x.toFixed(2)}² + 2(${x.toFixed(2)})dx + dx²`,
+                        `Δy = f(x + dx) - f(x) = 2(${x.toFixed(2)})dx + dx² = ${(2 * x).toFixed(2)}·dx + dx²`,
+                        `Difference ratio: Δy / dx = (${(2 * x).toFixed(2)}·dx + dx²) / dx = ${(2 * x).toFixed(2)} + dx`,
+                        `Taking shadow: st(${(2 * x).toFixed(2)} + dx) = ${(2 * x).toFixed(2)}`,
+                        `Infinitesimal halo dust: dx = ${dx.toFixed(6)} vanishes under st`
+                    ];
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `Algebraic Derivative: 𝒟[f](${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}. Ratio = ${ratio.toFixed(6)}, halo dust = ${dust.toFixed(6)}.`,
+                        expansionSteps: steps
+                    };
+                }
+                else if (curPreset.id === "x^3") {
+                    fx = Math.pow(x, 3);
+                    f_prime_x = 3 * x * x;
+                    f_plus = Math.pow(x + dx, 3);
+                    const delta = f_plus - fx;
+                    const ratio = delta / dx;
+                    const dust = ratio - f_prime_x;
+                    steps = [
+                        `f(x) = ${x.toFixed(2)}³ = ${fx.toFixed(4)}`,
+                        `f(x + dx) = (${x.toFixed(2)} + dx)³ = x³ + 3x²dx + 3xdx² + dx³`,
+                        `Δy = 3(${x.toFixed(2)})²dx + 3(${x.toFixed(2)})dx² + dx³`,
+                        `Δy / dx = ${(3 * x * x).toFixed(4)} + ${(3 * x).toFixed(2)}·dx + dx²`,
+                        `Taking shadow: st(3x² + 3xdx + dx²) = ${(3 * x * x).toFixed(4)}`,
+                        `Infinitesimal halo dust: 3xdx + dx² ≈ ${(3 * x * dx + dx * dx).toExponential(4)}`
+                    ];
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `Algebraic Derivative: 𝒟[f](${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}.`,
+                        expansionSteps: steps
+                    };
+                }
+                else if (curPreset.id === "poly") {
+                    fx = Math.pow(x, 3) - 3 * x;
+                    f_prime_x = 3 * x * x - 3;
+                    f_plus = Math.pow(x + dx, 3) - 3 * (x + dx);
+                    const delta = f_plus - fx;
+                    const ratio = delta / dx;
+                    const dust = ratio - f_prime_x;
+                    steps = [
+                        `f(x) = (${x.toFixed(2)})³ - 3(${x.toFixed(2)}) = ${fx.toFixed(4)}`,
+                        `f(x + dx) - f(x) = [3x² - 3]·dx + 3x·dx² + dx³`,
+                        `Δy / dx = (${(3 * x * x - 3).toFixed(4)}) + 3(${x.toFixed(2)})·dx + dx²`,
+                        `st(Δy / dx) = 3x² - 3 = ${f_prime_x.toFixed(4)}`,
+                        `Stationary points where 𝒟[f] = 0 occur at x = ±1`
+                    ];
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `𝒟[x³ - 3x](${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}. Extrema at x = ±1 where derivative vanishes.`,
+                        expansionSteps: steps
+                    };
+                }
+                else if (curPreset.id === "sin") {
+                    fx = Math.sin(x);
+                    f_prime_x = Math.cos(x);
+                    f_plus = Math.sin(x + dx);
+                    const delta = f_plus - fx;
+                    const ratio = delta / dx;
+                    const dust = ratio - f_prime_x;
+                    steps = [
+                        `f(x) = sin(${x.toFixed(2)}) = ${fx.toFixed(4)}`,
+                        `Nonstandard expansion: sin(x + dx) = sin(x)·cos(dx) + cos(x)·sin(dx)`,
+                        `Since cos(dx) ≈ 1 and sin(dx) ≈ dx: Δy ≈ cos(x)·dx`,
+                        `Quotient: Δy / dx ≈ cos(x) = ${f_prime_x.toFixed(4)}`,
+                        `Shadow: st(Δy / dx) = cos(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}`
+                    ];
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `𝒟[sin](${x.toFixed(2)}) = cos(${x.toFixed(2)}) = ${f_prime_x.toFixed(4)}.`,
+                        expansionSteps: steps
+                    };
+                }
+                else {
+                    const safeX = Math.abs(x) < 0.1 ? (x < 0 ? -0.1 : 0.1) : x;
+                    fx = 1 / safeX;
+                    f_prime_x = -1 / (safeX * safeX);
+                    f_plus = 1 / (safeX + dx);
+                    const delta = f_plus - fx;
+                    const ratio = delta / dx;
+                    const dust = ratio - f_prime_x;
+                    steps = [
+                        `f(x) = 1 / ${safeX.toFixed(2)} = ${fx.toFixed(4)}`,
+                        `f(x + dx) - f(x) = 1/(x+dx) - 1/x = -dx / (x(x+dx))`,
+                        `Δy / dx = -1 / (x(x+dx)) = -1 / (x² + x·dx)`,
+                        `Shadow: st(-1 / (x² + x·dx)) = -1/x² = ${f_prime_x.toFixed(4)}`
+                    ];
+                    return {
+                        fx,
+                        f_prime_x,
+                        delta,
+                        ratio,
+                        dust,
+                        desc: `𝒟[1/x](${safeX.toFixed(2)}) = ${f_prime_x.toFixed(4)}.`,
+                        expansionSteps: steps
+                    };
+                }
+            }
         };
     }
     // --- SUBTYPE 2: Predicate Definition Builder ---
@@ -2160,6 +2638,212 @@ export class FSD extends PXEParent {
         btnUse.innerHTML = `<span>➕</span> <span>Use in Proposition (Subtype 1) →</span>`;
         btnUse.addEventListener("click", () => {
             this.pxe.addCharacter("j"); // '≔'
+            this.fsSubtype = "proposition";
+            this.stage = 1;
+            this.updatePXEText();
+            this.renderModernStageCard();
+            this.syncModernUI();
+        });
+        actionBox.appendChild(btnUse);
+        card.appendChild(actionBox);
+    }
+    // --- SUBTYPE 4: Operator / Functional Transformer Builder ---
+    renderModernOperatorBuilder(card) {
+        const cardTitle = document.createElement("div");
+        cardTitle.style.cssText = "font-size: 11px; font-weight: 700; color: #0d9488; text-transform: uppercase; margin-bottom: 6px;";
+        cardTitle.textContent = "Subtype 4: Operator / Transform ([(exp) → 𝔻_ω] ⟶ [(exp) → 𝔻_ω])";
+        card.appendChild(cardTitle);
+        const banner = document.createElement("div");
+        banner.style.cssText = "background: #f0fdfa; border: 1.5px solid #99f6e4; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #115e59; font-size: 13px; line-height: 1.5;";
+        banner.innerHTML = `<strong>Function Space Endomorphism:</strong> An <strong>Operator</strong> maps an entire curve/expression to a new curve/expression: <code>[(exp) → 𝔻_ω] ⟶ [(exp) → 𝔻_ω]</code>. Unlike scalar point evaluation <code>f(x) : ℝ</code>, operators treat functions as <em>first-class mathematical objects</em> on the scaffold tree. Evaluating at a coordinate <code>x</code> simply queries the transformed function.`;
+        card.appendChild(banner);
+        // Operator Template Selector Palette
+        const paletteBox = document.createElement("div");
+        paletteBox.style.cssText = "background: #ffffff; border: 1.5px solid #5eead4; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;";
+        paletteBox.innerHTML = `
+      <div style="font-size: 11px; font-weight: 800; color: #0f766e; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+        𝒟 Function Space Operators (Select to Transform &amp; Inspect):
+      </div>
+    `;
+        const opList = [
+            { id: "deriv", label: "𝒟_ω[f] (First Derivative)" },
+            { id: "delta2_stencil", label: "Δ²[f] (Curvature Stencil)" },
+            { id: "diff_form", label: "df = 𝒟(f)·dx (1-Form)" },
+            { id: "prod_rule", label: "Leibniz: 𝒟(u·v)" },
+            { id: "chain_rule", label: "Chain Rule: 𝒟(f∘g)" }
+        ];
+        const btnRow = document.createElement("div");
+        btnRow.style.cssText = "display: flex; gap: 6px; flex-wrap: wrap; align-items: center;";
+        opList.forEach(op => {
+            const isSel = this.selectedOperatorTemplate === op.id;
+            const b = document.createElement("button");
+            b.style.cssText = `padding: 5px 12px; font-family: monospace; font-size: 12.5px; font-weight: 700; border-radius: 6px; border: 1.5px solid ${isSel ? '#0d9488' : '#cbd5e1'}; background: ${isSel ? '#0d9488' : '#f8fafc'}; color: ${isSel ? '#ffffff' : '#334155'}; cursor: pointer; transition: all 0.12s ease;`;
+            b.textContent = op.label;
+            b.addEventListener("click", () => {
+                this.selectedOperatorTemplate = op.id;
+                const detail = this.getOperatorDetail(op.id);
+                this.selectedOperatorPreset = detail.presets[0].id;
+                this.renderModernStageCard();
+                this.syncModernUI();
+            });
+            btnRow.appendChild(b);
+        });
+        paletteBox.appendChild(btnRow);
+        card.appendChild(paletteBox);
+        const detail = this.getOperatorDetail(this.selectedOperatorTemplate, this.selectedOperatorPreset);
+        // Preset Selector Pills Row
+        if (detail.presets && detail.presets.length > 0) {
+            const presetBox = document.createElement("div");
+            presetBox.style.cssText = "display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;";
+            presetBox.innerHTML = `<span style="font-size: 11px; font-weight: 800; color: #475569; text-transform: uppercase;">Expression Presets:</span>`;
+            detail.presets.forEach(pr => {
+                const isSel = this.selectedOperatorPreset === pr.id;
+                const pBtn = document.createElement("button");
+                pBtn.style.cssText = `padding: 4px 10px; font-family: monospace; font-size: 12px; font-weight: 700; border-radius: 5px; border: 1.5px solid ${isSel ? '#0f766e' : '#cbd5e1'}; background: ${isSel ? '#ccfbf1' : '#ffffff'}; color: ${isSel ? '#0f766e' : '#475569'}; cursor: pointer; transition: all 0.12s ease;`;
+                pBtn.textContent = pr.label;
+                pBtn.title = pr.derivDesc;
+                pBtn.addEventListener("click", () => {
+                    this.selectedOperatorPreset = pr.id;
+                    this.renderModernStageCard();
+                    this.syncModernUI();
+                });
+                presetBox.appendChild(pBtn);
+            });
+            card.appendChild(presetBox);
+        }
+        // Specification Card
+        const specCard = document.createElement("div");
+        specCard.style.cssText = "background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+        specCard.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-family: monospace; font-size: 16px; font-weight: 800; color: #0f172a;">
+          ${detail.signature}
+        </div>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd;">
+            Domain: ${detail.domain}
+          </span>
+          <span style="font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; background: #ccfbf1; color: #0f766e; border: 1px solid #99f6e4;">
+            Codomain: ${detail.codomain}
+          </span>
+        </div>
+      </div>
+      <div style="font-size: 13px; color: #334155; line-height: 1.5; margin-bottom: 8px;">
+        ${detail.description}
+      </div>
+      <div style="font-size: 12px; color: #64748b; font-family: monospace;">
+        <b>Operational Stencil:</b> ${detail.stencil}
+      </div>
+    `;
+        card.appendChild(specCard);
+        // Numeric Pseudocode Block Card
+        const pseudoBox = document.createElement("div");
+        pseudoBox.style.cssText = "background: #ffffff; border: 1.5px solid #0f172a; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);";
+        pseudoBox.innerHTML = `
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 6px;">
+        <div style="font-size: 11.5px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
+          <span>📜</span> <span>MWM Structured Operator Pseudocode</span>
+        </div>
+        <button type="button" class="btn-copy-code" style="padding: 4px 10px; font-size: 11.5px; font-weight: 700; color: #0f172a; background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 5px; cursor: pointer;">
+          📋 Copy Pseudocode
+        </button>
+      </div>
+      <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 13px; line-height: 1.55; padding: 14px 18px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(detail.pseudocode)}</code></pre>
+    `;
+        const copyBtn = pseudoBox.querySelector(".btn-copy-code");
+        if (copyBtn) {
+            copyBtn.addEventListener("click", async () => {
+                try {
+                    await navigator.clipboard.writeText(detail.pseudocode);
+                    copyBtn.textContent = "Copied! ✓";
+                    setTimeout(() => copyBtn.textContent = "📋 Copy Pseudocode", 2000);
+                }
+                catch (err) {
+                    console.error(err);
+                }
+            });
+        }
+        card.appendChild(pseudoBox);
+        // Interactive Operator Transformation Sandbox
+        const calcBox = document.createElement("div");
+        calcBox.style.cssText = "background: #f0fdfa; border: 1.5px solid #99f6e4; border-radius: 8px; padding: 14px 16px; margin-bottom: 16px;";
+        const calcHeader = document.createElement("div");
+        calcHeader.style.cssText = "display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 6px;";
+        calcHeader.innerHTML = `
+      <div style="font-size: 12px; font-weight: 800; color: #0f766e; text-transform: uppercase; letter-spacing: 0.5px;">
+        🧪 Interactive Operator Transformation Sandbox:
+      </div>
+      <div style="font-size: 11px; color: #0f766e; font-weight: 700; background: #ccfbf1; padding: 2px 8px; border-radius: 4px;">
+        Scaffold Step dx = 2⁻¹² ≈ 0.000244
+      </div>
+    `;
+        calcBox.appendChild(calcHeader);
+        // Coordinate Slider Control
+        const sliderRow = document.createElement("div");
+        sliderRow.style.cssText = "display: flex; align-items: center; gap: 12px; margin-bottom: 14px; background: #ffffff; padding: 10px 14px; border-radius: 6px; border: 1px solid #99f6e4;";
+        sliderRow.innerHTML = `
+      <label style="font-size: 13px; font-weight: 700; color: #134e4a; white-space: nowrap;">
+        Evaluation Point (x):
+      </label>
+      <input type="range" class="op-coord-slider" min="-5" max="5" step="0.25" value="${this.operatorCoordX}" style="flex: 1; accent-color: #0d9488; cursor: pointer;" />
+      <span class="op-coord-val" style="font-family: monospace; font-size: 14px; font-weight: 800; color: #0f766e; min-width: 45px; text-align: right;">
+        ${this.operatorCoordX.toFixed(2)}
+      </span>
+    `;
+        calcBox.appendChild(sliderRow);
+        // Results Box
+        const resContainer = document.createElement("div");
+        calcBox.appendChild(resContainer);
+        const updateCalc = () => {
+            const dx = 0.000244140625; // 2^-12
+            const res = detail.calcFn(this.operatorCoordX, dx);
+            resContainer.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 12px;">
+          <div style="background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 10px 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase;">Original Value f(x)</div>
+            <div style="font-family: monospace; font-size: 18px; font-weight: 800; color: #0f172a; margin-top: 2px;">
+              ${res.fx.toFixed(4)}
+            </div>
+          </div>
+          <div style="background: #ffffff; border: 1.5px solid #0d9488; border-radius: 6px; padding: 10px 12px;">
+            <div style="font-size: 11px; font-weight: 700; color: #0d9488; text-transform: uppercase;">Operator Value (𝒟f)(x)</div>
+            <div style="font-family: monospace; font-size: 18px; font-weight: 800; color: #0d9488; margin-top: 2px;">
+              ${res.f_prime_x.toFixed(4)}
+            </div>
+          </div>
+        </div>
+
+        <div style="background: #ffffff; border: 1.5px solid #99f6e4; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px;">
+          <div style="font-size: 11.5px; font-weight: 800; color: #0f766e; text-transform: uppercase; margin-bottom: 6px;">
+            Step-by-Step Algebraic Transformation:
+          </div>
+          <div style="font-family: monospace; font-size: 12.5px; color: #1e293b; line-height: 1.6;">
+            ${res.expansionSteps.map(s => `<div>• ${s}</div>`).join("")}
+          </div>
+        </div>
+
+        <div style="font-size: 12.5px; color: #134e4a; font-family: monospace; line-height: 1.5;">
+          ${res.desc}
+        </div>
+      `;
+        };
+        const slider = sliderRow.querySelector(".op-coord-slider");
+        const coordVal = sliderRow.querySelector(".op-coord-val");
+        slider.addEventListener("input", () => {
+            this.operatorCoordX = parseFloat(slider.value);
+            coordVal.textContent = this.operatorCoordX.toFixed(2);
+            updateCalc();
+        });
+        updateCalc();
+        card.appendChild(calcBox);
+        // Action Toolbar: Load into Subtype 1
+        const actionBox = document.createElement("div");
+        actionBox.style.cssText = "display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 14px;";
+        const btnUse = document.createElement("button");
+        btnUse.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #0d9488; border: 1.5px solid #0d9488; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+        btnUse.innerHTML = `<span>➕</span> <span>Use in Proposition (Subtype 1) →</span>`;
+        btnUse.addEventListener("click", () => {
+            this.pxe.addCharacter("d");
             this.fsSubtype = "proposition";
             this.stage = 1;
             this.updatePXEText();
@@ -3277,11 +3961,33 @@ export class FSD extends PXEParent {
         if (data.codomain === "𝔻_ω" || data.codomain === "D_w") {
             this.targetCodomain = "𝔻_ω";
         }
+        else if (data.codomain === "[(exp) → 𝔻_ω]" || data.codomain === "function_space") {
+            this.targetCodomain = "[(exp) → 𝔻_ω]";
+            this.fsSubtype = "operator";
+        }
         else if (data.codomain === "𝔹") {
             this.targetCodomain = "𝔹";
         }
         else if (data.exp?.includes("j")) {
             this.targetCodomain = "𝔻_ω";
+        }
+        if (data.template) {
+            if (this.fsSubtype === "operator" || data.exp === "deriv" || data.exp === "delta2_stencil" || data.exp === "diff_form" || data.exp === "prod_rule" || data.exp === "chain_rule") {
+                this.selectedOperatorTemplate = data.template;
+                this.fsSubtype = "operator";
+                this.targetCodomain = "[(exp) → 𝔻_ω]";
+            }
+            else if (this.fsSubtype === "directed_equality") {
+                this.selectedDeTemplate = data.template;
+            }
+        }
+        if (data.preset) {
+            this.selectedOperatorPreset = data.preset;
+        }
+        if (data.exp === "deriv" || data.exp === "delta2_stencil" || data.exp === "diff_form" || data.exp === "prod_rule" || data.exp === "chain_rule") {
+            this.fsSubtype = "operator";
+            this.selectedOperatorTemplate = data.exp;
+            this.targetCodomain = "[(exp) → 𝔻_ω]";
         }
         const exp = (data.exp || "").trim();
         this.pxe.exp = exp;

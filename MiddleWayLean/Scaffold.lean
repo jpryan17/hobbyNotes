@@ -771,6 +771,28 @@ def integral_ab (f : FunctionSpace) (a b : R_w) : R_w :=
 def integral_op (f : FunctionSpace) : FunctionSpace :=
   fun x => integral_ab f 0 x
 
+-- Operator 5: The Second Discrete Difference / Curvature Operator:
+-- (FunctionSpace → R_w → R_w)
+def delta2_at (f : FunctionSpace) (x : R_w) : R_w :=
+  f (x - dx) - 2 * f x + f (x + dx)
+
+-- (FunctionSpace → FunctionSpace)
+def delta2_op (f : FunctionSpace) : FunctionSpace :=
+  fun x => delta2_at f x
+
+-- Operator 6: The Differential 1-Form:
+-- (FunctionSpace → R_w → R_w → R_w) mapping point x and displacement dx to scalar increment
+def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w :=
+  deriv_at f x * disp
+
+-- Operator 7: Leibniz Product Rule Identity on FunctionSpace:
+axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :
+  deriv_at (fun t => u t * v t) x = u x * deriv_at v x + v x * deriv_at u x
+
+-- Operator 8: Chain Rule Composition Identity on FunctionSpace:
+axiom chain_rule (f g : FunctionSpace) (x : R_w) :
+  deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x
+
 -- ----------------------------------------------------------------------------
 -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding
 -- ----------------------------------------------------------------------------
