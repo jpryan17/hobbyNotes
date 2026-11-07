@@ -4903,7 +4903,7 @@ export class FSD extends PXEParent {
       this.renderMatrixVisualizer(container, finalStatementTruth, selPred.name, selPred.val);
     } else {
       const formalArg = this.buildFormalArgument(finalStatementTruth);
-      container.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+      container.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
     }
     this.applyScale();
   }
@@ -5776,7 +5776,7 @@ export class FSD extends PXEParent {
 
         matrixBox.append(svgWrap);
         const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel);
-        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
         return;
       }
     }
@@ -5925,7 +5925,7 @@ export class FSD extends PXEParent {
 
     matrixBox.append(svgWrap);
     const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-    matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+    matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
   }
 }
 

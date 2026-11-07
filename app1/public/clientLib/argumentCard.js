@@ -150,7 +150,12 @@ export class ArgumentCard extends Elt {
             codeWrap.setA("style", "margin-top: 12px; padding: 10px 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; font-family: monospace; font-size: 12px; line-height: 1.5; overflow-x: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);");
             const codeHeader = new Elt("div");
             codeHeader.setA("style", "display: flex; justify-content: space-between; color: #94a3b8; font-size: 10.5px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px; letter-spacing: 0.5px;");
-            codeHeader.setV("<span>⚡ Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+            if (this.options?.isSessionDraft) {
+                codeHeader.setV("<span>⚡ Synthesized Lean 4 Formulation</span><span style='color:#38bdf8'>Target Specification (Session Draft)</span>");
+            }
+            else {
+                codeHeader.setV("<span>⚡ Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+            }
             const pre = new Elt("pre");
             pre.setA("style", "margin: 0; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
             pre.setV(arg.leanSnippet);
@@ -332,8 +337,14 @@ export class ArgumentCard extends Elt {
         }
     }
     getCachedVerification() {
+        if (this.options?.isSessionDraft)
+            return undefined;
         const targetKey = this.arg.target || "";
-        if (LEAN_CACHE[targetKey])
+        if (this.arg.statementId && LEAN_CACHE[this.arg.statementId])
+            return LEAN_CACHE[this.arg.statementId];
+        if (this.arg.scaffoldKey && LEAN_CACHE[this.arg.scaffoldKey])
+            return LEAN_CACHE[this.arg.scaffoldKey];
+        if (targetKey && LEAN_CACHE[targetKey])
             return LEAN_CACHE[targetKey];
         if (this.arg.expression && LEAN_CACHE[this.arg.expression])
             return LEAN_CACHE[this.arg.expression];
@@ -342,11 +353,11 @@ export class ArgumentCard extends Elt {
         if (arrowMatch && LEAN_CACHE[arrowMatch[1]]) {
             return LEAN_CACHE[arrowMatch[1]];
         }
-        // Search by key substring or target match
+        // Search strictly by exact key, target, or mathematical expression match
         const entries = Object.values(LEAN_CACHE);
-        return entries.find((c) => (c.target && targetKey.includes(c.target)) ||
-            (c.key && (targetKey.includes(c.key) || pickVal.includes(c.key))) ||
-            (c.expression && this.arg.expression && c.expression === this.arg.expression));
+        return entries.find((c) => (c.target && (targetKey === c.target || targetKey === `scaffold:${c.target}`)) ||
+            (c.key && (targetKey === c.key || targetKey === `scaffold:${c.key}`)) ||
+            (c.expression && this.arg.expression && c.expression.trim() === this.arg.expression.trim()));
     }
     buildLineagePanel(cached) {
         const wrap = new Elt("div");
@@ -579,7 +590,16 @@ export class ArgumentCard extends Elt {
             if (this.calcBtn) {
                 this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
             }
-            if (cached) {
+            if (this.options?.isSessionDraft) {
+                this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #e0f2fe; color: #0369a1; font-weight: 600;");
+                this.statusPill.setV("🔵 Client Model Checked");
+                this.statusPill.setA("title", "Evaluated across finite domain bounds by in-browser model checker. Lean 4 kernel verification requires a running Lean server.");
+                this.footerNotice.setV("🛡️ Certified by Finite Model Checker (Static Session)");
+                if (this.verifyBtn) {
+                    this.verifyBtn.setA("style", "display: none;");
+                }
+            }
+            else if (cached) {
                 this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;");
                 this.statusPill.setV("🟢 Lean 4 Certified (Pre-computed Q.E.D. ✓)");
                 this.statusPill.setA("title", `Pre-verified by Lean 4 Kernel (${cached.engine}) in ${cached.timeMs}ms.\n${cached.summary}`);
@@ -645,7 +665,18 @@ export class ArgumentCard extends Elt {
         if (this.calcBtn) {
             this.calcBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
         }
-        if (cached) {
+        if (this.options?.isSessionDraft) {
+            this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #e0f2fe; color: #0369a1; font-weight: 600;");
+            this.statusPill.setV("🔵 Session Draft (Model Checked)");
+            this.statusPill.setA("title", "Session-level construction: evaluated across finite domain bounds. Connect to local Lean server to certify Q.E.D.");
+            this.footerNotice.setV("🛡️ Evaluated by Client-Side Model Checker · Lean 4 Verification Pending Server");
+            if (this.verifyBtn) {
+                this.verifyBtn.setA("style", "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;");
+                this.verifyBtn.setV("⚡ Verify Draft in Lean");
+                this.verifyBtn.setA("title", "Send this newly constructed proposition to the local Lean server to certify Q.E.D.");
+            }
+        }
+        else if (cached) {
             this.statusPill.setA("style", "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;");
             this.statusPill.setV("🟢 Lean 4 Certified (Cached Q.E.D. ✓)");
             this.statusPill.setA("title", `Pre-verified by Lean 4 Kernel in ${cached.timeMs}ms. Start 'npm run leanServer' for live interactive verification.`);

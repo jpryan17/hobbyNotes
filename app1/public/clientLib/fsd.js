@@ -4532,7 +4532,7 @@ export class FSD extends PXEParent {
         }
         else {
             const formalArg = this.buildFormalArgument(finalStatementTruth);
-            container.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+            container.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
         }
         this.applyScale();
     }
@@ -5399,7 +5399,7 @@ export class FSD extends PXEParent {
                 svgWrap.append(info);
                 matrixBox.append(svgWrap);
                 const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel);
-                matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+                matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
                 return;
             }
         }
@@ -5526,7 +5526,7 @@ export class FSD extends PXEParent {
         svgWrap.append(info);
         matrixBox.append(svgWrap);
         const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
     }
 }
 export let fsd;
