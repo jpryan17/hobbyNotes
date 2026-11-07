@@ -15,6 +15,7 @@
     "sync:overview": "node -e \"const fs = require('fs'); fs.copyFileSync('overview.html', 'app1/dist/overview.html'); fs.copyFileSync('overview.html', 'app1/dist/index.html'); console.log('[sync:overview] overview.html synced to app1/dist/overview.html and app1/dist/index.html');\"",
     "leanCache": "node ./nodeUtils/public/genLeanCache.js",
     "leanCache:force": "node ./nodeUtils/public/genLeanCache.js --force",
+    "verifyFS": "npm run utilsC && node ./nodeUtils/public/verifyFormalStatements.js",
     "catalog": "node ./nodeUtils/public/buildCatalog.js",
     "stencils": "npm run catalog",
     "survey": "node ./nodeUtils/public/surveySegs.js",

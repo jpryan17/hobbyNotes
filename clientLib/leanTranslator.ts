@@ -135,7 +135,8 @@ export class LeanTranslator {
         break;
       case "m": // ∈
         if (s1 === "EMPTY" || s1 === "∅") {
-          atomStr = `${this.sanitizeVar(s0)} ∈ (∅ : Set Nat)`;
+          usedPredDefs.add("InEmpty");
+          atomStr = `InEmpty ${this.sanitizeVar(s0)}`;
         } else {
           atomStr = `${this.sanitizeVar(s0)} ∈ ${this.sanitizeVar(s1)}`;
         }
@@ -174,6 +175,9 @@ export class LeanTranslator {
     }
     if (usedPredDefs.has("Lt10")) {
       defs.push("@[reducible] def Lt10 (n : Nat) : Prop := n < 10");
+    }
+    if (usedPredDefs.has("InEmpty")) {
+      defs.push("@[reducible] def InEmpty (n : Nat) : Prop := False");
     }
     return defs;
   }
@@ -236,11 +240,11 @@ export class LeanTranslator {
       } else if (pxeExp.includes("l")) {
         thmName = customTheoremName || "fsd_le_refl";
         statement = quantifiedProp;
-        proofScript = `  intro ${v0}\n  rfl`;
+        proofScript = `  intro ${v0}\n  exact Nat.le_refl ${v0}`;
       } else if (pxeExp.includes("p") && pxeExp.includes("o") && pxeExp.includes("q")) {
         thmName = customTheoremName || "fsd_order_union";
         statement = quantifiedProp;
-        proofScript = `  intro ${v0}\n  cases Classical.em (${v0} < 10) with\n  | inl hlt => exact Or.inr hlt\n  | inr hge => exact Or.inl (Nat.not_lt.mp hge)`;
+        proofScript = `  intro ${v0}\n  omega`;
       } else {
         thmName = customTheoremName || "fsd_universal_verified";
         statement = quantifiedProp;
@@ -268,7 +272,7 @@ export class LeanTranslator {
     else if (slots.some((s) => s.assignedVar === "EMPTY" || s.assignedVar === "∅")) {
       thmName = customTheoremName || "fsd_empty_not_mem";
       statement = quantifiedProp;
-      proofScript = `  intro ${v0} h\n  contradiction`;
+      proofScript = `  intro ${v0} h\n  exact h`;
     }
     // Case G: Set Reflexivity
     else if (pxeExp.includes("b") && verdict) {
