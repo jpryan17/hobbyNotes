@@ -10,6 +10,7 @@
   5. Tree4 ≡ 𝔻[i]: 4-Successor quadtrees and discrete 2D Gaussian dyadics.
   6. Executable Pseudocode Mirrors: SimplerOptions and the ConwayCut bisection walk.
   7. D_w ≡ 𝔻[ω, 1/ω]: Nonstandard Laurent Dyadics, Reciprocal Law ω · (1/ω) = 1, and Nonstandard Shadow.
+  8. Fundamental Recursive Ladders: Computable arithmetic & geometric ladders, step laws, closed forms, and difference operators on 𝔻 and 𝔻[ω, 1/ω].
 
   Pure finite structural induction on ℕ, zero noncomputable sections, zero axiomatic assertions.
 -/
@@ -331,6 +332,64 @@ theorem le_antisymm_equiv (a b : Dyad) (h1 : a ≤ b) (h2 : b ≤ a) : a ≈ b :
 def midpoint (a b : Dyad) : Dyad :=
   ⟨a.num * pow2 b.exp + b.num * pow2 a.exp, a.exp + b.exp + 1⟩
 
+-- ============================================================================
+-- The Fundamental Recursive Ladders on 𝔻 (Arithmetic & Geometric)
+-- ============================================================================
+
+-- 1. Computable Arithmetic Ladder (Linear March along Tree1 clock ticks)
+-- Recurrence: F(0) = a, F(k + 1) = F(k) + d
+def arithmetic_ladder (a d : Dyad) : Nat → Dyad
+  | 0 => a
+  | Nat.succ k => add (arithmetic_ladder a d k) d
+
+-- Definitional step law: holds by rfl
+theorem arithmetic_step (a d : Dyad) (k : Nat) :
+    arithmetic_ladder a d (k + 1) = add (arithmetic_ladder a d k) d :=
+  rfl
+
+-- Closed formula for arithmetic ladder: F(k) = a + k · d
+def arithmetic_closed (a d : Dyad) (k : Nat) : Dyad :=
+  add a (mul ⟨k, 0⟩ d)
+
+-- 2. Computable Geometric Ladder (Multiplicative Scaling along Tree2)
+-- Recurrence: G(0) = a, G(k + 1) = G(k) · r
+def geometric_ladder (a r : Dyad) : Nat → Dyad
+  | 0 => a
+  | Nat.succ k => mul (geometric_ladder a r k) r
+
+-- Definitional step law: holds by rfl
+theorem geometric_step (a r : Dyad) (k : Nat) :
+    geometric_ladder a r (k + 1) = mul (geometric_ladder a r k) r :=
+  rfl
+
+-- Power operation on 𝔻
+def pow (a : Dyad) : Nat → Dyad
+  | 0 => one
+  | Nat.succ n => mul (pow a n) a
+
+instance : HPow Dyad Nat Dyad where
+  hPow := pow
+
+-- Closed formula for geometric ladder: G(k) = a · r^k
+def geometric_closed (a r : Dyad) (k : Nat) : Dyad :=
+  mul a (r ^ k)
+
+-- Discrete Forward Difference Operator: ΔF(k) := F(k + 1) - F(k)
+def delta (F : Nat → Dyad) (k : Nat) : Dyad :=
+  sub (F (k + 1)) (F k)
+
+-- Theorem: For any arithmetic ladder, ΔF(k) = (F(k) + d) - F(k)
+theorem arithmetic_delta_step (a d : Dyad) (k : Nat) :
+    delta (arithmetic_ladder a d) k = sub (add (arithmetic_ladder a d k) d) (arithmetic_ladder a d k) := by
+  unfold delta
+  rw [arithmetic_step]
+
+-- Theorem: For any geometric ladder, ΔG(k) = G(k) · r - G(k)
+theorem geometric_delta_step (a r : Dyad) (k : Nat) :
+    delta (geometric_ladder a r) k = sub (mul (geometric_ladder a r k) r) (geometric_ladder a r k) := by
+  unfold delta
+  rw [geometric_step]
+
 end Dyad
 
 -- ============================================================================
@@ -606,6 +665,39 @@ def derivativeQuotient (f_x f_x_plus_dx : LaurentDyad) : Dyad :=
 -- Theorem: Core Law of Reciprocals (ω · dx has standard shadow = 1)
 theorem omega_mul_dx_st :
     st (mul omega dx) ≈ Dyad.one := rfl
+
+-- ============================================================================
+-- Nonstandard Recursive Ladders on 𝔻[ω, 1/ω]
+-- ============================================================================
+
+-- Nonstandard Arithmetic Ladder (Discrete Euler trajectory along Tree1)
+-- Recurrence: F(0) = a, F(k + 1) = F(k) + d
+def arithmetic_ladder (a d : LaurentDyad) : Nat → LaurentDyad
+  | 0 => a
+  | Nat.succ k => add (arithmetic_ladder a d k) d
+
+theorem arithmetic_step (a d : LaurentDyad) (k : Nat) :
+    arithmetic_ladder a d (k + 1) = add (arithmetic_ladder a d k) d :=
+  rfl
+
+-- Nonstandard Geometric Ladder (Discrete compound growth along Tree2)
+-- Recurrence: G(0) = a, G(k + 1) = G(k) · r
+def geometric_ladder (a r : LaurentDyad) : Nat → LaurentDyad
+  | 0 => a
+  | Nat.succ k => mul (geometric_ladder a r k) r
+
+theorem geometric_step (a r : LaurentDyad) (k : Nat) :
+    geometric_ladder a r (k + 1) = mul (geometric_ladder a r k) r :=
+  rfl
+
+-- Discrete Difference on LaurentDyad: ΔF(k) := F(k + 1) - F(k)
+def delta (F : Nat → LaurentDyad) (k : Nat) : LaurentDyad :=
+  sub (F (k + 1)) (F k)
+
+theorem arithmetic_delta_step (a d : LaurentDyad) (k : Nat) :
+    delta (arithmetic_ladder a d) k = sub (add (arithmetic_ladder a d k) d) (arithmetic_ladder a d k) := by
+  unfold delta
+  rw [arithmetic_step]
 
 end LaurentDyad
 
