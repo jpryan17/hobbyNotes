@@ -1,10 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Formal Statements: Sets, Constructors &amp; Quantifiers</title>
-  </head>
-  <body>
+
 <div align="center">
       <i><font size="+2">Lecture: Formal Statements &amp; Predicates</font></i><br>
       <i><font size="+1">Sets, Directed Pairs, Predicate Functions &amp; The 2D Truth Matrix</font></i>
@@ -93,10 +87,10 @@
       <li><code>GT : ℕ × ℕ → 𝔹</code> &nbsp; with rule &nbsp; <code>(x₁, x₂) ↦ { true if x₁ &gt; x₂; false otherwise }</code></li>
     </ul>
     <p>
-      Or a single-slot unary predicate checking if a number is less than 10:
+      Or a single-slot unary predicate checking parity:
     </p>
     <ul>
-      <li><code>LT10 : ℕ → 𝔹</code> &nbsp; with rule &nbsp; <code>(x) ↦ { true if x &lt; 10; false otherwise }</code></li>
+      <li><code>EVEN : ℕ → 𝔹</code> &nbsp; with rule &nbsp; <code>(x) ↦ { true if (x mod 2 = 0); false otherwise }</code></li>
     </ul>
 
     <p>
@@ -173,8 +167,9 @@
       <li><b>4. Built-in Constant Subsets:</b>
         <ul>
           <li><code>∅</code> (The Empty Set): Contains no elements (<code>∀x:ℕ [ ¬(x ∈ ∅) ]</code>).</li>
-          <li><code>GT5</code>: The tail subset <code>{x ∈ ℕ | x &gt; 5} = {6, 7, 8, ...}</code>.</li>
-          <li><code>LT10</code>: The prefix subset <code>{x ∈ ℕ | x &lt; 10} = {1, 2, ..., 9}</code>.</li>
+          <li><code>[ℕ | EVEN]</code>: The subset of even natural numbers <code>{2, 4, 6, ...}</code>.</li>
+          <li><code>[ℕ | x &lt; 10]</code>: The bounded prefix subset <code>{1, 2, ..., 9}</code>.</li>
+          <li><code>[ℕ | x &gt; 5]</code>: The bounded tail subset <code>{6, 7, 8, ...}</code>.</li>
         </ul>
       </li>
       <li><b>5. Extended Numeric Universes (Looking Ahead):</b> The integers <code>ℤ</code>, dyadic rationals <code>𝔻 = {m / 2ⁿ}</code>, the 1D hyperfinite continuous transect <code>ℝ_ω</code> (with infinitesimal step <code>dx = 1/ω</code>), and the 2D complex grid <code>ℂ_ω = ℝ_ω × ℝ_ω</code>.</li>
@@ -196,19 +191,7 @@
         </tr>
         <!-- Unary Predicates -->
         <tr>
-          <td rowspan="4"><b>Unary<br>(Properties)</b></td>
-          <td><b>GT5</b></td>
-          <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>GT5(x)</code></td>
-          <td><code>true</code> if <code>x &gt; 5</code>, else <code>false</code>.</td>
-        </tr>
-        <tr>
-          <td><b>LT10</b></td>
-          <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>LT10(x)</code></td>
-          <td><code>true</code> if <code>x &lt; 10</code>, else <code>false</code>.</td>
-        </tr>
-        <tr>
+          <td rowspan="2"><b>Unary<br>(Properties)</b></td>
           <td><b>EVEN</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
           <td><code>EVEN(x)</code></td>
@@ -308,18 +291,18 @@
 
     <ul>
       <li>
-        <b>Existential Unary:</b> <fsd-ref exp="p" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ]</fsd-ref> 
-        <i>(Evaluates to True: numbers 6, 7, 8... satisfy &gt; 5).</i>
+        <b>Existential Parity:</b> <fsd-ref exp="v" quantifiers="∃x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ EVEN(x₁) ]</fsd-ref> 
+        <i>(Evaluates to True: numbers 2, 4, 6... satisfy even parity).</i>
       </li>
       <br>
       <li>
-        <b>Universal Unary:</b> <fsd-ref exp="p" quantifiers="∀x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ GT5(x₁) ]</fsd-ref> 
-        <i>(Evaluates to False: numbers 1 through 5 fail).</i>
+        <b>Universal Parity:</b> <fsd-ref exp="v" quantifiers="∀x₁:ℕ" slots="x₁" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ EVEN(x₁) ]</fsd-ref> 
+        <i>(Evaluates to False: odd numbers 1, 3, 5... fail).</i>
       </li>
       <br>
       <li>
-        <b>Shared Variable (Intersection):</b> <fsd-ref exp="paq" quantifiers="∃x₁:ℕ" slots="x₁,x₁" style="color:firebrick;font-weight:bold">∃x₁:ℕ [ GT5(x₁) ∧ LT10(x₁) ]</fsd-ref> 
-        <i>(Evaluates to True: elements 6, 7, 8, 9 satisfy both conditions).</i>
+        <b>Bounded Domain Property:</b> <fsd-ref exp="v" quantifiers="∃x₁:[ℕ|x₁>5]" slots="x₁" style="color:firebrick;font-weight:bold">∃x₁:[ℕ | x₁ &gt; 5] [ EVEN(x₁) ]</fsd-ref> 
+        <i>(Evaluates to True: elements 6, 8, 10... are even numbers strictly greater than 5).</i>
       </li>
     </ul>
 
@@ -354,34 +337,75 @@
 
     <h3>8. Power Sets &amp; The Incidence Matrix</h3>
     <p>
-      We can test statements about subset collections using the membership relation <code>∈</code>:
+      In Section 5, we introduced the built-in membership predicate <code>∈</code>. While ordering relations like <code>&lt;</code> and <code>≤</code> compare elements of the same type (<code>ℕ × ℕ → 𝔹</code>), <b>membership is heterogeneous</b>: it bridges an individual carrier element <code>x ∈ ℕ</code> to a collection or subset <code>S ∈ 𝒫(ℕ)</code>:
+    </p>
+
+    <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #0284c7; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+      <div style="font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">The Characteristic Function Duality</div>
+      <div style="font-family: monospace; font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 6px;">
+        rule MEM(x: ℕ, S: 𝒫(ℕ)) : 𝔹 ≔ (x ∈ S)
+      </div>
+      <div style="font-size: 13px; line-height: 1.5; color: #334155;">
+        In constructive mathematics, a subset <code>S</code> is identical to its <b>indicator / characteristic function</b> <code>χ_S : ℕ → 𝔹</code>, where <code>χ_S(x) = 1</code> if <code>x ∈ S</code>, and <code>0</code> if <code>x ∉ S</code>. To specify a subset is simply to answer the membership question <code>x ∈ S</code> across the domain.
+      </div>
+    </div>
+
+    <h4>I. The Finite Incidence Matrix (Base Set ℕ₄)</h4>
+    <p>
+      Because the full counting spine <code>ℕ = {1, 2, 3, ...}</code> is infinite, its full power set <code>𝒫(ℕ)</code> contains an uncountably infinite continuum of subsets. To visualize membership as a concrete, computable structure on screen, FSD models the <b>finite representative base set</b> <code>ℕ₄ = {1, 2, 3, 4}</code>.
+    </p>
+    <p>
+      Because each of the 4 elements can be either present (1) or absent (0), there are exactly <code>2⁴ = 16</code> possible subsets, forming the <b>4 × 16 Power Set Incidence Matrix</b>:
     </p>
     <ul>
+      <li><b>4 Rows (Elements x₁):</b> The coordinates <code>1, 2, 3, 4 ∈ ℕ₄</code>.</li>
+      <li><b>16 Columns (Subsets y₁):</b> The binary column vectors <code>Y₀, Y₁, ..., Y₁₅ ∈ 𝒫(ℕ₄)</code>:
+        <ul>
+          <li><code>Column Y₀ = [0, 0, 0, 0]ᵀ</code>: The <b>empty set ∅</b> (contains zero elements).</li>
+          <li><code>Columns Y₁, Y₂, Y₄, Y₈</code>: The <b>singletons</b> <code>{1}, {2}, {3}, {4}</code> (contain exactly one element).</li>
+          <li><code>Columns Y₃, Y₅, ..., Y₁₄</code>: Pairs and triples (e.g., <code>Y₃ = {1, 2}</code>).</li>
+          <li><code>Column Y₁₅ = [1, 1, 1, 1]ᵀ</code>: The <b>full universe ℕ₄</b> (contains all 4 elements).</li>
+        </ul>
+      </li>
+      <li><b>Grid Cells:</b> Light up in <b>Blue (1)</b> if <code>x₁ ∈ y₁</code>, and stay dim <b>Grey (0)</b> if <code>x₁ ∉ y₁</code>. Each vertical column is literally the binary bitmask of its subset!</li>
+    </ul>
+
+    <h4>II. Testing Quantified Set Invariants in FSD</h4>
+    <p>
+      Armed with the incidence matrix, we can see how quantifiers interact with collections:
+    </p>
+
+    <ul>
       <li>
-        <b>Definition of the Empty Set (Nothing Belongs to ∅):</b><br>
+        <b>1. Definition of the Empty Set (Nothing Belongs to ∅):</b><br>
         Click <fsd-ref exp="nm" quantifiers="∀x₁:ℕ" slots="x₁,∅" style="color:firebrick;font-weight:bold">∀x₁:ℕ [ ¬(x₁ ∈ ∅) ]</fsd-ref><br>
-        <i>Evaluates to <b>True</b>: by definition, Column Y₀ (the empty set <code>∅</code>) contains zero elements across all of <code>ℕ</code>.</i>
+        <i>Evaluates to <b>True</b>: In FSD, Column <code>Y₀</code> (the empty set <code>∅</code>) is completely dark (all zeros). Every element tested in the domain satisfies the negation, proving that no natural number belongs to <code>∅</code>.</i>
       </li>
       <br>
       <li>
-        <b>Unqualified Power Set (Fails on ∅):</b><br>
+        <b>2. Unqualified Power Set (Fails on ∅):</b><br>
         Click <fsd-ref exp="m" quantifiers="∀y₁:𝒫(ℕ) ∃x₁:ℕ" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∀y₁:𝒫(ℕ), ∃x₁:ℕ [ (x₁ ∈ y₁) ]</fsd-ref><br>
-        <i>Evaluates to <b>False</b> because Column 0 (the empty set <code>∅</code>) contains zero elements, so not every subset has a member.</i>
+        <i>Evaluates to <b>False</b>: Geometrically, this proposition asks: &quot;Does <b>every</b> column in the incidence matrix contain at least one blue light?&quot; Because Column <code>Y₀</code> (the empty set) contains zero elements, it stands as an immediate counterexample: not every subset has a member!</i>
       </li>
       <br>
       <li>
-        <b>Excluding the Empty Set (Non-Empty Power Set):</b><br>
+        <b>3. Excluding the Empty Set via Domain Guard (y₁ ≠ ∅):</b><br>
         Click <fsd-ref exp="m" quantifiers="∀y₁:[𝒫(ℕ)|y₁≠∅] ∃x₁:ℕ" slots="x₁,y₁" style="color:firebrick;font-weight:bold">∀y₁:[𝒫(ℕ) | y₁ ≠ ∅], ∃x₁:ℕ [ (x₁ ∈ y₁) ]</fsd-ref><br>
-        <i>Evaluates to <b>True</b>: by explicitly excluding Column Y₀ via the domain guard <code>y₁ ≠ ∅</code>, every remaining active subset (Columns Y₁ through Y₁₅) contains at least one blue light!</i>
+        <i>Evaluates to <b>True</b>: By guarding the subset domain with <code>y₁ ≠ ∅</code>, Column <code>Y₀</code> is shaded out and excluded from the universal check. Every remaining active subset (Columns <code>Y₁</code> through <code>Y₁₅</code>) contains at least one blue light!</i>
       </li>
     </ul>
 
+    <h4>III. The Bridge to the Algebra of Sets</h4>
     <p>
-      In FSD, for base set <code>ℕ₄ = {1, 2, 3, 4}</code>, the demo displays the <code>4 × 16</code> <b>Power Set Incidence Matrix</b>, visually revealing how domain restrictions illuminate and shade individual columns of truth.
+      Because membership represents subsets as vertical bit vectors, the entire <b>Algebra of Sets</b> explored in our next lecture emerges directly as bitwise logical operations across these columns:
     </p>
+    <ul>
+      <li><b>Intersection (<code>A ∩ B</code>):</b> Bitwise <code>AND</code> down the rows of columns <code>A</code> and <code>B</code>.</li>
+      <li><b>Union (<code>A ∪ B</code>):</b> Bitwise <code>OR</code> down the rows of columns <code>A</code> and <code>B</code>.</li>
+      <li><b>Complement (<code>Aᶜ</code>):</b> Bitwise <code>NOT</code>, inverting every cell in column <code>A</code>.</li>
+      <li><b>Subset Inclusion (<code>A ⊆ B</code>):</b> The universal implication <code>∀x [ (x ∈ A) ⇒ (x ∈ B) ]</code>, verifying that every blue light in column <code>A</code> is matched by a blue light in column <code>B</code>.</li>
+    </ul>
 
     <p>
-      In our next lecture, we lift these Boolean operations into the full <b>Algebra of Sets</b>: Unions, Intersections, Complements, and Bounded Domain Quantification!
+      In our next lecture, we formalize this algebra in full: Unions, Intersections, Complements, and Bounded Domain Quantification!
     </p>
-</body>
-</html>
