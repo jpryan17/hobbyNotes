@@ -154,30 +154,50 @@
 
     <hr>
 
-    <h3>5. Built-In Domains &amp; Predicates</h3>
+    <h3>5. Language Primitives, Carrier Types &amp; The Predicate Registry</h3>
     <p>
-      To support concrete calculations and interactive visual exploration, our environment comes pre-loaded with foundational base domains, power sets, constant subsets, and an expressive library of built-in predicates.
+      In modern constructive logic, we do not treat dozens of ad-hoc mathematical relations as hardcoded &quot;built-ins.&quot; Instead, our formal framework is founded on exactly <b>two built-in language primitives</b>. Everything else—from parity to order, metric proximity, and calculus operators—is defined as a transparent rule in our <b>Predicate Registry</b>.
     </p>
 
-    <h4>I. Base Domains &amp; Set Universes</h4>
+    <h4>I. The Two Built-In Language Primitives</h4>
+    <p>
+      The core syntax provides two irreducible primitives that cannot be decomposed further:
+    </p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin: 16px 0;">
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #0284c7; padding: 12px 16px; border-radius: 6px;">
+        <div style="font-size: 11px; font-weight: 700; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">1. Primitive Membership (∈)</div>
+        <div style="font-family: monospace; font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">x ∈ S</div>
+        <div style="font-size: 12.5px; line-height: 1.45; color: #334155;">
+          The irreducible ontological relation bridging an individual carrier element <code>x</code> to a collection or subset <code>S</code>. It answers the fundamental question: <i>&quot;Does element x belong to set S?&quot;</i>
+        </div>
+      </div>
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-left: 4px solid #7c3aed; padding: 12px 16px; border-radius: 6px;">
+        <div style="font-size: 11px; font-weight: 700; color: #6d28d9; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">2. Primitive Directed Equality (≔)</div>
+        <div style="font-family: monospace; font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 4px;">NAME(args) ≔ Expression</div>
+        <div style="font-size: 12.5px; line-height: 1.45; color: #334155;">
+          The irreducible constructive constructor. It introduces new identifiers, formal definitions, computational algorithms, and rule bindings by setting the left-hand name equal to the right-hand formulation.
+        </div>
+      </div>
+    </div>
+
+    <h4>II. Carrier Types &amp; Domains (Beyond ℕ)</h4>
+    <p>
+      In legacy presentations, the natural numbers <code>ℕ</code> are often treated as the privileged, exclusive universe for logic. In Middle Way Math, <b><code>ℕ</code> is simply one carrier type among many</b>—specifically, the discrete 1-successor counting spine (the Day 1 tree).
+    </p>
+    <p>
+      Our logic operates over a rich spectrum of carrier types:
+    </p>
     <ul>
-      <li><b>1. Natural Numbers (<code>ℕ = {1, 2, 3, ...}</code>):</b> The default discrete counting universe for element variables <code>x₁, x₂ ∈ ℕ</code>.</li>
-      <li><b>2. Power Set of <code>ℕ</code> (<code>𝒫(ℕ)</code>):</b> The collection of all subsets of <code>ℕ</code> for subset variables <code>y₁, y₂ ∈ 𝒫(ℕ)</code>.</li>
-      <li><b>3. Boolean Truth Set (<code>𝔹 = {0, 1}</code>):</b> The universal truth codomain for all predicates.</li>
-      <li><b>4. Built-in Constant Subsets:</b>
-        <ul>
-          <li><code>∅</code> (The Empty Set): Contains no elements (<code>∀x:ℕ [ ¬(x ∈ ∅) ]</code>).</li>
-          <li><code>[ℕ | EVEN]</code>: The subset of even natural numbers <code>{2, 4, 6, ...}</code>.</li>
-          <li><code>[ℕ | x &lt; 10]</code>: The bounded prefix subset <code>{1, 2, ..., 9}</code>.</li>
-          <li><code>[ℕ | x &gt; 5]</code>: The bounded tail subset <code>{6, 7, 8, ...}</code>.</li>
-        </ul>
-      </li>
-      <li><b>5. Extended Numeric Universes (Looking Ahead):</b> The integers <code>ℤ</code>, dyadic rationals <code>𝔻 = {m / 2ⁿ}</code>, the 1D hyperfinite continuous transect <code>ℝ_ω</code> (with infinitesimal step <code>dx = 1/ω</code>), and the 2D complex grid <code>ℂ_ω = ℝ_ω × ℝ_ω</code>.</li>
+      <li><b>Boolean Truth Universe (<code>𝔹 = {0, 1}</code>):</b> The universal truth codomain for all predicates and propositions.</li>
+      <li><b>1-Successor Counting Spine (<code>ℕ = {1, 2, 3, ...}</code>):</b> Our introductory discrete carrier for element variables <code>x₁, x₂ ∈ ℕ</code>.</li>
+      <li><b>Power Sets (<code>𝒫(T)</code>):</b> The collection of all subsets over any carrier type <code>T</code> (e.g., <code>𝒫(ℕ)</code> for subset variables <code>y₁, y₂</code>).</li>
+      <li><b>Extended Carrier Types:</b> The integers <code>ℤ</code>, dyadic rationals <code>𝔻 = {m / 2ⁿ}</code>, hyperfinite continuous transect <code>ℝ_ω</code> (with infinitesimal step <code>dx = 1/ω</code>), 2D complex lattice <code>ℂ_ω = ℝ_ω × ℝ_ω</code>, and function spaces <code>[(A) → B]</code>.</li>
     </ul>
 
-    <h4>II. The Built-in Predicate Library</h4>
+    <h4>III. The Predicate Registry: Extensible Defined Rules</h4>
     <p>
-      Predicates are organized into four natural structural families:
+      Because <code>∈</code> and <code>≔</code> are our only built-in primitives, all other mathematical properties, ordering relations, and sieves are defined as transparent rules in our <b>Predicate Registry</b> using directed equality:
     </p>
 
     <table style="border-collapse: collapse; margin: 12px 0;" width="100%" cellspacing="0" cellpadding="8" border="1">
@@ -185,99 +205,93 @@
         <tr bgcolor="#f1f5f9">
           <th width="16%" align="left">Family</th>
           <th width="14%" align="left">Predicate</th>
-          <th width="18%" align="center">Signature</th>
-          <th width="24%" align="left">Template / Notation</th>
-          <th width="28%" align="left">Evaluation Rule</th>
+          <th width="18%" align="center">Carrier Signature</th>
+          <th width="24%" align="left">Registry Definition (≔)</th>
+          <th width="28%" align="left">Geometric Meaning</th>
         </tr>
-        <!-- Unary Predicates -->
+        <!-- Parity -->
         <tr>
-          <td rowspan="2"><b>Unary<br>(Properties)</b></td>
+          <td rowspan="2"><b>Parity<br>(1-Slot)</b></td>
           <td><b>EVEN</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>EVEN(x)</code></td>
-          <td><code>true</code> if <code>x mod 2 = 0</code>.</td>
+          <td><code>EVEN(x) ≔ (x mod 2 = 0)</code></td>
+          <td>Selects even elements on the counting spine.</td>
         </tr>
         <tr>
           <td><b>ODD</b></td>
           <td align="center"><code>ℕ → 𝔹</code></td>
-          <td><code>ODD(x)</code></td>
-          <td><code>true</code> if <code>x mod 2 ≠ 0</code>.</td>
+          <td><code>ODD(x) ≔ (x mod 2 ≠ 0)</code></td>
+          <td>Selects odd elements on the counting spine.</td>
         </tr>
         <!-- Order & Equality -->
         <tr>
           <td rowspan="4"><b>Order &amp; Equality<br>(2-Slot)</b></td>
-          <td><b>GT</b></td>
-          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>GT(x₁, x₂)</code> &nbsp;(or <code>x₁ &gt; x₂</code>)</td>
-          <td><code>true</code> if <code>x₁ &gt; x₂</code> (strictly below diagonal).</td>
+          <td><b>EQ (=)</b></td>
+          <td align="center"><code>T × T → 𝔹</code></td>
+          <td><code>EQ(x₁, x₂) ≔ (x₁ = x₂)</code></td>
+          <td>The sharp 1-pixel <b>main diagonal</b>.</td>
         </tr>
         <tr>
-          <td><b>LT</b></td>
-          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>LT(x₁, x₂)</code> &nbsp;(or <code>x₁ &lt; x₂</code>)</td>
-          <td><code>true</code> if <code>x₁ &lt; x₂</code> (strictly above diagonal).</td>
+          <td><b>GT (&gt;)</b></td>
+          <td align="center"><code>T × T → 𝔹</code></td>
+          <td><code>GT(x₁, x₂) ≔ (x₁ &gt; x₂)</code></td>
+          <td>The open region <b>strictly below</b> the diagonal.</td>
+        </tr>
+        <tr>
+          <td><b>LT (&lt;)</b></td>
+          <td align="center"><code>T × T → 𝔹</code></td>
+          <td><code>LT(x₁, x₂) ≔ (x₁ &lt; x₂)</code></td>
+          <td>The open region <b>strictly above</b> the diagonal.</td>
         </tr>
         <tr>
           <td><b>LE (≤)</b></td>
-          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>LE(x₁, x₂)</code> &nbsp;(or <code>x₁ ≤ x₂</code>)</td>
-          <td><code>true</code> if <code>x₁ ≤ x₂</code> (upper triangle + diagonal).</td>
+          <td align="center"><code>T × T → 𝔹</code></td>
+          <td><code>LE(x₁, x₂) ≔ (x₁ ≤ x₂)</code></td>
+          <td>Closed region: upper triangle including the diagonal.</td>
         </tr>
+        <!-- Discrete & Continuous Structure -->
         <tr>
-          <td><b>EQ (=)</b></td>
-          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>EQ(x₁, x₂)</code> &nbsp;(or <code>x₁ = x₂</code>)</td>
-          <td><code>true</code> if <code>x₁ = x₂</code> (the pure main diagonal).</td>
-        </tr>
-        <!-- Arithmetic & Structure -->
-        <tr>
-          <td rowspan="3"><b>Arithmetic &amp; Proximity</b></td>
+          <td rowspan="3"><b>Structure &amp; Proximity</b></td>
           <td><b>SUCC (+1)</b></td>
           <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>SUCC(x₁, x₂)</code> &nbsp;(or <code>x₂ = x₁ + 1</code>)</td>
-          <td><code>true</code> if <code>x₂ = x₁ + 1</code> (the successor line).</td>
+          <td><code>SUCC(x₁, x₂) ≔ (x₂ = x₁ + 1)</code></td>
+          <td>The discrete 1-successor <b>first superdiagonal</b>.</td>
         </tr>
         <tr>
           <td><b>DIV (∣)</b></td>
           <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>DIV(x₁, x₂)</code> &nbsp;(or <code>x₁ ∣ x₂</code>)</td>
-          <td><code>true</code> if <code>x₁ ≠ 0</code> and <code>x₂ mod x₁ = 0</code> (divisibility sieve).</td>
+          <td><code>DIV(x₁, x₂) ≔ (x₂ mod x₁ = 0)</code></td>
+          <td>The harmonic <b>arithmetic divisibility sieve</b>.</td>
         </tr>
         <tr>
           <td><b>NEAR (≈)</b></td>
-          <td align="center"><code>ℕ × ℕ → 𝔹</code></td>
-          <td><code>NEAR(x₁, x₂)</code> &nbsp;(or <code>x₁ ≈ x₂</code>)</td>
-          <td><code>true</code> if <code>|x₁ - x₂| ≤ 1</code> (tridiagonal monad band).</td>
+          <td align="center"><code>T × T → 𝔹</code></td>
+          <td><code>NEAR(x₁, x₂) ≔ (|x₁ - x₂| ≤ dx)</code></td>
+          <td>A <b>tridiagonal monad ribbon</b>; in continuous analysis, defines the infinitesimal halo.</td>
         </tr>
-        <!-- Set Relations -->
+        <!-- Derived Set Relations -->
         <tr>
-          <td rowspan="2"><b>Set Relations</b></td>
-          <td><b>∈ (Membership)</b></td>
-          <td align="center"><code>ℕ × 𝒫(ℕ) → 𝔹</code></td>
-          <td><code>(x ∈ y)</code></td>
-          <td><code>true</code> if element <code>x</code> belongs to subset <code>y</code>.</td>
-        </tr>
-        <tr>
+          <td><b>Derived Set Relation</b></td>
           <td><b>⊆ (Inclusion)</b></td>
-          <td align="center"><code>𝒫(ℕ) × 𝒫(ℕ) → 𝔹</code></td>
-          <td><code>(y₁ ⊆ y₂)</code></td>
-          <td><code>true</code> if every member of <code>y₁</code> is also in <code>y₂</code>.</td>
+          <td align="center"><code>𝒫(T) × 𝒫(T) → 𝔹</code></td>
+          <td><code>SUBSET(A, B) ≔<br>∀x [ (x ∈ A) ⇒ (x ∈ B) ]</code></td>
+          <td>Derived purely from primitive <code>∈</code> and implication <code>⇒</code>.</td>
         </tr>
       </tbody>
     </table>
 
-    <h4>III. The Geometric Signature on the 2D Matrix</h4>
+    <h4>IV. The Geometric Signature on the 2D Matrix</h4>
     <p>
-      Jill stared at the table, fascinated. “Jack, when we evaluate a 2-slot predicate on <code>ℕ × ℕ</code>, each predicate creates a totally unique picture on the Boolean grid!”
+      Jill stared at the table, fascinated. “Jack, when we evaluate a 2-slot relation on the grid, each defined predicate creates a totally unique picture on the Boolean matrix!”
     </p>
 
     <p>
-      “You’ve hit upon the core visual intuition,” Jack beamed. “Every relation has an unmistakable geometric fingerprint:
+      “You’ve hit upon the core visual intuition,” Jack beamed. “Because predicates are formal rules, each relation has an unmistakable geometric fingerprint:
     </p>
     <ul>
       <li><b>Equality (<code>=</code>):</b> Lights up the sharp 1-pixel <b>main diagonal</b> (<code>x₁ = x₂</code>).</li>
       <li><b>Successor (<code>+1</code>):</b> Shifts that line by exactly one position onto the <b>first superdiagonal</b> (<code>x₂ = x₁ + 1</code>), representing the discrete counting step.</li>
-      <li><b>Adjacency / Monad (<code>≈</code>):</b> Thickens the diagonal into a <b>3-pixel wide tridiagonal ribbon</b> (<code>|x₁ - x₂| ≤ 1</code>). In our upcoming module on continuous numbers, when the step size shrinks to infinitesimal <code>dx = 1/ω</code>, this exact relation defines the <b>infinitesimal monad</b>—the cluster of all points indistinguishable from each other!</li>
+      <li><b>Adjacency / Monad (<code>≈</code>):</b> Thickens the diagonal into a <b>3-pixel wide tridiagonal ribbon</b> (<code>|x₁ - x₂| ≤ 1</code>). When the step size shrinks to infinitesimal <code>dx = 1/ω</code>, this exact relation defines the <b>infinitesimal monad</b>—the cluster of all points indistinguishable from each other!</li>
       <li><b>Divisibility (<code>∣</code>):</b> Paints a rich, harmonic <b>arithmetic sieve</b>: Column 1 is 100% lit, Column 2 lights every even row, Column 3 every third row, revealing prime numbers as rows with exactly two active cells.</li>
       <li><b>Inclusion (<code>⊆</code>):</b> Compares two full columns of the Power Set Incidence Matrix, checking whether the active bits of <code>y₁</code> are a sub-pattern of <code>y₂</code>.</li>
     </ul>
