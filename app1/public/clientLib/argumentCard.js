@@ -353,6 +353,10 @@ export class ArgumentCard extends Elt {
         if (arrowMatch && LEAN_CACHE[arrowMatch[1]]) {
             return LEAN_CACHE[arrowMatch[1]];
         }
+        const thmMatch = this.arg.leanSnippet?.match(/theorem\s+([a-zA-Z0-9_'.]+)/);
+        if (thmMatch && LEAN_CACHE[thmMatch[1]]) {
+            return LEAN_CACHE[thmMatch[1]];
+        }
         // Search strictly by exact key, target, or mathematical expression match
         const entries = Object.values(LEAN_CACHE);
         return entries.find((c) => (c.target && (targetKey === c.target || targetKey === `scaffold:${c.target}`)) ||

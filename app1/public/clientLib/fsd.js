@@ -4532,7 +4532,11 @@ export class FSD extends PXEParent {
         }
         else {
             const formalArg = this.buildFormalArgument(finalStatementTruth);
-            container.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
+            if (this.isInspectionMode) {
+                formalArg.statementId = this.catalogTheoremName || this.pxe.exp;
+                formalArg.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+            }
+            container.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
         }
         this.applyScale();
     }
@@ -5399,7 +5403,11 @@ export class FSD extends PXEParent {
                 svgWrap.append(info);
                 matrixBox.append(svgWrap);
                 const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel);
-                matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
+                if (this.isInspectionMode) {
+                    formalArg.statementId = this.catalogTheoremName || this.pxe.exp;
+                    formalArg.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+                }
+                matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
                 return;
             }
         }
@@ -5526,7 +5534,11 @@ export class FSD extends PXEParent {
         svgWrap.append(info);
         matrixBox.append(svgWrap);
         const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: true }));
+        if (this.isInspectionMode) {
+            formalArg.statementId = this.catalogTheoremName || this.pxe.exp;
+            formalArg.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+        }
+        matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
     }
 }
 export let fsd;
