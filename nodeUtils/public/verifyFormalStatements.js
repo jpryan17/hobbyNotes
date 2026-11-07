@@ -94,7 +94,7 @@ function verifyWithLean(leanBin, code, forceScaffold = false) {
     }
     fs.writeFileSync(tempFile, fullCode, 'utf8');
     const start = Date.now();
-    const res = (0, child_process_1.spawnSync)(leanBin, [tempFile], { encoding: 'utf8', timeout: 12000 });
+    const res = (0, child_process_1.spawnSync)(leanBin, [tempFile], { encoding: 'utf8', timeout: 25000 });
     const timeMs = Date.now() - start;
     try {
         if (fs.existsSync(tempFile))
@@ -266,7 +266,8 @@ async function runVerification() {
             }
         }
         if (snippetToVerify) {
-            const res = verifyWithLean(leanBin, snippetToVerify, true);
+            const isPredSpec = !!PREDICATE_SPECS[key];
+            const res = verifyWithLean(leanBin, snippetToVerify, !isPredSpec);
             if (res.qed) {
                 verifiedCount++;
                 console.log(`[PASS] [FS #${row.id.padEnd(2)}] ${key.padEnd(28)} | Q.E.D. ✓ (${res.timeMs}ms)`);

@@ -911,6 +911,10 @@ export class FSD extends PXEParent {
           </div>
           ${verdictSnippet}
         `;
+                const predDrawer = this.buildConstituentPredicatesDrawer();
+                if (predDrawer) {
+                    this.modernPredicateBox.appendChild(predDrawer);
+                }
             }
         }
         // 4. Update Lean 4 Machine Certification Box (Only relevant in Stage 4 if entering via catalog ref inspection)
@@ -1127,6 +1131,10 @@ export class FSD extends PXEParent {
             inspectNotice.style.cssText = "background: #f0f9ff; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; color: #0369a1; font-size: 13px; line-height: 1.5;";
             inspectNotice.innerHTML = `<strong>📖 Reader Inspection Mode:</strong> Displaying cataloged theorem relation <code>${this.catalogTheoremName ? 'MiddleWay.' + this.catalogTheoremName : 'Catalog Ref'}</code>. Expression authoring is locked. Click <strong>Inspect Slots →</strong> below to inspect slot bindings and quantifiers.`;
             card.appendChild(inspectNotice);
+            const drawer = this.buildConstituentPredicatesDrawer();
+            if (drawer) {
+                card.appendChild(drawer);
+            }
             return;
         }
         // --- CONSTRUCTION MODE: Streamlined Toolbar with Predicates & Logical Operators Up Front ---
@@ -1305,60 +1313,85 @@ export class FSD extends PXEParent {
         row.appendChild(actGroup);
         toolbarBox.appendChild(row);
         card.appendChild(toolbarBox);
-        // Constituent Predicates & Pseudocode Inspector in Formula
-        const activeTokens = Array.from(new Set(this.pxe.exp.split("").filter(ch => PredicateRegistry.getPredicate(ch))));
-        if (activeTokens.length > 0) {
-            const predInspector = document.createElement("div");
-            predInspector.style.cssText = "margin-top: 14px; background: #f8fafc; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 12px 14px;";
-            predInspector.innerHTML = `
-        <div style="font-size: 11px; font-weight: 800; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;">
-          <div style="display: flex; align-items: center; gap: 6px;">
-            <span>⚡</span> <span>Constituent Predicates in Formula (Functions into 𝔹)</span>
-          </div>
-          <span style="font-size: 11px; color: #64748b; font-weight: 600;">(Expand to inspect MWM Pseudocode)</span>
-        </div>
-      `;
-            const predGrid = document.createElement("div");
-            predGrid.style.cssText = "display: flex; flex-direction: column; gap: 8px;";
-            activeTokens.forEach(code => {
-                const pDef = PredicateRegistry.getPredicate(code);
-                if (!pDef)
-                    return;
-                const pDetail = this.getPredicateDetail(pDef.id || pDef.symbol);
-                const itemBox = document.createElement("details");
-                itemBox.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 12px; transition: all 0.15s ease;";
-                itemBox.innerHTML = `
-          <summary style="font-size: 12.5px; font-weight: 700; color: #0f172a; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span style="font-family: monospace; color: #0284c7; font-weight: bold; font-size: 13.5px; background: #e0f2fe; padding: 2px 7px; border-radius: 4px;">${pDef.symbol}(...)</span>
-              <span style="font-size: 12px; color: #475569;">${pDetail ? pDetail.signature : `${pDef.symbol} : Domain → 𝔹`}</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <button type="button" class="btn-goto-pred" style="padding: 2px 8px; font-size: 11px; font-weight: 700; color: #059669; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 4px; cursor: pointer;">⚙️ Open in Predicate Builder →</button>
-              <span style="font-size: 11px; color: #0284c7; font-weight: 600;">Pseudocode ▾</span>
-            </div>
-          </summary>
-          <div style="margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px;">
-            <div style="font-size: 12px; color: #475569; margin-bottom: 6px;">${pDetail ? pDetail.description : ''}</div>
-            <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 12px; line-height: 1.5; padding: 10px 14px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(pDetail ? pDetail.pseudocode : `rule ${pDef.symbol}(...) : 𝔹 ≔ begin return ${pDef.evaluator}; end;`)}</code></pre>
-          </div>
-        `;
-                const gotoBtn = itemBox.querySelector(".btn-goto-pred");
-                if (gotoBtn) {
-                    gotoBtn.addEventListener("click", (e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        this.selectedPredicateId = pDef.id || pDef.symbol;
-                        this.fsSubtype = "predicate";
-                        this.renderModernStageCard();
-                        this.syncModernUI();
-                    });
-                }
-                predGrid.appendChild(itemBox);
-            });
-            predInspector.appendChild(predGrid);
-            card.appendChild(predInspector);
+        const drawer = this.buildConstituentPredicatesDrawer();
+        if (drawer) {
+            card.appendChild(drawer);
         }
+    }
+    // Build the On-Request Constituent Predicates & Pseudocode Drawer
+    buildConstituentPredicatesDrawer() {
+        const activeTokens = Array.from(new Set(this.pxe.exp.split("").filter(ch => PredicateRegistry.getPredicate(ch))));
+        if (activeTokens.length === 0)
+            return null;
+        const drawer = document.createElement("details");
+        drawer.className = "fsd-constituent-pred-drawer";
+        drawer.style.cssText = "margin-top: 10px; background: #f8fafc; border: 1.5px solid #bae6fd; border-radius: 8px; padding: 8px 12px; transition: all 0.15s ease;";
+        const summary = document.createElement("summary");
+        summary.style.cssText = "font-size: 12px; font-weight: 700; color: #0369a1; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: space-between;";
+        summary.innerHTML = `
+      <div style="display: flex; align-items: center; gap: 7px;">
+        <span style="font-size: 13px;">⚡</span>
+        <span>Inspect Constituent Predicates &amp; Pseudocode (${activeTokens.length})</span>
+      </div>
+      <span style="font-size: 11px; color: #0284c7; font-weight: 600;">(Click to view definition ▾)</span>
+    `;
+        drawer.appendChild(summary);
+        const body = document.createElement("div");
+        body.style.cssText = "margin-top: 10px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid #e2e8f0; padding-top: 8px;";
+        activeTokens.forEach(code => {
+            const pDef = PredicateRegistry.getPredicate(code);
+            if (!pDef)
+                return;
+            const pDetail = this.getPredicateDetail(pDef.id || pDef.symbol);
+            const itemBox = document.createElement("div");
+            itemBox.style.cssText = "background: #ffffff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px 12px;";
+            // Quick truth vector for unary predicate on ℕ: 1..6
+            let truthVectorHTML = "";
+            if (pDef.evaluator && (!pDef.arity || pDef.arity === 1)) {
+                try {
+                    const evalFn = new Function("n", `return (${pDef.evaluator});`);
+                    const samples = [1, 2, 3, 4, 5, 6].map(n => {
+                        const res = evalFn(n);
+                        return `<span style="font-size: 11px; padding: 1px 5px; border-radius: 3px; font-family: monospace; background: ${res ? '#ecfdf5' : '#fef2f2'}; color: ${res ? '#15803d' : '#b91c1c'}; border: 1px solid ${res ? '#bbf7d0' : '#fecaca'};">${n}: ${res ? '✓ T' : '✗ F'}</span>`;
+                    }).join(" ");
+                    truthVectorHTML = `
+            <div style="margin-top: 6px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <span style="font-size: 11px; color: #64748b; font-weight: 700;">Discrete Vector on ℕ:</span>
+              ${samples}
+            </div>
+          `;
+                }
+                catch { }
+            }
+            itemBox.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-family: monospace; color: #0284c7; font-weight: bold; font-size: 13px; background: #e0f2fe; padding: 2px 7px; border-radius: 4px;">${pDef.symbol}(...)</span>
+            <span style="font-size: 12px; color: #334155; font-weight: 600;">${pDetail ? pDetail.signature : `${pDef.symbol} : Domain → 𝔹`}</span>
+          </div>
+          <button type="button" class="btn-drawer-goto-pred" style="padding: 3px 9px; font-size: 11.5px; font-weight: 700; color: #059669; background: #ecfdf5; border: 1.5px solid #a7f3d0; border-radius: 4px; cursor: pointer; transition: all 0.15s ease;">
+            ⚙️ Open in Predicate Builder →
+          </button>
+        </div>
+        ${truthVectorHTML}
+        <div style="font-size: 11.5px; color: #475569; margin-bottom: 6px;">${pDetail ? pDetail.description : ''}</div>
+        <pre style="margin: 0; background: #0f172a; color: #f8fafc; font-family: monospace; font-size: 12px; line-height: 1.5; padding: 8px 12px; border-radius: 6px; overflow-x: auto; border: 1px solid #1e293b;"><code>${this.formatPseudocodeHTML(pDetail ? pDetail.pseudocode : `rule ${pDef.symbol}(...) : 𝔹 ≔ begin return ${pDef.evaluator}; end;`)}</code></pre>
+      `;
+            const gotoBtn = itemBox.querySelector(".btn-drawer-goto-pred");
+            if (gotoBtn) {
+                gotoBtn.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.selectedPredicateId = pDef.id || pDef.symbol;
+                    this.fsSubtype = "predicate";
+                    this.renderModernStageCard();
+                    this.syncModernUI();
+                });
+            }
+            body.appendChild(itemBox);
+        });
+        drawer.appendChild(body);
+        return drawer;
     }
     // Build the Top-Level Mode Bar (1: Proposition, 2: Predicate Defn, 3: Directed Equality)
     buildModernSubtypeBar(wrap) {
@@ -1940,9 +1973,18 @@ export class FSD extends PXEParent {
             updateBinRes();
         }
         card.appendChild(runnerBox);
-        // Action Toolbar: Load into Subtype 1
+        // Action Toolbar: Load into Subtype 1 or Return
         const actionBox = document.createElement("div");
-        actionBox.style.cssText = "display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 14px;";
+        actionBox.style.cssText = "display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap;";
+        const btnBack = document.createElement("button");
+        btnBack.style.cssText = "padding: 8px 16px; font-size: 13px; font-weight: 600; color: #475569; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
+        btnBack.innerHTML = `<span>⬅</span> <span>Return to Proposition</span>`;
+        btnBack.addEventListener("click", () => {
+            this.fsSubtype = "proposition";
+            this.renderModernStageCard();
+            this.syncModernUI();
+        });
+        actionBox.appendChild(btnBack);
         const btnUse = document.createElement("button");
         btnUse.style.cssText = "padding: 8px 18px; font-size: 13px; font-weight: 700; color: #ffffff; background: #0284c7; border: 1.5px solid #0284c7; border-radius: 6px; cursor: pointer; transition: all 0.15s ease;";
         btnUse.innerHTML = `<span>➕</span> <span>Load into Proposition (Subtype 1) →</span>`;
