@@ -9,6 +9,7 @@ import { LaurentDyad } from "./laurentDyad.js";
 import { DR } from "./dyadicRationals.js";
 import { WU } from "./exputils.js";
 import { SessionRegistry } from "./sessionRegistry.js";
+import { LeanTranslator } from "./leanTranslator.js";
 
 export type DomainType = string;
 
@@ -1992,43 +1993,12 @@ export class FSD extends PXEParent {
 
   // Generate Lean 4 Certified Proof Snippet
   getLeanSnippet(): string {
-    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("o")) {
-      return `-- Constructive Order Union Coverage on ℕ\ntheorem fsd_order_union : ∀ (x : Nat), x > 5 ∨ x < 10 := by\n  intro x\n  cases Classical.em (x < 10) with\n  | inl hlt => exact Or.inr hlt\n  | inr hge => exact Or.inl (Nat.not_lt.mp hge)`;
-    }
-    if (this.pxe.exp.includes("p") && this.pxe.exp.includes("a")) {
-      return `-- Constructive Order Intersection on ℕ\ntheorem fsd_order_inter : ∃ (x : Nat), x > 5 ∧ x < 10 := by\n  use 6\n  decide`;
-    }
-    if (this.pxe.exp.includes("p")) {
-      return `-- Constructive Order Bound (x > 5) on ℕ\ntheorem fsd_gt5_witness : ∃ (x : Nat), x > 5 := by\n  use 6\n  decide`;
-    }
-    if (this.pxe.exp.includes("q")) {
-      return `-- Constructive Order Bound (x < 10) on ℕ\ntheorem fsd_lt10_witness : ∃ (x : Nat), x < 10 := by\n  use 0\n  decide`;
-    }
-    if (this.pxe.exp.includes("s")) {
-      return `-- Machine Certified Constructive Order on ℕ Spine\ntheorem fsd_order_lt : ∀ (x : Nat), ∃ (y : Nat), x < y := by\n  intro x\n  use (x + 1)\n  apply Nat.lt_succ_self`;
-    }
-    if (this.pxe.exp.includes("r")) {
-      return `-- Machine Certified Constructive Order on ℕ Spine\ntheorem fsd_order_gt : ∀ (x : Nat), ∃ (y : Nat), y > x := by\n  intro x\n  use (x + 1)\n  apply Nat.lt_succ_self`;
-    }
-    if (this.pxe.exp.includes("k")) {
-      return `-- Constructive Reflexive Identity\ntheorem fsd_eq_refl : ∀ (x : Nat), x = x := by\n  intro x\n  rfl`;
-    }
-    if (this.pxe.exp.includes("l")) {
-      return `-- Constructive Order Reflexivity\ntheorem fsd_le_refl : ∀ (x : Nat), x ≤ x := by\n  intro x\n  apply Nat.le_refl`;
-    }
-    if (this.pxe.exp.includes("u")) {
-      return `-- Discrete Successor / Transect Step Verified\ntheorem fsd_transect_succ : ∀ (x : Nat), ∃ (y : Nat), y = x + 1 := by\n  intro x\n  use (x + 1)\n  rfl`;
-    }
-    if (this.pxe.exp.includes("m")) {
-      return `-- Power Set Constructive Incidence Certification\ntheorem fsd_powerset_mem : ∀ (x : Nat), ∃ (s : Set Nat), x ∈ s := by\n  intro x\n  use {x}\n  simp`;
-    }
-    if (this.pxe.exp.includes("b")) {
-      return `-- Subset Reflexivity Certified\ntheorem fsd_subset_refl : ∀ (A : Nat → Prop), ∀ (x : Nat), A x → A x := by\n  intro A x h\n  exact h`;
-    }
-    if (this.pxe.exp.includes("w")) {
-      return `-- Infinitesimal Halo Proximity Certified\ntheorem fsd_halo_near : ∀ (x : Real), ∃ (y : Real), y ≈ x := by\n  intro x\n  use x\n  apply near_refl`;
-    }
-    return `-- Middle Way Constructive Spine Certification\ntheorem fsd_constructive_tree : ∀ (x : Nat), ∃ (y : Nat), x + 1 > x := by\n  intro x\n  use (x + 1)\n  apply Nat.lt_succ_self`;
+    return LeanTranslator.translate({
+      quantifiers: this.quantifierBindings,
+      pxeExp: this.pxe.exp,
+      slots: this.slots,
+      verdict: true
+    }).leanSnippet;
   }
 
   clearStageControls() {
@@ -3700,7 +3670,13 @@ export class FSD extends PXEParent {
               { label: "Condition", question: `Does ${v} = ${witness} satisfy formula?`, passed: true, detail: "→ Yes" }
             ],
             conclusion: `Witness ${v} = ${witness} satisfies all conditions. The existential claim is verified.`,
-            leanSnippet: `-- Verified existential witness\ntheorem fsd_existential_witness : ∃ (${v} : Nat), ${v} = ${witness} := by use ${witness}`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: true,
+              witness
+            }).leanSnippet
           };
         } else {
           return {
@@ -3716,7 +3692,12 @@ export class FSD extends PXEParent {
             ],
             conflictOrSupport: "No tested candidate in the active domain satisfies the formula.",
             conclusion: "No witness exists in the domain. The existential claim is disproven.",
-            leanSnippet: `-- Refuted existential\ntheorem fsd_existential_refuted : ¬(False) := by decide`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: false
+            }).leanSnippet
           };
         }
       } else { // q === "∀"
@@ -3734,7 +3715,13 @@ export class FSD extends PXEParent {
             ],
             conflictOrSupport: `The claim asserts ALL elements satisfy the condition, but ${v} = ${counterEx} fails.`,
             conclusion: `A universal claim requires all cases to hold. Refuted by counterexample ${v} = ${counterEx}.`,
-            leanSnippet: `-- Universal refutation by counterexample\ntheorem fsd_counterexample : ¬(True → False) := by decide`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: false,
+              counterExample: counterEx
+            }).leanSnippet
           };
         } else {
           return {
@@ -3749,7 +3736,12 @@ export class FSD extends PXEParent {
               { label: "Uniformity", question: "Any counterexamples found?", passed: true, detail: "→ None" }
             ],
             conclusion: "Every element tested in the domain satisfies the condition. The universal claim is verified.",
-            leanSnippet: `-- Universal verified\ntheorem fsd_universal_verified : ∀ (x : Nat), x = x := by intro x; rfl`
+            leanSnippet: LeanTranslator.translate({
+              quantifiers: this.quantifierBindings,
+              pxeExp: this.pxe.exp,
+              slots: this.slots,
+              verdict: true
+            }).leanSnippet
           };
         }
       }
@@ -3777,7 +3769,12 @@ export class FSD extends PXEParent {
             { label: "Open Boundary", question: "Verified across ℕ (including boundary witnesses)?", passed: true, detail: "→ Yes" }
           ],
           conclusion: `For every row ${v0}, an appropriate witness ${v1} exists in the domain. Verified True.`,
-          leanSnippet: `-- ∀∃ relation certified\ntheorem fsd_forall_exists : ∀ (x : Nat), ∃ (y : Nat), y > x := by intro x; use (x + 1); omega`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: true
+          }).leanSnippet
         };
       } else {
         return {
@@ -3792,7 +3789,12 @@ export class FSD extends PXEParent {
           ],
           conflictOrSupport: `At least one row ${v0} cannot find any valid ${v1} in the active domain.`,
           conclusion: "The ∀∃ claim is disproven because not all rows have an existential partner.",
-          leanSnippet: `-- Refuted ∀∃\ntheorem fsd_forall_exists_refuted : ¬(∀ (x : Nat), x < 0) := by decide`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: false
+          }).leanSnippet
         };
       }
     } else if (q0 === "∃" && q1 === "∀") {
@@ -3808,7 +3810,12 @@ export class FSD extends PXEParent {
             { label: "Universal Column", question: `Is column ${v0} solid True across all rows ${v1}?`, passed: true, detail: "→ Yes" }
           ],
           conclusion: `Column ${v0} serves as the universal master key. Claim verified.`,
-          leanSnippet: `-- ∃∀ Master key\ntheorem fsd_exists_forall : True := by trivial`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: true
+          }).leanSnippet
         };
       } else {
         return {
@@ -3823,7 +3830,12 @@ export class FSD extends PXEParent {
           ],
           conflictOrSupport: "Every candidate column fails for at least one row.",
           conclusion: `No single ${v0} satisfies all ${v1} simultaneously. Disproven.`,
-          leanSnippet: `-- Refuted ∃∀\ntheorem fsd_master_key_refuted : ¬(False) := by decide`
+          leanSnippet: LeanTranslator.translate({
+            quantifiers: this.quantifierBindings,
+            pxeExp: this.pxe.exp,
+            slots: this.slots,
+            verdict: false
+          }).leanSnippet
         };
       }
     }
@@ -3839,7 +3851,12 @@ export class FSD extends PXEParent {
         { label: "Domain Evaluation", question: "Condition verified across domain", passed: finalStatementTruth, detail: finalStatementTruth ? "→ Passed" : "→ Failed" }
       ],
       conclusion: `Statement evaluated to ${finalStatementTruth ? 'True' : 'False'}.`,
-      leanSnippet: `theorem fsd_eval : ${finalStatementTruth ? 'True' : '¬False'} := by trivial`
+      leanSnippet: LeanTranslator.translate({
+        quantifiers: this.quantifierBindings,
+        pxeExp: this.pxe.exp,
+        slots: this.slots,
+        verdict: finalStatementTruth
+      }).leanSnippet
     };
   }
 

@@ -87,7 +87,9 @@ class LeanRunner {
         const tempFileId = `verify_${Date.now()}_${Math.floor(Math.random() * 10000)}.lean`;
         const tempFilePath = path.join(this.scratchDir, tempFileId);
         let fullCode = "";
-        if (includeScaffold && fs.existsSync(this.scaffoldPath)) {
+        const needsScaffold = includeScaffold && (code.includes("Tree1_at") || code.includes("Tree2_at") || code.includes("Tree4_at") ||
+            code.includes("Ord") || code.includes("near_refl") || code.includes("dx") || code.includes("MiddleWay"));
+        if (needsScaffold && fs.existsSync(this.scaffoldPath)) {
             const scaffoldContent = fs.readFileSync(this.scaffoldPath, "utf-8");
             fullCode = `${scaffoldContent}\n\n-- === USER VERIFICATION SNIPPET ===\nnamespace MiddleWay\n\n${code}\n\nend MiddleWay\n`;
         }
@@ -106,10 +108,10 @@ class LeanRunner {
                     success: false,
                     qed: false,
                     executionTimeMs: Date.now() - startMs,
-                    diagnostics: [{ line: 1, col: 1, severity: "error", message: "Lean verification timed out (5s limit exceeded)." }],
+                    diagnostics: [{ line: 1, col: 1, severity: "error", message: "Lean verification timed out (12s limit exceeded)." }],
                     rawOutput: "Timeout"
                 });
-            }, 5000);
+            }, 12000);
             proc.stdout.on("data", (d) => { stdout += d.toString(); });
             proc.stderr.on("data", (d) => { stderr += d.toString(); });
             const cleanup = () => {
