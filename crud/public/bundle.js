@@ -3024,7 +3024,7 @@ var FS_CATALOG;
 var init_fsCatalog = __esm({
   "clientLib/fsCatalog.ts"() {
     FS_CATALOG = {
-      "generatedAt": "2026-11-07T03:25:48.747Z",
+      "generatedAt": "2026-11-07T04:24:06.696Z",
       "version": "2.0.0",
       "formalStatements": [
         {
