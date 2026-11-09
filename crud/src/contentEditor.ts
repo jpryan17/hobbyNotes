@@ -810,10 +810,10 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             let row = null;
             if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
             } else if (exp) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE expression = $1 OR init_packet LIKE $2 LIMIT 1;", [exp, `%"${exp}"%`]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE expression = $1 OR init_packet::text LIKE $2 LIMIT 1;", [exp, `%"${exp}"%`]);
                 row = rows?.[0] || {
                     expression: exp,
                     title: PxeEngine.fmt(exp) || exp,
@@ -825,18 +825,20 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             return row;
         } else if (normTag === 'fs-ref') {
             const id = el.getAttribute('id');
-            const key = el.getAttribute('statement-key');
+            const key = el.getAttribute('key') || el.getAttribute('statement-key');
             const desc = el.getAttribute('desc');
             const algo = el.getAttribute('algo');
             const cacheKey = id ? `fs:id:${id}` : `fs:key:${key || desc || algo}`;
             if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
 
             let row = null;
-            if (id) {
+            if (id && /^\d+$/.test(id)) {
                 const rows = await queryDatabase<any>("SELECT * FROM formal_statements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
-            } else if (key) {
-                const rows = await queryDatabase<any>("SELECT * FROM formal_statements WHERE statement_key = $1 LIMIT 1;", [key]);
+            }
+            if (!row && (key || id)) {
+                const lookupKey = key || id;
+                const rows = await queryDatabase<any>("SELECT * FROM formal_statements WHERE statement_key = $1 OR scaffold_key = $1 LIMIT 1;", [lookupKey]);
                 row = rows?.[0] || null;
             }
             if (!row && (desc || algo)) {
@@ -850,17 +852,19 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             if (row) entityMetaCache.set(cacheKey, row);
             return row;
         } else if (normTag === 'interactive-stencil') {
-            const eqKey = el.getAttribute('equation-key');
+            const eqKey = el.getAttribute('key') || el.getAttribute('equation-key') || el.getAttribute('statement-key');
             const id = el.getAttribute('id');
             const cacheKey = eqKey ? `stencil:key:${eqKey}` : `stencil:id:${id}`;
             if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
 
             let row = null;
-            if (eqKey) {
-                const rows = await queryDatabase<any>("SELECT * FROM directed_equations WHERE equation_key = $1 LIMIT 1;", [eqKey]);
+            if (id && /^\d+$/.test(id)) {
+                const rows = await queryDatabase<any>("SELECT * FROM formal_statements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
-            } else if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM directed_equations WHERE id = $1 LIMIT 1;", [id]);
+            }
+            if (!row && (eqKey || id)) {
+                const lookupKey = eqKey || id;
+                const rows = await queryDatabase<any>("SELECT * FROM formal_statements WHERE statement_key = $1 OR scaffold_key = $1 LIMIT 1;", [lookupKey]);
                 row = rows?.[0] || null;
             }
             if (row) entityMetaCache.set(cacheKey, row);
@@ -872,7 +876,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             let row = null;
             if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
             }
             if (row) entityMetaCache.set(cacheKey, row);
@@ -894,13 +898,15 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             if (row) entityMetaCache.set(cacheKey, row);
             return row;
         } else if (normTag === 'preset-ref') {
-            const presetId = el.getAttribute('id') || el.getAttribute('preset-id') || el.getAttribute('preset-key');
-            const cacheKey = `preset:key:${presetId}`;
+            const presetId = el.getAttribute('id') || el.getAttribute('preset-id');
+            const presetKey = el.getAttribute('key') || el.getAttribute('preset-key');
+            const lookup = presetId || presetKey;
+            const cacheKey = `preset:key:${lookup}`;
             if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
 
             let row = null;
-            if (presetId) {
-                const rows = await queryDatabase<any>("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [presetId]);
+            if (lookup) {
+                const rows = await queryDatabase<any>("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [lookup]);
                 row = rows?.[0] || null;
             }
             if (row) entityMetaCache.set(cacheKey, row);
@@ -913,7 +919,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             let row = null;
             if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
             }
             if (!row) {
@@ -936,7 +942,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             let row = null;
             if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
             }
             if (!row) {
@@ -957,7 +963,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             let row = null;
             if (id) {
-                const rows = await queryDatabase<any>("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+                const rows = await queryDatabase<any>("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
                 row = rows?.[0] || null;
             }
             if (!row) {
@@ -1229,26 +1235,26 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
     async function openQuickInspectorModal(chipEl: HTMLElement) {
         const normTag = chipEl.tagName.toLowerCase();
         let kind: 'ttd' | 'fs' | 'stencil' | 'demo' | 'pseudo' | 'preset' | 'btd' | 'bid' | 'fsd' = 'ttd';
-        let tableName = 'interactive_demos';
+        let tableName = 'custom_elements';
         let badgeColor = '#991b1b';
         let badgeBg = '#fee2e2';
         let badgeText = '⚖️ Truth Table Proposition';
 
         if (normTag === 'fsd-ref') {
             kind = 'fsd';
-            tableName = 'interactive_demos';
+            tableName = 'custom_elements';
             badgeColor = '#4338ca';
             badgeBg = '#e0e7ff';
             badgeText = '🔬 Formal Stage Visualizer';
         } else if (normTag === 'btd-ref') {
             kind = 'btd';
-            tableName = 'interactive_demos';
+            tableName = 'custom_elements';
             badgeColor = '#0f766e';
             badgeBg = '#ccfbf1';
             badgeText = '🌲 2-Successor Binary Tree';
         } else if (normTag === 'bid-ref') {
             kind = 'bid';
-            tableName = 'interactive_demos';
+            tableName = 'custom_elements';
             badgeColor = '#0369a1';
             badgeBg = '#e0f2fe';
             badgeText = '🔢 Dyadic Integer Demo';
@@ -1260,10 +1266,10 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             badgeText = '📜 Formal Statement';
         } else if (normTag === 'interactive-stencil') {
             kind = 'stencil';
-            tableName = 'directed_equations';
+            tableName = 'formal_statements';
             badgeColor = '#166534';
             badgeBg = '#dcfce7';
-            badgeText = '📐 Computational Stencil';
+            badgeText = '📐 Directed Equality Stencil';
         } else if (normTag === 'preset-ref') {
             kind = 'preset';
             tableName = 'stencil_presets';
@@ -1272,7 +1278,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
             badgeText = '🎛️ Stencil Preset';
         } else if (normTag === 'visual-demo') {
             kind = 'demo';
-            tableName = 'interactive_demos';
+            tableName = 'custom_elements';
             badgeColor = '#6b21a8';
             badgeBg = '#f3e8ff';
             badgeText = '🎨 Interactive Demo';
@@ -2261,7 +2267,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
 
             if (kind === 'ttd') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
+                    "SELECT id, title, engine, mode, expression, status, init_packet FROM custom_elements WHERE engine = 'ttd' ORDER BY id ASC;"
                 );
                 (rows || []).forEach((d: any) => {
                     const exp = d.expression || '';
@@ -2271,7 +2277,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                     items.push({
                         id: String(d.id),
                         label: `[#${d.id}] ${label}`,
-                        sublabel: exp ? `Formula: ${fmt || exp} · [${d.mode || 'logic'}]` : `interactive_demos · ID ${d.id}`,
+                        sublabel: exp ? `Formula: ${fmt || exp} · [${d.mode || 'logic'}]` : `custom_elements · ID ${d.id}`,
                         badge: statusStr,
                         badgeBg: '#fee2e2',
                         badgeColor: '#991b1b',
@@ -2286,13 +2292,13 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 });
             } else if (kind === 'fsd') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'fsd' ORDER BY id ASC;"
+                    "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'fsd' ORDER BY id ASC;"
                 );
                 (rows || []).forEach((d: any) => {
                     items.push({
                         id: String(d.id),
                         label: `[#${d.id}] ${d.title || 'Formal Stage Scaffold'}`,
-                        sublabel: `interactive_demos · engine: FSD · mode: ${d.mode || 'stage_visualizer'}`,
+                        sublabel: `custom_elements · engine: FSD · mode: ${d.mode || 'stage_visualizer'}`,
                         badge: 'FSD',
                         badgeBg: '#e0e7ff',
                         badgeColor: '#4338ca',
@@ -2305,7 +2311,7 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 });
             } else if (kind === 'btd') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'btd' ORDER BY id ASC;"
+                    "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'btd' ORDER BY id ASC;"
                 );
                 (rows || []).forEach((d: any) => {
                     items.push({
@@ -2345,13 +2351,13 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 });
             } else if (kind === 'bid') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'bid' ORDER BY id ASC;"
+                    "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'bid' ORDER BY id ASC;"
                 );
                 (rows || []).forEach((d: any) => {
                     items.push({
                         id: String(d.id),
                         label: `[#${d.id}] ${d.title || d.mode}`,
-                        sublabel: `interactive_demos · engine: BID · mode: ${d.mode}`,
+                        sublabel: `custom_elements · engine: BID · mode: ${d.mode}`,
                         badge: 'BID',
                         badgeBg: '#e0f2fe',
                         badgeColor: '#0284c7',
@@ -2371,75 +2377,80 @@ export async function renderSegmentContentSurface(options: SegmentEditorOptions)
                 (rows || []).forEach((s: any) => {
                     const kindStr = (s.statement_kind || 'fs').toUpperCase();
                     items.push({
-                        id: s.statement_key,
-                        label: `[${kindStr}] ${s.title || s.statement_key} (${s.statement_key})`,
+                        id: String(s.id),
+                        label: `[${kindStr}] ${s.title || s.statement_key} (#${s.id} · ${s.statement_key})`,
                         sublabel: s.description || s.expression || `formal_statements · ID ${s.id}`,
                         badge: kindStr,
                         badgeBg: '#dbeafe',
                         badgeColor: '#1e40af',
-                        tagPreview: `<fs-ref statement-key="${s.statement_key}"></fs-ref>`,
-                        generateHtml: () => `\n<fs-ref statement-key="${s.statement_key}"></fs-ref>\n`,
+                        tagPreview: `<fs-ref id="${s.id}" key="${s.statement_key}"></fs-ref>`,
+                        generateHtml: () => `\n<fs-ref id="${s.id}" key="${s.statement_key}"></fs-ref>\n`,
                         applyToTarget: (target) => {
-                            target.setAttribute('statement-key', s.statement_key);
-                            target.removeAttribute('id');
+                            target.setAttribute('id', String(s.id));
+                            target.setAttribute('key', s.statement_key);
+                            target.removeAttribute('statement-key');
                             target.removeAttribute('desc');
                             target.removeAttribute('algo');
+                            target.textContent = '';
                         }
                     });
                 });
             } else if (kind === 'stencil') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, equation_key, title, label, formula_expr FROM directed_equations ORDER BY id ASC;"
+                    "SELECT id, statement_key, scaffold_key, title, label, formula_expr FROM formal_statements WHERE statement_kind = 'directed_equality' ORDER BY id ASC;"
                 );
                 (rows || []).forEach((st: any) => {
+                    const key = st.statement_key || st.scaffold_key;
                     items.push({
-                        id: st.equation_key,
-                        label: `${st.title || st.label || st.equation_key} [${st.equation_key}]`,
-                        sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `directed_equations · ID ${st.id}`,
-                        badge: 'STENCIL',
+                        id: String(st.id),
+                        label: `${st.title || st.label || key} [#${st.id} · ${key}]`,
+                        sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `formal_statements (DE) · ID ${st.id}`,
+                        badge: 'DE',
                         badgeBg: '#dcfce7',
                         badgeColor: '#15803d',
-                        tagPreview: `<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>`,
-                        generateHtml: () => `\n<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>\n`,
+                        tagPreview: `<fs-ref id="${st.id}" key="${key}"></fs-ref>`,
+                        generateHtml: () => `\n<fs-ref id="${st.id}" key="${key}"></fs-ref>\n`,
                         applyToTarget: (target) => {
-                            target.setAttribute('equation-key', st.equation_key);
-                            target.removeAttribute('id');
+                            target.setAttribute('id', String(st.id));
+                            target.setAttribute('key', key);
+                            target.removeAttribute('equation-key');
+                            target.textContent = '';
                         }
                     });
                 });
             } else if (kind === 'preset') {
                 const rows = await queryDatabase<any>(
-                    "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key, sp.param_values FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+                    "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.statement_id, fs.statement_key, sp.param_values FROM stencil_presets sp LEFT JOIN formal_statements fs ON fs.id = sp.statement_id ORDER BY sp.id ASC;"
                 );
                 (rows || []).forEach((p: any) => {
                     const title = p.title || p.preset_key;
-                    const stencilAttr = p.equation_key ? ` stencil="${p.equation_key}"` : '';
                     items.push({
-                        id: p.preset_key,
-                        label: `${title} [${p.preset_key}]`,
-                        sublabel: `${p.equation_key ? `Stencil: ${p.equation_key}` : `Preset #${p.id}`} ${p.param_values ? `· ${JSON.stringify(p.param_values)}` : ''}`,
+                        id: String(p.id),
+                        label: `${title} [#${p.id} · ${p.preset_key}]`,
+                        sublabel: `${p.statement_key ? `DE: ${p.statement_key} (#${p.statement_id})` : `Preset #${p.id}`} ${p.param_values ? `· ${JSON.stringify(p.param_values)}` : ''}`,
                         badge: 'PRESET',
                         badgeBg: '#ede9fe',
                         badgeColor: '#6d28d9',
-                        tagPreview: `<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml(title)}</preset-ref>`,
-                        generateHtml: () => `\n<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml(title)}</preset-ref>\n`,
+                        tagPreview: `<preset-ref id="${p.id}" key="${p.preset_key}"></preset-ref>`,
+                        generateHtml: () => `\n<preset-ref id="${p.id}" key="${p.preset_key}"></preset-ref>\n`,
                         applyToTarget: (target) => {
-                            target.setAttribute('id', p.preset_key);
-                            if (p.equation_key) target.setAttribute('stencil', p.equation_key);
-                            target.textContent = title;
+                            target.setAttribute('id', String(p.id));
+                            target.setAttribute('key', p.preset_key);
+                            target.removeAttribute('stencil');
+                            target.textContent = '';
                         }
                     });
                 });
             } else if (kind === 'demo') {
                 const rows = await queryDatabase<any>(
-                    "SELECT id, title, engine, mode, status FROM interactive_demos ORDER BY id ASC;"
+                    "SELECT id, title, engine, mode, status FROM custom_elements ORDER BY id ASC;"
                 );
                 (rows || []).forEach((d: any) => {
                     const engStr = (d.engine || 'demo').toUpperCase();
                     items.push({
                         id: String(d.id),
                         label: `[#${d.id}] ${d.title || d.mode || 'Demo'}`,
-                        sublabel: `interactive_demos · engine: ${engStr} · mode: ${d.mode || 'default'}`,
+                        sublabel: `custom_elements · engine: ${engStr} · mode: ${d.mode || 'default'}`,
                         badge: engStr,
                         badgeBg: '#f3e8ff',
                         badgeColor: '#7e22ce',

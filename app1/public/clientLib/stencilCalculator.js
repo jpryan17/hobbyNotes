@@ -172,6 +172,7 @@ export function mountStencilCalculator(options) {
     const targetDom = equation.target_domain || 'ℝ_ω';
     const targetUnit = equation.target_unit ? ` (${equation.target_unit})` : '';
     const formulaDisplay = equation.formula_expr ? `${targetSym} = ${equation.formula_expr}` : equation.title;
+    const canonicalKey = equation.statement_key || equation.equation_key || `fs_${equation.id}`;
     header.innerHTML = `
     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
       <span style="font-size: 16px;">📐</span>
@@ -179,7 +180,7 @@ export function mountStencilCalculator(options) {
         ${escapeHtml(formulaDisplay)}
       </span>
       <code style="background: #eff6ff; color: #1d4ed8; font-size: 11.5px; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #bfdbfe;">
-        ${escapeHtml(equation.equation_key)}
+        ${escapeHtml(canonicalKey)}
       </code>
       <span style="background: #f1f5f9; color: #475569; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: 600;">
         Codomain: ${escapeHtml(targetDom)}${escapeHtml(targetUnit)}
@@ -426,7 +427,7 @@ export function mountStencilCalculator(options) {
         const unitSuffix = equation.target_unit ? ` ${equation.target_unit}` : '';
         // Musical note hint helper for 12-TET if applicable
         let noteHint = '';
-        if (equation.equation_key === 'geom_ladder_step' && allVars['a'] === 440) {
+        if ((canonicalKey === 'fs_geom_ladder_step' || canonicalKey === 'geom_ladder_step') && allVars['a'] === 440) {
             const k = Math.round(allVars['k'] ?? allVars['n'] ?? 0);
             const noteMap = {
                 0: 'A4 (Unison)',

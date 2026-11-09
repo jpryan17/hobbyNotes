@@ -805,20 +805,30 @@ app.get('/api/editor/file', async (req, res) => {
 async function syncSegmentReferences(segId, contentHtml) {
     if (!segId || typeof contentHtml !== 'string')
         return 0;
-    const fsRows = await pool.query('SELECT id, statement_key FROM formal_statements;');
-    const fsKeyToId = new Map(fsRows.rows.map(r => [r.statement_key, r.id]));
-    const fsIdSet = new Set(fsRows.rows.map(r => r.id));
-    const eqRows = await pool.query('SELECT id, equation_key FROM directed_equations;');
-    const eqKeyToId = new Map(eqRows.rows.map(r => [r.equation_key, r.id]));
-    const eqIdSet = new Set(eqRows.rows.map(r => r.id));
-    const presetRows = await pool.query('SELECT id, preset_key, equation_id FROM stencil_presets;');
-    const presetKeyToId = new Map(presetRows.rows.map(r => [r.preset_key, { id: r.id, eqId: r.equation_id }]));
-    const presetIdSet = new Set(presetRows.rows.map(r => r.id));
-    const demoRows = await pool.query('SELECT id FROM interactive_demos;');
-    const demoIdSet = new Set(demoRows.rows.map(r => r.id));
-    const algoRows = await pool.query('SELECT id, algo_key FROM pseudocode_algorithms;');
-    const algoKeyToId = new Map(algoRows.rows.map(r => [r.algo_key, r.id]));
-    const algoIdSet = new Set(algoRows.rows.map(r => r.id));
+    const fsRows = await pool.query('SELECT id, statement_key, scaffold_key FROM formal_statements;');
+    const fsKeyToId = new Map();
+    for (const r of fsRows.rows) {
+        const idNum = Number(r.id);
+        if (r.statement_key)
+            fsKeyToId.set(String(r.statement_key).toLowerCase(), idNum);
+        if (r.scaffold_key)
+            fsKeyToId.set(String(r.scaffold_key).toLowerCase(), idNum);
+    }
+    const fsIdSet = new Set(fsRows.rows.map(r => Number(r.id)));
+    const presetRows = await pool.query('SELECT id, preset_key FROM stencil_presets;');
+    const presetKeyToId = new Map(presetRows.rows.map(r => [String(r.preset_key).toLowerCase(), Number(r.id)]));
+    const presetIdSet = new Set(presetRows.rows.map(r => Number(r.id)));
+    const ceRows = await pool.query('SELECT id, engine, mode, expression FROM custom_elements;');
+    const ceIdSet = new Set(ceRows.rows.map(r => Number(r.id)));
+    const ceByEngineMode = new Map();
+    const ceByTtdExp = new Map();
+    for (const r of ceRows.rows) {
+        const idNum = Number(r.id);
+        if (r.engine && r.mode)
+            ceByEngineMode.set(`${String(r.engine).toLowerCase()}:${String(r.mode).toLowerCase()}`, idNum);
+        if (r.engine === 'ttd' && r.expression)
+            ceByTtdExp.set(String(r.expression).toLowerCase(), idNum);
+    }
     await pool.query('DELETE FROM segment_references WHERE segment_id = $1;', [segId]);
     const tagRegex = /<([a-z0-9_-]+-[a-z0-9_-]+)\s+([^>]*?)>(?:([\s\S]*?)<\/\1>)?/gi;
     let match;
@@ -833,87 +843,66 @@ async function syncSegmentReferences(segId, contentHtml) {
         const anchor = descMatch ? descMatch[1] : (titleMatch ? titleMatch[1] : innerText);
         const idMatch = /\bid=["']([^"']+)["']/i.exec(attrs);
         const idVal = idMatch ? idMatch[1] : null;
+        const keyMatch = /\b(?:key|statement-key|equation-key|preset-key|scaffold)=["']([^"']+)["']/i.exec(attrs);
+        const keyVal = keyMatch ? keyMatch[1] : null;
         let statementId = null;
-        let equationId = null;
         let presetId = null;
-        let demoId = null;
-        let algoId = null;
+        let customElementId = null;
         let refType = 'fs';
         let initialFocus = 'proof';
-        if (tagName === 'fs-ref' || tagName === 'fsd-ref') {
-            refType = 'fs';
-            initialFocus = /calculator|calc/i.test(attrs) ? 'calculator' : 'proof';
-            if (idVal) {
-                if (/^\d+$/.test(idVal) && fsIdSet.has(parseInt(idVal, 10))) {
-                    statementId = parseInt(idVal, 10);
-                }
-                else if (fsKeyToId.has(idVal)) {
-                    statementId = fsKeyToId.get(idVal) || null;
-                }
+        if (tagName === 'fs-ref' || tagName === 'eq-ref' || tagName === 'interactive-stencil') {
+            refType = (tagName === 'eq-ref' || tagName === 'interactive-stencil') ? 'stencil' : 'fs';
+            initialFocus = (refType === 'stencil' || /calculator|calc/i.test(attrs)) ? 'calculator' : 'proof';
+            const targetKey = (keyVal || idVal || '').trim();
+            if (idVal && /^\d+$/.test(idVal) && fsIdSet.has(parseInt(idVal, 10))) {
+                statementId = parseInt(idVal, 10);
             }
-        }
-        else if (tagName === 'eq-ref' || tagName === 'interactive-stencil') {
-            refType = 'stencil';
-            initialFocus = 'calculator';
-            const deMatch = /(?:de-id|equation-id)=["']([^"']+)["']/i.exec(attrs);
-            const targetEq = idVal || (deMatch ? deMatch[1] : null);
-            if (targetEq) {
-                if (/^\d+$/.test(targetEq) && eqIdSet.has(parseInt(targetEq, 10))) {
-                    equationId = parseInt(targetEq, 10);
-                }
-                else if (eqKeyToId.has(targetEq)) {
-                    equationId = eqKeyToId.get(targetEq) || null;
-                }
+            else if (targetKey && fsKeyToId.has(targetKey.toLowerCase())) {
+                statementId = fsKeyToId.get(targetKey.toLowerCase()) || null;
             }
         }
         else if (tagName === 'preset-ref') {
             refType = 'preset';
             initialFocus = 'calculator';
-            const pMatch = /(?:preset-id|id)=["']([^"']+)["']/i.exec(attrs);
-            const targetPreset = pMatch ? pMatch[1] : idVal;
-            if (targetPreset) {
-                if (/^\d+$/.test(targetPreset) && presetIdSet.has(parseInt(targetPreset, 10))) {
-                    presetId = parseInt(targetPreset, 10);
-                }
-                else if (presetKeyToId.has(targetPreset)) {
-                    const info = presetKeyToId.get(targetPreset);
-                    presetId = info.id;
-                    if (info.eqId)
-                        equationId = info.eqId;
-                }
+            const pMatch = /(?:preset-id|preset-key|key|id)=["']([^"']+)["']/i.exec(attrs);
+            const targetPreset = (pMatch ? pMatch[1] : (keyVal || idVal || '')).trim();
+            if (idVal && /^\d+$/.test(idVal) && presetIdSet.has(parseInt(idVal, 10))) {
+                presetId = parseInt(idVal, 10);
+            }
+            else if (targetPreset && presetKeyToId.has(targetPreset.toLowerCase())) {
+                presetId = presetKeyToId.get(targetPreset.toLowerCase()) || null;
             }
         }
-        else if (tagName === 'ttd-ref' || tagName === 'btd-ref' || tagName === 'bid-ref' || tagName === 'visual-demo') {
-            refType = 'demo';
+        else if (tagName === 'ttd-ref' || tagName === 'btd-ref' || tagName === 'bid-ref' || tagName === 'fsd-ref' || tagName === 'visual-demo') {
+            refType = tagName.replace(/-ref$/, '');
             initialFocus = 'demo';
             const dMatch = /(?:demo-id|id)=["']([^"']+)["']/i.exec(attrs);
             const targetDemo = dMatch ? dMatch[1] : idVal;
-            if (targetDemo && /^\d+$/.test(targetDemo) && demoIdSet.has(parseInt(targetDemo, 10))) {
-                demoId = parseInt(targetDemo, 10);
+            if (targetDemo && /^\d+$/.test(targetDemo) && ceIdSet.has(parseInt(targetDemo, 10))) {
+                customElementId = parseInt(targetDemo, 10);
             }
-        }
-        else if (tagName === 'pseudo-ref') {
-            refType = 'algo';
-            initialFocus = 'proof';
-            const aMatch = /(?:algo-id|algo|id)=["']([^"']+)["']/i.exec(attrs);
-            const targetAlgo = aMatch ? aMatch[1] : idVal;
-            if (targetAlgo) {
-                if (/^\d+$/.test(targetAlgo) && algoIdSet.has(parseInt(targetAlgo, 10))) {
-                    algoId = parseInt(targetAlgo, 10);
-                }
-                else if (algoKeyToId.has(targetAlgo)) {
-                    algoId = algoKeyToId.get(targetAlgo) || null;
+            else if (tagName === 'ttd-ref') {
+                const expMatch = /\bexp=["']([^"']+)["']/i.exec(attrs);
+                if (expMatch && ceByTtdExp.has(expMatch[1].toLowerCase())) {
+                    customElementId = ceByTtdExp.get(expMatch[1].toLowerCase()) || null;
                 }
             }
+            else if (tagName === 'btd-ref' || tagName === 'bid-ref') {
+                const modeMatch = /\bmode=["']([^"']+)["']/i.exec(attrs);
+                const eng = tagName === 'btd-ref' ? 'btd' : 'bid';
+                if (modeMatch && ceByEngineMode.has(`${eng}:${modeMatch[1].toLowerCase()}`)) {
+                    customElementId = ceByEngineMode.get(`${eng}:${modeMatch[1].toLowerCase()}`) || null;
+                }
+            }
         }
-        if (statementId !== null || equationId !== null || presetId !== null || demoId !== null || algoId !== null) {
+        if (statementId !== null || presetId !== null || customElementId !== null) {
             await pool.query(`
                 INSERT INTO segment_references (
-                    segment_id, statement_id, equation_id, preset_id, demo_id, algo_id,
+                    segment_id, custom_element_id, statement_id, preset_id,
                     ref_type, initial_focus, occurrence_order, anchor_text, raw_tag
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);
             `, [
-                segId, statementId, equationId, presetId, demoId, algoId,
+                segId, customElementId, statementId, presetId,
                 refType, initialFocus, order++, anchor || tagName, match[0]
             ]);
             count++;

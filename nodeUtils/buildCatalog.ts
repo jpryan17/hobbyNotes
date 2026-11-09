@@ -616,21 +616,6 @@ export function buildCurricularCatalog(): FsCatalog {
       referencedInSegments: getRefs('fs_geometric_ladder', 39, ['sequencesAndSums'])
     },
     {
-      numId: 40,
-      id: 'fs_music_et_scale',
-      parentId: 'fs_geometric_ladder',
-      type: 'physics',
-      tier: 'scenario',
-      statementKind: 'directed_equality',
-      governingSeed: 'boundary_law',
-      title: '12-TET Chromatic Pitch Scale Stepping',
-      description: 'Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).',
-      scaffoldKey: 'music_et_scale',
-      expression: 'f_{k+1} ≔ 2^(1/12) · f_k  ∧  f_k ≔ f₀ · (2^(1/12))^k',
-      pseudoAlgoId: 'algo_geometric_scale_step',
-      referencedInSegments: getRefs('fs_music_et_scale', 40, ['sequencesAndSums'])
-    },
-    {
       numId: 41,
       id: 'fs_geom_ladder_step',
       parentId: 'fs_geometric_ladder',
@@ -644,7 +629,7 @@ export function buildCurricularCatalog(): FsCatalog {
       expression: 'F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k',
       leanSignature: 'def geometric_closed (a r : R_w) (k : Nat) : R_w',
       pseudoAlgoId: 'algo_geometric_ladder_step',
-      referencedInSegments: getRefs('fs_geom_ladder_step', 41, [])
+      referencedInSegments: getRefs('fs_geom_ladder_step', 41, ['sequencesAndSums'])
     },
     {
       numId: 42,
@@ -659,7 +644,7 @@ export function buildCurricularCatalog(): FsCatalog {
       expression: 'F(k + 1) ≔ F(k) + d  ∧  F(k) ≔ a + k · d',
       leanSignature: 'def arithmetic_closed (a d : R_w) (k : Nat) : R_w',
       pseudoAlgoId: 'algo_linear_ladder_step',
-      referencedInSegments: getRefs('fs_linear_ladder_step', 42, [])
+      referencedInSegments: getRefs('fs_linear_ladder_step', 42, ['sequencesAndSums'])
     }
   ];
 
@@ -920,35 +905,21 @@ export function buildCurricularCatalog(): FsCatalog {
         { name: 'r', symbol: 'r', domain: 'ℝ_ω', defaultValue: 2.0, min: -100.0, max: 100.0, step: 0.05, description: 'Common ratio per step' },
         { name: 'k', symbol: 'k', domain: 'ℕ_ω', defaultValue: 1, min: 0, max: 50, step: 1.0, description: 'Step index' }
       ]
-    },
-    {
-      id: 'music_et_scale_step',
-      statementId: 'fs_music_et_scale',
-      label: 'Chromatic Frequency f_k = f₀ · (2^(1/12))^k',
-      targetSymbol: 'f_k',
-      targetDomain: '𝔻_ω',
-      targetUnit: 'Hz',
-      formulaDescription: 'f_k = f₀ · (2^(1/12))^k',
-      formulaExpr: 'f0 * Math.pow(2, k / 12)',
-      inputs: [
-        { name: 'f0', symbol: 'f₀', domain: 'ℝ_ω', unit: 'Hz', defaultValue: 440.0, min: 20.0, max: 20000.0, step: 1.0, description: 'Reference base pitch (e.g., Concert A = 440 Hz)' },
-        { name: 'k', symbol: 'k', domain: 'ℕ_ω', unit: 'semitones', defaultValue: 0, min: 0, max: 24, step: 1.0, description: 'Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)' }
-      ]
     }
   ];
 
   const examples: FsCatalogExample[] = [
     {
       id: 'ex_equal_temperament_c5',
-      modeId: 'music_et_scale_step',
-      statementId: 'fs_music_et_scale',
+      modeId: 'geom_ladder_step',
+      statementId: 'fs_geom_ladder_step',
       presetKey: 'preset_12tet_scale',
-      title: 'Concert Pitch A4 to Middle C5 (3 Semitones)',
-      values: { f0: 440.0, k: 3 },
+      title: '12-TET Chromatic Pitch Scale (Concert A4 = 440 Hz, r = 2^(1/12))',
+      values: { a: 440.0, r: 1.059463, k: 3 },
       displayResult: '523.251 Hz',
       formattedFormula: 'f_3 = 440 · (2^(1/12))^3 ≈ 523.251 Hz',
       domainBadge: '∈ 𝔻_ω',
-      notes: 'Three semitones above Concert A4 (440 Hz) yields equal-tempered C5.'
+      notes: 'Preset #1 on Geometric Ladder Step (#41): three semitones above Concert A4 (440 Hz) yields equal-tempered C5.'
     },
     {
       id: 'ex_linear_ladder_step',
@@ -1193,7 +1164,7 @@ export async function writeDemoCatalog(): Promise<void> {
 
   try {
     const res = await pool.query<DemoCatalogItem>(
-      'SELECT id, engine, mode, title, description, expression, status, init_packet FROM interactive_demos ORDER BY id ASC;'
+      'SELECT id, engine, mode, title, description, expression, status, init_packet FROM custom_elements ORDER BY id ASC;'
     );
     const demos = res.rows.map(r => ({
       ...r,

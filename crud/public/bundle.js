@@ -2236,6 +2236,99 @@ end;`,
           result: "ConwayNeg([+ - +]) = [- + -] (-3/4)"
         }
       },
+      arithmetic_ladder: {
+        id: "arithmetic_ladder",
+        funcName: "ArithmeticLadder",
+        name: "Arithmetic Ladder: Linear March on Tree1 (\u{1D53B}_\u03C9, +)",
+        badge: "1-Successor Discrete March",
+        signature: "(\u211D_\u03C9 \xD7 \u211D_\u03C9 \xD7 \u2115_\u03C9) \u2192 Array of \u{1D53B}_\u03C9",
+        summary: "Evaluates the parameterized inductive sequence F(0) = a, F(k + 1) = F(k) \u2295 d (with a, d \u2208 \u211D_\u03C9 resolved to dyadic rationals at current precision), generating an array of n + 1 terms in \u{1D53B}_\u03C9 with uniform forward difference \u0394F(k) = d.",
+        domain: "a, d \u2208 \u211D_\u03C9 (Base Anchor & Difference), n \u2208 \u2115_\u03C9 (Clock Ticks) \u27F9 Array of \u{1D53B}_\u03C9",
+        primitives: [
+          "CreateArray(n + 1)",
+          "\u2295 (exact dyadic ring addition)",
+          "seq[k + 1] := seq[k] \u2295 d"
+        ],
+        complexity: {
+          tree: "O(n) linear march along unary Tree1 clock ticks",
+          dyadic: "n ring additions in (\u{1D53B}, +, \xB7) with exact power-of-two alignment"
+        },
+        code: `rule ArithmeticLadder(a: Dyadic, d: Dyadic, n: Integer) : Array of Dyadic \u2254
+var
+    seq: Array of Dyadic;
+    k: Integer;
+begin
+    seq := CreateArray(n + 1);
+    seq[0] := a;
+    for k := 0 to n - 1 do
+    begin
+        seq[k + 1] := seq[k] \u2295 d;   // Linear March: \u0394F(k) = d
+    end;
+    return seq;
+end;`,
+        explanation: [
+          "The foundational 1-successor discrete ladder corresponding to Peano counting and Tree1.",
+          "Parameterized by base anchor a, step increment d, and tick count n.",
+          "Every step satisfies the invariant \u0394F(k) = F(k + 1) - F(k) = d exactly.",
+          "Forms the discrete basis for uniform motion, linear functions, and Riemann-Euler integration."
+        ],
+        example: {
+          inputs: ["a = 0 (root [])", "d = 1/2 ([+ -])", "n = 4"],
+          steps: [
+            "k = 0: seq[1] := 0 \u2295 1/2 = 1/2",
+            "k = 1: seq[2] := 1/2 \u2295 1/2 = 1",
+            "k = 2: seq[3] := 1 \u2295 1/2 = 1&1/2",
+            "k = 3: seq[4] := 1&1/2 \u2295 1/2 = 2"
+          ],
+          result: "ArithmeticLadder(0, 1/2, 4) = [0, 1/2, 1, 1&1/2, 2]"
+        }
+      },
+      geometric_ladder: {
+        id: "geometric_ladder",
+        funcName: "GeometricLadder",
+        name: "Geometric Ladder: Multiplicative Scaling on Tree2 (\u{1D53B}_\u03C9, \xB7)",
+        badge: "2-Successor Discrete Scaling",
+        signature: "(\u211D_\u03C9 \xD7 \u211D_\u03C9 \xD7 \u2115_\u03C9) \u2192 Array of \u{1D53B}_\u03C9",
+        summary: "Evaluates the parameterized inductive sequence G(0) = a, G(k + 1) = G(k) \u2297 r (with a, r \u2208 \u211D_\u03C9 resolved to dyadic rationals at current precision), generating an array of n + 1 terms in \u{1D53B}_\u03C9 with difference proportional to value \u0394G(k) = G(k) \xB7 (r - 1).",
+        domain: "a, r \u2208 \u211D_\u03C9 (Base Anchor & Ratio), n \u2208 \u2115_\u03C9 (Generation Depth) \u27F9 Array of \u{1D53B}_\u03C9",
+        primitives: [
+          "CreateArray(n + 1)",
+          "\u2297 (exact dyadic ring multiplication)",
+          "seq[k + 1] := seq[k] \u2297 r"
+        ],
+        complexity: {
+          tree: "O(n) binary branching depth down Tree2",
+          dyadic: "n ring multiplications in (\u{1D53B}, \xB7) with exact scale composition"
+        },
+        code: `rule GeometricLadder(a: Dyadic, r: Dyadic, n: Integer) : Array of Dyadic \u2254
+var
+    seq: Array of Dyadic;
+    k: Integer;
+begin
+    seq := CreateArray(n + 1);
+    seq[0] := a;
+    for k := 0 to n - 1 do
+    begin
+        seq[k + 1] := seq[k] \u2297 r;   // Multiplicative Scaling: \u0394G(k) = G(k) \xB7 (r - 1)
+    end;
+    return seq;
+end;`,
+        explanation: [
+          "The foundational 2-successor discrete ladder corresponding to binary branching and Tree2.",
+          "Parameterized by base anchor a, common ratio r, and generation count n.",
+          "Every step satisfies the self-referential growth invariant \u0394G(k) = G(k) \xB7 (r - 1).",
+          "Forms the discrete basis for compound interest, exponential growth, and wave cascades."
+        ],
+        example: {
+          inputs: ["a = 1 ([+])", "r = 3/2 ([+ + -])", "n = 3"],
+          steps: [
+            "k = 0: seq[1] := 1 \u2297 3/2 = 3/2",
+            "k = 1: seq[2] := 3/2 \u2297 3/2 = 9/4 (2&1/4)",
+            "k = 2: seq[3] := 9/4 \u2297 3/2 = 27/8 (3&3/8)"
+          ],
+          result: "GeometricLadder(1, 3/2, 3) = [1, 1&1/2, 2&1/4, 3&3/8]"
+        }
+      },
       euler_compounding: {
         id: "euler_compounding",
         funcName: "EulerExp",
@@ -2997,6 +3090,12 @@ end;`,
       CordicRotor: MODULE_CATALOG.rotor_trig_cordic,
       HeatDiffusionStep: MODULE_CATALOG.laplacian_heat_step,
       BayesUpdate: MODULE_CATALOG.bayes_discrete_update,
+      ArithmeticLadder: MODULE_CATALOG.arithmetic_ladder,
+      GeometricLadder: MODULE_CATALOG.geometric_ladder,
+      LinearLadderStep: MODULE_CATALOG.arithmetic_ladder,
+      GeometricLadderStep: MODULE_CATALOG.geometric_ladder,
+      algo_linear_ladder_step: MODULE_CATALOG.arithmetic_ladder,
+      algo_geometric_ladder_step: MODULE_CATALOG.geometric_ladder,
       // Primitive aliases
       Maximum: MODULE_CATALOG.maximum,
       Minimum: MODULE_CATALOG.minimum,
@@ -3024,7 +3123,7 @@ var FS_CATALOG;
 var init_fsCatalog = __esm({
   "clientLib/fsCatalog.ts"() {
     FS_CATALOG = {
-      "generatedAt": "2026-11-07T08:04:57.013Z",
+      "generatedAt": "2026-11-09T11:43:10.778Z",
       "version": "2.0.0",
       "formalStatements": [
         {
@@ -3525,28 +3624,11 @@ var init_fsCatalog = __esm({
           "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a \xB7 r^k.",
           "scaffoldKey": "geometric_ladder",
           "expression": "F(k + 1) = r \xB7 F(k)  \u27F9  F(k) = a \xB7 r^k",
+          "leanSignature": "theorem geometric_step (a r : R_w) (k : Nat) : geometric_seq a r (k + 1) = geometric_seq a r k * r",
           "referencedInSegments": [
             "sequencesAndSums"
           ],
-          "leanStatus": "pending"
-        },
-        {
-          "numId": 40,
-          "id": "fs_music_et_scale",
-          "parentId": "fs_geometric_ladder",
-          "type": "physics",
-          "tier": "scenario",
-          "statementKind": "directed_equality",
-          "governingSeed": "boundary_law",
-          "title": "12-TET Chromatic Pitch Scale Stepping",
-          "description": "Discrete geometric progression computing equal temperament semitone frequencies with constant ratio r = 2^(1/12).",
-          "scaffoldKey": "music_et_scale",
-          "expression": "f_{k+1} \u2254 2^(1/12) \xB7 f_k  \u2227  f_k \u2254 f\u2080 \xB7 (2^(1/12))^k",
-          "pseudoAlgoId": "algo_geometric_scale_step",
-          "referencedInSegments": [
-            "sequencesAndSums"
-          ],
-          "leanStatus": "pending"
+          "leanStatus": "certified"
         },
         {
           "numId": 41,
@@ -3560,11 +3642,12 @@ var init_fsCatalog = __esm({
           "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
           "scaffoldKey": "geom_ladder_step",
           "expression": "F(k + 1) \u2254 r \xB7 F(k)  \u2227  F(k) \u2254 a \xB7 r^k",
+          "leanSignature": "def geometric_closed (a r : R_w) (k : Nat) : R_w",
           "pseudoAlgoId": "algo_geometric_ladder_step",
           "referencedInSegments": [
             "sequencesAndSums"
           ],
-          "leanStatus": "pending"
+          "leanStatus": "certified"
         },
         {
           "numId": 42,
@@ -3577,11 +3660,12 @@ var init_fsCatalog = __esm({
           "description": "Discrete uniform stepping progression advancing by constant forward difference d.",
           "scaffoldKey": "linear_ladder_step",
           "expression": "F(k + 1) \u2254 F(k) + d  \u2227  F(k) \u2254 a + k \xB7 d",
+          "leanSignature": "def arithmetic_closed (a d : R_w) (k : Nat) : R_w",
           "pseudoAlgoId": "algo_linear_ladder_step",
           "referencedInSegments": [
             "sequencesAndSums"
           ],
-          "leanStatus": "pending"
+          "leanStatus": "certified"
         }
       ],
       "calculationModes": [
@@ -4070,7 +4154,7 @@ var init_fsCatalog = __esm({
             {
               "name": "a",
               "symbol": "a",
-              "domain": "\u{1D53B}",
+              "domain": "\u211D_\u03C9",
               "defaultValue": 0,
               "min": -1e3,
               "max": 1e3,
@@ -4080,7 +4164,7 @@ var init_fsCatalog = __esm({
             {
               "name": "d",
               "symbol": "d",
-              "domain": "\u{1D53B}",
+              "domain": "\u211D_\u03C9",
               "defaultValue": 1,
               "min": -100,
               "max": 100,
@@ -4090,7 +4174,7 @@ var init_fsCatalog = __esm({
             {
               "name": "k",
               "symbol": "k",
-              "domain": "\u2115",
+              "domain": "\u2115_\u03C9",
               "defaultValue": 1,
               "min": 0,
               "max": 100,
@@ -4111,7 +4195,7 @@ var init_fsCatalog = __esm({
             {
               "name": "a",
               "symbol": "a",
-              "domain": "\u{1D53B}",
+              "domain": "\u211D_\u03C9",
               "defaultValue": 1,
               "min": -1e3,
               "max": 1e3,
@@ -4121,7 +4205,7 @@ var init_fsCatalog = __esm({
             {
               "name": "r",
               "symbol": "r",
-              "domain": "\u{1D53B}",
+              "domain": "\u211D_\u03C9",
               "defaultValue": 2,
               "min": -100,
               "max": 100,
@@ -4131,7 +4215,7 @@ var init_fsCatalog = __esm({
             {
               "name": "k",
               "symbol": "k",
-              "domain": "\u2115",
+              "domain": "\u2115_\u03C9",
               "defaultValue": 1,
               "min": 0,
               "max": 50,
@@ -4139,56 +4223,24 @@ var init_fsCatalog = __esm({
               "description": "Step index"
             }
           ]
-        },
-        {
-          "id": "music_et_scale_step",
-          "statementId": "fs_music_et_scale",
-          "label": "Chromatic Frequency f_k = f\u2080 \xB7 (2^(1/12))^k",
-          "targetSymbol": "f_k",
-          "targetDomain": "\u211D_\u03C9",
-          "targetUnit": "Hz",
-          "formulaDescription": "f_k = f\u2080 \xB7 (2^(1/12))^k",
-          "formulaExpr": "f0 * Math.pow(2, k / 12)",
-          "inputs": [
-            {
-              "name": "f0",
-              "symbol": "f\u2080",
-              "domain": "\u211D\u207A",
-              "unit": "Hz",
-              "defaultValue": 440,
-              "min": 20,
-              "max": 2e4,
-              "step": 1,
-              "description": "Reference base pitch (e.g., Concert A = 440 Hz)"
-            },
-            {
-              "name": "k",
-              "symbol": "k",
-              "domain": "\u2115",
-              "unit": "semitones",
-              "defaultValue": 0,
-              "min": 0,
-              "max": 24,
-              "step": 1,
-              "description": "Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)"
-            }
-          ]
         }
       ],
       "examples": [
         {
           "id": "ex_equal_temperament_c5",
-          "modeId": "music_et_scale_step",
-          "statementId": "fs_music_et_scale",
-          "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
+          "modeId": "geom_ladder_step",
+          "statementId": "fs_geom_ladder_step",
+          "presetKey": "preset_12tet_scale",
+          "title": "12-TET Chromatic Pitch Scale (Concert A4 = 440 Hz, r = 2^(1/12))",
           "values": {
-            "f0": 440,
+            "a": 440,
+            "r": 1.059463,
             "k": 3
           },
           "displayResult": "523.251 Hz",
           "formattedFormula": "f_3 = 440 \xB7 (2^(1/12))^3 \u2248 523.251 Hz",
           "domainBadge": "\u2208 \u{1D53B}_\u03C9",
-          "notes": "Three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
+          "notes": "Preset #1 on Geometric Ladder Step (#41): three semitones above Concert A4 (440 Hz) yields equal-tempered C5."
         },
         {
           "id": "ex_linear_ladder_step",
@@ -11618,22 +11670,28 @@ var tables = [
   // -------------------------------------------------------------------------
   {
     table: "formal_statements",
-    label: "Formal Statements & Axioms",
+    label: "Formal Statements & Directed Equalities",
     singularLabel: "Formal Statement",
     columns: [
       { column: "statement_key", label: "Unique Key", canModify: true, len: 32 },
       { column: "scaffold_key", label: "Scaffold Key", canModify: true, len: 32 },
       { column: "title", label: "Statement Title", canModify: true, len: 45 },
+      { column: "label", label: "Short Label (DE)", canModify: true, len: 24 },
       { column: "tier", label: "Epistemic Tier (Role)", canModify: true, len: 20 },
       { column: "type", label: "Subject Type", canModify: true, len: 18 },
-      { column: "statement_kind", label: "Syntactic Kind (Form)", canModify: true, len: 20 },
+      { column: "statement_kind", label: "Syntactic Kind (axiom | theorem | directed_equality)", canModify: true, len: 20 },
       { column: "domain_category", label: "Domain Category", canModify: true, len: 24 },
       { column: "governing_seed", label: "Governing Seed", canModify: true, len: 20 },
       { column: "expression", label: "Mathematical Expression", canModify: true, len: 60, rows: 2 },
+      { column: "formula_expr", label: "Directed Formula Expression (DE)", canModify: true, len: 55, rows: 2 },
+      { column: "target_symbol", label: "Target Output Symbol (DE)", canModify: true, len: 12 },
+      { column: "target_domain", label: "Target Codomain (e.g. \u{1D539}, \u{1D53B}_\u03C9)", canModify: true, len: 16 },
+      { column: "target_unit", label: "Target Unit (DE)", canModify: true, len: 16 },
       { column: "description", label: "Conceptual Summary", canModify: true, len: 60, rows: 3, useHints: true },
+      { column: "formula_description", label: "Computational Formula Description (DE)", canModify: true, len: 60, rows: 3 },
       { column: "parent_id", label: "Parent Theorem / Statement", canModify: true, len: 28 },
       { column: "pseudo_algo_id", label: "Associated Pseudocode Algorithm", canModify: true, len: 28 },
-      { column: "demo_id", label: "Attached Interactive Demo / TTD", canModify: true, len: 28 },
+      { column: "has_simulation", label: "Simulation Sandbox Ready (DE)", canModify: true, len: 10 },
       { column: "lean_signature", label: "Lean 4 Signature", canModify: true, len: 60, rows: 2 },
       { column: "lean_snippet", label: "Lean Code Snippet", canModify: true, len: 60, rows: 4 },
       { column: "lean_decl_id", label: "Governing Lean Declaration", canModify: true, len: 28 },
@@ -11684,31 +11742,14 @@ var tables = [
     ]
   },
   // -------------------------------------------------------------------------
-  // 2. Directed Equations, Slots, & Numerical Presets
+  // 2. Mode Slots & Numerical Presets (for Directed Equalities)
   // -------------------------------------------------------------------------
-  {
-    table: "directed_equations",
-    label: "Computational Stencils",
-    singularLabel: "Computational Stencil",
-    columns: [
-      { column: "equation_key", label: "Equation Key", canModify: true, len: 32 },
-      { column: "title", label: "Equation Title", canModify: true, len: 45 },
-      { column: "label", label: "Short Label", canModify: true, len: 24 },
-      { column: "formula_expr", label: "Formula Expression", canModify: true, len: 55, rows: 2 },
-      { column: "target_symbol", label: "Target Output Symbol", canModify: true, len: 12 },
-      { column: "target_domain", label: "Target Domain (e.g. \u211D_\u03C9, \u{1D539})", canModify: true, len: 16 },
-      { column: "target_unit", label: "Target Unit", canModify: true, len: 16 },
-      { column: "pseudo_algo_id", label: "Linked Pseudocode Algorithm", canModify: true, len: 30 },
-      { column: "formula_description", label: "Formula Description", canModify: true, len: 60, rows: 3 },
-      { column: "has_simulation", label: "Simulation Sandbox Ready", canModify: true, len: 10 }
-    ]
-  },
   {
     table: "mode_slots",
     label: "Equation Mode Slots",
     singularLabel: "Mode Slot",
     columns: [
-      { column: "equation_id", label: "Parent Equation", canModify: false, len: 24 },
+      { column: "statement_id", label: "Parent Directed Equality", canModify: false, len: 24 },
       { column: "slot_order", label: "Slot Order (#)", canModify: true, len: 8 },
       { column: "slot_kind", label: "Slot Role (parameter | input)", canModify: true, len: 16 },
       { column: "name", label: "Parameter Variable Name", canModify: true, len: 16 },
@@ -11728,7 +11769,7 @@ var tables = [
     singularLabel: "Stencil Preset",
     columns: [
       { column: "preset_key", label: "Preset Key", canModify: true, len: 32 },
-      { column: "equation_id", label: "Governing Stencil (Equation)", canModify: true, len: 24 },
+      { column: "statement_id", label: "Governing Directed Equality", canModify: true, len: 24 },
       { column: "title", label: "Preset Title", canModify: true, len: 45 },
       { column: "unit", label: "Unit", canModify: true, len: 16 },
       { column: "param_values", label: "Preset Parameter Values (JSON)", canModify: true, len: 60, rows: 3 },
@@ -11809,26 +11850,8 @@ var tables = [
     singularLabel: "Custom Element",
     columns: [
       { column: "title", label: "Instrument Title", canModify: true, len: 45 },
-      { column: "engine", label: "Engine Type (fsd | preset | btd | bid | ttd)", canModify: true, len: 16 },
+      { column: "engine", label: "Engine Type (btd | bid | ttd)", canModify: true, len: 16 },
       { column: "mode", label: "Canvas / Operational Mode", canModify: true, len: 24 },
-      { column: "statement_id", label: "Linked Formal Statement", canModify: true, len: 24 },
-      { column: "preset_id", label: "Linked Stencil Preset", canModify: true, len: 24 },
-      { column: "expression", label: "Proposition Formula / Expression", canModify: true, len: 45 },
-      { column: "status", label: "Status", canModify: true, len: 16 },
-      { column: "init_packet", label: "Initialization JSON / Expression Packet", canModify: true, len: 55, rows: 4 },
-      { column: "description", label: "Instructional Description", canModify: true, len: 60, rows: 3 }
-    ]
-  },
-  {
-    table: "interactive_demos",
-    label: "Custom Element Instruments",
-    singularLabel: "Custom Element",
-    columns: [
-      { column: "title", label: "Instrument Title", canModify: true, len: 45 },
-      { column: "engine", label: "Engine Type (fsd | preset | btd | bid | ttd)", canModify: true, len: 16 },
-      { column: "mode", label: "Canvas / Operational Mode", canModify: true, len: 24 },
-      { column: "statement_id", label: "Linked Formal Statement", canModify: true, len: 24 },
-      { column: "preset_id", label: "Linked Stencil Preset", canModify: true, len: 24 },
       { column: "expression", label: "Proposition Formula / Expression", canModify: true, len: 45 },
       { column: "status", label: "Status", canModify: true, len: 16 },
       { column: "init_packet", label: "Initialization JSON / Expression Packet", canModify: true, len: 55, rows: 4 },
@@ -11836,7 +11859,7 @@ var tables = [
     ]
   },
   // -------------------------------------------------------------------------
-  // 5. Cross-References & Prerequisites
+  // 5. Cross-References
   // -------------------------------------------------------------------------
   {
     table: "segment_references",
@@ -11844,22 +11867,13 @@ var tables = [
     singularLabel: "Segment Reference",
     columns: [
       { column: "segment_id", label: "Source Segment Chapter", canModify: false, len: 24 },
-      { column: "ref_type", label: "Reference Tag Type (fsd | preset | btd | bid)", canModify: true, len: 18 },
+      { column: "ref_type", label: "Reference Tag Type (fs | preset | btd | bid | ttd)", canModify: true, len: 18 },
       { column: "custom_element_id", label: "Instantiated Custom Element", canModify: true, len: 24 },
+      { column: "statement_id", label: "Referenced Formal Statement", canModify: true, len: 24 },
+      { column: "preset_id", label: "Referenced Stencil Preset", canModify: true, len: 24 },
       { column: "anchor_text", label: "Embedded Anchor Text", canModify: true, len: 36 },
       { column: "occurrence_order", label: "Occurrence Order (#)", canModify: true, len: 8 },
       { column: "raw_tag", label: "Raw HTML Tag Preview", canModify: false, len: 50 }
-    ]
-  },
-  {
-    table: "segment_prerequisites",
-    label: "Segment Prerequisites Graph",
-    singularLabel: "Segment Prerequisite",
-    columns: [
-      { column: "segment_id", label: "Target Segment Chapter", canModify: false, len: 24 },
-      { column: "prerequisite_segment_id", label: "Prerequisite Segment", canModify: true, len: 24 },
-      { column: "prereq_type", label: "Prerequisite Dependency Kind", canModify: true, len: 20 },
-      { column: "rationale", label: "Pedagogical Rationale", canModify: true, len: 55, rows: 2 }
     ]
   },
   {
@@ -11879,27 +11893,21 @@ var tables = [
   }
 ];
 var dependents = [
-  { table: "directed_equations", parent: "formal_statements", displayColumns: ["equation_key", "title"] },
   { table: "lean_verifications", parent: "formal_statements", displayColumns: ["theorem_name", "proof_status"] },
-  { table: "mode_slots", parent: "directed_equations", displayColumns: ["slot_order", "symbol", "name"] },
-  { table: "stencil_presets", parent: "directed_equations", displayColumns: ["preset_key", "title"] },
+  { table: "mode_slots", parent: "formal_statements", displayColumns: ["slot_order", "symbol", "name"] },
+  { table: "stencil_presets", parent: "formal_statements", displayColumns: ["preset_key", "title"] },
   { table: "curriculum_nav_items", parent: "apps", displayColumns: ["sequence_order", "topic"] },
-  { table: "segment_references", parent: "segments", displayColumns: ["ref_type", "target_key"] },
-  { table: "segment_references", parent: "interactive_demos", displayColumns: ["ref_type", "segment_id"] },
-  { table: "segment_prerequisites", parent: "segments", displayColumns: ["prerequisite_segment_id", "prereq_type"] }
+  { table: "segment_references", parent: "segments", displayColumns: ["ref_type", "raw_tag"] },
+  { table: "segment_references", parent: "formal_statements", displayColumns: ["ref_type", "segment_id"] },
+  { table: "segment_references", parent: "stencil_presets", displayColumns: ["ref_type", "segment_id"] },
+  { table: "segment_references", parent: "custom_elements", displayColumns: ["ref_type", "segment_id"] }
 ];
 var navigations = [
   {
-    label: "\u{1F4DC} Axioms & Formal Statements",
+    label: "\u{1F4DC} Axioms, Theorems & Directed Equalities",
     children: [
       { table: "formal_statements" },
-      { table: "lean_verifications" }
-    ]
-  },
-  {
-    label: "\u{1F4D0} Computational Stencils",
-    children: [
-      { table: "directed_equations" },
+      { table: "lean_verifications" },
       { table: "mode_slots" },
       { table: "stencil_presets" }
     ]
@@ -11913,17 +11921,16 @@ var navigations = [
     ]
   },
   {
-    label: "\u{1F4BB} Algorithms & Demos",
+    label: "\u{1F4BB} Algorithms & Custom Elements",
     children: [
       { table: "pseudocode_algorithms" },
-      { table: "interactive_demos" }
+      { table: "custom_elements" }
     ]
   },
   {
     label: "\u{1F517} Cross-References & Citations",
     children: [
-      { table: "segment_references" },
-      { table: "segment_prerequisites" }
+      { table: "segment_references" }
     ]
   }
 ];
@@ -12422,18 +12429,10 @@ var navigationMenuTree = [
             ]
           },
           {
-            label: "Directed Equalities (when DE)",
+            label: "Directed Equalities (DE)",
             typeKey: "directed_equality",
             filterKind: { column: "statement_kind", value: "directed_equality" },
             children: [
-              {
-                label: "Computational Stencils (Equations)",
-                typeKey: "directed_equations",
-                subject: "all",
-                children: [
-                  { label: "Browse All Stencils", typeKey: "directed_equations", subject: "all" }
-                ]
-              },
               { label: "Browse Mode Slots", typeKey: "mode_slots", subject: "all" },
               { label: "Browse Stencil Presets", typeKey: "stencil_presets", subject: "all" },
               { label: "Browse Pseudocode Algorithms", typeKey: "pseudocode_algorithms", subject: "all" },
@@ -12644,7 +12643,7 @@ async function syncMenuTreeFromDatabase(queryFn) {
           }
         }
       }
-      const presetRows = await queryFn("SELECT id, preset_key, title, equation_id FROM stencil_presets ORDER BY id ASC;");
+      const presetRows = await queryFn("SELECT id, preset_key, title, statement_id FROM stencil_presets ORDER BY id ASC;");
       const presetNode = customElementsNode.children.find((c) => c.typeKey === "stencil_presets");
       if (presetRows && presetRows.length > 0 && presetNode) {
         presetNode.children = [
@@ -13782,13 +13781,13 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 2525,
+    "timeMs": 2795,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean",
     "kind": "theorem",
-    "lineNo": 930,
+    "lineNo": 952,
     "uses": [
       "sub_add_cancel",
       "hyper_sum",
@@ -13808,13 +13807,13 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 2525,
+    "timeMs": 2795,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean",
     "kind": "theorem",
-    "lineNo": 930,
+    "lineNo": 952,
     "uses": [
       "sub_add_cancel",
       "hyper_sum",
@@ -13834,13 +13833,13 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 2525,
+    "timeMs": 2795,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Proved by structural induction on Nat using sub_self and sub_add_cancel in Scaffold.lean",
     "kind": "theorem",
-    "lineNo": 930,
+    "lineNo": 952,
     "uses": [
       "sub_add_cancel",
       "hyper_sum",
@@ -13860,13 +13859,13 @@ var LEAN_CACHE = {
     "signature": "def hyper_sum (f : Nat \u2192 R_w) : Nat \u2192 R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2584,
+    "timeMs": 2617,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check hyper_sum",
     "summary": "Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/\u03C9",
     "kind": "def",
-    "lineNo": 809,
+    "lineNo": 831,
     "uses": [
       "R_w"
     ],
@@ -13885,13 +13884,13 @@ var LEAN_CACHE = {
     "signature": "def hyper_sum (f : Nat \u2192 R_w) : Nat \u2192 R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2584,
+    "timeMs": 2617,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check hyper_sum",
     "summary": "Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/\u03C9",
     "kind": "def",
-    "lineNo": 809,
+    "lineNo": 831,
     "uses": [
       "R_w"
     ],
@@ -13910,13 +13909,13 @@ var LEAN_CACHE = {
     "signature": "def hyper_sum (f : Nat \u2192 R_w) : Nat \u2192 R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2584,
+    "timeMs": 2617,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check hyper_sum",
     "summary": "Structural recursion accumulation on transfinite grid with infinitesimal dx = 1/\u03C9",
     "kind": "def",
-    "lineNo": 809,
+    "lineNo": 831,
     "uses": [
       "R_w"
     ],
@@ -13935,13 +13934,13 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2414,
+    "timeMs": 2257,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st",
     "summary": "Standard part shadow map projecting Day \u03C9 elements to standard dyadic nuclei in \u{1D53B}",
     "kind": "axiom",
-    "lineNo": 1020,
+    "lineNo": 1042,
     "uses": [
       "is_finite",
       "R_w",
@@ -13958,13 +13957,13 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2414,
+    "timeMs": 2257,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st",
     "summary": "Standard part shadow map projecting Day \u03C9 elements to standard dyadic nuclei in \u{1D53B}",
     "kind": "axiom",
-    "lineNo": 1020,
+    "lineNo": 1042,
     "uses": [
       "is_finite",
       "R_w",
@@ -13981,13 +13980,13 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2414,
+    "timeMs": 2257,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st",
     "summary": "Standard part shadow map projecting Day \u03C9 elements to standard dyadic nuclei in \u{1D53B}",
     "kind": "axiom",
-    "lineNo": 1020,
+    "lineNo": 1042,
     "uses": [
       "is_finite",
       "R_w",
@@ -14004,13 +14003,13 @@ var LEAN_CACHE = {
     "signature": "structure C_w where re : R_w; im : R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2253,
+    "timeMs": 2382,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check C_w\n#check C_w.norm_sq",
     "summary": "2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication",
     "kind": "structure",
-    "lineNo": 982,
+    "lineNo": 1004,
     "uses": [
       "R_w"
     ],
@@ -14033,13 +14032,13 @@ var LEAN_CACHE = {
     "signature": "structure C_w where re : R_w; im : R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2253,
+    "timeMs": 2382,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check C_w\n#check C_w.norm_sq",
     "summary": "2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication",
     "kind": "structure",
-    "lineNo": 982,
+    "lineNo": 1004,
     "uses": [
       "R_w"
     ],
@@ -14062,13 +14061,13 @@ var LEAN_CACHE = {
     "signature": "structure C_w where re : R_w; im : R_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2253,
+    "timeMs": 2382,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check C_w\n#check C_w.norm_sq",
     "summary": "2D transfinite complex discrete plane with componentwise addition and Gaussian multiplication",
     "kind": "structure",
-    "lineNo": 982,
+    "lineNo": 1004,
     "uses": [
       "R_w"
     ],
@@ -14091,13 +14090,13 @@ var LEAN_CACHE = {
     "signature": "structure Holomorphic (f : C_w \u2192 C_w) : Prop",
     "verdict": true,
     "qed": true,
-    "timeMs": 2166,
+    "timeMs": 2023,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Holomorphic",
     "summary": "Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl",
     "kind": "structure",
-    "lineNo": 1200,
+    "lineNo": 1222,
     "uses": [
       "C_w"
     ],
@@ -14112,13 +14111,13 @@ var LEAN_CACHE = {
     "signature": "structure Holomorphic (f : C_w \u2192 C_w) : Prop",
     "verdict": true,
     "qed": true,
-    "timeMs": 2166,
+    "timeMs": 2023,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Holomorphic",
     "summary": "Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl",
     "kind": "structure",
-    "lineNo": 1200,
+    "lineNo": 1222,
     "uses": [
       "C_w"
     ],
@@ -14133,13 +14132,13 @@ var LEAN_CACHE = {
     "signature": "structure Holomorphic (f : C_w \u2192 C_w) : Prop",
     "verdict": true,
     "qed": true,
-    "timeMs": 2166,
+    "timeMs": 2023,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Holomorphic",
     "summary": "Discrete Cauchy-Riemann lattice symmetry preserving conformal angles and zero vortex curl",
     "kind": "structure",
-    "lineNo": 1200,
+    "lineNo": 1222,
     "uses": [
       "C_w"
     ],
@@ -14154,13 +14153,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = \u27E80, 0\u27E9",
     "verdict": true,
     "qed": true,
-    "timeMs": 1897,
+    "timeMs": 2154,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_edge_cancel",
     "summary": "Internal edge cancellation ensuring boundary loop circulation equals mosaic sum",
     "kind": "theorem",
-    "lineNo": 1203,
+    "lineNo": 1225,
     "uses": [
       "sub_add_cancel",
       "sub_self",
@@ -14175,13 +14174,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = \u27E80, 0\u27E9",
     "verdict": true,
     "qed": true,
-    "timeMs": 1897,
+    "timeMs": 2154,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_edge_cancel",
     "summary": "Internal edge cancellation ensuring boundary loop circulation equals mosaic sum",
     "kind": "theorem",
-    "lineNo": 1203,
+    "lineNo": 1225,
     "uses": [
       "sub_add_cancel",
       "sub_self",
@@ -14196,13 +14195,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_edge_cancel (z1 z2 : C_w) : (z2 - z1) + (z1 - z2) = \u27E80, 0\u27E9",
     "verdict": true,
     "qed": true,
-    "timeMs": 1897,
+    "timeMs": 2154,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_edge_cancel",
     "summary": "Internal edge cancellation ensuring boundary loop circulation equals mosaic sum",
     "kind": "theorem",
-    "lineNo": 1203,
+    "lineNo": 1225,
     "uses": [
       "sub_add_cancel",
       "sub_self",
@@ -14217,13 +14216,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_integral_theorem (f : C_w \u2192 C_w) (hf : Holomorphic f) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2764,
+    "timeMs": 2150,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_integral_theorem",
     "summary": "Closed contour circulation theorem on 2D complex lattice",
     "kind": "axiom",
-    "lineNo": 1212,
+    "lineNo": 1234,
     "uses": [
       "Holomorphic",
       "C_w"
@@ -14237,13 +14236,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_integral_theorem (f : C_w \u2192 C_w) (hf : Holomorphic f) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2764,
+    "timeMs": 2150,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_integral_theorem",
     "summary": "Closed contour circulation theorem on 2D complex lattice",
     "kind": "axiom",
-    "lineNo": 1212,
+    "lineNo": 1234,
     "uses": [
       "Holomorphic",
       "C_w"
@@ -14257,13 +14256,13 @@ var LEAN_CACHE = {
     "signature": "axiom cauchy_integral_theorem (f : C_w \u2192 C_w) (hf : Holomorphic f) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2764,
+    "timeMs": 2150,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cauchy_integral_theorem",
     "summary": "Closed contour circulation theorem on 2D complex lattice",
     "kind": "axiom",
-    "lineNo": 1212,
+    "lineNo": 1234,
     "uses": [
       "Holomorphic",
       "C_w"
@@ -14277,13 +14276,13 @@ var LEAN_CACHE = {
     "signature": "axiom residue_theorem (f : C_w \u2192 C_w) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2577,
+    "timeMs": 2006,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check residue_theorem",
     "summary": "Logarithmic derivative contour integral counts enclosed topological roots and poles",
     "kind": "axiom",
-    "lineNo": 1216,
+    "lineNo": 1238,
     "uses": [
       "C_w"
     ],
@@ -14296,13 +14295,13 @@ var LEAN_CACHE = {
     "signature": "axiom residue_theorem (f : C_w \u2192 C_w) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2577,
+    "timeMs": 2006,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check residue_theorem",
     "summary": "Logarithmic derivative contour integral counts enclosed topological roots and poles",
     "kind": "axiom",
-    "lineNo": 1216,
+    "lineNo": 1238,
     "uses": [
       "C_w"
     ],
@@ -14315,13 +14314,13 @@ var LEAN_CACHE = {
     "signature": "axiom residue_theorem (f : C_w \u2192 C_w) : True",
     "verdict": true,
     "qed": true,
-    "timeMs": 2577,
+    "timeMs": 2006,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check residue_theorem",
     "summary": "Logarithmic derivative contour integral counts enclosed topological roots and poles",
     "kind": "axiom",
-    "lineNo": 1216,
+    "lineNo": 1238,
     "uses": [
       "C_w"
     ],
@@ -14334,9 +14333,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z",
     "verdict": true,
     "qed": false,
-    "timeMs": 2304,
+    "timeMs": 1987,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_preservation",
     "summary": "Conservation of probability amplitude norm squared under unitary Schr\xF6dinger evolution"
   },
@@ -14347,9 +14346,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z",
     "verdict": true,
     "qed": false,
-    "timeMs": 2304,
+    "timeMs": 1987,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_preservation",
     "summary": "Conservation of probability amplitude norm squared under unitary Schr\xF6dinger evolution"
   },
@@ -14360,9 +14359,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_preservation (U : C_w) (hU : C_w.norm_sq U = 1) (z : C_w) : C_w.norm_sq (C_w.mul U z) = C_w.norm_sq z",
     "verdict": true,
     "qed": false,
-    "timeMs": 2304,
+    "timeMs": 1987,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_preservation",
     "summary": "Conservation of probability amplitude norm squared under unitary Schr\xF6dinger evolution"
   },
@@ -14373,9 +14372,9 @@ var LEAN_CACHE = {
     "signature": "axiom lee_yang_zero_pinch : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2353,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check lee_yang_zero_pinch",
     "summary": "Day \u03C9 condensation of partition function zeros pinching real axis at criticality"
   },
@@ -14386,9 +14385,9 @@ var LEAN_CACHE = {
     "signature": "axiom lee_yang_zero_pinch : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2353,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check lee_yang_zero_pinch",
     "summary": "Day \u03C9 condensation of partition function zeros pinching real axis at criticality"
   },
@@ -14399,9 +14398,9 @@ var LEAN_CACHE = {
     "signature": "axiom lee_yang_zero_pinch : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2353,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check lee_yang_zero_pinch",
     "summary": "Day \u03C9 condensation of partition function zeros pinching real axis at criticality"
   },
@@ -14412,9 +14411,9 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2390,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st\n#check delta",
     "summary": "Newtonian kinematic temporal curvature invariance under discrete stencil"
   },
@@ -14425,9 +14424,9 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2390,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st\n#check delta",
     "summary": "Newtonian kinematic temporal curvature invariance under discrete stencil"
   },
@@ -14438,9 +14437,9 @@ var LEAN_CACHE = {
     "signature": "axiom st : { x : R_w // is_finite x } \u2192 D_w",
     "verdict": true,
     "qed": true,
-    "timeMs": 2390,
+    "timeMs": 1936,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check st\n#check delta",
     "summary": "Newtonian kinematic temporal curvature invariance under discrete stencil"
   },
@@ -14451,9 +14450,9 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 1994,
+    "timeMs": 1926,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Telescoping mechanical work-energy conservation on transfinite continuum"
   },
@@ -14464,9 +14463,9 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 1994,
+    "timeMs": 1926,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Telescoping mechanical work-energy conservation on transfinite continuum"
   },
@@ -14477,9 +14476,9 @@ var LEAN_CACHE = {
     "signature": "theorem telescoping_ftc (F : Nat \u2192 R_w) (n : Nat) : hyper_sum (delta F) n = F n - F 0",
     "verdict": true,
     "qed": true,
-    "timeMs": 1994,
+    "timeMs": 1926,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check telescoping_ftc",
     "summary": "Telescoping mechanical work-energy conservation on transfinite continuum"
   },
@@ -14490,9 +14489,9 @@ var LEAN_CACHE = {
     "signature": "MiddleWay.delta & MiddleWay.hyper_sum",
     "verdict": true,
     "qed": true,
-    "timeMs": 2022,
+    "timeMs": 1973,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta\n#check hyper_sum",
     "summary": "Discrete thermal curvature relaxation with telescoping boundary conservation"
   },
@@ -14503,9 +14502,9 @@ var LEAN_CACHE = {
     "signature": "MiddleWay.delta & MiddleWay.hyper_sum",
     "verdict": true,
     "qed": true,
-    "timeMs": 2022,
+    "timeMs": 1973,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta\n#check hyper_sum",
     "summary": "Discrete thermal curvature relaxation with telescoping boundary conservation"
   },
@@ -14516,9 +14515,9 @@ var LEAN_CACHE = {
     "signature": "MiddleWay.delta & MiddleWay.hyper_sum",
     "verdict": true,
     "qed": true,
-    "timeMs": 2022,
+    "timeMs": 1973,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta\n#check hyper_sum",
     "summary": "Discrete thermal curvature relaxation with telescoping boundary conservation"
   },
@@ -14529,9 +14528,9 @@ var LEAN_CACHE = {
     "signature": "axiom bayes_filter_normalization (P : Nat \u2192 R_w) (N : Nat) (hP : hyper_sum P N = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2189,
+    "timeMs": 1961,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check bayes_filter_normalization",
     "summary": "Normalizing Bayesian posterior probability conservation under evidence streaming"
   },
@@ -14542,9 +14541,9 @@ var LEAN_CACHE = {
     "signature": "axiom bayes_filter_normalization (P : Nat \u2192 R_w) (N : Nat) (hP : hyper_sum P N = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2189,
+    "timeMs": 1961,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check bayes_filter_normalization",
     "summary": "Normalizing Bayesian posterior probability conservation under evidence streaming"
   },
@@ -14555,9 +14554,9 @@ var LEAN_CACHE = {
     "signature": "axiom bayes_filter_normalization (P : Nat \u2192 R_w) (N : Nat) (hP : hyper_sum P N = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2189,
+    "timeMs": 1961,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check bayes_filter_normalization",
     "summary": "Normalizing Bayesian posterior probability conservation under evidence streaming"
   },
@@ -14568,9 +14567,9 @@ var LEAN_CACHE = {
     "signature": "axiom shannon_entropy_bound (P : Nat \u2192 R_w) (N : Nat) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1972,
+    "timeMs": 2070,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check shannon_entropy_bound",
     "summary": "Shannon information entropy non-negativity and equiprobable maximum bound"
   },
@@ -14581,9 +14580,9 @@ var LEAN_CACHE = {
     "signature": "axiom shannon_entropy_bound (P : Nat \u2192 R_w) (N : Nat) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1972,
+    "timeMs": 2070,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check shannon_entropy_bound",
     "summary": "Shannon information entropy non-negativity and equiprobable maximum bound"
   },
@@ -14594,9 +14593,9 @@ var LEAN_CACHE = {
     "signature": "axiom shannon_entropy_bound (P : Nat \u2192 R_w) (N : Nat) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1972,
+    "timeMs": 2070,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check shannon_entropy_bound",
     "summary": "Shannon information entropy non-negativity and equiprobable maximum bound"
   },
@@ -14607,9 +14606,9 @@ var LEAN_CACHE = {
     "signature": "axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2193,
+    "timeMs": 1881,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check born_probability_rule",
     "summary": "Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared"
   },
@@ -14620,9 +14619,9 @@ var LEAN_CACHE = {
     "signature": "axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2193,
+    "timeMs": 1881,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check born_probability_rule",
     "summary": "Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared"
   },
@@ -14633,9 +14632,9 @@ var LEAN_CACHE = {
     "signature": "axiom born_probability_rule (z : C_w) : C_w.norm_sq z = (z.re * z.re) + (z.im * z.im)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2193,
+    "timeMs": 1881,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check born_probability_rule",
     "summary": "Born probability rule deriving real laboratory likelihood from complex amplitude modulus squared"
   },
@@ -14646,9 +14645,9 @@ var LEAN_CACHE = {
     "signature": "axiom quantum_interference_expansion (z1 z2 : C_w) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2019,
+    "timeMs": 1964,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check quantum_interference_expansion",
     "summary": "Complex superposition amplitude expansion with non-classical wave interference cross-term"
   },
@@ -14659,9 +14658,9 @@ var LEAN_CACHE = {
     "signature": "axiom quantum_interference_expansion (z1 z2 : C_w) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2019,
+    "timeMs": 1964,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check quantum_interference_expansion",
     "summary": "Complex superposition amplitude expansion with non-classical wave interference cross-term"
   },
@@ -14672,9 +14671,9 @@ var LEAN_CACHE = {
     "signature": "axiom quantum_interference_expansion (z1 z2 : C_w) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2019,
+    "timeMs": 1964,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check quantum_interference_expansion",
     "summary": "Complex superposition amplitude expansion with non-classical wave interference cross-term"
   },
@@ -14685,9 +14684,9 @@ var LEAN_CACHE = {
     "signature": "axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta \u2265 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2387,
+    "timeMs": 2038,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check polarizer_projection_law",
     "summary": "Geometric vector projection probability and three-polarizer chain restoration"
   },
@@ -14698,9 +14697,9 @@ var LEAN_CACHE = {
     "signature": "axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta \u2265 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2387,
+    "timeMs": 2038,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check polarizer_projection_law",
     "summary": "Geometric vector projection probability and three-polarizer chain restoration"
   },
@@ -14711,9 +14710,9 @@ var LEAN_CACHE = {
     "signature": "axiom polarizer_projection_law (cos_theta : R_w) : cos_theta * cos_theta \u2265 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2387,
+    "timeMs": 2038,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check polarizer_projection_law",
     "summary": "Geometric vector projection probability and three-polarizer chain restoration"
   },
@@ -14724,9 +14723,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2099,
+    "timeMs": 2125,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_vector_renormalization",
     "summary": "L\xFCders quantum state conditioning and unit vector renormalization"
   },
@@ -14737,9 +14736,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2099,
+    "timeMs": 2125,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_vector_renormalization",
     "summary": "L\xFCders quantum state conditioning and unit vector renormalization"
   },
@@ -14750,9 +14749,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_vector_renormalization (z : C_w) (P_norm : R_w) (hP : P_norm > 0) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2099,
+    "timeMs": 2125,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_vector_renormalization",
     "summary": "L\xFCders quantum state conditioning and unit vector renormalization"
   },
@@ -14763,9 +14762,9 @@ var LEAN_CACHE = {
     "signature": "axiom density_operator_unit_trace : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2002,
+    "timeMs": 1911,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check density_operator_unit_trace",
     "summary": "Quantum density operator unit trace probability conservation and state purity bounds"
   },
@@ -14776,9 +14775,9 @@ var LEAN_CACHE = {
     "signature": "axiom density_operator_unit_trace : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2002,
+    "timeMs": 1911,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check density_operator_unit_trace",
     "summary": "Quantum density operator unit trace probability conservation and state purity bounds"
   },
@@ -14789,9 +14788,9 @@ var LEAN_CACHE = {
     "signature": "axiom density_operator_unit_trace : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2002,
+    "timeMs": 1911,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check density_operator_unit_trace",
     "summary": "Quantum density operator unit trace probability conservation and state purity bounds"
   },
@@ -14802,9 +14801,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_quantum_bayes_update : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2142,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_quantum_bayes_update",
     "summary": "Non-commutative L\xFCders quantum Bayesian updating on density matrices"
   },
@@ -14815,9 +14814,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_quantum_bayes_update : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2142,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_quantum_bayes_update",
     "summary": "Non-commutative L\xFCders quantum Bayesian updating on density matrices"
   },
@@ -14828,9 +14827,9 @@ var LEAN_CACHE = {
     "signature": "axiom luders_quantum_bayes_update : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2142,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check luders_quantum_bayes_update",
     "summary": "Non-commutative L\xFCders quantum Bayesian updating on density matrices"
   },
@@ -14841,9 +14840,9 @@ var LEAN_CACHE = {
     "signature": "axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2385,
+    "timeMs": 1894,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check von_neumann_entropy_invariance",
     "summary": "von Neumann quantum entropy invariance under unitary state evolution"
   },
@@ -14854,9 +14853,9 @@ var LEAN_CACHE = {
     "signature": "axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2385,
+    "timeMs": 1894,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check von_neumann_entropy_invariance",
     "summary": "von Neumann quantum entropy invariance under unitary state evolution"
   },
@@ -14867,9 +14866,9 @@ var LEAN_CACHE = {
     "signature": "axiom von_neumann_entropy_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2385,
+    "timeMs": 1894,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check von_neumann_entropy_invariance",
     "summary": "von Neumann quantum entropy invariance under unitary state evolution"
   },
@@ -14880,9 +14879,9 @@ var LEAN_CACHE = {
     "signature": "structure LinearMap (F : Type) (V : Type) (W : Type) ...",
     "verdict": true,
     "qed": false,
-    "timeMs": 2081,
+    "timeMs": 2124,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearMap\n#check R_w_id_linear_map",
     "summary": "Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication"
   },
@@ -14893,9 +14892,9 @@ var LEAN_CACHE = {
     "signature": "structure LinearMap (F : Type) (V : Type) (W : Type) ...",
     "verdict": true,
     "qed": false,
-    "timeMs": 2081,
+    "timeMs": 2124,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearMap\n#check R_w_id_linear_map",
     "summary": "Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication"
   },
@@ -14906,9 +14905,9 @@ var LEAN_CACHE = {
     "signature": "structure LinearMap (F : Type) (V : Type) (W : Type) ...",
     "verdict": true,
     "qed": false,
-    "timeMs": 2081,
+    "timeMs": 2124,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearMap\n#check R_w_id_linear_map",
     "summary": "Abstract Linear Map preserving both Abelian Group addition and Field scalar multiplication"
   },
@@ -14919,9 +14918,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2078,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_inner_product_invariance",
     "summary": "Unitary operator inner product invariance and metric norm isometry"
   },
@@ -14932,9 +14931,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2078,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_inner_product_invariance",
     "summary": "Unitary operator inner product invariance and metric norm isometry"
   },
@@ -14945,9 +14944,9 @@ var LEAN_CACHE = {
     "signature": "axiom unitary_inner_product_invariance (U : C_w) (hU : C_w.norm_sq U = 1) : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2078,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check unitary_inner_product_invariance",
     "summary": "Unitary operator inner product invariance and metric norm isometry"
   },
@@ -14958,9 +14957,9 @@ var LEAN_CACHE = {
     "signature": "structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2293,
+    "timeMs": 1928,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check VectorSpace\n#check R_w_vector_space",
     "summary": "Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, \xB7)"
   },
@@ -14971,9 +14970,9 @@ var LEAN_CACHE = {
     "signature": "structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2293,
+    "timeMs": 1928,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check VectorSpace\n#check R_w_vector_space",
     "summary": "Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, \xB7)"
   },
@@ -14984,9 +14983,9 @@ var LEAN_CACHE = {
     "signature": "structure VectorSpace (F : Type) (V : Type) (fieldF : Field F) (groupV : AbelianGroup V)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2293,
+    "timeMs": 1928,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check VectorSpace\n#check R_w_vector_space",
     "summary": "Abstract Vector Space defined by combining an Abelian Group (V, +) with a Field (F, +, \xB7)"
   },
@@ -14997,9 +14996,9 @@ var LEAN_CACHE = {
     "signature": "def dual_eval (f : LinearFunctional F V ...) (v : V) : F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1974,
+    "timeMs": 2314,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearFunctional\n#check dual_eval\n#check R_w_id_functional",
     "summary": "Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing \u27E8f, v\u27E9 = f(v)"
   },
@@ -15010,9 +15009,9 @@ var LEAN_CACHE = {
     "signature": "def dual_eval (f : LinearFunctional F V ...) (v : V) : F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1974,
+    "timeMs": 2314,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearFunctional\n#check dual_eval\n#check R_w_id_functional",
     "summary": "Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing \u27E8f, v\u27E9 = f(v)"
   },
@@ -15023,9 +15022,9 @@ var LEAN_CACHE = {
     "signature": "def dual_eval (f : LinearFunctional F V ...) (v : V) : F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1974,
+    "timeMs": 2314,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check LinearFunctional\n#check dual_eval\n#check R_w_id_functional",
     "summary": "Dual space V* = Hom(V, F) and canonical bilinear evaluation pairing \u27E8f, v\u27E9 = f(v)"
   },
@@ -15036,9 +15035,9 @@ var LEAN_CACHE = {
     "signature": "theorem infinitesimal_halo_relation (x y : R_w) : x \u2248 y \u2194 is_infinitesimal (x - y)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2276,
+    "timeMs": 1927,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_infinitesimal\n#check approx\n#check halo\n#check dx_is_infinitesimal\n#check infinitesimal_halo_relation",
     "summary": "Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection"
   },
@@ -15049,9 +15048,9 @@ var LEAN_CACHE = {
     "signature": "theorem infinitesimal_halo_relation (x y : R_w) : x \u2248 y \u2194 is_infinitesimal (x - y)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2276,
+    "timeMs": 1927,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_infinitesimal\n#check approx\n#check halo\n#check dx_is_infinitesimal\n#check infinitesimal_halo_relation",
     "summary": "Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection"
   },
@@ -15062,9 +15061,9 @@ var LEAN_CACHE = {
     "signature": "theorem infinitesimal_halo_relation (x y : R_w) : x \u2248 y \u2194 is_infinitesimal (x - y)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2276,
+    "timeMs": 1927,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_infinitesimal\n#check approx\n#check halo\n#check dx_is_infinitesimal\n#check infinitesimal_halo_relation",
     "summary": "Infinitesimal halo equivalence relation, monad subtype, and standard shadow projection"
   },
@@ -15075,9 +15074,9 @@ var LEAN_CACHE = {
     "signature": "axiom nonstandard_derivative_shadow (f : R_w \u2192 R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx \u2260 0) (hfin : is_finite (diff_quotient f x dx)) : st \u27E8diff_quotient f x dx, hfin\u27E9 = L",
     "verdict": true,
     "qed": false,
-    "timeMs": 1950,
+    "timeMs": 2050,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow",
     "summary": "Nonstandard difference quotient derivative shadow on hyperreal continuum"
   },
@@ -15088,9 +15087,9 @@ var LEAN_CACHE = {
     "signature": "axiom nonstandard_derivative_shadow (f : R_w \u2192 R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx \u2260 0) (hfin : is_finite (diff_quotient f x dx)) : st \u27E8diff_quotient f x dx, hfin\u27E9 = L",
     "verdict": true,
     "qed": false,
-    "timeMs": 1950,
+    "timeMs": 2050,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow",
     "summary": "Nonstandard difference quotient derivative shadow on hyperreal continuum"
   },
@@ -15101,9 +15100,9 @@ var LEAN_CACHE = {
     "signature": "axiom nonstandard_derivative_shadow (f : R_w \u2192 R_w) (x L dx : R_w) (hdiff : has_derivative_at f x L) (hdx : is_infinitesimal dx) (hne : dx \u2260 0) (hfin : is_finite (diff_quotient f x dx)) : st \u27E8diff_quotient f x dx, hfin\u27E9 = L",
     "verdict": true,
     "qed": false,
-    "timeMs": 1950,
+    "timeMs": 2050,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check diff_quotient\n#check has_derivative_at\n#check nonstandard_derivative_shadow",
     "summary": "Nonstandard difference quotient derivative shadow on hyperreal continuum"
   },
@@ -15114,9 +15113,9 @@ var LEAN_CACHE = {
     "signature": "axiom product_rule_shadow & axiom chain_rule_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 2396,
+    "timeMs": 2011,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check product_rule_shadow\n#check chain_rule_shadow",
     "summary": "Algebraic product rule and chain rule under microscopic nonstandard difference quotient"
   },
@@ -15127,9 +15126,9 @@ var LEAN_CACHE = {
     "signature": "axiom product_rule_shadow & axiom chain_rule_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 2396,
+    "timeMs": 2011,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check product_rule_shadow\n#check chain_rule_shadow",
     "summary": "Algebraic product rule and chain rule under microscopic nonstandard difference quotient"
   },
@@ -15140,9 +15139,9 @@ var LEAN_CACHE = {
     "signature": "axiom product_rule_shadow & axiom chain_rule_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 2396,
+    "timeMs": 2011,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check product_rule_shadow\n#check chain_rule_shadow",
     "summary": "Algebraic product rule and chain rule under microscopic nonstandard difference quotient"
   },
@@ -15153,9 +15152,9 @@ var LEAN_CACHE = {
     "signature": "def differential_form & axiom local_linearity",
     "verdict": true,
     "qed": false,
-    "timeMs": 1999,
+    "timeMs": 2043,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check differential_form\n#check local_linearity",
     "summary": "Differential 1-form scaling multiplier and infinitesimal local linearity error bound"
   },
@@ -15166,9 +15165,9 @@ var LEAN_CACHE = {
     "signature": "def differential_form & axiom local_linearity",
     "verdict": true,
     "qed": false,
-    "timeMs": 1999,
+    "timeMs": 2043,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check differential_form\n#check local_linearity",
     "summary": "Differential 1-form scaling multiplier and infinitesimal local linearity error bound"
   },
@@ -15179,9 +15178,9 @@ var LEAN_CACHE = {
     "signature": "def differential_form & axiom local_linearity",
     "verdict": true,
     "qed": false,
-    "timeMs": 1999,
+    "timeMs": 2043,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check differential_form\n#check local_linearity",
     "summary": "Differential 1-form scaling multiplier and infinitesimal local linearity error bound"
   },
@@ -15192,9 +15191,9 @@ var LEAN_CACHE = {
     "signature": "def delta2 & axiom second_derivative_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 1863,
+    "timeMs": 2052,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta2\n#check second_derivative_shadow",
     "summary": "Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow"
   },
@@ -15205,9 +15204,9 @@ var LEAN_CACHE = {
     "signature": "def delta2 & axiom second_derivative_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 1863,
+    "timeMs": 2052,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta2\n#check second_derivative_shadow",
     "summary": "Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow"
   },
@@ -15218,9 +15217,9 @@ var LEAN_CACHE = {
     "signature": "def delta2 & axiom second_derivative_shadow",
     "verdict": true,
     "qed": false,
-    "timeMs": 1863,
+    "timeMs": 2052,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check delta2\n#check second_derivative_shadow",
     "summary": "Symmetric 3-point curvature stencil [1, -2, 1] and second algebraic derivative shadow"
   },
@@ -15231,9 +15230,9 @@ var LEAN_CACHE = {
     "signature": "axiom discrete_ivt_bisection (f : R_w \u2192 R_w) (a b : R_w) (hf : is_continuous f) (h : f a \u2264 0 \u2227 0 \u2264 f b) (hab : a \u2264 b) : \u2203 x_star, a \u2264 x_star \u2227 x_star \u2264 b \u2227 f x_star \u2248 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2137,
+    "timeMs": 1939,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_continuous\n#check discrete_ivt_bisection\n#check ivt_standard_root\n#check bisection_interval_len",
     "summary": "Discrete Intermediate Value Theorem root existence on sign-bracketed interval"
   },
@@ -15244,9 +15243,9 @@ var LEAN_CACHE = {
     "signature": "axiom discrete_ivt_bisection (f : R_w \u2192 R_w) (a b : R_w) (hf : is_continuous f) (h : f a \u2264 0 \u2227 0 \u2264 f b) (hab : a \u2264 b) : \u2203 x_star, a \u2264 x_star \u2227 x_star \u2264 b \u2227 f x_star \u2248 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2137,
+    "timeMs": 1939,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_continuous\n#check discrete_ivt_bisection\n#check ivt_standard_root\n#check bisection_interval_len",
     "summary": "Discrete Intermediate Value Theorem root existence on sign-bracketed interval"
   },
@@ -15257,9 +15256,9 @@ var LEAN_CACHE = {
     "signature": "axiom discrete_ivt_bisection (f : R_w \u2192 R_w) (a b : R_w) (hf : is_continuous f) (h : f a \u2264 0 \u2227 0 \u2264 f b) (hab : a \u2264 b) : \u2203 x_star, a \u2264 x_star \u2227 x_star \u2264 b \u2227 f x_star \u2248 0",
     "verdict": true,
     "qed": false,
-    "timeMs": 2137,
+    "timeMs": 1939,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check is_continuous\n#check discrete_ivt_bisection\n#check ivt_standard_root\n#check bisection_interval_len",
     "summary": "Discrete Intermediate Value Theorem root existence on sign-bracketed interval"
   },
@@ -15270,9 +15269,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_identity : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1868,
+    "timeMs": 1945,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_identity",
     "summary": "Additive identity element neutral action rooted at birthday node 0"
   },
@@ -15283,9 +15282,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_identity : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1868,
+    "timeMs": 1945,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_identity",
     "summary": "Additive identity element neutral action rooted at birthday node 0"
   },
@@ -15296,9 +15295,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_identity : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1868,
+    "timeMs": 1945,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_identity",
     "summary": "Additive identity element neutral action rooted at birthday node 0"
   },
@@ -15309,9 +15308,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_inverse : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1841,
+    "timeMs": 1972,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_inverse",
     "summary": "Additive inverse existence via bilateral branch reflection across tree root"
   },
@@ -15322,9 +15321,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_inverse : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1841,
+    "timeMs": 1972,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_inverse",
     "summary": "Additive inverse existence via bilateral branch reflection across tree root"
   },
@@ -15335,9 +15334,9 @@ var LEAN_CACHE = {
     "signature": "axiom additive_inverse : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 1841,
+    "timeMs": 1972,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check additive_inverse",
     "summary": "Additive inverse existence via bilateral branch reflection across tree root"
   },
@@ -15348,9 +15347,9 @@ var LEAN_CACHE = {
     "signature": "axiom zero_annihilation : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2295,
+    "timeMs": 1866,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check zero_annihilation",
     "summary": "Zero annihilation theorem forced by field distributivity: 0 \xB7 x = 0"
   },
@@ -15361,9 +15360,9 @@ var LEAN_CACHE = {
     "signature": "axiom zero_annihilation : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2295,
+    "timeMs": 1866,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check zero_annihilation",
     "summary": "Zero annihilation theorem forced by field distributivity: 0 \xB7 x = 0"
   },
@@ -15374,9 +15373,9 @@ var LEAN_CACHE = {
     "signature": "axiom zero_annihilation : True",
     "verdict": true,
     "qed": false,
-    "timeMs": 2295,
+    "timeMs": 1866,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check zero_annihilation",
     "summary": "Zero annihilation theorem forced by field distributivity: 0 \xB7 x = 0"
   },
@@ -15387,9 +15386,9 @@ var LEAN_CACHE = {
     "signature": "structure AbelianGroup (G : Type)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2016,
+    "timeMs": 1880,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check AbelianGroup\n#check R_w_is_abelian_group",
     "summary": "Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (\u211D_\u03C9, +)"
   },
@@ -15400,9 +15399,9 @@ var LEAN_CACHE = {
     "signature": "structure AbelianGroup (G : Type)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2016,
+    "timeMs": 1880,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check AbelianGroup\n#check R_w_is_abelian_group",
     "summary": "Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (\u211D_\u03C9, +)"
   },
@@ -15413,9 +15412,9 @@ var LEAN_CACHE = {
     "signature": "structure AbelianGroup (G : Type)",
     "verdict": true,
     "qed": false,
-    "timeMs": 2016,
+    "timeMs": 1880,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check AbelianGroup\n#check R_w_is_abelian_group",
     "summary": "Abstract Abelian Group axioms in Lean 4 with Conway transfinite model grounding on (\u211D_\u03C9, +)"
   },
@@ -15426,9 +15425,9 @@ var LEAN_CACHE = {
     "signature": "structure Field (F : Type) extends AbelianGroup F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1933,
+    "timeMs": 1954,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Field\n#check R_w_is_field",
     "summary": "Abstract Field axioms in Lean 4 with Conway continuum model grounding on (\u211D_\u03C9, +, \xB7)"
   },
@@ -15439,9 +15438,9 @@ var LEAN_CACHE = {
     "signature": "structure Field (F : Type) extends AbelianGroup F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1933,
+    "timeMs": 1954,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Field\n#check R_w_is_field",
     "summary": "Abstract Field axioms in Lean 4 with Conway continuum model grounding on (\u211D_\u03C9, +, \xB7)"
   },
@@ -15452,9 +15451,9 @@ var LEAN_CACHE = {
     "signature": "structure Field (F : Type) extends AbelianGroup F",
     "verdict": true,
     "qed": false,
-    "timeMs": 1933,
+    "timeMs": 1954,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check Field\n#check R_w_is_field",
     "summary": "Abstract Field axioms in Lean 4 with Conway continuum model grounding on (\u211D_\u03C9, +, \xB7)"
   },
@@ -15465,9 +15464,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_angle (m : Z_w) (n : N_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2069,
+    "timeMs": 1884,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_angle",
     "summary": "Binary Conway tree directed pair (\u2124 \xD7 \u2115) \u2192 \u211D_\u03C9 generating all dyadic angle coordinates"
   },
@@ -15478,9 +15477,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_angle (m : Z_w) (n : N_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2069,
+    "timeMs": 1884,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_angle",
     "summary": "Binary Conway tree directed pair (\u2124 \xD7 \u2115) \u2192 \u211D_\u03C9 generating all dyadic angle coordinates"
   },
@@ -15491,9 +15490,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_angle (m : Z_w) (n : N_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2069,
+    "timeMs": 1884,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_angle",
     "summary": "Binary Conway tree directed pair (\u2124 \xD7 \u2115) \u2192 \u211D_\u03C9 generating all dyadic angle coordinates"
   },
@@ -15504,9 +15503,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_real (d : D_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1988,
+    "timeMs": 1885,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_real",
     "summary": "Directed pair \u{1D53B} \u2192 \u211D_\u03C9 embedding dyadic rationals into the Day \u03C9 continuum"
   },
@@ -15517,9 +15516,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_real (d : D_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1988,
+    "timeMs": 1885,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_real",
     "summary": "Directed pair \u{1D53B} \u2192 \u211D_\u03C9 embedding dyadic rationals into the Day \u03C9 continuum"
   },
@@ -15530,9 +15529,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_real (d : D_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1988,
+    "timeMs": 1885,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_real",
     "summary": "Directed pair \u{1D53B} \u2192 \u211D_\u03C9 embedding dyadic rationals into the Day \u03C9 continuum"
   },
@@ -15543,9 +15542,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_point (theta : R_w) : C_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2097,
+    "timeMs": 1980,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_point\n#check pythagorean_identity",
     "summary": "Rotor coordinate embedding directed pair \u211D_\u03C9 \u2192 \u2102_\u03C9 preserving unit circle norm squared"
   },
@@ -15556,9 +15555,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_point (theta : R_w) : C_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2097,
+    "timeMs": 1980,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_point\n#check pythagorean_identity",
     "summary": "Rotor coordinate embedding directed pair \u211D_\u03C9 \u2192 \u2102_\u03C9 preserving unit circle norm squared"
   },
@@ -15569,9 +15568,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_point (theta : R_w) : C_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2097,
+    "timeMs": 1980,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_point\n#check pythagorean_identity",
     "summary": "Rotor coordinate embedding directed pair \u211D_\u03C9 \u2192 \u2102_\u03C9 preserving unit circle norm squared"
   },
@@ -15582,9 +15581,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_rotor (theta : R_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1848,
+    "timeMs": 1946,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_rotor",
     "summary": "Certified unit rotor directed pair \u211D_\u03C9 \u2192 UnitRotor mapping angle to group element S\xB9_\u03C9"
   },
@@ -15595,9 +15594,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_rotor (theta : R_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1848,
+    "timeMs": 1946,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_rotor",
     "summary": "Certified unit rotor directed pair \u211D_\u03C9 \u2192 UnitRotor mapping angle to group element S\xB9_\u03C9"
   },
@@ -15608,9 +15607,9 @@ var LEAN_CACHE = {
     "signature": "def angle_to_rotor (theta : R_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1848,
+    "timeMs": 1946,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check angle_to_rotor",
     "summary": "Certified unit rotor directed pair \u211D_\u03C9 \u2192 UnitRotor mapping angle to group element S\xB9_\u03C9"
   },
@@ -15621,9 +15620,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_rotor (d : D_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1885,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_rotor",
     "summary": "Directed pair \u{1D53B} \u2192 UnitRotor mapping dyadic turns directly to certified unit rotors"
   },
@@ -15634,9 +15633,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_rotor (d : D_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1885,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_rotor",
     "summary": "Directed pair \u{1D53B} \u2192 UnitRotor mapping dyadic turns directly to certified unit rotors"
   },
@@ -15647,9 +15646,9 @@ var LEAN_CACHE = {
     "signature": "def dyadic_to_rotor (d : D_w) : UnitRotor",
     "verdict": true,
     "qed": false,
-    "timeMs": 1885,
+    "timeMs": 2123,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check dyadic_to_rotor",
     "summary": "Directed pair \u{1D53B} \u2192 UnitRotor mapping dyadic turns directly to certified unit rotors"
   },
@@ -15660,9 +15659,9 @@ var LEAN_CACHE = {
     "signature": "axiom cos_half_angle (c : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2164,
+    "timeMs": 2180,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cos_half_angle\n#check cos_bisection_rule",
     "summary": "Ptolemaic angle bisection directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 computing half-angle cosine recursion"
   },
@@ -15673,9 +15672,9 @@ var LEAN_CACHE = {
     "signature": "axiom cos_half_angle (c : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2164,
+    "timeMs": 2180,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cos_half_angle\n#check cos_bisection_rule",
     "summary": "Ptolemaic angle bisection directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 computing half-angle cosine recursion"
   },
@@ -15686,9 +15685,9 @@ var LEAN_CACHE = {
     "signature": "axiom cos_half_angle (c : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 2164,
+    "timeMs": 2180,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check cos_half_angle\n#check cos_bisection_rule",
     "summary": "Ptolemaic angle bisection directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 computing half-angle cosine recursion"
   },
@@ -15699,9 +15698,9 @@ var LEAN_CACHE = {
     "signature": "axiom chord_length (delta_theta : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1854,
+    "timeMs": 1905,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check chord_length",
     "summary": "Polygonal rim chord directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 mapping central turn to Euclidean segment length"
   },
@@ -15712,9 +15711,9 @@ var LEAN_CACHE = {
     "signature": "axiom chord_length (delta_theta : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1854,
+    "timeMs": 1905,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check chord_length",
     "summary": "Polygonal rim chord directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 mapping central turn to Euclidean segment length"
   },
@@ -15725,9 +15724,9 @@ var LEAN_CACHE = {
     "signature": "axiom chord_length (delta_theta : R_w) : R_w",
     "verdict": true,
     "qed": false,
-    "timeMs": 1854,
+    "timeMs": 1905,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check chord_length",
     "summary": "Polygonal rim chord directed pair \u211D_\u03C9 \u2192 \u211D_\u03C9 mapping central turn to Euclidean segment length"
   },
@@ -15738,9 +15737,9 @@ var LEAN_CACHE = {
     "signature": "structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1",
     "verdict": true,
     "qed": false,
-    "timeMs": 1872,
+    "timeMs": 1985,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check UnitRotor\n#check rotate",
     "summary": "Unit Rotor structure on \u2102_\u03C9 acting as rotational operator on 2D vectors via complex multiplication"
   },
@@ -15751,9 +15750,9 @@ var LEAN_CACHE = {
     "signature": "structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1",
     "verdict": true,
     "qed": false,
-    "timeMs": 1872,
+    "timeMs": 1985,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check UnitRotor\n#check rotate",
     "summary": "Unit Rotor structure on \u2102_\u03C9 acting as rotational operator on 2D vectors via complex multiplication"
   },
@@ -15764,9 +15763,9 @@ var LEAN_CACHE = {
     "signature": "structure UnitRotor where val : C_w; unit_norm : C_w.norm_sq val = 1",
     "verdict": true,
     "qed": false,
-    "timeMs": 1872,
+    "timeMs": 1985,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check UnitRotor\n#check rotate",
     "summary": "Unit Rotor structure on \u2102_\u03C9 acting as rotational operator on 2D vectors via complex multiplication"
   },
@@ -15777,9 +15776,9 @@ var LEAN_CACHE = {
     "signature": "def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic",
     "verdict": true,
     "qed": false,
-    "timeMs": 1922,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_dyadic_fn\n#check sin_dyadic",
     "summary": "Dyadic sine function bundling directed pair \u{1D53B} \u2192 [-1, 1] with CORDIC bisection rule"
   },
@@ -15790,9 +15789,9 @@ var LEAN_CACHE = {
     "signature": "def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic",
     "verdict": true,
     "qed": false,
-    "timeMs": 1922,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_dyadic_fn\n#check sin_dyadic",
     "summary": "Dyadic sine function bundling directed pair \u{1D53B} \u2192 [-1, 1] with CORDIC bisection rule"
   },
@@ -15803,9 +15802,9 @@ var LEAN_CACHE = {
     "signature": "def sin_dyadic_fn : FunctionType D_w R_w_cc_unit := make_function sin_dyadic",
     "verdict": true,
     "qed": false,
-    "timeMs": 1922,
+    "timeMs": 1895,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_dyadic_fn\n#check sin_dyadic",
     "summary": "Dyadic sine function bundling directed pair \u{1D53B} \u2192 [-1, 1] with CORDIC bisection rule"
   },
@@ -15816,9 +15815,9 @@ var LEAN_CACHE = {
     "signature": "def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule",
     "verdict": true,
     "qed": false,
-    "timeMs": 1871,
+    "timeMs": 1948,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_rotor_fn\n#check sin_rotor_rule",
     "summary": "Unit rotor sine projection bundling directed pair UnitRotor \u2192 [-1, 1] with imaginary coordinate rule"
   },
@@ -15829,9 +15828,9 @@ var LEAN_CACHE = {
     "signature": "def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule",
     "verdict": true,
     "qed": false,
-    "timeMs": 1871,
+    "timeMs": 1948,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_rotor_fn\n#check sin_rotor_rule",
     "summary": "Unit rotor sine projection bundling directed pair UnitRotor \u2192 [-1, 1] with imaginary coordinate rule"
   },
@@ -15842,9 +15841,9 @@ var LEAN_CACHE = {
     "signature": "def sin_rotor_fn : FunctionType UnitRotor R_w_cc_unit := make_function sin_rotor_rule",
     "verdict": true,
     "qed": false,
-    "timeMs": 1871,
+    "timeMs": 1948,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check sin_rotor_fn\n#check sin_rotor_rule",
     "summary": "Unit rotor sine projection bundling directed pair UnitRotor \u2192 [-1, 1] with imaginary coordinate rule"
   },
@@ -15855,9 +15854,9 @@ var LEAN_CACHE = {
     "signature": "def D_w : Type := { x : R_w // is_dyadic x }",
     "verdict": true,
     "qed": true,
-    "timeMs": 1953,
+    "timeMs": 2107,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_w\n#check is_dyadic",
     "summary": "Dyadic rational domain born on finite days k < \u03C9 as the 2-successor binary tree backbone",
     "kind": "def",
@@ -15906,9 +15905,9 @@ var LEAN_CACHE = {
     "signature": "def D_w : Type := { x : R_w // is_dyadic x }",
     "verdict": true,
     "qed": true,
-    "timeMs": 1953,
+    "timeMs": 2107,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_w\n#check is_dyadic",
     "summary": "Dyadic rational domain born on finite days k < \u03C9 as the 2-successor binary tree backbone",
     "kind": "def",
@@ -15957,9 +15956,9 @@ var LEAN_CACHE = {
     "signature": "def D_w : Type := { x : R_w // is_dyadic x }",
     "verdict": true,
     "qed": true,
-    "timeMs": 1953,
+    "timeMs": 2107,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_w\n#check is_dyadic",
     "summary": "Dyadic rational domain born on finite days k < \u03C9 as the 2-successor binary tree backbone",
     "kind": "def",
@@ -16008,9 +16007,9 @@ var LEAN_CACHE = {
     "signature": "def D_lt_one : Type := { d : D_w // d.val < 1 }",
     "verdict": true,
     "qed": true,
-    "timeMs": 2277,
+    "timeMs": 1876,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_lt_one",
     "summary": "Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection",
     "kind": "def",
@@ -16027,9 +16026,9 @@ var LEAN_CACHE = {
     "signature": "def D_lt_one : Type := { d : D_w // d.val < 1 }",
     "verdict": true,
     "qed": true,
-    "timeMs": 2277,
+    "timeMs": 1876,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_lt_one",
     "summary": "Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection",
     "kind": "def",
@@ -16046,9 +16045,9 @@ var LEAN_CACHE = {
     "signature": "def D_lt_one : Type := { d : D_w // d.val < 1 }",
     "verdict": true,
     "qed": true,
-    "timeMs": 2277,
+    "timeMs": 1876,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check D_lt_one",
     "summary": "Subtype-constrained dyadic unit interval domain for normalized probability and angle bisection",
     "kind": "def",
@@ -16065,9 +16064,9 @@ var LEAN_CACHE = {
     "signature": "structure R_w_circle where val : R_w; in_range : 0 \u2264 val \u2227 val < 2 * pi",
     "verdict": true,
     "qed": true,
-    "timeMs": 1947,
+    "timeMs": 2034,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check R_w_circle\n#check mod_2pi_rel",
     "summary": "Quotient circle domain S\xB9_\u03C9 on \u211D_\u03C9 with periodic boundary identification modulo 2\u03C0",
     "kind": "structure",
@@ -16085,9 +16084,9 @@ var LEAN_CACHE = {
     "signature": "structure R_w_circle where val : R_w; in_range : 0 \u2264 val \u2227 val < 2 * pi",
     "verdict": true,
     "qed": true,
-    "timeMs": 1947,
+    "timeMs": 2034,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check R_w_circle\n#check mod_2pi_rel",
     "summary": "Quotient circle domain S\xB9_\u03C9 on \u211D_\u03C9 with periodic boundary identification modulo 2\u03C0",
     "kind": "structure",
@@ -16105,9 +16104,9 @@ var LEAN_CACHE = {
     "signature": "structure R_w_circle where val : R_w; in_range : 0 \u2264 val \u2227 val < 2 * pi",
     "verdict": true,
     "qed": true,
-    "timeMs": 1947,
+    "timeMs": 2034,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "#check R_w_circle\n#check mod_2pi_rel",
     "summary": "Quotient circle domain S\xB9_\u03C9 on \u211D_\u03C9 with periodic boundary identification modulo 2\u03C0",
     "kind": "structure",
@@ -16125,9 +16124,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1168,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def paq_witness : Nat := 6\ntheorem paq_proof : 6 > 5 \u2227 6 < 10 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 > 5 \u2227 6 < 10)"
   },
@@ -16138,9 +16137,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1168,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def paq_witness : Nat := 6\ntheorem paq_proof : 6 > 5 \u2227 6 < 10 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 > 5 \u2227 6 < 10)"
   },
@@ -16151,9 +16150,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1168,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def paq_witness : Nat := 6\ntheorem paq_proof : 6 > 5 \u2227 6 < 10 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 > 5 \u2227 6 < 10)"
   },
@@ -16164,9 +16163,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1055,
+    "timeMs": 1040,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem p_proof : 6 > 5 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6"
   },
@@ -16177,9 +16176,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1055,
+    "timeMs": 1040,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem p_proof : 6 > 5 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6"
   },
@@ -16190,9 +16189,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1055,
+    "timeMs": 1040,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem p_proof : 6 > 5 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6"
   },
@@ -16203,9 +16202,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1200,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem v_proof : 6 % 2 = 0 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 % 2 == 0)"
   },
@@ -16216,9 +16215,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1200,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem v_proof : 6 % 2 = 0 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 % 2 == 0)"
   },
@@ -16229,9 +16228,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 1003,
+    "timeMs": 1200,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem v_proof : 6 % 2 = 0 := by decide",
     "summary": "Existential satisfied by witness x\u2081 = 6 (6 % 2 == 0)"
   },
@@ -16242,9 +16241,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 993,
+    "timeMs": 1091,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mam_witness : Nat := 7\ntheorem mam_proof : 7 > 5 \u2227 7 < 10 := by decide",
     "summary": "Subset intersection satisfied by witness x\u2081 = 7"
   },
@@ -16255,9 +16254,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 993,
+    "timeMs": 1091,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mam_witness : Nat := 7\ntheorem mam_proof : 7 > 5 \u2227 7 < 10 := by decide",
     "summary": "Subset intersection satisfied by witness x\u2081 = 7"
   },
@@ -16268,9 +16267,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115",
     "verdict": true,
     "qed": true,
-    "timeMs": 993,
+    "timeMs": 1091,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mam_witness : Nat := 7\ntheorem mam_proof : 7 > 5 \u2227 7 < 10 := by decide",
     "summary": "Subset intersection satisfied by witness x\u2081 = 7"
   },
@@ -16281,9 +16280,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|GT(11)], \u2203x\u2082:[\u2115|LT(5)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1035,
+    "timeMs": 1265,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : \u2203 x2 < 5, x1 > x2 := \u27E80, by decide, by omega\u27E9",
     "summary": "For any x\u2081 > 11, choose x\u2082 = 0 (< 5) satisfying x\u2081 > x\u2082"
   },
@@ -16294,9 +16293,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|GT(11)], \u2203x\u2082:[\u2115|LT(5)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1035,
+    "timeMs": 1265,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : \u2203 x2 < 5, x1 > x2 := \u27E80, by decide, by omega\u27E9",
     "summary": "For any x\u2081 > 11, choose x\u2082 = 0 (< 5) satisfying x\u2081 > x\u2082"
   },
@@ -16307,9 +16306,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|GT(11)], \u2203x\u2082:[\u2115|LT(5)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1035,
+    "timeMs": 1265,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem r_proof (x1 : Nat) (hx1 : x1 > 11) : \u2203 x2 < 5, x1 > x2 := \u27E80, by decide, by omega\u27E9",
     "summary": "For any x\u2081 > 11, choose x\u2082 = 0 (< 5) satisfying x\u2081 > x\u2082"
   },
@@ -16320,9 +16319,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|EVEN], \u2203x\u2082:[\u2115|LT(x\u2081)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1002,
+    "timeMs": 970,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 \u2227 x1 > 0) : \u2203 x2 < x1, x2 < x1 := \u27E80, by omega, by omega\u27E9",
     "summary": "Dependent lower bound satisfied by choosing x\u2082 = 0 < x\u2081"
   },
@@ -16333,9 +16332,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|EVEN], \u2203x\u2082:[\u2115|LT(x\u2081)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1002,
+    "timeMs": 970,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 \u2227 x1 > 0) : \u2203 x2 < x1, x2 < x1 := \u27E80, by omega, by omega\u27E9",
     "summary": "Dependent lower bound satisfied by choosing x\u2082 = 0 < x\u2081"
   },
@@ -16346,9 +16345,9 @@ var LEAN_CACHE = {
     "signature": "\u2200x\u2081:[\u2115|EVEN], \u2203x\u2082:[\u2115|LT(x\u2081)]",
     "verdict": true,
     "qed": true,
-    "timeMs": 1002,
+    "timeMs": 970,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem s_proof (x1 : Nat) (hx1 : x1 % 2 = 0 \u2227 x1 > 0) : \u2203 x2 < x1, x2 < x1 := \u27E80, by omega, by omega\u27E9",
     "summary": "Dependent lower bound satisfied by choosing x\u2082 = 0 < x\u2081"
   },
@@ -16359,9 +16358,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115, \u2203x\u2082:\u2115",
     "verdict": false,
     "qed": true,
-    "timeMs": 1048,
+    "timeMs": 1112,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ras_refutation : \xAC(\u2203 x1 x2 : Nat, x1 > x2 \u2227 x1 < x2) := by intros h; rcases h with \u27E8x1, x2, h1, h2\u27E9; omega",
     "summary": "Contradiction refutation: no pair of natural numbers can simultaneously satisfy x\u2081 > x\u2082 and x\u2081 < x\u2082"
   },
@@ -16372,9 +16371,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115, \u2203x\u2082:\u2115",
     "verdict": false,
     "qed": true,
-    "timeMs": 1048,
+    "timeMs": 1112,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ras_refutation : \xAC(\u2203 x1 x2 : Nat, x1 > x2 \u2227 x1 < x2) := by intros h; rcases h with \u27E8x1, x2, h1, h2\u27E9; omega",
     "summary": "Contradiction refutation: no pair of natural numbers can simultaneously satisfy x\u2081 > x\u2082 and x\u2081 < x\u2082"
   },
@@ -16385,9 +16384,9 @@ var LEAN_CACHE = {
     "signature": "\u2203x\u2081:\u2115, \u2203x\u2082:\u2115",
     "verdict": false,
     "qed": true,
-    "timeMs": 1048,
+    "timeMs": 1112,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ras_refutation : \xAC(\u2203 x1 x2 : Nat, x1 > x2 \u2227 x1 < x2) := by intros h; rcases h with \u27E8x1, x2, h1, h2\u27E9; omega",
     "summary": "Contradiction refutation: no pair of natural numbers can simultaneously satisfy x\u2081 > x\u2082 and x\u2081 < x\u2082"
   },
@@ -16400,7 +16399,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord : Type",
     "summary": "The constructive type of tree depths / birthdays:",
     "kind": "axiom",
@@ -16434,7 +16433,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord : Type",
     "summary": "The constructive type of tree depths / birthdays:",
     "kind": "axiom",
@@ -16468,7 +16467,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.lt : Ord \u2192 Ord \u2192 Prop",
     "summary": "axiom Ord.lt in Scaffold.lean (line 43)",
     "kind": "axiom",
@@ -16491,7 +16490,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.lt : Ord \u2192 Ord \u2192 Prop",
     "summary": "axiom Ord.lt in Scaffold.lean (line 43)",
     "kind": "axiom",
@@ -16514,7 +16513,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.le : Ord \u2192 Ord \u2192 Prop\n\ninstance : LT Ord where lt := Ord.lt\ninstance : LE Ord where le := Ord.le",
     "summary": "axiom Ord.le in Scaffold.lean (line 44)",
     "kind": "axiom",
@@ -16536,7 +16535,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.le : Ord \u2192 Ord \u2192 Prop\n\ninstance : LT Ord where lt := Ord.lt\ninstance : LE Ord where le := Ord.le",
     "summary": "axiom Ord.le in Scaffold.lean (line 44)",
     "kind": "axiom",
@@ -16558,7 +16557,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.zero : Ord",
     "summary": "axiom Ord.zero in Scaffold.lean (line 49)",
     "kind": "axiom",
@@ -16577,7 +16576,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.zero : Ord",
     "summary": "axiom Ord.zero in Scaffold.lean (line 49)",
     "kind": "axiom",
@@ -16596,7 +16595,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.succ : Ord \u2192 Ord\n\n-- Key Ordinal Milestones:",
     "summary": "axiom Ord.succ in Scaffold.lean (line 50)",
     "kind": "axiom",
@@ -16615,7 +16614,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.succ : Ord \u2192 Ord\n\n-- Key Ordinal Milestones:",
     "summary": "axiom Ord.succ in Scaffold.lean (line 50)",
     "kind": "axiom",
@@ -16634,7 +16633,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega : Ord           -- Level 2 Horizon: first transfinite limit ordinal (continuous world)",
     "summary": "axiom Ord.omega in Scaffold.lean (line 53)",
     "kind": "axiom",
@@ -16665,7 +16664,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega : Ord           -- Level 2 Horizon: first transfinite limit ordinal (continuous world)",
     "summary": "axiom Ord.omega in Scaffold.lean (line 53)",
     "kind": "axiom",
@@ -16696,7 +16695,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.eps0  : Ord           -- Level 3 Ceiling: first fixed point \u03B5\u2080 = \u03C9^\u03B5\u2080 (ambient field closure)",
     "summary": "axiom Ord.eps0 in Scaffold.lean (line 54)",
     "kind": "axiom",
@@ -16718,7 +16717,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.eps0  : Ord           -- Level 3 Ceiling: first fixed point \u03B5\u2080 = \u03C9^\u03B5\u2080 (ambient field closure)",
     "summary": "axiom Ord.eps0 in Scaffold.lean (line 54)",
     "kind": "axiom",
@@ -16740,7 +16739,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_lt_eps0 : Ord.omega < Ord.eps0",
     "summary": "axiom Ord.omega_lt_eps0 in Scaffold.lean (line 55)",
     "kind": "axiom",
@@ -16760,7 +16759,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_lt_eps0 : Ord.omega < Ord.eps0",
     "summary": "axiom Ord.omega_lt_eps0 in Scaffold.lean (line 55)",
     "kind": "axiom",
@@ -16780,7 +16779,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.wf : WellFounded Ord.lt\n\n-- The Universal Tri-Tree Family:",
     "summary": "axiom Ord.wf in Scaffold.lean (line 56)",
     "kind": "axiom",
@@ -16799,7 +16798,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.wf : WellFounded Ord.lt\n\n-- The Universal Tri-Tree Family:",
     "summary": "axiom Ord.wf in Scaffold.lean (line 56)",
     "kind": "axiom",
@@ -16818,7 +16817,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_at : Ord \u2192 Type",
     "summary": "axiom Tree1_at in Scaffold.lean (line 59)",
     "kind": "axiom",
@@ -16839,7 +16838,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_at : Ord \u2192 Type",
     "summary": "axiom Tree1_at in Scaffold.lean (line 59)",
     "kind": "axiom",
@@ -16860,7 +16859,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree2_at : Ord \u2192 Type",
     "summary": "axiom Tree2_at in Scaffold.lean (line 60)",
     "kind": "axiom",
@@ -16883,7 +16882,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree2_at : Ord \u2192 Type",
     "summary": "axiom Tree2_at in Scaffold.lean (line 60)",
     "kind": "axiom",
@@ -16906,7 +16905,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree4_at : Ord \u2192 Type\n\n-- Universal Definition of Finiteness: The \u03C9-Cutoff\n-- In Middle Way Mathematics, an element or tree stage is finite if and only if\n-- its birthday is strictly below the first transfinite limit ordinal \u03C9:",
     "summary": "axiom Tree4_at in Scaffold.lean (line 61)",
     "kind": "axiom",
@@ -16928,7 +16927,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree4_at : Ord \u2192 Type\n\n-- Universal Definition of Finiteness: The \u03C9-Cutoff\n-- In Middle Way Mathematics, an element or tree stage is finite if and only if\n-- its birthday is strictly below the first transfinite limit ordinal \u03C9:",
     "summary": "axiom Tree4_at in Scaffold.lean (line 61)",
     "kind": "axiom",
@@ -16950,7 +16949,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite_stage (\u03B1 : Ord) : Prop := \u03B1 < Ord.omega",
     "summary": "def is_finite_stage in Scaffold.lean (line 66)",
     "kind": "def",
@@ -16972,7 +16971,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite_stage (\u03B1 : Ord) : Prop := \u03B1 < Ord.omega",
     "summary": "def is_finite_stage in Scaffold.lean (line 66)",
     "kind": "def",
@@ -16994,7 +16993,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive B_w where\n  | ff : B_w\n  | tt : B_w\nderiving DecidableEq\n\n-- 2. 1-Successor Counting Spine: Initial finite stretch Tree1 \u2261 \u2115\n-- Measures clock ticks and path depths for all higher branching trees.",
     "summary": "1. The binary domain of Boolean truth values: \u{1D539}",
     "kind": "inductive",
@@ -17017,7 +17016,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive B_w where\n  | ff : B_w\n  | tt : B_w\nderiving DecidableEq\n\n-- 2. 1-Successor Counting Spine: Initial finite stretch Tree1 \u2261 \u2115\n-- Measures clock ticks and path depths for all higher branching trees.",
     "summary": "1. The binary domain of Boolean truth values: \u{1D539}",
     "kind": "inductive",
@@ -17040,7 +17039,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree1 where\n  | zero : Tree1\n  | succ : Tree1 \u2192 Tree1\nderiving DecidableEq\n\nnamespace Tree1",
     "summary": "inductive Tree1 in Scaffold.lean (line 82)",
     "kind": "inductive",
@@ -17083,7 +17082,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree1 where\n  | zero : Tree1\n  | succ : Tree1 \u2192 Tree1\nderiving DecidableEq\n\nnamespace Tree1",
     "summary": "inductive Tree1 in Scaffold.lean (line 82)",
     "kind": "inductive",
@@ -17126,7 +17125,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toNat : Tree1 \u2192 Nat\n  | zero => 0\n  | succ n => Nat.succ (toNat n)",
     "summary": "def toNat in Scaffold.lean (line 89)",
     "kind": "def",
@@ -17147,7 +17146,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toNat : Tree1 \u2192 Nat\n  | zero => 0\n  | succ n => Nat.succ (toNat n)",
     "summary": "def toNat in Scaffold.lean (line 89)",
     "kind": "def",
@@ -17168,7 +17167,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem toNat_inj : \u2200 {a b : Tree1}, toNat a = toNat b \u2192 a = b\n  | zero, zero, _ => rfl\n  | zero, succ _, h => by injection h\n  | succ _, zero, h => by injection h\n  | succ a, succ b, h => by\n    have h1 : toNat a = toNat b := Nat.succ.inj h\n    rw [toNat_inj h1]\n\nend Tree1\n\n-- Embedding of the finite counting spine into the universal ordinal clock:",
     "summary": "theorem toNat_inj in Scaffold.lean (line 93)",
     "kind": "theorem",
@@ -17188,7 +17187,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem toNat_inj : \u2200 {a b : Tree1}, toNat a = toNat b \u2192 a = b\n  | zero, zero, _ => rfl\n  | zero, succ _, h => by injection h\n  | succ _, zero, h => by injection h\n  | succ a, succ b, h => by\n    have h1 : toNat a = toNat b := Nat.succ.inj h\n    rw [toNat_inj h1]\n\nend Tree1\n\n-- Embedding of the finite counting spine into the universal ordinal clock:",
     "summary": "theorem toNat_inj in Scaffold.lean (line 93)",
     "kind": "theorem",
@@ -17208,7 +17207,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd : Tree1 \u2192 Ord",
     "summary": "axiom Tree1.toOrd in Scaffold.lean (line 104)",
     "kind": "axiom",
@@ -17238,7 +17237,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd : Tree1 \u2192 Ord",
     "summary": "axiom Tree1.toOrd in Scaffold.lean (line 104)",
     "kind": "axiom",
@@ -17268,7 +17267,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd_inj : \u2200 {a b : Tree1}, Tree1.toOrd a = Tree1.toOrd b \u2192 a = b",
     "summary": "axiom Tree1.toOrd_inj in Scaffold.lean (line 105)",
     "kind": "axiom",
@@ -17288,7 +17287,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd_inj : \u2200 {a b : Tree1}, Tree1.toOrd a = Tree1.toOrd b \u2192 a = b",
     "summary": "axiom Tree1.toOrd_inj in Scaffold.lean (line 105)",
     "kind": "axiom",
@@ -17308,7 +17307,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd_mono : \u2200 {a b : Tree1}, Tree1.toNat a < Tree1.toNat b \u2194 Tree1.toOrd a < Tree1.toOrd b",
     "summary": "axiom Tree1.toOrd_mono in Scaffold.lean (line 106)",
     "kind": "axiom",
@@ -17328,7 +17327,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1.toOrd_mono : \u2200 {a b : Tree1}, Tree1.toNat a < Tree1.toNat b \u2194 Tree1.toOrd a < Tree1.toOrd b",
     "summary": "axiom Tree1.toOrd_mono in Scaffold.lean (line 106)",
     "kind": "axiom",
@@ -17348,7 +17347,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega\n\n-- Natural numbers \u2115 are precisely the finite initial segment of Ord",
     "summary": "axiom Ord.omega_is_sup in Scaffold.lean (line 107)",
     "kind": "axiom",
@@ -17372,7 +17371,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_is_sup (t : Tree1) : Tree1.toOrd t < Ord.omega\n\n-- Natural numbers \u2115 are precisely the finite initial segment of Ord",
     "summary": "axiom Ord.omega_is_sup in Scaffold.lean (line 107)",
     "kind": "axiom",
@@ -17396,7 +17395,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Ord.is_finite (\u03B1 : Ord) : Prop := \u2203 t : Tree1, Tree1.toOrd t = \u03B1",
     "summary": "def Ord.is_finite in Scaffold.lean (line 110)",
     "kind": "def",
@@ -17419,7 +17418,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Ord.is_finite (\u03B1 : Ord) : Prop := \u2203 t : Tree1, Tree1.toOrd t = \u03B1",
     "summary": "def Ord.is_finite in Scaffold.lean (line 110)",
     "kind": "def",
@@ -17442,7 +17441,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_not_finite : \xAC Ord.is_finite Ord.omega\n\n-- Order Classifications:",
     "summary": "axiom Ord.omega_not_finite in Scaffold.lean (line 111)",
     "kind": "axiom",
@@ -17462,7 +17461,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Ord.omega_not_finite : \xAC Ord.is_finite Ord.omega\n\n-- Order Classifications:",
     "summary": "axiom Ord.omega_not_finite in Scaffold.lean (line 111)",
     "kind": "axiom",
@@ -17482,7 +17481,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure PartialOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  refl     : \u2200 x, le x x\n  antisymm : \u2200 x y, le x y \u2192 le y x \u2192 x = y\n  trans    : \u2200 x y z, le x y \u2192 le y z \u2192 le x z",
     "summary": "structure PartialOrder in Scaffold.lean (line 114)",
     "kind": "structure",
@@ -17506,7 +17505,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure PartialOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  refl     : \u2200 x, le x x\n  antisymm : \u2200 x y, le x y \u2192 le y x \u2192 x = y\n  trans    : \u2200 x y z, le x y \u2192 le y z \u2192 le x z",
     "summary": "structure PartialOrder in Scaffold.lean (line 114)",
     "kind": "structure",
@@ -17530,7 +17529,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure TotalOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  toPartialOrder : PartialOrder \u03B1 le\n  total          : \u2200 x y, le x y \u2228 le y x",
     "summary": "structure TotalOrder in Scaffold.lean (line 119)",
     "kind": "structure",
@@ -17556,7 +17555,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure TotalOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  toPartialOrder : PartialOrder \u03B1 le\n  total          : \u2200 x y, le x y \u2228 le y x",
     "summary": "structure TotalOrder in Scaffold.lean (line 119)",
     "kind": "structure",
@@ -17582,7 +17581,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure WellOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) (lt : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  toTotalOrder : TotalOrder \u03B1 le\n  wf           : WellFounded lt",
     "summary": "structure WellOrder in Scaffold.lean (line 123)",
     "kind": "structure",
@@ -17607,7 +17606,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure WellOrder (\u03B1 : Type) (le : \u03B1 \u2192 \u03B1 \u2192 Prop) (lt : \u03B1 \u2192 \u03B1 \u2192 Prop) : Prop where\n  toTotalOrder : TotalOrder \u03B1 le\n  wf           : WellFounded lt",
     "summary": "structure WellOrder in Scaffold.lean (line 123)",
     "kind": "structure",
@@ -17632,7 +17631,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Tree1.le (a b : Tree1) : Prop := Tree1.toNat a \u2264 Tree1.toNat b",
     "summary": "def Tree1.le in Scaffold.lean (line 127)",
     "kind": "def",
@@ -17655,7 +17654,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Tree1.le (a b : Tree1) : Prop := Tree1.toNat a \u2264 Tree1.toNat b",
     "summary": "def Tree1.le in Scaffold.lean (line 127)",
     "kind": "def",
@@ -17678,7 +17677,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Tree1.lt (a b : Tree1) : Prop := Tree1.toNat a < Tree1.toNat b\ninstance : LE Tree1 where le := Tree1.le\ninstance : LT Tree1 where lt := Tree1.lt",
     "summary": "def Tree1.lt in Scaffold.lean (line 128)",
     "kind": "def",
@@ -17703,7 +17702,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Tree1.lt (a b : Tree1) : Prop := Tree1.toNat a < Tree1.toNat b\ninstance : LE Tree1 where le := Tree1.le\ninstance : LT Tree1 where lt := Tree1.lt",
     "summary": "def Tree1.lt in Scaffold.lean (line 128)",
     "kind": "def",
@@ -17728,7 +17727,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_is_well_ordered : WellOrder Tree1 Tree1.le Tree1.lt\n\n-- 3. Constructive Dyadic Representation (Fraction Model \u{1D53B} \u2261 num / 2^exp)",
     "summary": "axiom Tree1_is_well_ordered in Scaffold.lean (line 132)",
     "kind": "axiom",
@@ -17750,7 +17749,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_is_well_ordered : WellOrder Tree1 Tree1.le Tree1.lt\n\n-- 3. Constructive Dyadic Representation (Fraction Model \u{1D53B} \u2261 num / 2^exp)",
     "summary": "axiom Tree1_is_well_ordered in Scaffold.lean (line 132)",
     "kind": "axiom",
@@ -17772,7 +17771,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def pow2 (k : Nat) : Int := ((2 ^ k : Nat) : Int)",
     "summary": "def pow2 in Scaffold.lean (line 135)",
     "kind": "def",
@@ -17793,7 +17792,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def pow2 (k : Nat) : Int := ((2 ^ k : Nat) : Int)",
     "summary": "def pow2 in Scaffold.lean (line 135)",
     "kind": "def",
@@ -17814,7 +17813,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure Dyad where\n  num : Int\n  exp : Nat\nderiving Repr, DecidableEq",
     "summary": "structure Dyad in Scaffold.lean (line 137)",
     "kind": "structure",
@@ -17838,7 +17837,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure Dyad where\n  num : Int\n  exp : Nat\nderiving Repr, DecidableEq",
     "summary": "structure Dyad in Scaffold.lean (line 137)",
     "kind": "structure",
@@ -17862,7 +17861,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Dyad.le (a b : Dyad) : Prop := a.num * pow2 b.exp \u2264 b.num * pow2 a.exp",
     "summary": "def Dyad.le in Scaffold.lean (line 142)",
     "kind": "def",
@@ -17884,7 +17883,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Dyad.le (a b : Dyad) : Prop := a.num * pow2 b.exp \u2264 b.num * pow2 a.exp",
     "summary": "def Dyad.le in Scaffold.lean (line 142)",
     "kind": "def",
@@ -17906,7 +17905,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Dyad.lt (a b : Dyad) : Prop := a.num * pow2 b.exp < b.num * pow2 a.exp\ninstance : LE Dyad where le := Dyad.le\ninstance : LT Dyad where lt := Dyad.lt\n\n-- Midpoint between two dyadics (constructive density witness)",
     "summary": "def Dyad.lt in Scaffold.lean (line 143)",
     "kind": "def",
@@ -17929,7 +17928,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Dyad.lt (a b : Dyad) : Prop := a.num * pow2 b.exp < b.num * pow2 a.exp\ninstance : LE Dyad where le := Dyad.le\ninstance : LT Dyad where lt := Dyad.lt\n\n-- Midpoint between two dyadics (constructive density witness)",
     "summary": "def Dyad.lt in Scaffold.lean (line 143)",
     "kind": "def",
@@ -17952,7 +17951,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def midpoint (a b : Dyad) : Dyad :=\n  \u27E8a.num * pow2 b.exp + b.num * pow2 a.exp, a.exp + b.exp + 1\u27E9\n\n-- 4. 2-Successor Binary Tree: Initial finite stretch Tree2 (Branching { -, + })\n-- Paths evaluate to the dyadic rationals \u{1D53B}.",
     "summary": "def midpoint in Scaffold.lean (line 148)",
     "kind": "def",
@@ -17973,7 +17972,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def midpoint (a b : Dyad) : Dyad :=\n  \u27E8a.num * pow2 b.exp + b.num * pow2 a.exp, a.exp + b.exp + 1\u27E9\n\n-- 4. 2-Successor Binary Tree: Initial finite stretch Tree2 (Branching { -, + })\n-- Paths evaluate to the dyadic rationals \u{1D53B}.",
     "summary": "def midpoint in Scaffold.lean (line 148)",
     "kind": "def",
@@ -17994,7 +17993,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree2 where\n  | root   : Tree2\n  | branch : B_w \u2192 Tree2 \u2192 Tree2\n\nnamespace Tree2",
     "summary": "inductive Tree2 in Scaffold.lean (line 153)",
     "kind": "inductive",
@@ -18017,7 +18016,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree2 where\n  | root   : Tree2\n  | branch : B_w \u2192 Tree2 \u2192 Tree2\n\nnamespace Tree2",
     "summary": "inductive Tree2 in Scaffold.lean (line 153)",
     "kind": "inductive",
@@ -18040,7 +18039,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def depth : Tree4 \u2192 Tree1\n  | root => Tree1.zero\n  | branch _ rest => Tree1.succ (depth rest)\n\n-- Evaluation of finite quadtree paths to discrete 2D Gaussian Dyadics (re, im, exp)",
     "summary": "def depth in Scaffold.lean (line 189)",
     "kind": "def",
@@ -18062,7 +18061,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def depth : Tree4 \u2192 Tree1\n  | root => Tree1.zero\n  | branch _ rest => Tree1.succ (depth rest)\n\n-- Evaluation of finite quadtree paths to discrete 2D Gaussian Dyadics (re, im, exp)",
     "summary": "def depth in Scaffold.lean (line 189)",
     "kind": "def",
@@ -18084,7 +18083,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toDyad : Tree2 \u2192 Dyad\n  | root => \u27E80, 0\u27E9\n  | branch B_w.tt rest =>\n    let d := toDyad rest\n    \u27E8d.num * 2 + 1, d.exp + 1\u27E9\n  | branch B_w.ff rest =>\n    let d := toDyad rest\n    \u27E8d.num * 2 - 1, d.exp + 1\u27E9\n\nend Tree2\n\n-- 5. 4-Successor Quadtree: Initial finite stretch Tree4 (Branching { +1, -1, +i, -i })\n-- Paths evaluate to discrete 2D Gaussian dyadics (re, im, exp).",
     "summary": "def toDyad in Scaffold.lean (line 164)",
     "kind": "def",
@@ -18110,7 +18109,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toDyad : Tree2 \u2192 Dyad\n  | root => \u27E80, 0\u27E9\n  | branch B_w.tt rest =>\n    let d := toDyad rest\n    \u27E8d.num * 2 + 1, d.exp + 1\u27E9\n  | branch B_w.ff rest =>\n    let d := toDyad rest\n    \u27E8d.num * 2 - 1, d.exp + 1\u27E9\n\nend Tree2\n\n-- 5. 4-Successor Quadtree: Initial finite stretch Tree4 (Branching { +1, -1, +i, -i })\n-- Paths evaluate to discrete 2D Gaussian dyadics (re, im, exp).",
     "summary": "def toDyad in Scaffold.lean (line 164)",
     "kind": "def",
@@ -18136,7 +18135,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive QuadDir where\n  | east  : QuadDir  -- +1\n  | west  : QuadDir  -- -1\n  | north : QuadDir  -- +i\n  | south : QuadDir  -- -i",
     "summary": "inductive QuadDir in Scaffold.lean (line 177)",
     "kind": "inductive",
@@ -18155,7 +18154,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive QuadDir where\n  | east  : QuadDir  -- +1\n  | west  : QuadDir  -- -1\n  | north : QuadDir  -- +i\n  | south : QuadDir  -- -i",
     "summary": "inductive QuadDir in Scaffold.lean (line 177)",
     "kind": "inductive",
@@ -18174,7 +18173,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree4 where\n  | root   : Tree4\n  | branch : QuadDir \u2192 Tree4 \u2192 Tree4\n\nnamespace Tree4",
     "summary": "inductive Tree4 in Scaffold.lean (line 183)",
     "kind": "inductive",
@@ -18197,7 +18196,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive Tree4 where\n  | root   : Tree4\n  | branch : QuadDir \u2192 Tree4 \u2192 Tree4\n\nnamespace Tree4",
     "summary": "inductive Tree4 in Scaffold.lean (line 183)",
     "kind": "inductive",
@@ -18220,7 +18219,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure GaussianDyad where\n  re  : Int\n  im  : Int\n  exp : Nat\nderiving Repr, DecidableEq",
     "summary": "structure GaussianDyad in Scaffold.lean (line 194)",
     "kind": "structure",
@@ -18239,7 +18238,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure GaussianDyad where\n  re  : Int\n  im  : Int\n  exp : Nat\nderiving Repr, DecidableEq",
     "summary": "structure GaussianDyad in Scaffold.lean (line 194)",
     "kind": "structure",
@@ -18258,7 +18257,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toGaussianDyad : Tree4 \u2192 GaussianDyad\n  | root => \u27E80, 0, 0\u27E9\n  | branch QuadDir.east rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2 + 1, g.im * 2, g.exp + 1\u27E9\n  | branch QuadDir.west rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2 - 1, g.im * 2, g.exp + 1\u27E9\n  | branch QuadDir.north rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2, g.im * 2 + 1, g.exp + 1\u27E9\n  | branch QuadDir.south rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2, g.im * 2 - 1, g.exp + 1\u27E9\n\nend Tree4\n\nabbrev GaussianDyad := Tree4.GaussianDyad\n\n-- Core Isomorphisms at the Finite Initial Stretch (\u03B1 < \u03C9):\n-- Below the \u03C9-cutoff, the universal transfinite trees specialize precisely to\n-- the constructive, machine-computable data structures (Tree1 \u2261 \u2115, Dyad \u2261 \u{1D53B}, GaussianDyad \u2261 \u{1D53B}[i]):",
     "summary": "def toGaussianDyad in Scaffold.lean (line 200)",
     "kind": "def",
@@ -18280,7 +18279,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def toGaussianDyad : Tree4 \u2192 GaussianDyad\n  | root => \u27E80, 0, 0\u27E9\n  | branch QuadDir.east rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2 + 1, g.im * 2, g.exp + 1\u27E9\n  | branch QuadDir.west rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2 - 1, g.im * 2, g.exp + 1\u27E9\n  | branch QuadDir.north rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2, g.im * 2 + 1, g.exp + 1\u27E9\n  | branch QuadDir.south rest =>\n    let g := toGaussianDyad rest\n    \u27E8g.re * 2, g.im * 2 - 1, g.exp + 1\u27E9\n\nend Tree4\n\nabbrev GaussianDyad := Tree4.GaussianDyad\n\n-- Core Isomorphisms at the Finite Initial Stretch (\u03B1 < \u03C9):\n-- Below the \u03C9-cutoff, the universal transfinite trees specialize precisely to\n-- the constructive, machine-computable data structures (Tree1 \u2261 \u2115, Dyad \u2261 \u{1D53B}, GaussianDyad \u2261 \u{1D53B}[i]):",
     "summary": "def toGaussianDyad in Scaffold.lean (line 200)",
     "kind": "def",
@@ -18302,7 +18301,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_finite_is_nat (t : Tree1) : Tree1_at (Tree1.toOrd t) = Tree1",
     "summary": "axiom Tree1_finite_is_nat in Scaffold.lean (line 222)",
     "kind": "axiom",
@@ -18323,7 +18322,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree1_finite_is_nat (t : Tree1) : Tree1_at (Tree1.toOrd t) = Tree1",
     "summary": "axiom Tree1_finite_is_nat in Scaffold.lean (line 222)",
     "kind": "axiom",
@@ -18344,7 +18343,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
     "summary": "axiom Tree2_finite_is_dyad in Scaffold.lean (line 223)",
     "kind": "axiom",
@@ -18366,7 +18365,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree2_finite_is_dyad (t : Tree1) : Tree2_at (Tree1.toOrd t) = Dyad",
     "summary": "axiom Tree2_finite_is_dyad in Scaffold.lean (line 223)",
     "kind": "axiom",
@@ -18388,7 +18387,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree4_finite_is_gaussian (t : Tree1) : Tree4_at (Tree1.toOrd t) = Tree4.GaussianDyad",
     "summary": "axiom Tree4_finite_is_gaussian in Scaffold.lean (line 224)",
     "kind": "axiom",
@@ -18409,7 +18408,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Tree4_finite_is_gaussian (t : Tree1) : Tree4_at (Tree1.toOrd t) = Tree4.GaussianDyad",
     "summary": "axiom Tree4_finite_is_gaussian in Scaffold.lean (line 224)",
     "kind": "axiom",
@@ -18430,7 +18429,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_zero : No_eps0",
     "summary": "axiom No_eps0_zero in Scaffold.lean (line 236)",
     "kind": "axiom",
@@ -18449,7 +18448,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_zero : No_eps0",
     "summary": "axiom No_eps0_zero in Scaffold.lean (line 236)",
     "kind": "axiom",
@@ -18468,7 +18467,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_one  : No_eps0",
     "summary": "axiom No_eps0_one in Scaffold.lean (line 237)",
     "kind": "axiom",
@@ -18487,7 +18486,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_one  : No_eps0",
     "summary": "axiom No_eps0_one in Scaffold.lean (line 237)",
     "kind": "axiom",
@@ -18506,7 +18505,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_add  : No_eps0 \u2192 No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_add in Scaffold.lean (line 238)",
     "kind": "axiom",
@@ -18526,7 +18525,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_add  : No_eps0 \u2192 No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_add in Scaffold.lean (line 238)",
     "kind": "axiom",
@@ -18546,7 +18545,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_neg  : No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_neg in Scaffold.lean (line 239)",
     "kind": "axiom",
@@ -18566,7 +18565,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_neg  : No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_neg in Scaffold.lean (line 239)",
     "kind": "axiom",
@@ -18586,7 +18585,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def   No_eps0_sub (x y : No_eps0) : No_eps0 := No_eps0_add x (No_eps0_neg y)",
     "summary": "def No_eps0_sub in Scaffold.lean (line 240)",
     "kind": "def",
@@ -18608,7 +18607,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def   No_eps0_sub (x y : No_eps0) : No_eps0 := No_eps0_add x (No_eps0_neg y)",
     "summary": "def No_eps0_sub in Scaffold.lean (line 240)",
     "kind": "def",
@@ -18630,7 +18629,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_mul  : No_eps0 \u2192 No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_mul in Scaffold.lean (line 241)",
     "kind": "axiom",
@@ -18649,7 +18648,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_mul  : No_eps0 \u2192 No_eps0 \u2192 No_eps0",
     "summary": "axiom No_eps0_mul in Scaffold.lean (line 241)",
     "kind": "axiom",
@@ -18668,7 +18667,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_le   : No_eps0 \u2192 No_eps0 \u2192 Prop\n\ninstance : Zero No_eps0 where zero := No_eps0_zero\ninstance : One No_eps0 where one := No_eps0_one\ninstance : Add No_eps0 where add := No_eps0_add\ninstance : Neg No_eps0 where neg := No_eps0_neg\ninstance : Sub No_eps0 where sub := No_eps0_sub\ninstance : Mul No_eps0 where mul := No_eps0_mul\ninstance : LE No_eps0 where le := No_eps0_le",
     "summary": "axiom No_eps0_le in Scaffold.lean (line 242)",
     "kind": "axiom",
@@ -18698,7 +18697,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_le   : No_eps0 \u2192 No_eps0 \u2192 Prop\n\ninstance : Zero No_eps0 where zero := No_eps0_zero\ninstance : One No_eps0 where one := No_eps0_one\ninstance : Add No_eps0 where add := No_eps0_add\ninstance : Neg No_eps0 where neg := No_eps0_neg\ninstance : Sub No_eps0 where sub := No_eps0_sub\ninstance : Mul No_eps0 where mul := No_eps0_mul\ninstance : LE No_eps0 where le := No_eps0_le",
     "summary": "axiom No_eps0_le in Scaffold.lean (line 242)",
     "kind": "axiom",
@@ -18728,7 +18727,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def No_eps0_lt (x y : No_eps0) : Prop := x \u2264 y \u2227 \xAC(y \u2264 x)\ninstance : LT No_eps0 where lt := No_eps0_lt\n\n-- Order structure on the \u03B5\u2080 2-tree instance:",
     "summary": "def No_eps0_lt in Scaffold.lean (line 251)",
     "kind": "def",
@@ -18747,7 +18746,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def No_eps0_lt (x y : No_eps0) : Prop := x \u2264 y \u2227 \xAC(y \u2264 x)\ninstance : LT No_eps0 where lt := No_eps0_lt\n\n-- Order structure on the \u03B5\u2080 2-tree instance:",
     "summary": "def No_eps0_lt in Scaffold.lean (line 251)",
     "kind": "def",
@@ -18766,7 +18765,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le\n\n-- Ambient Conway Field Identities on No(\u03B5\u2080):",
     "summary": "axiom No_eps0_totally_ordered in Scaffold.lean (line 255)",
     "kind": "axiom",
@@ -18786,7 +18785,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_totally_ordered : TotalOrder No_eps0 No_eps0_le\n\n-- Ambient Conway Field Identities on No(\u03B5\u2080):",
     "summary": "axiom No_eps0_totally_ordered in Scaffold.lean (line 255)",
     "kind": "axiom",
@@ -18806,7 +18805,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_sub_self (x : No_eps0) : x - x = 0",
     "summary": "axiom No_eps0_sub_self in Scaffold.lean (line 258)",
     "kind": "axiom",
@@ -18825,7 +18824,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_sub_self (x : No_eps0) : x - x = 0",
     "summary": "axiom No_eps0_sub_self in Scaffold.lean (line 258)",
     "kind": "axiom",
@@ -18844,7 +18843,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_sub_add_cancel (a b c : No_eps0) : (b - a) + (c - b) = c - a",
     "summary": "axiom No_eps0_sub_add_cancel in Scaffold.lean (line 259)",
     "kind": "axiom",
@@ -18863,7 +18862,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_sub_add_cancel (a b c : No_eps0) : (b - a) + (c - b) = c - a",
     "summary": "axiom No_eps0_sub_add_cancel in Scaffold.lean (line 259)",
     "kind": "axiom",
@@ -18882,7 +18881,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_add_sub_cancel_right (x d : No_eps0) : (x + d) - x = d",
     "summary": "axiom No_eps0_add_sub_cancel_right in Scaffold.lean (line 260)",
     "kind": "axiom",
@@ -18901,7 +18900,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_add_sub_cancel_right (x d : No_eps0) : (x + d) - x = d",
     "summary": "axiom No_eps0_add_sub_cancel_right in Scaffold.lean (line 260)",
     "kind": "axiom",
@@ -18920,7 +18919,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_mul_sub_one (x r : No_eps0) : (x * r) - x = x * (r - 1)\n\n\n-- 5. The 3-Tier Stage Filtration No(\u03B1)\n-- Each ordinal \u03B1 defines the set of Conway numbers born on or before Day \u03B1",
     "summary": "axiom No_eps0_mul_sub_one in Scaffold.lean (line 261)",
     "kind": "axiom",
@@ -18939,7 +18938,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_eps0_mul_sub_one (x r : No_eps0) : (x * r) - x = x * (r - 1)\n\n\n-- 5. The 3-Tier Stage Filtration No(\u03B1)\n-- Each ordinal \u03B1 defines the set of Conway numbers born on or before Day \u03B1",
     "summary": "axiom No_eps0_mul_sub_one in Scaffold.lean (line 261)",
     "kind": "axiom",
@@ -18958,7 +18957,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_stage : Ord \u2192 Type",
     "summary": "axiom No_stage in Scaffold.lean (line 266)",
     "kind": "axiom",
@@ -18979,7 +18978,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_stage : Ord \u2192 Type",
     "summary": "axiom No_stage in Scaffold.lean (line 266)",
     "kind": "axiom",
@@ -19000,7 +18999,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_stage_embedding (\u03B1 \u03B2 : Ord) (h : \u03B1 \u2264 \u03B2) : No_stage \u03B1 \u2192 No_stage \u03B2\n\n-- The strict stage hierarchy follows directly from the ordinal spine:",
     "summary": "axiom No_stage_embedding in Scaffold.lean (line 267)",
     "kind": "axiom",
@@ -19020,7 +19019,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_stage_embedding (\u03B1 \u03B2 : Ord) (h : \u03B1 \u2264 \u03B2) : No_stage \u03B1 \u2192 No_stage \u03B2\n\n-- The strict stage hierarchy follows directly from the ordinal spine:",
     "summary": "axiom No_stage_embedding in Scaffold.lean (line 267)",
     "kind": "axiom",
@@ -19040,7 +19039,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_finite_subset_omega (t : Tree1) : Tree1.toOrd t < Ord.omega",
     "summary": "axiom No_finite_subset_omega in Scaffold.lean (line 270)",
     "kind": "axiom",
@@ -19061,7 +19060,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_finite_subset_omega (t : Tree1) : Tree1.toOrd t < Ord.omega",
     "summary": "axiom No_finite_subset_omega in Scaffold.lean (line 270)",
     "kind": "axiom",
@@ -19082,7 +19081,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_omega_subset_eps0 : Ord.omega < Ord.eps0\n\n-- Backwards compatibility aliases for existing references:\nabbrev Ordinal : Type := Ord",
     "summary": "axiom No_omega_subset_eps0 in Scaffold.lean (line 271)",
     "kind": "axiom",
@@ -19103,7 +19102,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom No_omega_subset_eps0 : Ord.omega < Ord.eps0\n\n-- Backwards compatibility aliases for existing references:\nabbrev Ordinal : Type := Ord",
     "summary": "axiom No_omega_subset_eps0 in Scaffold.lean (line 271)",
     "kind": "axiom",
@@ -19124,7 +19123,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Ordinal_lt : Ordinal \u2192 Ordinal \u2192 Prop := Ord.lt\ninstance : LT Ordinal where lt := Ord.lt",
     "summary": "def Ordinal_lt in Scaffold.lean (line 275)",
     "kind": "def",
@@ -19144,7 +19143,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Ordinal_lt : Ordinal \u2192 Ordinal \u2192 Prop := Ord.lt\ninstance : LT Ordinal where lt := Ord.lt",
     "summary": "def Ordinal_lt in Scaffold.lean (line 275)",
     "kind": "def",
@@ -19164,7 +19163,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def birthday_T1 (t : Tree1) : Ordinal := Tree1.toOrd t",
     "summary": "def birthday_T1 in Scaffold.lean (line 277)",
     "kind": "def",
@@ -19186,7 +19185,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def birthday_T1 (t : Tree1) : Ordinal := Tree1.toOrd t",
     "summary": "def birthday_T1 in Scaffold.lean (line 277)",
     "kind": "def",
@@ -19208,7 +19207,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def omega_ord : Ordinal := Ord.omega",
     "summary": "def omega_ord in Scaffold.lean (line 278)",
     "kind": "def",
@@ -19229,7 +19228,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def omega_ord : Ordinal := Ord.omega",
     "summary": "def omega_ord in Scaffold.lean (line 278)",
     "kind": "def",
@@ -19250,7 +19249,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord := Ord.omega_is_sup t",
     "summary": "theorem omega_ord_is_sup in Scaffold.lean (line 279)",
     "kind": "theorem",
@@ -19272,7 +19271,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem omega_ord_is_sup (t : Tree1) : birthday_T1 t < omega_ord := Ord.omega_is_sup t",
     "summary": "theorem omega_ord_is_sup in Scaffold.lean (line 279)",
     "kind": "theorem",
@@ -19294,7 +19293,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive N_w where\n  | ofTree1 : Tree1 \u2192 N_w\n  | omega   : N_w\nderiving DecidableEq",
     "summary": "1. The Three Base Number Sets (\u2115_\u03C9, \u211D_\u03C9, \u2102_\u03C9) & Intrinsic Order Types 1> \u2115_\u03C9 \u2261 {set defined by 1-successor finite induction} \u222A {\u03C9}",
     "kind": "inductive",
@@ -19322,7 +19321,7 @@ var LEAN_CACHE = {
       "N_w_pow",
       "N_w_finite_to_Nat",
       "Nat_to_N_w",
-      "integral_op",
+      "chain_rule",
       "geometric_delta"
     ]
   },
@@ -19335,7 +19334,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive N_w where\n  | ofTree1 : Tree1 \u2192 N_w\n  | omega   : N_w\nderiving DecidableEq",
     "summary": "1. The Three Base Number Sets (\u2115_\u03C9, \u211D_\u03C9, \u2102_\u03C9) & Intrinsic Order Types 1> \u2115_\u03C9 \u2261 {set defined by 1-successor finite induction} \u222A {\u03C9}",
     "kind": "inductive",
@@ -19363,7 +19362,7 @@ var LEAN_CACHE = {
       "N_w_pow",
       "N_w_finite_to_Nat",
       "Nat_to_N_w",
-      "integral_op",
+      "chain_rule",
       "geometric_delta"
     ]
   },
@@ -19376,7 +19375,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_from_T1 (t : Tree1) : N_w := N_w.ofTree1 t",
     "summary": "def N_w_from_T1 in Scaffold.lean (line 291)",
     "kind": "def",
@@ -19398,7 +19397,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_from_T1 (t : Tree1) : N_w := N_w.ofTree1 t",
     "summary": "def N_w_from_T1 in Scaffold.lean (line 291)",
     "kind": "def",
@@ -19420,7 +19419,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_omega : N_w := N_w.omega\n\nnamespace N_w",
     "summary": "def N_w_omega in Scaffold.lean (line 292)",
     "kind": "def",
@@ -19445,7 +19444,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_omega : N_w := N_w.omega\n\nnamespace N_w",
     "summary": "def N_w_omega in Scaffold.lean (line 292)",
     "kind": "def",
@@ -19470,7 +19469,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def le : N_w \u2192 N_w \u2192 Prop\n  | ofTree1 a, ofTree1 b => Tree1.le a b\n  | ofTree1 _, omega     => True\n  | omega,     ofTree1 _ => False\n  | omega,     omega     => True",
     "summary": "def le in Scaffold.lean (line 296)",
     "kind": "def",
@@ -19510,7 +19509,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def le : N_w \u2192 N_w \u2192 Prop\n  | ofTree1 a, ofTree1 b => Tree1.le a b\n  | ofTree1 _, omega     => True\n  | omega,     ofTree1 _ => False\n  | omega,     omega     => True",
     "summary": "def le in Scaffold.lean (line 296)",
     "kind": "def",
@@ -19550,7 +19549,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def lt : N_w \u2192 N_w \u2192 Prop\n  | ofTree1 a, ofTree1 b => Tree1.lt a b\n  | ofTree1 _, omega     => True\n  | omega,     _         => False\n\ninstance : LE N_w where le := le\ninstance : LT N_w where lt := lt",
     "summary": "def lt in Scaffold.lean (line 302)",
     "kind": "def",
@@ -19587,7 +19586,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def lt : N_w \u2192 N_w \u2192 Prop\n  | ofTree1 a, ofTree1 b => Tree1.lt a b\n  | ofTree1 _, omega     => True\n  | omega,     _         => False\n\ninstance : LE N_w where le := le\ninstance : LT N_w where lt := lt",
     "summary": "def lt in Scaffold.lean (line 302)",
     "kind": "def",
@@ -19624,7 +19623,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_refl : \u2200 x : N_w, le x x\n  | ofTree1 a => Nat.le_refl (Tree1.toNat a)\n  | omega     => trivial",
     "summary": "theorem le_refl in Scaffold.lean (line 310)",
     "kind": "theorem",
@@ -19647,7 +19646,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_refl : \u2200 x : N_w, le x x\n  | ofTree1 a => Nat.le_refl (Tree1.toNat a)\n  | omega     => trivial",
     "summary": "theorem le_refl in Scaffold.lean (line 310)",
     "kind": "theorem",
@@ -19670,7 +19669,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem toTree1_inj : \u2200 {a b : Tree1}, N_w.ofTree1 a = N_w.ofTree1 b \u2192 a = b\n  | _, _, h => by injection h",
     "summary": "theorem toTree1_inj in Scaffold.lean (line 314)",
     "kind": "theorem",
@@ -19689,7 +19688,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem toTree1_inj : \u2200 {a b : Tree1}, N_w.ofTree1 a = N_w.ofTree1 b \u2192 a = b\n  | _, _, h => by injection h",
     "summary": "theorem toTree1_inj in Scaffold.lean (line 314)",
     "kind": "theorem",
@@ -19708,7 +19707,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_antisymm : \u2200 x y : N_w, le x y \u2192 le y x \u2192 x = y\n  | ofTree1 a, ofTree1 b, h1, h2 => by\n    have eq_nat : Tree1.toNat a = Tree1.toNat b := Nat.le_antisymm h1 h2\n    rw [Tree1.toNat_inj eq_nat]\n  | ofTree1 _, omega, _, h2 => False.elim h2\n  | omega, ofTree1 _, h1, _ => False.elim h1\n  | omega, omega, _, _ => rfl",
     "summary": "theorem le_antisymm in Scaffold.lean (line 317)",
     "kind": "theorem",
@@ -19731,7 +19730,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_antisymm : \u2200 x y : N_w, le x y \u2192 le y x \u2192 x = y\n  | ofTree1 a, ofTree1 b, h1, h2 => by\n    have eq_nat : Tree1.toNat a = Tree1.toNat b := Nat.le_antisymm h1 h2\n    rw [Tree1.toNat_inj eq_nat]\n  | ofTree1 _, omega, _, h2 => False.elim h2\n  | omega, ofTree1 _, h1, _ => False.elim h1\n  | omega, omega, _, _ => rfl",
     "summary": "theorem le_antisymm in Scaffold.lean (line 317)",
     "kind": "theorem",
@@ -19754,7 +19753,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_trans : \u2200 x y z : N_w, le x y \u2192 le y z \u2192 le x z\n  | ofTree1 _a, ofTree1 _b, ofTree1 _c, h1, h2 => Nat.le_trans h1 h2\n  | ofTree1 _, ofTree1 _, omega, _, _ => trivial\n  | ofTree1 _, omega, omega, _, _ => trivial\n  | ofTree1 _, omega, ofTree1 _, _, h2 => False.elim h2\n  | omega, ofTree1 _, _, h1, _ => False.elim h1\n  | omega, omega, ofTree1 _, _, h2 => False.elim h2\n  | omega, omega, omega, _, _ => trivial",
     "summary": "theorem le_trans in Scaffold.lean (line 325)",
     "kind": "theorem",
@@ -19777,7 +19776,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_trans : \u2200 x y z : N_w, le x y \u2192 le y z \u2192 le x z\n  | ofTree1 _a, ofTree1 _b, ofTree1 _c, h1, h2 => Nat.le_trans h1 h2\n  | ofTree1 _, ofTree1 _, omega, _, _ => trivial\n  | ofTree1 _, omega, omega, _, _ => trivial\n  | ofTree1 _, omega, ofTree1 _, _, h2 => False.elim h2\n  | omega, ofTree1 _, _, h1, _ => False.elim h1\n  | omega, omega, ofTree1 _, _, h2 => False.elim h2\n  | omega, omega, omega, _, _ => trivial",
     "summary": "theorem le_trans in Scaffold.lean (line 325)",
     "kind": "theorem",
@@ -19800,7 +19799,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_total : \u2200 x y : N_w, le x y \u2228 le y x\n  | ofTree1 a, ofTree1 b => Nat.le_total (Tree1.toNat a) (Tree1.toNat b)\n  | ofTree1 _, omega     => Or.inl trivial\n  | omega,     ofTree1 _ => Or.inr trivial\n  | omega,     omega     => Or.inl trivial",
     "summary": "theorem le_total in Scaffold.lean (line 334)",
     "kind": "theorem",
@@ -19823,7 +19822,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem le_total : \u2200 x y : N_w, le x y \u2228 le y x\n  | ofTree1 a, ofTree1 b => Nat.le_total (Tree1.toNat a) (Tree1.toNat b)\n  | ofTree1 _, omega     => Or.inl trivial\n  | omega,     ofTree1 _ => Or.inr trivial\n  | omega,     omega     => Or.inl trivial",
     "summary": "theorem le_total in Scaffold.lean (line 334)",
     "kind": "theorem",
@@ -19846,7 +19845,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem partialOrder : PartialOrder N_w le := {\n  refl     := le_refl,\n  antisymm := le_antisymm,\n  trans    := le_trans\n}",
     "summary": "theorem partialOrder in Scaffold.lean (line 340)",
     "kind": "theorem",
@@ -19872,7 +19871,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem partialOrder : PartialOrder N_w le := {\n  refl     := le_refl,\n  antisymm := le_antisymm,\n  trans    := le_trans\n}",
     "summary": "theorem partialOrder in Scaffold.lean (line 340)",
     "kind": "theorem",
@@ -19898,7 +19897,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem totalOrder : TotalOrder N_w le := {\n  toPartialOrder := partialOrder,\n  total          := le_total\n}",
     "summary": "theorem totalOrder in Scaffold.lean (line 346)",
     "kind": "theorem",
@@ -19923,7 +19922,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem totalOrder : TotalOrder N_w le := {\n  toPartialOrder := partialOrder,\n  total          := le_total\n}",
     "summary": "theorem totalOrder in Scaffold.lean (line 346)",
     "kind": "theorem",
@@ -19948,7 +19947,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ofTree1_acc_of_nat (n : Nat) : \u2200 (a : Tree1), Tree1.toNat a = n \u2192 Acc lt (ofTree1 a) := by\n  induction (Nat.lt_wfRel.wf.apply n) with\n  | intro k _ ih =>\n    intro a ha\n    apply Acc.intro\n    intro y hy\n    cases y with\n    | omega => contradiction\n    | ofTree1 b =>\n      have h_lt : Tree1.toNat b < k := by\n        rw [\u2190 ha]\n        exact hy\n      exact ih (Tree1.toNat b) h_lt b rfl",
     "summary": "theorem ofTree1_acc_of_nat in Scaffold.lean (line 351)",
     "kind": "theorem",
@@ -19971,7 +19970,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ofTree1_acc_of_nat (n : Nat) : \u2200 (a : Tree1), Tree1.toNat a = n \u2192 Acc lt (ofTree1 a) := by\n  induction (Nat.lt_wfRel.wf.apply n) with\n  | intro k _ ih =>\n    intro a ha\n    apply Acc.intro\n    intro y hy\n    cases y with\n    | omega => contradiction\n    | ofTree1 b =>\n      have h_lt : Tree1.toNat b < k := by\n        rw [\u2190 ha]\n        exact hy\n      exact ih (Tree1.toNat b) h_lt b rfl",
     "summary": "theorem ofTree1_acc_of_nat in Scaffold.lean (line 351)",
     "kind": "theorem",
@@ -19994,7 +19993,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ofTree1_acc (a : Tree1) : Acc lt (ofTree1 a) :=\n  ofTree1_acc_of_nat (Tree1.toNat a) a rfl",
     "summary": "theorem ofTree1_acc in Scaffold.lean (line 365)",
     "kind": "theorem",
@@ -20018,7 +20017,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem ofTree1_acc (a : Tree1) : Acc lt (ofTree1 a) :=\n  ofTree1_acc_of_nat (Tree1.toNat a) a rfl",
     "summary": "theorem ofTree1_acc in Scaffold.lean (line 365)",
     "kind": "theorem",
@@ -20042,7 +20041,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem omega_acc : Acc lt omega := by\n  apply Acc.intro\n  intro y hy\n  cases y with\n  | omega => contradiction\n  | ofTree1 b => exact ofTree1_acc b",
     "summary": "theorem omega_acc in Scaffold.lean (line 368)",
     "kind": "theorem",
@@ -20065,7 +20064,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem omega_acc : Acc lt omega := by\n  apply Acc.intro\n  intro y hy\n  cases y with\n  | omega => contradiction\n  | ofTree1 b => exact ofTree1_acc b",
     "summary": "theorem omega_acc in Scaffold.lean (line 368)",
     "kind": "theorem",
@@ -20088,7 +20087,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem lt_wf : WellFounded lt := \u27E8by\n  intro x\n  cases x with\n  | ofTree1 a => exact ofTree1_acc a\n  | omega => exact omega_acc\n\u27E9",
     "summary": "theorem lt_wf in Scaffold.lean (line 375)",
     "kind": "theorem",
@@ -20112,7 +20111,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem lt_wf : WellFounded lt := \u27E8by\n  intro x\n  cases x with\n  | ofTree1 a => exact ofTree1_acc a\n  | omega => exact omega_acc\n\u27E9",
     "summary": "theorem lt_wf in Scaffold.lean (line 375)",
     "kind": "theorem",
@@ -20136,7 +20135,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem wellOrder : WellOrder N_w le lt := {\n  toTotalOrder := totalOrder,\n  wf           := lt_wf\n}\n\nend N_w",
     "summary": "theorem wellOrder in Scaffold.lean (line 382)",
     "kind": "theorem",
@@ -20160,7 +20159,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem wellOrder : WellOrder N_w le lt := {\n  toTotalOrder := totalOrder,\n  wf           := lt_wf\n}\n\nend N_w",
     "summary": "theorem wellOrder in Scaffold.lean (line 382)",
     "kind": "theorem",
@@ -20184,7 +20183,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_le : N_w \u2192 N_w \u2192 Prop := N_w.le",
     "summary": "def N_w_le in Scaffold.lean (line 389)",
     "kind": "def",
@@ -20206,7 +20205,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_le : N_w \u2192 N_w \u2192 Prop := N_w.le",
     "summary": "def N_w_le in Scaffold.lean (line 389)",
     "kind": "def",
@@ -20228,7 +20227,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_lt : N_w \u2192 N_w \u2192 Prop := N_w.lt\ninstance : LE N_w where le := N_w_le\ninstance : LT N_w where lt := N_w_lt",
     "summary": "def N_w_lt in Scaffold.lean (line 390)",
     "kind": "def",
@@ -20252,7 +20251,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_lt : N_w \u2192 N_w \u2192 Prop := N_w.lt\ninstance : LE N_w where le := N_w_le\ninstance : LT N_w where lt := N_w_lt",
     "summary": "def N_w_lt in Scaffold.lean (line 390)",
     "kind": "def",
@@ -20276,7 +20275,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem N_w_well_ordered : WellOrder N_w N_w_le N_w_lt := N_w.wellOrder\n\n-- Embedding of standard finite counting numbers into the transfinite counting spine:",
     "summary": "theorem N_w_well_ordered in Scaffold.lean (line 393)",
     "kind": "theorem",
@@ -20298,7 +20297,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem N_w_well_ordered : WellOrder N_w N_w_le N_w_lt := N_w.wellOrder\n\n-- Embedding of standard finite counting numbers into the transfinite counting spine:",
     "summary": "theorem N_w_well_ordered in Scaffold.lean (line 393)",
     "kind": "theorem",
@@ -20320,7 +20319,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_T1 : Nat \u2192 Tree1\n  | 0 => Tree1.zero\n  | Nat.succ n => Tree1.succ (Nat_to_T1 n)",
     "summary": "def Nat_to_T1 in Scaffold.lean (line 396)",
     "kind": "def",
@@ -20342,7 +20341,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_T1 : Nat \u2192 Tree1\n  | 0 => Tree1.zero\n  | Nat.succ n => Tree1.succ (Nat_to_T1 n)",
     "summary": "def Nat_to_T1 in Scaffold.lean (line 396)",
     "kind": "def",
@@ -20364,7 +20363,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_Nw (n : Nat) : N_w :=\n  N_w_from_T1 (Nat_to_T1 n)\n\ninstance : Coe Nat N_w where\n  coe := Nat_to_Nw\n\ninstance : OfNat N_w (nat_lit 0) where\n  ofNat := Nat_to_Nw 0\n\ninstance : OfNat N_w (nat_lit 1) where\n  ofNat := Nat_to_Nw 1\n\n-- 2> \u211D_\u03C9 \u2261 Continuous 1D transect: the 2-successor tree at the transfinite limit horizon \u03C9:\n-- Level 2 of the 3-tier hierarchy: \u211D_\u03C9 \u2261 Tree2_at Ord.omega \u2261 No(\u03C9+1)",
     "summary": "def Nat_to_Nw in Scaffold.lean (line 400)",
     "kind": "def",
@@ -20393,7 +20392,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_Nw (n : Nat) : N_w :=\n  N_w_from_T1 (Nat_to_T1 n)\n\ninstance : Coe Nat N_w where\n  coe := Nat_to_Nw\n\ninstance : OfNat N_w (nat_lit 0) where\n  ofNat := Nat_to_Nw 0\n\ninstance : OfNat N_w (nat_lit 1) where\n  ofNat := Nat_to_Nw 1\n\n-- 2> \u211D_\u03C9 \u2261 Continuous 1D transect: the 2-successor tree at the transfinite limit horizon \u03C9:\n-- Level 2 of the 3-tier hierarchy: \u211D_\u03C9 \u2261 Tree2_at Ord.omega \u2261 No(\u03C9+1)",
     "summary": "def Nat_to_Nw in Scaffold.lean (line 400)",
     "kind": "def",
@@ -20422,7 +20421,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w : Type",
     "summary": "axiom R_w in Scaffold.lean (line 414)",
     "kind": "axiom",
@@ -20491,6 +20490,11 @@ var LEAN_CACHE = {
       "integral_interval",
       "integral_ab",
       "integral_op",
+      "delta2_at",
+      "delta2_op",
+      "diff_1form",
+      "leibniz_product_rule",
+      "chain_rule",
       "to_nat_seq",
       "delta_at",
       "delta",
@@ -20535,7 +20539,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w : Type",
     "summary": "axiom R_w in Scaffold.lean (line 414)",
     "kind": "axiom",
@@ -20604,6 +20608,11 @@ var LEAN_CACHE = {
       "integral_interval",
       "integral_ab",
       "integral_op",
+      "delta2_at",
+      "delta2_op",
+      "diff_1form",
+      "leibniz_product_rule",
+      "chain_rule",
       "to_nat_seq",
       "delta_at",
       "delta",
@@ -20648,7 +20657,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_is_Tree2_omega : R_w = Tree2_at Ord.omega",
     "summary": "axiom R_w_is_Tree2_omega in Scaffold.lean (line 415)",
     "kind": "axiom",
@@ -20669,7 +20678,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_is_Tree2_omega : R_w = Tree2_at Ord.omega",
     "summary": "axiom R_w_is_Tree2_omega in Scaffold.lean (line 415)",
     "kind": "axiom",
@@ -20690,7 +20699,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_from_T2 : Tree2 \u2192 R_w\n\n-- Subtree Embedding: \u211D_\u03C9 inherits its algebraic and order structure by embedding into No(\u03B5\u2080):",
     "summary": "axiom R_w_from_T2 in Scaffold.lean (line 416)",
     "kind": "axiom",
@@ -20710,7 +20719,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_from_T2 : Tree2 \u2192 R_w\n\n-- Subtree Embedding: \u211D_\u03C9 inherits its algebraic and order structure by embedding into No(\u03B5\u2080):",
     "summary": "axiom R_w_from_T2 in Scaffold.lean (line 416)",
     "kind": "axiom",
@@ -20730,7 +20739,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_to_eps0 : R_w \u2192 No_eps0",
     "summary": "axiom R_w_to_eps0 in Scaffold.lean (line 419)",
     "kind": "axiom",
@@ -20763,7 +20772,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_to_eps0 : R_w \u2192 No_eps0",
     "summary": "axiom R_w_to_eps0 in Scaffold.lean (line 419)",
     "kind": "axiom",
@@ -20796,7 +20805,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_to_eps0_inj : \u2200 {x y : R_w}, R_w_to_eps0 x = R_w_to_eps0 y \u2192 x = y\n\n-- Total Order on \u211D_\u03C9 is the induced pullback order from the ambient field No(\u03B5\u2080):",
     "summary": "axiom R_w_to_eps0_inj in Scaffold.lean (line 420)",
     "kind": "axiom",
@@ -20822,7 +20831,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_to_eps0_inj : \u2200 {x y : R_w}, R_w_to_eps0 x = R_w_to_eps0 y \u2192 x = y\n\n-- Total Order on \u211D_\u03C9 is the induced pullback order from the ambient field No(\u03B5\u2080):",
     "summary": "axiom R_w_to_eps0_inj in Scaffold.lean (line 420)",
     "kind": "axiom",
@@ -20848,7 +20857,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_le (x y : R_w) : Prop := R_w_to_eps0 x \u2264 R_w_to_eps0 y",
     "summary": "def R_w_le in Scaffold.lean (line 423)",
     "kind": "def",
@@ -20872,7 +20881,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_le (x y : R_w) : Prop := R_w_to_eps0 x \u2264 R_w_to_eps0 y",
     "summary": "def R_w_le in Scaffold.lean (line 423)",
     "kind": "def",
@@ -20896,7 +20905,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_lt (x y : R_w) : Prop := R_w_to_eps0 x < R_w_to_eps0 y\ninstance : LE R_w where le := R_w_le\ninstance : LT R_w where lt := R_w_lt",
     "summary": "def R_w_lt in Scaffold.lean (line 424)",
     "kind": "def",
@@ -20919,7 +20928,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_lt (x y : R_w) : Prop := R_w_to_eps0 x < R_w_to_eps0 y\ninstance : LE R_w where le := R_w_le\ninstance : LT R_w where lt := R_w_lt",
     "summary": "def R_w_lt in Scaffold.lean (line 424)",
     "kind": "def",
@@ -20942,7 +20951,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_refl (x : R_w) : x \u2264 x :=\n  No_eps0_totally_ordered.toPartialOrder.refl (R_w_to_eps0 x)",
     "summary": "theorem R_w_le_refl in Scaffold.lean (line 428)",
     "kind": "theorem",
@@ -20964,7 +20973,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_refl (x : R_w) : x \u2264 x :=\n  No_eps0_totally_ordered.toPartialOrder.refl (R_w_to_eps0 x)",
     "summary": "theorem R_w_le_refl in Scaffold.lean (line 428)",
     "kind": "theorem",
@@ -20986,7 +20995,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_antisymm (x y : R_w) (h1 : x \u2264 y) (h2 : y \u2264 x) : x = y := by\n  have eq_eps : R_w_to_eps0 x = R_w_to_eps0 y :=\n    No_eps0_totally_ordered.toPartialOrder.antisymm (R_w_to_eps0 x) (R_w_to_eps0 y) h1 h2\n  exact R_w_to_eps0_inj eq_eps",
     "summary": "theorem R_w_le_antisymm in Scaffold.lean (line 431)",
     "kind": "theorem",
@@ -21009,7 +21018,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_antisymm (x y : R_w) (h1 : x \u2264 y) (h2 : y \u2264 x) : x = y := by\n  have eq_eps : R_w_to_eps0 x = R_w_to_eps0 y :=\n    No_eps0_totally_ordered.toPartialOrder.antisymm (R_w_to_eps0 x) (R_w_to_eps0 y) h1 h2\n  exact R_w_to_eps0_inj eq_eps",
     "summary": "theorem R_w_le_antisymm in Scaffold.lean (line 431)",
     "kind": "theorem",
@@ -21032,7 +21041,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_trans (x y z : R_w) (h1 : x \u2264 y) (h2 : y \u2264 z) : x \u2264 z :=\n  No_eps0_totally_ordered.toPartialOrder.trans (R_w_to_eps0 x) (R_w_to_eps0 y) (R_w_to_eps0 z) h1 h2",
     "summary": "theorem R_w_le_trans in Scaffold.lean (line 436)",
     "kind": "theorem",
@@ -21054,7 +21063,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_trans (x y z : R_w) (h1 : x \u2264 y) (h2 : y \u2264 z) : x \u2264 z :=\n  No_eps0_totally_ordered.toPartialOrder.trans (R_w_to_eps0 x) (R_w_to_eps0 y) (R_w_to_eps0 z) h1 h2",
     "summary": "theorem R_w_le_trans in Scaffold.lean (line 436)",
     "kind": "theorem",
@@ -21076,7 +21085,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_total (x y : R_w) : x \u2264 y \u2228 y \u2264 x :=\n  No_eps0_totally_ordered.total (R_w_to_eps0 x) (R_w_to_eps0 y)",
     "summary": "theorem R_w_le_total in Scaffold.lean (line 439)",
     "kind": "theorem",
@@ -21098,7 +21107,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_le_total (x y : R_w) : x \u2264 y \u2228 y \u2264 x :=\n  No_eps0_totally_ordered.total (R_w_to_eps0 x) (R_w_to_eps0 y)",
     "summary": "theorem R_w_le_total in Scaffold.lean (line 439)",
     "kind": "theorem",
@@ -21120,7 +21129,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w.partialOrder : PartialOrder R_w R_w_le := {\n  refl     := R_w_le_refl,\n  antisymm := R_w_le_antisymm,\n  trans    := R_w_le_trans\n}",
     "summary": "theorem R_w.partialOrder in Scaffold.lean (line 442)",
     "kind": "theorem",
@@ -21146,7 +21155,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w.partialOrder : PartialOrder R_w R_w_le := {\n  refl     := R_w_le_refl,\n  antisymm := R_w_le_antisymm,\n  trans    := R_w_le_trans\n}",
     "summary": "theorem R_w.partialOrder in Scaffold.lean (line 442)",
     "kind": "theorem",
@@ -21172,7 +21181,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_totally_ordered : TotalOrder R_w R_w_le := {\n  toPartialOrder := R_w.partialOrder,\n  total          := R_w_le_total\n}\n\n-- 3> \u2102_\u03C9 \u2261 {4-successor finite induction} \u222A {4-successor transfinite induction at birthday \u03C9}\n-- (Coordinate structure and operations detailed in Section 5)\n-- Recursive definitions establish \u2102_\u03C9 as partially ordered:",
     "summary": "theorem R_w_totally_ordered in Scaffold.lean (line 448)",
     "kind": "theorem",
@@ -21195,7 +21204,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_totally_ordered : TotalOrder R_w R_w_le := {\n  toPartialOrder := R_w.partialOrder,\n  total          := R_w_le_total\n}\n\n-- 3> \u2102_\u03C9 \u2261 {4-successor finite induction} \u222A {4-successor transfinite induction at birthday \u03C9}\n-- (Coordinate structure and operations detailed in Section 5)\n-- Recursive definitions establish \u2102_\u03C9 as partially ordered:",
     "summary": "theorem R_w_totally_ordered in Scaffold.lean (line 448)",
     "kind": "theorem",
@@ -21218,7 +21227,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom C_w_partially_ordered : True",
     "summary": "axiom C_w_partially_ordered in Scaffold.lean (line 456)",
     "kind": "axiom",
@@ -21235,7 +21244,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom C_w_partially_ordered : True",
     "summary": "axiom C_w_partially_ordered in Scaffold.lean (line 456)",
     "kind": "axiom",
@@ -21252,7 +21261,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_zero : R_w",
     "summary": "Operations on \u211D_\u03C9 recursively defined from tree branch algebra:",
     "kind": "axiom",
@@ -21273,7 +21282,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_zero : R_w",
     "summary": "Operations on \u211D_\u03C9 recursively defined from tree branch algebra:",
     "kind": "axiom",
@@ -21294,7 +21303,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_one  : R_w",
     "summary": "axiom R_w_one in Scaffold.lean (line 467)",
     "kind": "axiom",
@@ -21315,7 +21324,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_one  : R_w",
     "summary": "axiom R_w_one in Scaffold.lean (line 467)",
     "kind": "axiom",
@@ -21336,7 +21345,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_add  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_add in Scaffold.lean (line 468)",
     "kind": "axiom",
@@ -21358,7 +21367,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_add  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_add in Scaffold.lean (line 468)",
     "kind": "axiom",
@@ -21380,7 +21389,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_neg  : R_w \u2192 R_w",
     "summary": "axiom R_w_neg in Scaffold.lean (line 469)",
     "kind": "axiom",
@@ -21402,7 +21411,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_neg  : R_w \u2192 R_w",
     "summary": "axiom R_w_neg in Scaffold.lean (line 469)",
     "kind": "axiom",
@@ -21424,7 +21433,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def   R_w_sub (x y : R_w) : R_w := R_w_add x (R_w_neg y)",
     "summary": "def R_w_sub in Scaffold.lean (line 470)",
     "kind": "def",
@@ -21447,7 +21456,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def   R_w_sub (x y : R_w) : R_w := R_w_add x (R_w_neg y)",
     "summary": "def R_w_sub in Scaffold.lean (line 470)",
     "kind": "def",
@@ -21470,7 +21479,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_mul  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_mul in Scaffold.lean (line 471)",
     "kind": "axiom",
@@ -21491,7 +21500,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_mul  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_mul in Scaffold.lean (line 471)",
     "kind": "axiom",
@@ -21512,7 +21521,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_div  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_div in Scaffold.lean (line 472)",
     "kind": "axiom",
@@ -21533,7 +21542,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_div  : R_w \u2192 R_w \u2192 R_w",
     "summary": "axiom R_w_div in Scaffold.lean (line 472)",
     "kind": "axiom",
@@ -21554,7 +21563,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_pow  : R_w \u2192 Nat \u2192 R_w\n\n-- Standard Lean 4 typeclasses for arithmetic notation on \u211D_\u03C9\ninstance : OfNat R_w (nat_lit 0) where ofNat := R_w_zero\ninstance : OfNat R_w (nat_lit 1) where ofNat := R_w_one\ninstance : Add R_w     where add   := R_w_add\ninstance : Neg R_w     where neg   := R_w_neg\ninstance : Sub R_w     where sub   := R_w_sub\ninstance : Mul R_w     where mul   := R_w_mul\ninstance : Div R_w     where div   := R_w_div\ninstance : HPow R_w Nat R_w where hPow := R_w_pow",
     "summary": "axiom R_w_pow in Scaffold.lean (line 473)",
     "kind": "axiom",
@@ -21584,7 +21593,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_pow  : R_w \u2192 Nat \u2192 R_w\n\n-- Standard Lean 4 typeclasses for arithmetic notation on \u211D_\u03C9\ninstance : OfNat R_w (nat_lit 0) where ofNat := R_w_zero\ninstance : OfNat R_w (nat_lit 1) where ofNat := R_w_one\ninstance : Add R_w     where add   := R_w_add\ninstance : Neg R_w     where neg   := R_w_neg\ninstance : Sub R_w     where sub   := R_w_sub\ninstance : Mul R_w     where mul   := R_w_mul\ninstance : Div R_w     where div   := R_w_div\ninstance : HPow R_w Nat R_w where hPow := R_w_pow",
     "summary": "axiom R_w_pow in Scaffold.lean (line 473)",
     "kind": "axiom",
@@ -21614,7 +21623,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom N_w_pow : R_w \u2192 N_w \u2192 R_w\ninstance : HPow R_w N_w R_w where hPow := N_w_pow\n\n-- Ambient Field Compatibility on Operations:",
     "summary": "axiom N_w_pow in Scaffold.lean (line 485)",
     "kind": "axiom",
@@ -21634,7 +21643,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom N_w_pow : R_w \u2192 N_w \u2192 R_w\ninstance : HPow R_w N_w R_w where hPow := N_w_pow\n\n-- Ambient Field Compatibility on Operations:",
     "summary": "axiom N_w_pow in Scaffold.lean (line 485)",
     "kind": "axiom",
@@ -21654,7 +21663,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_zero_compat : R_w_to_eps0 0 = 0",
     "summary": "axiom R_w_zero_compat in Scaffold.lean (line 489)",
     "kind": "axiom",
@@ -21675,7 +21684,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_zero_compat : R_w_to_eps0 0 = 0",
     "summary": "axiom R_w_zero_compat in Scaffold.lean (line 489)",
     "kind": "axiom",
@@ -21696,7 +21705,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_one_compat  : R_w_to_eps0 1 = 1",
     "summary": "axiom R_w_one_compat in Scaffold.lean (line 490)",
     "kind": "axiom",
@@ -21717,7 +21726,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_one_compat  : R_w_to_eps0 1 = 1",
     "summary": "axiom R_w_one_compat in Scaffold.lean (line 490)",
     "kind": "axiom",
@@ -21738,7 +21747,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_neg_compat (x : R_w) : R_w_to_eps0 (-x) = -R_w_to_eps0 x",
     "summary": "axiom R_w_neg_compat in Scaffold.lean (line 491)",
     "kind": "axiom",
@@ -21760,7 +21769,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_neg_compat (x : R_w) : R_w_to_eps0 (-x) = -R_w_to_eps0 x",
     "summary": "axiom R_w_neg_compat in Scaffold.lean (line 491)",
     "kind": "axiom",
@@ -21782,7 +21791,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_add_compat (x y : R_w) : R_w_to_eps0 (x + y) = R_w_to_eps0 x + R_w_to_eps0 y",
     "summary": "axiom R_w_add_compat in Scaffold.lean (line 492)",
     "kind": "axiom",
@@ -21806,7 +21815,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_add_compat (x y : R_w) : R_w_to_eps0 (x + y) = R_w_to_eps0 x + R_w_to_eps0 y",
     "summary": "axiom R_w_add_compat in Scaffold.lean (line 492)",
     "kind": "axiom",
@@ -21830,7 +21839,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_sub_compat (x y : R_w) : R_w_to_eps0 (x - y) = R_w_to_eps0 x - R_w_to_eps0 y := by\n  change R_w_to_eps0 (x + (-y)) = R_w_to_eps0 x + (-R_w_to_eps0 y)\n  rw [R_w_add_compat, R_w_neg_compat]",
     "summary": "theorem R_w_sub_compat in Scaffold.lean (line 493)",
     "kind": "theorem",
@@ -21857,7 +21866,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem R_w_sub_compat (x y : R_w) : R_w_to_eps0 (x - y) = R_w_to_eps0 x - R_w_to_eps0 y := by\n  change R_w_to_eps0 (x + (-y)) = R_w_to_eps0 x + (-R_w_to_eps0 y)\n  rw [R_w_add_compat, R_w_neg_compat]",
     "summary": "theorem R_w_sub_compat in Scaffold.lean (line 493)",
     "kind": "theorem",
@@ -21884,7 +21893,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_eps0 y\n\n-- Basic algebraic theorems inherited from the ambient field No(\u03B5\u2080)\n-- (Grounds telescoping cancellation & ladder differences without ad-hoc \u211D_\u03C9 axioms):",
     "summary": "axiom R_w_mul_compat in Scaffold.lean (line 496)",
     "kind": "axiom",
@@ -21906,7 +21915,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_mul_compat (x y : R_w) : R_w_to_eps0 (x * y) = R_w_to_eps0 x * R_w_to_eps0 y\n\n-- Basic algebraic theorems inherited from the ambient field No(\u03B5\u2080)\n-- (Grounds telescoping cancellation & ladder differences without ad-hoc \u211D_\u03C9 axioms):",
     "summary": "axiom R_w_mul_compat in Scaffold.lean (line 496)",
     "kind": "axiom",
@@ -21928,7 +21937,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sub_self (x : R_w) : x - x = 0 := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, No_eps0_sub_self, R_w_zero_compat]",
     "summary": "theorem sub_self in Scaffold.lean (line 500)",
     "kind": "theorem",
@@ -21954,7 +21963,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sub_self (x : R_w) : x - x = 0 := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, No_eps0_sub_self, R_w_zero_compat]",
     "summary": "theorem sub_self in Scaffold.lean (line 500)",
     "kind": "theorem",
@@ -21980,7 +21989,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a := by\n  apply R_w_to_eps0_inj\n  rw [R_w_add_compat, R_w_sub_compat, R_w_sub_compat, No_eps0_sub_add_cancel, R_w_sub_compat]",
     "summary": "theorem sub_add_cancel in Scaffold.lean (line 504)",
     "kind": "theorem",
@@ -22006,7 +22015,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sub_add_cancel (a b c : R_w) : (b - a) + (c - b) = c - a := by\n  apply R_w_to_eps0_inj\n  rw [R_w_add_compat, R_w_sub_compat, R_w_sub_compat, No_eps0_sub_add_cancel, R_w_sub_compat]",
     "summary": "theorem sub_add_cancel in Scaffold.lean (line 504)",
     "kind": "theorem",
@@ -22032,7 +22041,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem add_sub_cancel_right (x d : R_w) : (x + d) - x = d := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, R_w_add_compat, No_eps0_add_sub_cancel_right]",
     "summary": "theorem add_sub_cancel_right in Scaffold.lean (line 508)",
     "kind": "theorem",
@@ -22057,7 +22066,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem add_sub_cancel_right (x d : R_w) : (x + d) - x = d := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, R_w_add_compat, No_eps0_add_sub_cancel_right]",
     "summary": "theorem add_sub_cancel_right in Scaffold.lean (line 508)",
     "kind": "theorem",
@@ -22082,7 +22091,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem mul_sub_one (x r : R_w) : (x * r) - x = x * (r - 1) := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, R_w_mul_compat, No_eps0_mul_sub_one, R_w_mul_compat, R_w_sub_compat, R_w_one_compat]\n\n-- Absolute value metric on \u211D_\u03C9",
     "summary": "theorem mul_sub_one in Scaffold.lean (line 512)",
     "kind": "theorem",
@@ -22108,7 +22117,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem mul_sub_one (x r : R_w) : (x * r) - x = x * (r - 1) := by\n  apply R_w_to_eps0_inj\n  rw [R_w_sub_compat, R_w_mul_compat, No_eps0_mul_sub_one, R_w_mul_compat, R_w_sub_compat, R_w_one_compat]\n\n-- Absolute value metric on \u211D_\u03C9",
     "summary": "theorem mul_sub_one in Scaffold.lean (line 512)",
     "kind": "theorem",
@@ -22134,7 +22143,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_abs : R_w \u2192 R_w",
     "summary": "axiom R_w_abs in Scaffold.lean (line 517)",
     "kind": "axiom",
@@ -22155,7 +22164,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_abs : R_w \u2192 R_w",
     "summary": "axiom R_w_abs in Scaffold.lean (line 517)",
     "kind": "axiom",
@@ -22176,7 +22185,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def abs (x : R_w) : R_w := R_w_abs x",
     "summary": "def abs in Scaffold.lean (line 518)",
     "kind": "def",
@@ -22199,7 +22208,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def abs (x : R_w) : R_w := R_w_abs x",
     "summary": "def abs in Scaffold.lean (line 518)",
     "kind": "def",
@@ -22222,7 +22231,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom birthday_R : R_w \u2192 Ordinal\n\n-- 1> \u{1D53B} \u2261 { x \u2208 \u211D_\u03C9 | x is finite } (born on finite days k < \u03C9)\n-- Formally characterized by the \u03C9-cutoff: elements whose birthday satisfies \u03B1 < Ord.omega:",
     "summary": "1.2. Constructed Subtypes & Arithmetic Restrictions (\u{1D53B}, \u2124, R_w_pos, etc.) Birthday metric on \u211D_\u03C9:",
     "kind": "axiom",
@@ -22244,7 +22253,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom birthday_R : R_w \u2192 Ordinal\n\n-- 1> \u{1D53B} \u2261 { x \u2208 \u211D_\u03C9 | x is finite } (born on finite days k < \u03C9)\n-- Formally characterized by the \u03C9-cutoff: elements whose birthday satisfies \u03B1 < Ord.omega:",
     "summary": "1.2. Constructed Subtypes & Arithmetic Restrictions (\u{1D53B}, \u2124, R_w_pos, etc.) Birthday metric on \u211D_\u03C9:",
     "kind": "axiom",
@@ -22266,7 +22275,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite_birthday (x : R_w) : Prop :=\n  is_finite_stage (birthday_R x)",
     "summary": "def is_finite_birthday in Scaffold.lean (line 529)",
     "kind": "def",
@@ -22296,7 +22305,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite_birthday (x : R_w) : Prop :=\n  is_finite_stage (birthday_R x)",
     "summary": "def is_finite_birthday in Scaffold.lean (line 529)",
     "kind": "def",
@@ -22326,7 +22335,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_zero : is_finite_birthday 0",
     "summary": "axiom dyadic_zero in Scaffold.lean (line 538)",
     "kind": "axiom",
@@ -22347,7 +22356,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_zero : is_finite_birthday 0",
     "summary": "axiom dyadic_zero in Scaffold.lean (line 538)",
     "kind": "axiom",
@@ -22368,7 +22377,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_one  : is_finite_birthday 1",
     "summary": "axiom dyadic_one in Scaffold.lean (line 539)",
     "kind": "axiom",
@@ -22389,7 +22398,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_one  : is_finite_birthday 1",
     "summary": "axiom dyadic_one in Scaffold.lean (line 539)",
     "kind": "axiom",
@@ -22410,7 +22419,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_neg {x : R_w} : is_finite_birthday x \u2192 is_finite_birthday (-x)",
     "summary": "axiom dyadic_neg in Scaffold.lean (line 540)",
     "kind": "axiom",
@@ -22433,7 +22442,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_neg {x : R_w} : is_finite_birthday x \u2192 is_finite_birthday (-x)",
     "summary": "axiom dyadic_neg in Scaffold.lean (line 540)",
     "kind": "axiom",
@@ -22456,7 +22465,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_add {a b : R_w} : is_finite_birthday a \u2192 is_finite_birthday b \u2192 is_finite_birthday (a + b)",
     "summary": "axiom dyadic_add in Scaffold.lean (line 541)",
     "kind": "axiom",
@@ -22479,7 +22488,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_add {a b : R_w} : is_finite_birthday a \u2192 is_finite_birthday b \u2192 is_finite_birthday (a + b)",
     "summary": "axiom dyadic_add in Scaffold.lean (line 541)",
     "kind": "axiom",
@@ -22502,7 +22511,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem dyadic_sub {a b : R_w} (ha : is_finite_birthday a) (hb : is_finite_birthday b) :\n    is_finite_birthday (a - b) := by\n  change is_finite_birthday (a + (-b))\n  exact dyadic_add ha (dyadic_neg hb)",
     "summary": "theorem dyadic_sub in Scaffold.lean (line 542)",
     "kind": "theorem",
@@ -22526,7 +22535,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem dyadic_sub {a b : R_w} (ha : is_finite_birthday a) (hb : is_finite_birthday b) :\n    is_finite_birthday (a - b) := by\n  change is_finite_birthday (a + (-b))\n  exact dyadic_add ha (dyadic_neg hb)",
     "summary": "theorem dyadic_sub in Scaffold.lean (line 542)",
     "kind": "theorem",
@@ -22550,7 +22559,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_mul {a b : R_w} : is_finite_birthday a \u2192 is_finite_birthday b \u2192 is_finite_birthday (a * b)",
     "summary": "axiom dyadic_mul in Scaffold.lean (line 546)",
     "kind": "axiom",
@@ -22572,7 +22581,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_mul {a b : R_w} : is_finite_birthday a \u2192 is_finite_birthday b \u2192 is_finite_birthday (a * b)",
     "summary": "axiom dyadic_mul in Scaffold.lean (line 546)",
     "kind": "axiom",
@@ -22594,7 +22603,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_zero : D_w := \u27E80, dyadic_zero\u27E9",
     "summary": "def D_zero in Scaffold.lean (line 548)",
     "kind": "def",
@@ -22618,7 +22627,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_zero : D_w := \u27E80, dyadic_zero\u27E9",
     "summary": "def D_zero in Scaffold.lean (line 548)",
     "kind": "def",
@@ -22642,7 +22651,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_one  : D_w := \u27E81, dyadic_one\u27E9",
     "summary": "def D_one in Scaffold.lean (line 549)",
     "kind": "def",
@@ -22664,7 +22673,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_one  : D_w := \u27E81, dyadic_one\u27E9",
     "summary": "def D_one in Scaffold.lean (line 549)",
     "kind": "def",
@@ -22686,7 +22695,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_neg (x : D_w) : D_w := \u27E8-x.val, dyadic_neg x.property\u27E9",
     "summary": "def D_neg in Scaffold.lean (line 550)",
     "kind": "def",
@@ -22708,7 +22717,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_neg (x : D_w) : D_w := \u27E8-x.val, dyadic_neg x.property\u27E9",
     "summary": "def D_neg in Scaffold.lean (line 550)",
     "kind": "def",
@@ -22730,7 +22739,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_add (a b : D_w) : D_w := \u27E8a.val + b.val, dyadic_add a.property b.property\u27E9",
     "summary": "def D_add in Scaffold.lean (line 551)",
     "kind": "def",
@@ -22752,7 +22761,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_add (a b : D_w) : D_w := \u27E8a.val + b.val, dyadic_add a.property b.property\u27E9",
     "summary": "def D_add in Scaffold.lean (line 551)",
     "kind": "def",
@@ -22774,7 +22783,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_sub (a b : D_w) : D_w := \u27E8a.val - b.val, dyadic_sub a.property b.property\u27E9",
     "summary": "def D_sub in Scaffold.lean (line 552)",
     "kind": "def",
@@ -22796,7 +22805,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_sub (a b : D_w) : D_w := \u27E8a.val - b.val, dyadic_sub a.property b.property\u27E9",
     "summary": "def D_sub in Scaffold.lean (line 552)",
     "kind": "def",
@@ -22818,7 +22827,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_mul (a b : D_w) : D_w := \u27E8a.val * b.val, dyadic_mul a.property b.property\u27E9\n\ninstance : Add D_w where add := D_add\ninstance : Sub D_w where sub := D_sub\ninstance : Mul D_w where mul := D_mul\ninstance : Neg D_w where neg := D_neg\ninstance : OfNat D_w (nat_lit 0) where ofNat := D_zero\ninstance : OfNat D_w (nat_lit 1) where ofNat := D_one\n\n-- Total Order on \u{1D53B} (inherited from \u211D_\u03C9):",
     "summary": "def D_mul in Scaffold.lean (line 553)",
     "kind": "def",
@@ -22847,7 +22856,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_mul (a b : D_w) : D_w := \u27E8a.val * b.val, dyadic_mul a.property b.property\u27E9\n\ninstance : Add D_w where add := D_add\ninstance : Sub D_w where sub := D_sub\ninstance : Mul D_w where mul := D_mul\ninstance : Neg D_w where neg := D_neg\ninstance : OfNat D_w (nat_lit 0) where ofNat := D_zero\ninstance : OfNat D_w (nat_lit 1) where ofNat := D_one\n\n-- Total Order on \u{1D53B} (inherited from \u211D_\u03C9):",
     "summary": "def D_mul in Scaffold.lean (line 553)",
     "kind": "def",
@@ -22876,7 +22885,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_w.le (a b : D_w) : Prop := a.val \u2264 b.val",
     "summary": "def D_w.le in Scaffold.lean (line 563)",
     "kind": "def",
@@ -22899,7 +22908,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_w.le (a b : D_w) : Prop := a.val \u2264 b.val",
     "summary": "def D_w.le in Scaffold.lean (line 563)",
     "kind": "def",
@@ -22922,7 +22931,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_w.lt (a b : D_w) : Prop := a.val < b.val\n\ninstance : LE D_w where le := D_w.le\ninstance : LT D_w where lt := D_w.lt",
     "summary": "def D_w.lt in Scaffold.lean (line 564)",
     "kind": "def",
@@ -22944,7 +22953,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def D_w.lt (a b : D_w) : Prop := a.val < b.val\n\ninstance : LE D_w where le := D_w.le\ninstance : LT D_w where lt := D_w.lt",
     "summary": "def D_w.lt in Scaffold.lean (line 564)",
     "kind": "def",
@@ -22966,7 +22975,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_refl (x : D_w) : x \u2264 x :=\n  R_w_totally_ordered.toPartialOrder.refl x.val",
     "summary": "theorem D_w.le_refl in Scaffold.lean (line 569)",
     "kind": "theorem",
@@ -22987,7 +22996,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_refl (x : D_w) : x \u2264 x :=\n  R_w_totally_ordered.toPartialOrder.refl x.val",
     "summary": "theorem D_w.le_refl in Scaffold.lean (line 569)",
     "kind": "theorem",
@@ -23008,7 +23017,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_antisymm (x y : D_w) (h1 : x \u2264 y) (h2 : y \u2264 x) : x = y := by\n  have eq_val : x.val = y.val := R_w_totally_ordered.toPartialOrder.antisymm x.val y.val h1 h2\n  exact Subtype.ext eq_val",
     "summary": "theorem D_w.le_antisymm in Scaffold.lean (line 572)",
     "kind": "theorem",
@@ -23029,7 +23038,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_antisymm (x y : D_w) (h1 : x \u2264 y) (h2 : y \u2264 x) : x = y := by\n  have eq_val : x.val = y.val := R_w_totally_ordered.toPartialOrder.antisymm x.val y.val h1 h2\n  exact Subtype.ext eq_val",
     "summary": "theorem D_w.le_antisymm in Scaffold.lean (line 572)",
     "kind": "theorem",
@@ -23050,7 +23059,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_trans (x y z : D_w) (h1 : x \u2264 y) (h2 : y \u2264 z) : x \u2264 z :=\n  R_w_totally_ordered.toPartialOrder.trans x.val y.val z.val h1 h2",
     "summary": "theorem D_w.le_trans in Scaffold.lean (line 576)",
     "kind": "theorem",
@@ -23071,7 +23080,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_trans (x y z : D_w) (h1 : x \u2264 y) (h2 : y \u2264 z) : x \u2264 z :=\n  R_w_totally_ordered.toPartialOrder.trans x.val y.val z.val h1 h2",
     "summary": "theorem D_w.le_trans in Scaffold.lean (line 576)",
     "kind": "theorem",
@@ -23092,7 +23101,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_total (x y : D_w) : x \u2264 y \u2228 y \u2264 x :=\n  R_w_totally_ordered.total x.val y.val",
     "summary": "theorem D_w.le_total in Scaffold.lean (line 579)",
     "kind": "theorem",
@@ -23113,7 +23122,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.le_total (x y : D_w) : x \u2264 y \u2228 y \u2264 x :=\n  R_w_totally_ordered.total x.val y.val",
     "summary": "theorem D_w.le_total in Scaffold.lean (line 579)",
     "kind": "theorem",
@@ -23134,7 +23143,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.partialOrder : PartialOrder D_w D_w.le := {\n  refl     := D_w.le_refl,\n  antisymm := D_w.le_antisymm,\n  trans    := D_w.le_trans\n}",
     "summary": "theorem D_w.partialOrder in Scaffold.lean (line 582)",
     "kind": "theorem",
@@ -23160,7 +23169,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w.partialOrder : PartialOrder D_w D_w.le := {\n  refl     := D_w.le_refl,\n  antisymm := D_w.le_antisymm,\n  trans    := D_w.le_trans\n}",
     "summary": "theorem D_w.partialOrder in Scaffold.lean (line 582)",
     "kind": "theorem",
@@ -23186,7 +23195,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w_is_totally_ordered : TotalOrder D_w D_w.le := {\n  toPartialOrder := D_w.partialOrder,\n  total          := D_w.le_total\n}\n\n-- Density: \u{1D53B} is dense in \u211D_\u03C9 (Order type \u03B7 dense embedding):",
     "summary": "theorem D_w_is_totally_ordered in Scaffold.lean (line 588)",
     "kind": "theorem",
@@ -23209,7 +23218,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem D_w_is_totally_ordered : TotalOrder D_w D_w.le := {\n  toPartialOrder := D_w.partialOrder,\n  total          := D_w.le_total\n}\n\n-- Density: \u{1D53B} is dense in \u211D_\u03C9 (Order type \u03B7 dense embedding):",
     "summary": "theorem D_w_is_totally_ordered in Scaffold.lean (line 588)",
     "kind": "theorem",
@@ -23232,7 +23241,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom D_w_dense_in_R_w (x y : R_w) (h : x < y) : \u2203 (d : D_w), x < d.val \u2227 d.val < y\n\n-- Subtype constraint: \u{1D53B} : < 1 (Strictly bounded dyadic unit interval)",
     "summary": "axiom D_w_dense_in_R_w in Scaffold.lean (line 594)",
     "kind": "axiom",
@@ -23252,7 +23261,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom D_w_dense_in_R_w (x y : R_w) (h : x < y) : \u2203 (d : D_w), x < d.val \u2227 d.val < y\n\n-- Subtype constraint: \u{1D53B} : < 1 (Strictly bounded dyadic unit interval)",
     "summary": "axiom D_w_dense_in_R_w in Scaffold.lean (line 594)",
     "kind": "axiom",
@@ -23272,7 +23281,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom is_homogeneous_path : R_w \u2192 Prop",
     "summary": "axiom is_homogeneous_path in Scaffold.lean (line 601)",
     "kind": "axiom",
@@ -23298,7 +23307,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom is_homogeneous_path : R_w \u2192 Prop",
     "summary": "axiom is_homogeneous_path in Scaffold.lean (line 601)",
     "kind": "axiom",
@@ -23324,7 +23333,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_w : Type := { x : R_w // is_homogeneous_path x }\n\n-- Coercion from Z_w into \u211D_\u03C9:\ninstance : Coe Z_w R_w where coe := fun z => z.val\n\n-- Constructed arithmetic-type: (\u2124, +, \xB7) where operations are \u211D_\u03C9 operations restricted to \u2124",
     "summary": "def Z_w in Scaffold.lean (line 602)",
     "kind": "def",
@@ -23352,7 +23361,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_w : Type := { x : R_w // is_homogeneous_path x }\n\n-- Coercion from Z_w into \u211D_\u03C9:\ninstance : Coe Z_w R_w where coe := fun z => z.val\n\n-- Constructed arithmetic-type: (\u2124, +, \xB7) where operations are \u211D_\u03C9 operations restricted to \u2124",
     "summary": "def Z_w in Scaffold.lean (line 602)",
     "kind": "def",
@@ -23380,7 +23389,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_zero : is_homogeneous_path 0",
     "summary": "axiom homogeneous_zero in Scaffold.lean (line 608)",
     "kind": "axiom",
@@ -23401,7 +23410,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_zero : is_homogeneous_path 0",
     "summary": "axiom homogeneous_zero in Scaffold.lean (line 608)",
     "kind": "axiom",
@@ -23422,7 +23431,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_one  : is_homogeneous_path 1",
     "summary": "axiom homogeneous_one in Scaffold.lean (line 609)",
     "kind": "axiom",
@@ -23443,7 +23452,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_one  : is_homogeneous_path 1",
     "summary": "axiom homogeneous_one in Scaffold.lean (line 609)",
     "kind": "axiom",
@@ -23464,7 +23473,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_neg {x : R_w} : is_homogeneous_path x \u2192 is_homogeneous_path (-x)",
     "summary": "axiom homogeneous_neg in Scaffold.lean (line 610)",
     "kind": "axiom",
@@ -23486,7 +23495,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_neg {x : R_w} : is_homogeneous_path x \u2192 is_homogeneous_path (-x)",
     "summary": "axiom homogeneous_neg in Scaffold.lean (line 610)",
     "kind": "axiom",
@@ -23508,7 +23517,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_add {a b : R_w} : is_homogeneous_path a \u2192 is_homogeneous_path b \u2192 is_homogeneous_path (a + b)",
     "summary": "axiom homogeneous_add in Scaffold.lean (line 611)",
     "kind": "axiom",
@@ -23530,7 +23539,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_add {a b : R_w} : is_homogeneous_path a \u2192 is_homogeneous_path b \u2192 is_homogeneous_path (a + b)",
     "summary": "axiom homogeneous_add in Scaffold.lean (line 611)",
     "kind": "axiom",
@@ -23552,7 +23561,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_mul {a b : R_w} : is_homogeneous_path a \u2192 is_homogeneous_path b \u2192 is_homogeneous_path (a * b)",
     "summary": "axiom homogeneous_mul in Scaffold.lean (line 612)",
     "kind": "axiom",
@@ -23574,7 +23583,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom homogeneous_mul {a b : R_w} : is_homogeneous_path a \u2192 is_homogeneous_path b \u2192 is_homogeneous_path (a * b)",
     "summary": "axiom homogeneous_mul in Scaffold.lean (line 612)",
     "kind": "axiom",
@@ -23596,7 +23605,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_zero : Z_w := \u27E80, homogeneous_zero\u27E9",
     "summary": "def Z_zero in Scaffold.lean (line 614)",
     "kind": "def",
@@ -23616,7 +23625,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_zero : Z_w := \u27E80, homogeneous_zero\u27E9",
     "summary": "def Z_zero in Scaffold.lean (line 614)",
     "kind": "def",
@@ -23636,7 +23645,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_one  : Z_w := \u27E81, homogeneous_one\u27E9",
     "summary": "def Z_one in Scaffold.lean (line 615)",
     "kind": "def",
@@ -23656,7 +23665,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_one  : Z_w := \u27E81, homogeneous_one\u27E9",
     "summary": "def Z_one in Scaffold.lean (line 615)",
     "kind": "def",
@@ -23676,7 +23685,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_neg (x : Z_w) : Z_w := \u27E8-x.val, homogeneous_neg x.property\u27E9",
     "summary": "def Z_neg in Scaffold.lean (line 616)",
     "kind": "def",
@@ -23698,7 +23707,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_neg (x : Z_w) : Z_w := \u27E8-x.val, homogeneous_neg x.property\u27E9",
     "summary": "def Z_neg in Scaffold.lean (line 616)",
     "kind": "def",
@@ -23720,7 +23729,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_add (a b : Z_w) : Z_w := \u27E8a.val + b.val, homogeneous_add a.property b.property\u27E9",
     "summary": "def Z_add in Scaffold.lean (line 617)",
     "kind": "def",
@@ -23742,7 +23751,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_add (a b : Z_w) : Z_w := \u27E8a.val + b.val, homogeneous_add a.property b.property\u27E9",
     "summary": "def Z_add in Scaffold.lean (line 617)",
     "kind": "def",
@@ -23764,7 +23773,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_mul (a b : Z_w) : Z_w := \u27E8a.val * b.val, homogeneous_mul a.property b.property\u27E9\n\ninstance : Add Z_w where add := Z_add\ninstance : Mul Z_w where mul := Z_mul\ninstance : Neg Z_w where neg := Z_neg\n\n-- 3> Subtype constraint: \u211D_\u03C9 : > 0 (Strictly positive continuum)",
     "summary": "def Z_mul in Scaffold.lean (line 618)",
     "kind": "def",
@@ -23788,7 +23797,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Z_mul (a b : Z_w) : Z_w := \u27E8a.val * b.val, homogeneous_mul a.property b.property\u27E9\n\ninstance : Add Z_w where add := Z_add\ninstance : Mul Z_w where mul := Z_mul\ninstance : Neg Z_w where neg := Z_neg\n\n-- 3> Subtype constraint: \u211D_\u03C9 : > 0 (Strictly positive continuum)",
     "summary": "def Z_mul in Scaffold.lean (line 618)",
     "kind": "def",
@@ -23812,7 +23821,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_pos : Type := { x : R_w // 0 < x }\n\n-- 4> Subtype constraint: \u211D_\u03C9 : [-1, 1] (Closed unit range of trigonometric projections)",
     "summary": "def R_w_pos in Scaffold.lean (line 625)",
     "kind": "def",
@@ -23831,7 +23840,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_pos : Type := { x : R_w // 0 < x }\n\n-- 4> Subtype constraint: \u211D_\u03C9 : [-1, 1] (Closed unit range of trigonometric projections)",
     "summary": "def R_w_pos in Scaffold.lean (line 625)",
     "kind": "def",
@@ -23850,7 +23859,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_cc_unit : Type := { y : R_w // (-1 : R_w) \u2264 y \u2227 y \u2264 1 }\n\n-- The circle constant \u03C0 on \u211D_\u03C9",
     "summary": "def R_w_cc_unit in Scaffold.lean (line 628)",
     "kind": "def",
@@ -23869,7 +23878,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def R_w_cc_unit : Type := { y : R_w // (-1 : R_w) \u2264 y \u2227 y \u2264 1 }\n\n-- The circle constant \u03C0 on \u211D_\u03C9",
     "summary": "def R_w_cc_unit in Scaffold.lean (line 628)",
     "kind": "def",
@@ -23888,7 +23897,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom pi : R_w",
     "summary": "axiom pi in Scaffold.lean (line 631)",
     "kind": "axiom",
@@ -23913,7 +23922,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom pi : R_w",
     "summary": "axiom pi in Scaffold.lean (line 631)",
     "kind": "axiom",
@@ -23938,7 +23947,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom pi_pos : 0 < pi",
     "summary": "axiom pi_pos in Scaffold.lean (line 632)",
     "kind": "axiom",
@@ -23957,7 +23966,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom pi_pos : 0 < pi",
     "summary": "axiom pi_pos in Scaffold.lean (line 632)",
     "kind": "axiom",
@@ -23976,7 +23985,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ofInt : Int \u2192 R_w",
     "summary": "1.3. Downstream Bridges to Native Lean Types (Established Last) Only after establishing the formal Middle Way perspective are maps to native Lean established:",
     "kind": "axiom",
@@ -23999,7 +24008,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ofInt : Int \u2192 R_w",
     "summary": "1.3. Downstream Bridges to Native Lean Types (Established Last) Only after establishing the formal Middle Way perspective are maps to native Lean established:",
     "kind": "axiom",
@@ -24022,7 +24031,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ofNat : Nat \u2192 R_w\ninstance : Coe Int R_w where coe := ofInt\ninstance (n : Nat) : OfNat R_w n where ofNat := ofInt (Int.ofNat n)\ninstance : Coe Nat R_w where coe := fun n => ofInt (Int.ofNat n)\n\n-- Canonical bridges between Middle Way constructed \u2124 and native Lean Int:",
     "summary": "axiom ofNat in Scaffold.lean (line 640)",
     "kind": "axiom",
@@ -24047,7 +24056,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ofNat : Nat \u2192 R_w\ninstance : Coe Int R_w where coe := ofInt\ninstance (n : Nat) : OfNat R_w n where ofNat := ofInt (Int.ofNat n)\ninstance : Coe Nat R_w where coe := fun n => ofInt (Int.ofNat n)\n\n-- Canonical bridges between Middle Way constructed \u2124 and native Lean Int:",
     "summary": "axiom ofNat in Scaffold.lean (line 640)",
     "kind": "axiom",
@@ -24072,7 +24081,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Z_w_to_Int : Z_w \u2192 Int",
     "summary": "axiom Z_w_to_Int in Scaffold.lean (line 646)",
     "kind": "axiom",
@@ -24093,7 +24102,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Z_w_to_Int : Z_w \u2192 Int",
     "summary": "axiom Z_w_to_Int in Scaffold.lean (line 646)",
     "kind": "axiom",
@@ -24114,7 +24123,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Int_to_Z_w : Int \u2192 Z_w\ninstance : Coe Z_w Int where coe := Z_w_to_Int\ninstance : Coe Int Z_w where coe := Int_to_Z_w\n\n-- Canonical bridges between Middle Way finite \u2115_\u03C9 and native Lean Nat:",
     "summary": "axiom Int_to_Z_w in Scaffold.lean (line 647)",
     "kind": "axiom",
@@ -24134,7 +24143,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom Int_to_Z_w : Int \u2192 Z_w\ninstance : Coe Z_w Int where coe := Z_w_to_Int\ninstance : Coe Int Z_w where coe := Int_to_Z_w\n\n-- Canonical bridges between Middle Way finite \u2115_\u03C9 and native Lean Nat:",
     "summary": "axiom Int_to_Z_w in Scaffold.lean (line 647)",
     "kind": "axiom",
@@ -24154,7 +24163,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_finite_to_Nat (n : { n : N_w // n \u2260 N_w_omega }) : Nat :=\n  match h : n.val with\n  | .ofTree1 t => Tree1.toNat t\n  | .omega => False.elim (n.property h)",
     "summary": "def N_w_finite_to_Nat in Scaffold.lean (line 652)",
     "kind": "def",
@@ -24174,7 +24183,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def N_w_finite_to_Nat (n : { n : N_w // n \u2260 N_w_omega }) : Nat :=\n  match h : n.val with\n  | .ofTree1 t => Tree1.toNat t\n  | .omega => False.elim (n.property h)",
     "summary": "def N_w_finite_to_Nat in Scaffold.lean (line 652)",
     "kind": "def",
@@ -24194,7 +24203,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_N_w (n : Nat) : N_w :=\n  N_w.ofTree1 (Nat_to_T1 n)\n\n-- Bridge between Middle Way \u{1D539} and native Lean Bool:",
     "summary": "def Nat_to_N_w in Scaffold.lean (line 657)",
     "kind": "def",
@@ -24214,7 +24223,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def Nat_to_N_w (n : Nat) : N_w :=\n  N_w.ofTree1 (Nat_to_T1 n)\n\n-- Bridge between Middle Way \u{1D539} and native Lean Bool:",
     "summary": "def Nat_to_N_w in Scaffold.lean (line 657)",
     "kind": "def",
@@ -24234,7 +24243,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def B_w.toBool : B_w \u2192 Bool\n  | .ff => false\n  | .tt => true",
     "summary": "def B_w.toBool in Scaffold.lean (line 661)",
     "kind": "def",
@@ -24255,7 +24264,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def B_w.toBool : B_w \u2192 Bool\n  | .ff => false\n  | .tt => true",
     "summary": "def B_w.toBool in Scaffold.lean (line 661)",
     "kind": "def",
@@ -24276,7 +24285,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def B_w.ofBool : Bool \u2192 B_w\n  | false => .ff\n  | true  => .tt\n\ninstance : Coe B_w Bool where coe := B_w.toBool\ninstance : Coe Bool B_w where coe := B_w.ofBool\n\n-- Equivalence with dyadic fraction expansion:",
     "summary": "def B_w.ofBool in Scaffold.lean (line 665)",
     "kind": "def",
@@ -24296,7 +24305,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def B_w.ofBool : Bool \u2192 B_w\n  | false => .ff\n  | true  => .tt\n\ninstance : Coe B_w Bool where coe := B_w.toBool\ninstance : Coe Bool B_w where coe := B_w.ofBool\n\n-- Equivalence with dyadic fraction expansion:",
     "summary": "def B_w.ofBool in Scaffold.lean (line 665)",
     "kind": "def",
@@ -24316,7 +24325,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_dyadic (x : R_w) : Prop :=\n  \u2203 (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)",
     "summary": "def is_dyadic in Scaffold.lean (line 673)",
     "kind": "def",
@@ -24337,7 +24346,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_dyadic (x : R_w) : Prop :=\n  \u2203 (m : Int) (k : Nat), x = (m : R_w) / ((2 : R_w) ^ k)",
     "summary": "def is_dyadic in Scaffold.lean (line 673)",
     "kind": "def",
@@ -24358,7 +24367,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom finite_birthday_iff_dyadic (x : R_w) : is_finite_birthday x \u2194 is_dyadic x\n\n-- Periodic equivalence relation: x ~ y \u2194 \u2203 k \u2208 \u2124, x - y = k \xB7 2\u03C0",
     "summary": "axiom finite_birthday_iff_dyadic in Scaffold.lean (line 675)",
     "kind": "axiom",
@@ -24379,7 +24388,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom finite_birthday_iff_dyadic (x : R_w) : is_finite_birthday x \u2194 is_dyadic x\n\n-- Periodic equivalence relation: x ~ y \u2194 \u2203 k \u2208 \u2124, x - y = k \xB7 2\u03C0",
     "summary": "axiom finite_birthday_iff_dyadic in Scaffold.lean (line 675)",
     "kind": "axiom",
@@ -24400,7 +24409,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mod_2pi_rel (x y : R_w) : Prop :=\n  \u2203 (k : Int), x - y = (ofInt k) * ((2 : R_w) * pi)\n\n-- Quotient Circle Domain: \u211D_\u03C9 : mod(2\u03C0) \u2261 S\xB9_\u03C9",
     "summary": "def mod_2pi_rel in Scaffold.lean (line 678)",
     "kind": "def",
@@ -24421,7 +24430,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mod_2pi_rel (x y : R_w) : Prop :=\n  \u2203 (k : Int), x - y = (ofInt k) * ((2 : R_w) * pi)\n\n-- Quotient Circle Domain: \u211D_\u03C9 : mod(2\u03C0) \u2261 S\xB9_\u03C9",
     "summary": "def mod_2pi_rel in Scaffold.lean (line 678)",
     "kind": "def",
@@ -24442,7 +24451,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure DirectedPair (\u03B1 \u03B2 : Type) where\n  dom : Type := \u03B1\n  cod : Type := \u03B2\n\n-- A Rule Type is an assignment rule between the domain and codomain types.",
     "summary": "1.4. The Middle Way Function Architecture: Directed Pairs & Rules A Directed Pair is a domain construction representing a directed channel (\u03B1 \u2192 \u03B2). Established in Phase 1 (Formal Statements, Lecture 1).",
     "kind": "structure",
@@ -24464,7 +24473,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure DirectedPair (\u03B1 \u03B2 : Type) where\n  dom : Type := \u03B1\n  cod : Type := \u03B2\n\n-- A Rule Type is an assignment rule between the domain and codomain types.",
     "summary": "1.4. The Middle Way Function Architecture: Directed Pairs & Rules A Directed Pair is a domain construction representing a directed channel (\u03B1 \u2192 \u03B2). Established in Phase 1 (Formal Statements, Lecture 1).",
     "kind": "structure",
@@ -24486,7 +24495,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def RuleType (\u03B1 \u03B2 : Type) : Type := \u03B1 \u2192 \u03B2\n\n-- A Function Type bundles the domain construction (Directed Pair) with its assignment rule.\n-- FunctionType = Directed Pair + Rule Type",
     "summary": "def RuleType in Scaffold.lean (line 697)",
     "kind": "def",
@@ -24507,7 +24516,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def RuleType (\u03B1 \u03B2 : Type) : Type := \u03B1 \u2192 \u03B2\n\n-- A Function Type bundles the domain construction (Directed Pair) with its assignment rule.\n-- FunctionType = Directed Pair + Rule Type",
     "summary": "def RuleType in Scaffold.lean (line 697)",
     "kind": "def",
@@ -24528,7 +24537,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure FunctionType (\u03B1 \u03B2 : Type) where\n  channel : DirectedPair \u03B1 \u03B2\n  rule    : RuleType \u03B1 \u03B2\n\n-- Constructor helper for FunctionType",
     "summary": "structure FunctionType in Scaffold.lean (line 701)",
     "kind": "structure",
@@ -24553,7 +24562,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure FunctionType (\u03B1 \u03B2 : Type) where\n  channel : DirectedPair \u03B1 \u03B2\n  rule    : RuleType \u03B1 \u03B2\n\n-- Constructor helper for FunctionType",
     "summary": "structure FunctionType in Scaffold.lean (line 701)",
     "kind": "structure",
@@ -24578,7 +24587,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def make_function {\u03B1 \u03B2 : Type} (rule : \u03B1 \u2192 \u03B2) : FunctionType \u03B1 \u03B2 :=\n  { channel := {}, rule := rule }\n\n-- Lean CoeFun instance allowing a FunctionType to be applied directly as a function\ninstance {\u03B1 \u03B2 : Type} : CoeFun (FunctionType \u03B1 \u03B2) (fun _ => \u03B1 \u2192 \u03B2) where\n  coe f := f.rule",
     "summary": "def make_function in Scaffold.lean (line 706)",
     "kind": "def",
@@ -24597,7 +24606,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def make_function {\u03B1 \u03B2 : Type} (rule : \u03B1 \u2192 \u03B2) : FunctionType \u03B1 \u03B2 :=\n  { channel := {}, rule := rule }\n\n-- Lean CoeFun instance allowing a FunctionType to be applied directly as a function\ninstance {\u03B1 \u03B2 : Type} : CoeFun (FunctionType \u03B1 \u03B2) (fun _ => \u03B1 \u2192 \u03B2) where\n  coe f := f.rule",
     "summary": "def make_function in Scaffold.lean (line 706)",
     "kind": "def",
@@ -24616,7 +24625,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega : R_w",
     "summary": "2. The Scale Parameter \u03C9 and Infinitesimal dx The transfinite horizon at Day \u03C9",
     "kind": "axiom",
@@ -24651,7 +24660,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega : R_w",
     "summary": "2. The Scale Parameter \u03C9 and Infinitesimal dx The transfinite horizon at Day \u03C9",
     "kind": "axiom",
@@ -24686,7 +24695,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega_pos : 0 < omega",
     "summary": "axiom omega_pos in Scaffold.lean (line 719)",
     "kind": "axiom",
@@ -24705,7 +24714,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega_pos : 0 < omega",
     "summary": "axiom omega_pos in Scaffold.lean (line 719)",
     "kind": "axiom",
@@ -24724,7 +24733,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom abs_omega : abs omega = omega\n\n-- The infinitesimal grid step dx = 1/\u03C9",
     "summary": "axiom abs_omega in Scaffold.lean (line 720)",
     "kind": "axiom",
@@ -24745,7 +24754,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom abs_omega : abs omega = omega\n\n-- The infinitesimal grid step dx = 1/\u03C9",
     "summary": "axiom abs_omega in Scaffold.lean (line 720)",
     "kind": "axiom",
@@ -24766,7 +24775,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dx : R_w",
     "summary": "axiom dx in Scaffold.lean (line 723)",
     "kind": "axiom",
@@ -24780,6 +24789,8 @@ var LEAN_CACHE = {
       "transect_coord",
       "Interval",
       "deriv_at",
+      "delta2_at",
+      "delta2_op",
       "deriv_grid_at",
       "deriv",
       "arithmetic_delta",
@@ -24798,7 +24809,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dx : R_w",
     "summary": "axiom dx in Scaffold.lean (line 723)",
     "kind": "axiom",
@@ -24812,6 +24823,8 @@ var LEAN_CACHE = {
       "transect_coord",
       "Interval",
       "deriv_at",
+      "delta2_at",
+      "delta2_op",
       "deriv_grid_at",
       "deriv",
       "arithmetic_delta",
@@ -24830,7 +24843,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega_inv : omega * dx = 1\n\n-- Coordinate on the 1D transfinite transect: x_k = k * dx",
     "summary": "axiom omega_inv in Scaffold.lean (line 724)",
     "kind": "axiom",
@@ -24850,7 +24863,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom omega_inv : omega * dx = 1\n\n-- Coordinate on the 1D transfinite transect: x_k = k * dx",
     "summary": "axiom omega_inv in Scaffold.lean (line 724)",
     "kind": "axiom",
@@ -24870,7 +24883,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def transect_coord (k : Int) : R_w :=\n  (k : R_w) * dx",
     "summary": "def transect_coord in Scaffold.lean (line 727)",
     "kind": "def",
@@ -24890,7 +24903,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def transect_coord (k : Int) : R_w :=\n  (k : R_w) * dx",
     "summary": "def transect_coord in Scaffold.lean (line 727)",
     "kind": "def",
@@ -24910,7 +24923,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure Interval where\n  a : R_w\n  b : R_w\n\n-- ----------------------------------------------------------------------------\n-- 3.1. The Four Foundational Continuum Analysis Operators\n-- ----------------------------------------------------------------------------\n\n-- Operator 1: Derivation of a function at a point: (FunctionSpace \u2192 R_w \u2192 R_w)\n-- Evaluates the microscopic difference quotient across infinitesimal step dx:",
     "summary": "A closed 1D transect interval [a, b] \u2282 \u211D_\u03C9",
     "kind": "structure",
@@ -24933,7 +24946,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure Interval where\n  a : R_w\n  b : R_w\n\n-- ----------------------------------------------------------------------------\n-- 3.1. The Four Foundational Continuum Analysis Operators\n-- ----------------------------------------------------------------------------\n\n-- Operator 1: Derivation of a function at a point: (FunctionSpace \u2192 R_w \u2192 R_w)\n-- Evaluates the microscopic difference quotient across infinitesimal step dx:",
     "summary": "A closed 1D transect interval [a, b] \u2282 \u211D_\u03C9",
     "kind": "structure",
@@ -24956,7 +24969,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_at (f : FunctionSpace) (x : R_w) : R_w :=\n  (f (x + dx) - f x) / dx\n\n-- Operator 2: The Derivative Operator: (FunctionSpace \u2192 FunctionSpace)\n-- The global differential morphism mapping a function to its derived rate function:",
     "summary": "def deriv_at in Scaffold.lean (line 749)",
     "kind": "def",
@@ -24967,6 +24980,9 @@ var LEAN_CACHE = {
     ],
     "usedBy": [
       "deriv_op",
+      "diff_1form",
+      "leibniz_product_rule",
+      "chain_rule",
       "ftc_deriv_integral"
     ]
   },
@@ -24979,7 +24995,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_at (f : FunctionSpace) (x : R_w) : R_w :=\n  (f (x + dx) - f x) / dx\n\n-- Operator 2: The Derivative Operator: (FunctionSpace \u2192 FunctionSpace)\n-- The global differential morphism mapping a function to its derived rate function:",
     "summary": "def deriv_at in Scaffold.lean (line 749)",
     "kind": "def",
@@ -24990,6 +25006,9 @@ var LEAN_CACHE = {
     ],
     "usedBy": [
       "deriv_op",
+      "diff_1form",
+      "leibniz_product_rule",
+      "chain_rule",
       "ftc_deriv_integral"
     ]
   },
@@ -25002,7 +25021,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => deriv_at f x\n\n-- Definite integral accumulation helper across interval slices:",
     "summary": "def deriv_op in Scaffold.lean (line 754)",
     "kind": "def",
@@ -25024,7 +25043,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => deriv_at f x\n\n-- Definite integral accumulation helper across interval slices:",
     "summary": "def deriv_op in Scaffold.lean (line 754)",
     "kind": "def",
@@ -25046,7 +25065,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom integral_eval : FunctionSpace \u2192 Interval \u2192 R_w\n\n-- Operator 3: Definite Integral of a function over an interval:\n-- (FunctionSpace \u2192 Interval \u2192 R_w) or over explicit bounds [a, b]",
     "summary": "axiom integral_eval in Scaffold.lean (line 758)",
     "kind": "axiom",
@@ -25068,7 +25087,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom integral_eval : FunctionSpace \u2192 Interval \u2192 R_w\n\n-- Operator 3: Definite Integral of a function over an interval:\n-- (FunctionSpace \u2192 Interval \u2192 R_w) or over explicit bounds [a, b]",
     "summary": "axiom integral_eval in Scaffold.lean (line 758)",
     "kind": "axiom",
@@ -25090,7 +25109,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def integral_interval (f : FunctionSpace) (I : Interval) : R_w :=\n  integral_eval f I",
     "summary": "def integral_interval in Scaffold.lean (line 762)",
     "kind": "def",
@@ -25113,7 +25132,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def integral_interval (f : FunctionSpace) (I : Interval) : R_w :=\n  integral_eval f I",
     "summary": "def integral_interval in Scaffold.lean (line 762)",
     "kind": "def",
@@ -25136,7 +25155,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def integral_ab (f : FunctionSpace) (a b : R_w) : R_w :=\n  integral_interval f \u27E8a, b\u27E9\n\n-- Operator 4: The Integral Operator (Antiderivative / Area Accumulation Operator):\n-- (FunctionSpace \u2192 FunctionSpace)\n-- Maps function f to its accumulated function F(x) = \u222B_0^x f(t) dt:",
     "summary": "def integral_ab in Scaffold.lean (line 765)",
     "kind": "def",
@@ -25159,7 +25178,7 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def integral_ab (f : FunctionSpace) (a b : R_w) : R_w :=\n  integral_interval f \u27E8a, b\u27E9\n\n-- Operator 4: The Integral Operator (Antiderivative / Area Accumulation Operator):\n-- (FunctionSpace \u2192 FunctionSpace)\n-- Maps function f to its accumulated function F(x) = \u222B_0^x f(t) dt:",
     "summary": "def integral_ab in Scaffold.lean (line 765)",
     "kind": "def",
@@ -25182,14 +25201,13 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
-    "leanSnippet": "def integral_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => integral_ab f 0 x\n\n-- ----------------------------------------------------------------------------\n-- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding\n-- ----------------------------------------------------------------------------\n\n-- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9)\n-- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9,\n-- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9.\nabbrev SequenceSpace : Type := N_w \u2192 R_w\n\n-- Canonical restriction of a transfinite sequence to finite counting indices:",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def integral_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => integral_ab f 0 x\n\n-- Operator 5: The Second Discrete Difference / Curvature Operator:\n-- (FunctionSpace \u2192 R_w \u2192 R_w)",
     "summary": "def integral_op in Scaffold.lean (line 771)",
     "kind": "def",
     "lineNo": 771,
     "uses": [
       "integral_ab",
-      "N_w",
       "R_w"
     ],
     "usedBy": [
@@ -25205,19 +25223,226 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
-    "leanSnippet": "def integral_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => integral_ab f 0 x\n\n-- ----------------------------------------------------------------------------\n-- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding\n-- ----------------------------------------------------------------------------\n\n-- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9)\n-- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9,\n-- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9.\nabbrev SequenceSpace : Type := N_w \u2192 R_w\n\n-- Canonical restriction of a transfinite sequence to finite counting indices:",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def integral_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => integral_ab f 0 x\n\n-- Operator 5: The Second Discrete Difference / Curvature Operator:\n-- (FunctionSpace \u2192 R_w \u2192 R_w)",
     "summary": "def integral_op in Scaffold.lean (line 771)",
     "kind": "def",
     "lineNo": 771,
     "uses": [
       "integral_ab",
-      "N_w",
       "R_w"
     ],
     "usedBy": [
       "ftc_deriv_integral"
     ]
+  },
+  "delta2_at": {
+    "key": "delta2_at",
+    "target": "scaffold:delta2_at",
+    "expression": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w",
+    "signature": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w :=\n  f (x - dx) - 2 * f x + f (x + dx)\n\n-- (FunctionSpace \u2192 FunctionSpace)",
+    "summary": "def delta2_at in Scaffold.lean (line 776)",
+    "kind": "def",
+    "lineNo": 776,
+    "uses": [
+      "R_w",
+      "dx"
+    ],
+    "usedBy": [
+      "delta2_op"
+    ]
+  },
+  "scaffold:delta2_at": {
+    "key": "delta2_at",
+    "target": "scaffold:delta2_at",
+    "expression": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w",
+    "signature": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def delta2_at (f : FunctionSpace) (x : R_w) : R_w :=\n  f (x - dx) - 2 * f x + f (x + dx)\n\n-- (FunctionSpace \u2192 FunctionSpace)",
+    "summary": "def delta2_at in Scaffold.lean (line 776)",
+    "kind": "def",
+    "lineNo": 776,
+    "uses": [
+      "R_w",
+      "dx"
+    ],
+    "usedBy": [
+      "delta2_op"
+    ]
+  },
+  "delta2_op": {
+    "key": "delta2_op",
+    "target": "scaffold:delta2_op",
+    "expression": "def delta2_op (f : FunctionSpace) : FunctionSpace",
+    "signature": "def delta2_op (f : FunctionSpace) : FunctionSpace",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def delta2_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => delta2_at f x\n\n-- Operator 6: The Differential 1-Form:\n-- (FunctionSpace \u2192 R_w \u2192 R_w \u2192 R_w) mapping point x and displacement dx to scalar increment",
+    "summary": "def delta2_op in Scaffold.lean (line 780)",
+    "kind": "def",
+    "lineNo": 780,
+    "uses": [
+      "delta2_at",
+      "R_w",
+      "dx"
+    ],
+    "usedBy": []
+  },
+  "scaffold:delta2_op": {
+    "key": "delta2_op",
+    "target": "scaffold:delta2_op",
+    "expression": "def delta2_op (f : FunctionSpace) : FunctionSpace",
+    "signature": "def delta2_op (f : FunctionSpace) : FunctionSpace",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def delta2_op (f : FunctionSpace) : FunctionSpace :=\n  fun x => delta2_at f x\n\n-- Operator 6: The Differential 1-Form:\n-- (FunctionSpace \u2192 R_w \u2192 R_w \u2192 R_w) mapping point x and displacement dx to scalar increment",
+    "summary": "def delta2_op in Scaffold.lean (line 780)",
+    "kind": "def",
+    "lineNo": 780,
+    "uses": [
+      "delta2_at",
+      "R_w",
+      "dx"
+    ],
+    "usedBy": []
+  },
+  "diff_1form": {
+    "key": "diff_1form",
+    "target": "scaffold:diff_1form",
+    "expression": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w",
+    "signature": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w :=\n  deriv_at f x * disp\n\n-- Operator 7: Leibniz Product Rule Identity on FunctionSpace:",
+    "summary": "def diff_1form in Scaffold.lean (line 785)",
+    "kind": "def",
+    "lineNo": 785,
+    "uses": [
+      "deriv_at",
+      "R_w"
+    ],
+    "usedBy": []
+  },
+  "scaffold:diff_1form": {
+    "key": "diff_1form",
+    "target": "scaffold:diff_1form",
+    "expression": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w",
+    "signature": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "def diff_1form (f : FunctionSpace) (x : R_w) (disp : R_w) : R_w :=\n  deriv_at f x * disp\n\n-- Operator 7: Leibniz Product Rule Identity on FunctionSpace:",
+    "summary": "def diff_1form in Scaffold.lean (line 785)",
+    "kind": "def",
+    "lineNo": 785,
+    "uses": [
+      "deriv_at",
+      "R_w"
+    ],
+    "usedBy": []
+  },
+  "leibniz_product_rule": {
+    "key": "leibniz_product_rule",
+    "target": "scaffold:leibniz_product_rule",
+    "expression": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :",
+    "signature": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :\n  deriv_at (fun t => u t * v t) x = u x * deriv_at v x + v x * deriv_at u x\n\n-- Operator 8: Chain Rule Composition Identity on FunctionSpace:",
+    "summary": "axiom leibniz_product_rule in Scaffold.lean (line 789)",
+    "kind": "axiom",
+    "lineNo": 789,
+    "uses": [
+      "deriv_at",
+      "R_w"
+    ],
+    "usedBy": []
+  },
+  "scaffold:leibniz_product_rule": {
+    "key": "leibniz_product_rule",
+    "target": "scaffold:leibniz_product_rule",
+    "expression": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :",
+    "signature": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "axiom leibniz_product_rule (u v : FunctionSpace) (x : R_w) :\n  deriv_at (fun t => u t * v t) x = u x * deriv_at v x + v x * deriv_at u x\n\n-- Operator 8: Chain Rule Composition Identity on FunctionSpace:",
+    "summary": "axiom leibniz_product_rule in Scaffold.lean (line 789)",
+    "kind": "axiom",
+    "lineNo": 789,
+    "uses": [
+      "deriv_at",
+      "R_w"
+    ],
+    "usedBy": []
+  },
+  "chain_rule": {
+    "key": "chain_rule",
+    "target": "scaffold:chain_rule",
+    "expression": "axiom chain_rule (f g : FunctionSpace) (x : R_w) : deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x  -- ---------------------------------------------------------------------------- -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding -- ----------------------------------------------------------------------------  -- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9) -- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9, -- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9. abbrev SequenceSpace : Type",
+    "signature": "axiom chain_rule (f g : FunctionSpace) (x : R_w) : deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x  -- ---------------------------------------------------------------------------- -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding -- ----------------------------------------------------------------------------  -- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9) -- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9, -- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9. abbrev SequenceSpace : Type",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "axiom chain_rule (f g : FunctionSpace) (x : R_w) :\n  deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x\n\n-- ----------------------------------------------------------------------------\n-- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding\n-- ----------------------------------------------------------------------------\n\n-- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9)\n-- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9,\n-- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9.\nabbrev SequenceSpace : Type := N_w \u2192 R_w\n\n-- Canonical restriction of a transfinite sequence to finite counting indices:",
+    "summary": "axiom chain_rule in Scaffold.lean (line 793)",
+    "kind": "axiom",
+    "lineNo": 793,
+    "uses": [
+      "deriv_at",
+      "N_w",
+      "R_w"
+    ],
+    "usedBy": []
+  },
+  "scaffold:chain_rule": {
+    "key": "chain_rule",
+    "target": "scaffold:chain_rule",
+    "expression": "axiom chain_rule (f g : FunctionSpace) (x : R_w) : deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x  -- ---------------------------------------------------------------------------- -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding -- ----------------------------------------------------------------------------  -- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9) -- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9, -- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9. abbrev SequenceSpace : Type",
+    "signature": "axiom chain_rule (f g : FunctionSpace) (x : R_w) : deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x  -- ---------------------------------------------------------------------------- -- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding -- ----------------------------------------------------------------------------  -- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9) -- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9, -- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9. abbrev SequenceSpace : Type",
+    "verdict": true,
+    "qed": true,
+    "timeMs": 5,
+    "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
+    "leanSnippet": "axiom chain_rule (f g : FunctionSpace) (x : R_w) :\n  deriv_at (fun t => f (g t)) x = deriv_at f (g x) * deriv_at g x\n\n-- ----------------------------------------------------------------------------\n-- 3.2. Discrete Transect Sequence Space Operators & Telescoping Grounding\n-- ----------------------------------------------------------------------------\n\n-- The Transfinite Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 \u211D_\u03C9)\n-- By defining the domain as \u2115_\u03C9 = \u2115 \u222A {\u03C9}, sequences terminate at the transfinite horizon \u03C9,\n-- eliminating the classical limit of a sequence (lim_{n\u2192\u221E}) in favor of direct evaluation at \u03C9.\nabbrev SequenceSpace : Type := N_w \u2192 R_w\n\n-- Canonical restriction of a transfinite sequence to finite counting indices:",
+    "summary": "axiom chain_rule in Scaffold.lean (line 793)",
+    "kind": "axiom",
+    "lineNo": 793,
+    "uses": [
+      "deriv_at",
+      "N_w",
+      "R_w"
+    ],
+    "usedBy": []
   },
   "to_nat_seq": {
     "key": "to_nat_seq",
@@ -25228,11 +25453,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_nat_seq (F : SequenceSpace) : Nat \u2192 R_w :=\n  fun n => F (Nat_to_Nw n)\n\n-- Discrete Operator 1: Discrete step difference at a finite index: (SequenceSpace \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "def to_nat_seq in Scaffold.lean (line 784)",
+    "summary": "def to_nat_seq in Scaffold.lean (line 806)",
     "kind": "def",
-    "lineNo": 784,
+    "lineNo": 806,
     "uses": [
       "Nat_to_Nw",
       "R_w"
@@ -25255,11 +25480,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_nat_seq (F : SequenceSpace) : Nat \u2192 R_w :=\n  fun n => F (Nat_to_Nw n)\n\n-- Discrete Operator 1: Discrete step difference at a finite index: (SequenceSpace \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "def to_nat_seq in Scaffold.lean (line 784)",
+    "summary": "def to_nat_seq in Scaffold.lean (line 806)",
     "kind": "def",
-    "lineNo": 784,
+    "lineNo": 806,
     "uses": [
       "Nat_to_Nw",
       "R_w"
@@ -25282,11 +25507,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def delta_at (F : SequenceSpace) (k : Nat) : R_w :=\n  to_nat_seq F (k + 1) - to_nat_seq F k\n\n-- Backward-compatible alias for existing theorems on (Nat \u2192 R_w)",
-    "summary": "def delta_at in Scaffold.lean (line 788)",
+    "summary": "def delta_at in Scaffold.lean (line 810)",
     "kind": "def",
-    "lineNo": 788,
+    "lineNo": 810,
     "uses": [
       "to_nat_seq",
       "R_w"
@@ -25305,11 +25530,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def delta_at (F : SequenceSpace) (k : Nat) : R_w :=\n  to_nat_seq F (k + 1) - to_nat_seq F k\n\n-- Backward-compatible alias for existing theorems on (Nat \u2192 R_w)",
-    "summary": "def delta_at in Scaffold.lean (line 788)",
+    "summary": "def delta_at in Scaffold.lean (line 810)",
     "kind": "def",
-    "lineNo": 788,
+    "lineNo": 810,
     "uses": [
       "to_nat_seq",
       "R_w"
@@ -25328,11 +25553,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def delta (F : Nat \u2192 R_w) (k : Nat) : R_w :=\n  F (k + 1) - F k\n\n-- Discrete Operator 2: The Discrete Difference Operator on SequenceSpace:",
-    "summary": "def delta in Scaffold.lean (line 792)",
+    "summary": "def delta in Scaffold.lean (line 814)",
     "kind": "def",
-    "lineNo": 792,
+    "lineNo": 814,
     "uses": [
       "R_w"
     ],
@@ -25354,11 +25579,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def delta (F : Nat \u2192 R_w) (k : Nat) : R_w :=\n  F (k + 1) - F k\n\n-- Discrete Operator 2: The Discrete Difference Operator on SequenceSpace:",
-    "summary": "def delta in Scaffold.lean (line 792)",
+    "summary": "def delta in Scaffold.lean (line 814)",
     "kind": "def",
-    "lineNo": 792,
+    "lineNo": 814,
     "uses": [
       "R_w"
     ],
@@ -25380,11 +25605,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom delta_op : SequenceSpace \u2192 SequenceSpace",
-    "summary": "axiom delta_op in Scaffold.lean (line 796)",
+    "summary": "axiom delta_op in Scaffold.lean (line 818)",
     "kind": "axiom",
-    "lineNo": 796,
+    "lineNo": 818,
     "uses": [],
     "usedBy": [
       "delta_op_nat",
@@ -25401,11 +25626,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom delta_op : SequenceSpace \u2192 SequenceSpace",
-    "summary": "axiom delta_op in Scaffold.lean (line 796)",
+    "summary": "axiom delta_op in Scaffold.lean (line 818)",
     "kind": "axiom",
-    "lineNo": 796,
+    "lineNo": 818,
     "uses": [],
     "usedBy": [
       "delta_op_nat",
@@ -25422,11 +25647,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom delta_op_nat (F : SequenceSpace) (k : Nat) : delta_op F (Nat_to_Nw k) = delta_at F k\n\n-- Discrete derivative at a grid point: (SequenceSpace \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "axiom delta_op_nat in Scaffold.lean (line 797)",
+    "summary": "axiom delta_op_nat in Scaffold.lean (line 819)",
     "kind": "axiom",
-    "lineNo": 797,
+    "lineNo": 819,
     "uses": [
       "Nat_to_Nw",
       "delta_at",
@@ -25443,11 +25668,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom delta_op_nat (F : SequenceSpace) (k : Nat) : delta_op F (Nat_to_Nw k) = delta_at F k\n\n-- Discrete derivative at a grid point: (SequenceSpace \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "axiom delta_op_nat in Scaffold.lean (line 797)",
+    "summary": "axiom delta_op_nat in Scaffold.lean (line 819)",
     "kind": "axiom",
-    "lineNo": 797,
+    "lineNo": 819,
     "uses": [
       "Nat_to_Nw",
       "delta_at",
@@ -25464,11 +25689,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_grid_at (F : SequenceSpace) (k : Nat) : R_w :=\n  (delta_at F k) / dx\n\n-- Backward-compatible alias for existing theorems",
-    "summary": "def deriv_grid_at in Scaffold.lean (line 800)",
+    "summary": "def deriv_grid_at in Scaffold.lean (line 822)",
     "kind": "def",
-    "lineNo": 800,
+    "lineNo": 822,
     "uses": [
       "delta_at",
       "R_w",
@@ -25485,11 +25710,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv_grid_at (F : SequenceSpace) (k : Nat) : R_w :=\n  (delta_at F k) / dx\n\n-- Backward-compatible alias for existing theorems",
-    "summary": "def deriv_grid_at in Scaffold.lean (line 800)",
+    "summary": "def deriv_grid_at in Scaffold.lean (line 822)",
     "kind": "def",
-    "lineNo": 800,
+    "lineNo": 822,
     "uses": [
       "delta_at",
       "R_w",
@@ -25506,11 +25731,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv (F : Nat \u2192 R_w) (k : Nat) : R_w :=\n  (delta F k) / dx\n\n-- Discrete Operator 4: The Discrete Integral Operator (Indefinite Accumulator):\n-- Transfinite summation over finite indices: \u2211_{k=0}^{n-1} f(k)",
-    "summary": "def deriv in Scaffold.lean (line 804)",
+    "summary": "def deriv in Scaffold.lean (line 826)",
     "kind": "def",
-    "lineNo": 804,
+    "lineNo": 826,
     "uses": [
       "delta",
       "R_w",
@@ -25529,11 +25754,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def deriv (F : Nat \u2192 R_w) (k : Nat) : R_w :=\n  (delta F k) / dx\n\n-- Discrete Operator 4: The Discrete Integral Operator (Indefinite Accumulator):\n-- Transfinite summation over finite indices: \u2211_{k=0}^{n-1} f(k)",
-    "summary": "def deriv in Scaffold.lean (line 804)",
+    "summary": "def deriv in Scaffold.lean (line 826)",
     "kind": "def",
-    "lineNo": 804,
+    "lineNo": 826,
     "uses": [
       "delta",
       "R_w",
@@ -25552,11 +25777,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def transfinite_sum := hyper_sum\n\n-- Transfinite summation operator on SequenceSpace (\u2115_\u03C9 \u2192 \u211D_\u03C9):\n-- Evaluates the accumulated sum up to any index in \u2115_\u03C9, including transfinite evaluation at \u03C9:",
-    "summary": "def transfinite_sum in Scaffold.lean (line 814)",
+    "summary": "def transfinite_sum in Scaffold.lean (line 836)",
     "kind": "def",
-    "lineNo": 814,
+    "lineNo": 836,
     "uses": [
       "hyper_sum"
     ],
@@ -25573,11 +25798,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def transfinite_sum := hyper_sum\n\n-- Transfinite summation operator on SequenceSpace (\u2115_\u03C9 \u2192 \u211D_\u03C9):\n-- Evaluates the accumulated sum up to any index in \u2115_\u03C9, including transfinite evaluation at \u03C9:",
-    "summary": "def transfinite_sum in Scaffold.lean (line 814)",
+    "summary": "def transfinite_sum in Scaffold.lean (line 836)",
     "kind": "def",
-    "lineNo": 814,
+    "lineNo": 836,
     "uses": [
       "hyper_sum"
     ],
@@ -25594,11 +25819,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_integral_op : SequenceSpace \u2192 SequenceSpace\n\n-- Finite evaluation agreement:",
-    "summary": "axiom discrete_integral_op in Scaffold.lean (line 818)",
+    "summary": "axiom discrete_integral_op in Scaffold.lean (line 840)",
     "kind": "axiom",
-    "lineNo": 818,
+    "lineNo": 840,
     "uses": [],
     "usedBy": [
       "discrete_integral_op_nat",
@@ -25615,11 +25840,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_integral_op : SequenceSpace \u2192 SequenceSpace\n\n-- Finite evaluation agreement:",
-    "summary": "axiom discrete_integral_op in Scaffold.lean (line 818)",
+    "summary": "axiom discrete_integral_op in Scaffold.lean (line 840)",
     "kind": "axiom",
-    "lineNo": 818,
+    "lineNo": 840,
     "uses": [],
     "usedBy": [
       "discrete_integral_op_nat",
@@ -25636,11 +25861,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_integral_op_nat (f : SequenceSpace) (n : Nat) :\n  discrete_integral_op f (Nat_to_Nw n) = hyper_sum (to_nat_seq f) n\n\n-- Direct Transfinite Evaluation at Day \u03C9:\n-- Eliminates sequence limits: the sum up to \u03C9 is simply the evaluation at N_w_omega:",
-    "summary": "axiom discrete_integral_op_nat in Scaffold.lean (line 821)",
+    "summary": "axiom discrete_integral_op_nat in Scaffold.lean (line 843)",
     "kind": "axiom",
-    "lineNo": 821,
+    "lineNo": 843,
     "uses": [
       "discrete_integral_op",
       "to_nat_seq",
@@ -25659,11 +25884,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_integral_op_nat (f : SequenceSpace) (n : Nat) :\n  discrete_integral_op f (Nat_to_Nw n) = hyper_sum (to_nat_seq f) n\n\n-- Direct Transfinite Evaluation at Day \u03C9:\n-- Eliminates sequence limits: the sum up to \u03C9 is simply the evaluation at N_w_omega:",
-    "summary": "axiom discrete_integral_op_nat in Scaffold.lean (line 821)",
+    "summary": "axiom discrete_integral_op_nat in Scaffold.lean (line 843)",
     "kind": "axiom",
-    "lineNo": 821,
+    "lineNo": 843,
     "uses": [
       "discrete_integral_op",
       "to_nat_seq",
@@ -25682,11 +25907,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def hyper_sum_omega (f : SequenceSpace) : R_w :=\n  discrete_integral_op f N_w_omega\n\n-- Discrete Operator 3: Definite discrete sum over an index range [m, n):\n-- (SequenceSpace \u2192 \u2115 \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "def hyper_sum_omega in Scaffold.lean (line 826)",
+    "summary": "def hyper_sum_omega in Scaffold.lean (line 848)",
     "kind": "def",
-    "lineNo": 826,
+    "lineNo": 848,
     "uses": [
       "discrete_integral_op",
       "N_w_omega",
@@ -25705,11 +25930,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def hyper_sum_omega (f : SequenceSpace) : R_w :=\n  discrete_integral_op f N_w_omega\n\n-- Discrete Operator 3: Definite discrete sum over an index range [m, n):\n-- (SequenceSpace \u2192 \u2115 \u2192 \u2115 \u2192 \u211D_\u03C9)",
-    "summary": "def hyper_sum_omega in Scaffold.lean (line 826)",
+    "summary": "def hyper_sum_omega in Scaffold.lean (line 848)",
     "kind": "def",
-    "lineNo": 826,
+    "lineNo": 848,
     "uses": [
       "discrete_integral_op",
       "N_w_omega",
@@ -25728,11 +25953,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def discrete_integral_range (f : SequenceSpace) (m n : Nat) : R_w :=\n  hyper_sum (to_nat_seq f) n - hyper_sum (to_nat_seq f) m\n\n-- ----------------------------------------------------------------------------\n-- 3.2.1. The Two Fundamental Ladders of the Trees\n-- ----------------------------------------------------------------------------\n\n-- In Middle Way Math, numbers are grounded in finite induction from Day 0.\n-- The two primitive inductive trees immediately give birth to two distinct modes of stepping:\n--   1. Tree 1 (Unary Counting Spine): The Arithmetic Ladder (Linear March)\n--   2. Tree 2 (Binary Branching Fan): The Geometric Ladder (Multiplicative Scaling)",
-    "summary": "def discrete_integral_range in Scaffold.lean (line 831)",
+    "summary": "def discrete_integral_range in Scaffold.lean (line 853)",
     "kind": "def",
-    "lineNo": 831,
+    "lineNo": 853,
     "uses": [
       "to_nat_seq",
       "hyper_sum",
@@ -25749,11 +25974,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def discrete_integral_range (f : SequenceSpace) (m n : Nat) : R_w :=\n  hyper_sum (to_nat_seq f) n - hyper_sum (to_nat_seq f) m\n\n-- ----------------------------------------------------------------------------\n-- 3.2.1. The Two Fundamental Ladders of the Trees\n-- ----------------------------------------------------------------------------\n\n-- In Middle Way Math, numbers are grounded in finite induction from Day 0.\n-- The two primitive inductive trees immediately give birth to two distinct modes of stepping:\n--   1. Tree 1 (Unary Counting Spine): The Arithmetic Ladder (Linear March)\n--   2. Tree 2 (Binary Branching Fan): The Geometric Ladder (Multiplicative Scaling)",
-    "summary": "def discrete_integral_range in Scaffold.lean (line 831)",
+    "summary": "def discrete_integral_range in Scaffold.lean (line 853)",
     "kind": "def",
-    "lineNo": 831,
+    "lineNo": 853,
     "uses": [
       "to_nat_seq",
       "hyper_sum",
@@ -25770,11 +25995,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def arithmetic_seq (a d : R_w) : Nat \u2192 R_w\n  | 0 => a\n  | Nat.succ k => arithmetic_seq a d k + d",
     "summary": "Tree 1: The Arithmetic Ladder (Linear March) Step Law & Recurrence: F(0) = a, F(k + 1) = F(k) + d",
     "kind": "def",
-    "lineNo": 848,
+    "lineNo": 870,
     "uses": [
       "R_w"
     ],
@@ -25794,11 +26019,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def arithmetic_seq (a d : R_w) : Nat \u2192 R_w\n  | 0 => a\n  | Nat.succ k => arithmetic_seq a d k + d",
     "summary": "Tree 1: The Arithmetic Ladder (Linear March) Step Law & Recurrence: F(0) = a, F(k + 1) = F(k) + d",
     "kind": "def",
-    "lineNo": 848,
+    "lineNo": 870,
     "uses": [
       "R_w"
     ],
@@ -25818,11 +26043,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_step (a d : R_w) (k : Nat) :\n    arithmetic_seq a d (k + 1) = arithmetic_seq a d k + d :=\n  rfl\n\n-- Explicit Closed Formula: F(k) = a + k \xB7 d",
-    "summary": "theorem arithmetic_step in Scaffold.lean (line 852)",
+    "summary": "theorem arithmetic_step in Scaffold.lean (line 874)",
     "kind": "theorem",
-    "lineNo": 852,
+    "lineNo": 874,
     "uses": [
       "arithmetic_seq",
       "R_w"
@@ -25840,11 +26065,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_step (a d : R_w) (k : Nat) :\n    arithmetic_seq a d (k + 1) = arithmetic_seq a d k + d :=\n  rfl\n\n-- Explicit Closed Formula: F(k) = a + k \xB7 d",
-    "summary": "theorem arithmetic_step in Scaffold.lean (line 852)",
+    "summary": "theorem arithmetic_step in Scaffold.lean (line 874)",
     "kind": "theorem",
-    "lineNo": 852,
+    "lineNo": 874,
     "uses": [
       "arithmetic_seq",
       "R_w"
@@ -25862,11 +26087,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def arithmetic_closed (a d : R_w) (k : Nat) : R_w :=\n  a + (k : R_w) * d\n\n-- Equivalence of recursive ladder and closed formula",
-    "summary": "def arithmetic_closed in Scaffold.lean (line 857)",
+    "summary": "def arithmetic_closed in Scaffold.lean (line 879)",
     "kind": "def",
-    "lineNo": 857,
+    "lineNo": 879,
     "uses": [
       "R_w"
     ],
@@ -25883,11 +26108,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def arithmetic_closed (a d : R_w) (k : Nat) : R_w :=\n  a + (k : R_w) * d\n\n-- Equivalence of recursive ladder and closed formula",
-    "summary": "def arithmetic_closed in Scaffold.lean (line 857)",
+    "summary": "def arithmetic_closed in Scaffold.lean (line 879)",
     "kind": "def",
-    "lineNo": 857,
+    "lineNo": 879,
     "uses": [
       "R_w"
     ],
@@ -25904,11 +26129,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom arithmetic_closed_eq (a d : R_w) (k : Nat) :\n  arithmetic_seq a d k = arithmetic_closed a d k\n\n-- Constant Forward Difference Theorem: \u0394F(k) = d",
-    "summary": "axiom arithmetic_closed_eq in Scaffold.lean (line 861)",
+    "summary": "axiom arithmetic_closed_eq in Scaffold.lean (line 883)",
     "kind": "axiom",
-    "lineNo": 861,
+    "lineNo": 883,
     "uses": [
       "arithmetic_closed",
       "arithmetic_seq",
@@ -25925,11 +26150,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom arithmetic_closed_eq (a d : R_w) (k : Nat) :\n  arithmetic_seq a d k = arithmetic_closed a d k\n\n-- Constant Forward Difference Theorem: \u0394F(k) = d",
-    "summary": "axiom arithmetic_closed_eq in Scaffold.lean (line 861)",
+    "summary": "axiom arithmetic_closed_eq in Scaffold.lean (line 883)",
     "kind": "axiom",
-    "lineNo": 861,
+    "lineNo": 883,
     "uses": [
       "arithmetic_closed",
       "arithmetic_seq",
@@ -25946,11 +26171,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_delta (a d : R_w) (k : Nat) :\n    delta (arithmetic_seq a d) k = d := by\n  unfold delta\n  rw [arithmetic_step]\n  exact add_sub_cancel_right (arithmetic_seq a d k) d\n\n-- Uniform Slope / Discrete Derivative: (\u0394F / dx) = d / dx",
-    "summary": "theorem arithmetic_delta in Scaffold.lean (line 865)",
+    "summary": "theorem arithmetic_delta in Scaffold.lean (line 887)",
     "kind": "theorem",
-    "lineNo": 865,
+    "lineNo": 887,
     "uses": [
       "add_sub_cancel_right",
       "arithmetic_step",
@@ -25972,11 +26197,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_delta (a d : R_w) (k : Nat) :\n    delta (arithmetic_seq a d) k = d := by\n  unfold delta\n  rw [arithmetic_step]\n  exact add_sub_cancel_right (arithmetic_seq a d k) d\n\n-- Uniform Slope / Discrete Derivative: (\u0394F / dx) = d / dx",
-    "summary": "theorem arithmetic_delta in Scaffold.lean (line 865)",
+    "summary": "theorem arithmetic_delta in Scaffold.lean (line 887)",
     "kind": "theorem",
-    "lineNo": 865,
+    "lineNo": 887,
     "uses": [
       "add_sub_cancel_right",
       "arithmetic_step",
@@ -25998,11 +26223,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_deriv (a d : R_w) (k : Nat) :\n    deriv (arithmetic_seq a d) k = d / dx := by\n  unfold deriv\n  rw [arithmetic_delta]",
-    "summary": "theorem arithmetic_deriv in Scaffold.lean (line 872)",
+    "summary": "theorem arithmetic_deriv in Scaffold.lean (line 894)",
     "kind": "theorem",
-    "lineNo": 872,
+    "lineNo": 894,
     "uses": [
       "arithmetic_delta",
       "arithmetic_seq",
@@ -26021,11 +26246,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem arithmetic_deriv (a d : R_w) (k : Nat) :\n    deriv (arithmetic_seq a d) k = d / dx := by\n  unfold deriv\n  rw [arithmetic_delta]",
-    "summary": "theorem arithmetic_deriv in Scaffold.lean (line 872)",
+    "summary": "theorem arithmetic_deriv in Scaffold.lean (line 894)",
     "kind": "theorem",
-    "lineNo": 872,
+    "lineNo": 894,
     "uses": [
       "arithmetic_delta",
       "arithmetic_seq",
@@ -26044,11 +26269,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def geometric_seq (a r : R_w) : Nat \u2192 R_w\n  | 0 => a\n  | Nat.succ k => geometric_seq a r k * r",
     "summary": "Tree 2: The Geometric Ladder (Multiplicative Scaling) Step Law & Recurrence: G(0) = a, G(k + 1) = G(k) \xB7 r",
     "kind": "def",
-    "lineNo": 882,
+    "lineNo": 904,
     "uses": [
       "R_w"
     ],
@@ -26067,11 +26292,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def geometric_seq (a r : R_w) : Nat \u2192 R_w\n  | 0 => a\n  | Nat.succ k => geometric_seq a r k * r",
     "summary": "Tree 2: The Geometric Ladder (Multiplicative Scaling) Step Law & Recurrence: G(0) = a, G(k + 1) = G(k) \xB7 r",
     "kind": "def",
-    "lineNo": 882,
+    "lineNo": 904,
     "uses": [
       "R_w"
     ],
@@ -26090,11 +26315,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem geometric_step (a r : R_w) (k : Nat) :\n    geometric_seq a r (k + 1) = geometric_seq a r k * r :=\n  rfl\n\n-- Explicit Closed Formula: G(k) = a \xB7 r^k",
-    "summary": "theorem geometric_step in Scaffold.lean (line 886)",
+    "summary": "theorem geometric_step in Scaffold.lean (line 908)",
     "kind": "theorem",
-    "lineNo": 886,
+    "lineNo": 908,
     "uses": [
       "geometric_seq",
       "R_w"
@@ -26112,11 +26337,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem geometric_step (a r : R_w) (k : Nat) :\n    geometric_seq a r (k + 1) = geometric_seq a r k * r :=\n  rfl\n\n-- Explicit Closed Formula: G(k) = a \xB7 r^k",
-    "summary": "theorem geometric_step in Scaffold.lean (line 886)",
+    "summary": "theorem geometric_step in Scaffold.lean (line 908)",
     "kind": "theorem",
-    "lineNo": 886,
+    "lineNo": 908,
     "uses": [
       "geometric_seq",
       "R_w"
@@ -26134,11 +26359,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def geometric_closed (a r : R_w) (k : Nat) : R_w :=\n  a * (r ^ k)\n\n-- Equivalence of recursive ladder and closed formula",
-    "summary": "def geometric_closed in Scaffold.lean (line 891)",
+    "summary": "def geometric_closed in Scaffold.lean (line 913)",
     "kind": "def",
-    "lineNo": 891,
+    "lineNo": 913,
     "uses": [
       "R_w"
     ],
@@ -26155,11 +26380,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def geometric_closed (a r : R_w) (k : Nat) : R_w :=\n  a * (r ^ k)\n\n-- Equivalence of recursive ladder and closed formula",
-    "summary": "def geometric_closed in Scaffold.lean (line 891)",
+    "summary": "def geometric_closed in Scaffold.lean (line 913)",
     "kind": "def",
-    "lineNo": 891,
+    "lineNo": 913,
     "uses": [
       "R_w"
     ],
@@ -26176,11 +26401,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom geometric_closed_eq (a r : R_w) (k : Nat) :\n  geometric_seq a r k = geometric_closed a r k\n\n-- Difference Proportional to Term Theorem: \u0394G(k) = G(k) \xB7 (r - 1)",
-    "summary": "axiom geometric_closed_eq in Scaffold.lean (line 895)",
+    "summary": "axiom geometric_closed_eq in Scaffold.lean (line 917)",
     "kind": "axiom",
-    "lineNo": 895,
+    "lineNo": 917,
     "uses": [
       "geometric_closed",
       "geometric_seq",
@@ -26197,11 +26422,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom geometric_closed_eq (a r : R_w) (k : Nat) :\n  geometric_seq a r k = geometric_closed a r k\n\n-- Difference Proportional to Term Theorem: \u0394G(k) = G(k) \xB7 (r - 1)",
-    "summary": "axiom geometric_closed_eq in Scaffold.lean (line 895)",
+    "summary": "axiom geometric_closed_eq in Scaffold.lean (line 917)",
     "kind": "axiom",
-    "lineNo": 895,
+    "lineNo": 917,
     "uses": [
       "geometric_closed",
       "geometric_seq",
@@ -26218,11 +26443,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem geometric_delta (a r : R_w) (k : Nat) :\n    delta (geometric_seq a r) k = geometric_seq a r k * (r - 1) := by\n  unfold delta\n  rw [geometric_step]\n  exact mul_sub_one (geometric_seq a r k) r\n\n-- ----------------------------------------------------------------------------\n-- 3.3. Transfinite Function Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 FunctionSpace)\n-- ----------------------------------------------------------------------------\n\n-- A sequence of functions: maps each discrete index k \u2208 \u2115_\u03C9 to an entire spatial function (\u211D_\u03C9 \u2192 \u211D_\u03C9).\n-- In Middle Way Math, a sequence function's channel is determined by its FunctionType (\u2115_\u03C9 \u2192 ...),\n-- while its specific behavioral personality is determined by the assignment Rule.\nabbrev NumericSequenceSpace : Type := N_w \u2192 R_w\nabbrev FunctionSequenceSpace : Type := N_w \u2192 FunctionSpace\n\n-- Pointwise evaluation: slicing a function sequence at a fixed spatial coordinate x \u2208 \u211D_\u03C9\n-- to extract its local numeric sequence across step indices:",
-    "summary": "theorem geometric_delta in Scaffold.lean (line 899)",
+    "summary": "theorem geometric_delta in Scaffold.lean (line 921)",
     "kind": "theorem",
-    "lineNo": 899,
+    "lineNo": 921,
     "uses": [
       "geometric_step",
       "geometric_seq",
@@ -26243,11 +26468,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem geometric_delta (a r : R_w) (k : Nat) :\n    delta (geometric_seq a r) k = geometric_seq a r k * (r - 1) := by\n  unfold delta\n  rw [geometric_step]\n  exact mul_sub_one (geometric_seq a r k) r\n\n-- ----------------------------------------------------------------------------\n-- 3.3. Transfinite Function Sequence Space on Day \u03C9: (\u2115_\u03C9 \u2192 FunctionSpace)\n-- ----------------------------------------------------------------------------\n\n-- A sequence of functions: maps each discrete index k \u2208 \u2115_\u03C9 to an entire spatial function (\u211D_\u03C9 \u2192 \u211D_\u03C9).\n-- In Middle Way Math, a sequence function's channel is determined by its FunctionType (\u2115_\u03C9 \u2192 ...),\n-- while its specific behavioral personality is determined by the assignment Rule.\nabbrev NumericSequenceSpace : Type := N_w \u2192 R_w\nabbrev FunctionSequenceSpace : Type := N_w \u2192 FunctionSpace\n\n-- Pointwise evaluation: slicing a function sequence at a fixed spatial coordinate x \u2208 \u211D_\u03C9\n-- to extract its local numeric sequence across step indices:",
-    "summary": "theorem geometric_delta in Scaffold.lean (line 899)",
+    "summary": "theorem geometric_delta in Scaffold.lean (line 921)",
     "kind": "theorem",
-    "lineNo": 899,
+    "lineNo": 921,
     "uses": [
       "geometric_step",
       "geometric_seq",
@@ -26268,11 +26493,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def pointwise_slice (F : FunctionSequenceSpace) (x : R_w) : NumericSequenceSpace :=\n  fun n => F n x\n\n-- Global transfinite evaluation: the completed continuum function holding across the entire domain at Day \u03C9:",
-    "summary": "def pointwise_slice in Scaffold.lean (line 917)",
+    "summary": "def pointwise_slice in Scaffold.lean (line 939)",
     "kind": "def",
-    "lineNo": 917,
+    "lineNo": 939,
     "uses": [
       "R_w"
     ],
@@ -26287,11 +26512,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def pointwise_slice (F : FunctionSequenceSpace) (x : R_w) : NumericSequenceSpace :=\n  fun n => F n x\n\n-- Global transfinite evaluation: the completed continuum function holding across the entire domain at Day \u03C9:",
-    "summary": "def pointwise_slice in Scaffold.lean (line 917)",
+    "summary": "def pointwise_slice in Scaffold.lean (line 939)",
     "kind": "def",
-    "lineNo": 917,
+    "lineNo": 939,
     "uses": [
       "R_w"
     ],
@@ -26306,11 +26531,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def function_at_omega (F : FunctionSequenceSpace) : FunctionSpace :=\n  F N_w_omega",
-    "summary": "def function_at_omega in Scaffold.lean (line 921)",
+    "summary": "def function_at_omega in Scaffold.lean (line 943)",
     "kind": "def",
-    "lineNo": 921,
+    "lineNo": 943,
     "uses": [
       "N_w_omega"
     ],
@@ -26325,11 +26550,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def function_at_omega (F : FunctionSequenceSpace) : FunctionSpace :=\n  F N_w_omega",
-    "summary": "def function_at_omega in Scaffold.lean (line 921)",
+    "summary": "def function_at_omega in Scaffold.lean (line 943)",
     "kind": "def",
-    "lineNo": 921,
+    "lineNo": 943,
     "uses": [
       "N_w_omega"
     ],
@@ -26344,11 +26569,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem transfinite_ftc (F : Nat \u2192 R_w) (n : Nat) :\n  transfinite_sum (delta F) n = F n - F 0 :=\n  telescoping_ftc F n\n\n-- Finite telescoping on SequenceSpace:",
-    "summary": "theorem transfinite_ftc in Scaffold.lean (line 944)",
+    "summary": "theorem transfinite_ftc in Scaffold.lean (line 966)",
     "kind": "theorem",
-    "lineNo": 944,
+    "lineNo": 966,
     "uses": [
       "transfinite_sum",
       "telescoping_ftc",
@@ -26366,11 +26591,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem transfinite_ftc (F : Nat \u2192 R_w) (n : Nat) :\n  transfinite_sum (delta F) n = F n - F 0 :=\n  telescoping_ftc F n\n\n-- Finite telescoping on SequenceSpace:",
-    "summary": "theorem transfinite_ftc in Scaffold.lean (line 944)",
+    "summary": "theorem transfinite_ftc in Scaffold.lean (line 966)",
     "kind": "theorem",
-    "lineNo": 944,
+    "lineNo": 966,
     "uses": [
       "transfinite_sum",
       "telescoping_ftc",
@@ -26388,11 +26613,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sequence_ftc (F : SequenceSpace) (n : Nat) :\n  hyper_sum (delta (to_nat_seq F)) n = to_nat_seq F n - to_nat_seq F 0 :=\n  telescoping_ftc (to_nat_seq F) n\n\n-- Operator formulation of the discrete FTC on finite slices:",
-    "summary": "theorem sequence_ftc in Scaffold.lean (line 949)",
+    "summary": "theorem sequence_ftc in Scaffold.lean (line 971)",
     "kind": "theorem",
-    "lineNo": 949,
+    "lineNo": 971,
     "uses": [
       "telescoping_ftc",
       "to_nat_seq",
@@ -26410,11 +26635,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem sequence_ftc (F : SequenceSpace) (n : Nat) :\n  hyper_sum (delta (to_nat_seq F)) n = to_nat_seq F n - to_nat_seq F 0 :=\n  telescoping_ftc (to_nat_seq F) n\n\n-- Operator formulation of the discrete FTC on finite slices:",
-    "summary": "theorem sequence_ftc in Scaffold.lean (line 949)",
+    "summary": "theorem sequence_ftc in Scaffold.lean (line 971)",
     "kind": "theorem",
-    "lineNo": 949,
+    "lineNo": 971,
     "uses": [
       "telescoping_ftc",
       "to_nat_seq",
@@ -26432,11 +26657,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_ftc_operator (F : SequenceSpace) (n : Nat) :\n  discrete_integral_op (delta_op F) (Nat_to_Nw n) = to_nat_seq F n - to_nat_seq F 0\n\n-- Transfinite Telescoping Theorem on Day \u03C9:\n-- Direct transfinite evaluation at \u03C9 without limits:\n-- \u2211_{k=0}^{\u03C9-1} \u0394F(k) = F(\u03C9) - F(0)",
-    "summary": "axiom discrete_ftc_operator in Scaffold.lean (line 954)",
+    "summary": "axiom discrete_ftc_operator in Scaffold.lean (line 976)",
     "kind": "axiom",
-    "lineNo": 954,
+    "lineNo": 976,
     "uses": [
       "discrete_integral_op",
       "to_nat_seq",
@@ -26454,11 +26679,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom discrete_ftc_operator (F : SequenceSpace) (n : Nat) :\n  discrete_integral_op (delta_op F) (Nat_to_Nw n) = to_nat_seq F n - to_nat_seq F 0\n\n-- Transfinite Telescoping Theorem on Day \u03C9:\n-- Direct transfinite evaluation at \u03C9 without limits:\n-- \u2211_{k=0}^{\u03C9-1} \u0394F(k) = F(\u03C9) - F(0)",
-    "summary": "axiom discrete_ftc_operator in Scaffold.lean (line 954)",
+    "summary": "axiom discrete_ftc_operator in Scaffold.lean (line 976)",
     "kind": "axiom",
-    "lineNo": 954,
+    "lineNo": 976,
     "uses": [
       "discrete_integral_op",
       "to_nat_seq",
@@ -26476,11 +26701,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom telescoping_ftc_omega (F : SequenceSpace) :\n  hyper_sum_omega (delta_op F) = F N_w_omega - to_nat_seq F 0",
-    "summary": "axiom telescoping_ftc_omega in Scaffold.lean (line 960)",
+    "summary": "axiom telescoping_ftc_omega in Scaffold.lean (line 982)",
     "kind": "axiom",
-    "lineNo": 960,
+    "lineNo": 982,
     "uses": [
       "hyper_sum_omega",
       "to_nat_seq",
@@ -26498,11 +26723,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom telescoping_ftc_omega (F : SequenceSpace) :\n  hyper_sum_omega (delta_op F) = F N_w_omega - to_nat_seq F 0",
-    "summary": "axiom telescoping_ftc_omega in Scaffold.lean (line 960)",
+    "summary": "axiom telescoping_ftc_omega in Scaffold.lean (line 982)",
     "kind": "axiom",
-    "lineNo": 960,
+    "lineNo": 982,
     "uses": [
       "hyper_sum_omega",
       "to_nat_seq",
@@ -26520,11 +26745,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ftc_deriv_integral (f : FunctionSpace) (x : R_w) :\n  deriv_at (integral_op f) x = f x\n\n-- 2. Definite integral of derivative returns net boundary difference:\n-- \u222B_a^b (deriv_op F) = F(b) - F(a)",
     "summary": "4.1. The Fundamental Theorem of Calculus (Continuum Operator Formulation) 1. Differentiation of Accumulation returns the integrand: (deriv_op \u2218 integral_op)(f) = f",
     "kind": "axiom",
-    "lineNo": 969,
+    "lineNo": 991,
     "uses": [
       "integral_op",
       "deriv_at",
@@ -26542,11 +26767,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ftc_deriv_integral (f : FunctionSpace) (x : R_w) :\n  deriv_at (integral_op f) x = f x\n\n-- 2. Definite integral of derivative returns net boundary difference:\n-- \u222B_a^b (deriv_op F) = F(b) - F(a)",
     "summary": "4.1. The Fundamental Theorem of Calculus (Continuum Operator Formulation) 1. Differentiation of Accumulation returns the integrand: (deriv_op \u2218 integral_op)(f) = f",
     "kind": "axiom",
-    "lineNo": 969,
+    "lineNo": 991,
     "uses": [
       "integral_op",
       "deriv_at",
@@ -26564,11 +26789,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ftc_integral_deriv (F : FunctionSpace) (a b : R_w) :\n  integral_ab (deriv_op F) a b = F b - F a",
-    "summary": "axiom ftc_integral_deriv in Scaffold.lean (line 974)",
+    "summary": "axiom ftc_integral_deriv in Scaffold.lean (line 996)",
     "kind": "axiom",
-    "lineNo": 974,
+    "lineNo": 996,
     "uses": [
       "integral_ab",
       "deriv_op",
@@ -26585,11 +26810,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom ftc_integral_deriv (F : FunctionSpace) (a b : R_w) :\n  integral_ab (deriv_op F) a b = F b - F a",
-    "summary": "axiom ftc_integral_deriv in Scaffold.lean (line 974)",
+    "summary": "axiom ftc_integral_deriv in Scaffold.lean (line 996)",
     "kind": "axiom",
-    "lineNo": 974,
+    "lineNo": 996,
     "uses": [
       "integral_ab",
       "deriv_op",
@@ -26606,11 +26831,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom C_w_is_Tree4_omega : C_w = Tree4_at Ord.omega\n\nnamespace C_w",
-    "summary": "axiom C_w_is_Tree4_omega in Scaffold.lean (line 987)",
+    "summary": "axiom C_w_is_Tree4_omega in Scaffold.lean (line 1009)",
     "kind": "axiom",
-    "lineNo": 987,
+    "lineNo": 1009,
     "uses": [
       "Ord.omega",
       "Tree4_at",
@@ -26627,11 +26852,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom C_w_is_Tree4_omega : C_w = Tree4_at Ord.omega\n\nnamespace C_w",
-    "summary": "axiom C_w_is_Tree4_omega in Scaffold.lean (line 987)",
+    "summary": "axiom C_w_is_Tree4_omega in Scaffold.lean (line 1009)",
     "kind": "axiom",
-    "lineNo": 987,
+    "lineNo": 1009,
     "uses": [
       "Ord.omega",
       "Tree4_at",
@@ -26648,11 +26873,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def add (z1 z2 : C_w) : C_w :=\n  \u27E8z1.re + z2.re, z1.im + z2.im\u27E9",
-    "summary": "def add in Scaffold.lean (line 991)",
+    "summary": "def add in Scaffold.lean (line 1013)",
     "kind": "def",
-    "lineNo": 991,
+    "lineNo": 1013,
     "uses": [
       "C_w"
     ],
@@ -26677,11 +26902,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def add (z1 z2 : C_w) : C_w :=\n  \u27E8z1.re + z2.re, z1.im + z2.im\u27E9",
-    "summary": "def add in Scaffold.lean (line 991)",
+    "summary": "def add in Scaffold.lean (line 1013)",
     "kind": "def",
-    "lineNo": 991,
+    "lineNo": 1013,
     "uses": [
       "C_w"
     ],
@@ -26706,11 +26931,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def sub (z1 z2 : C_w) : C_w :=\n  \u27E8z1.re - z2.re, z1.im - z2.im\u27E9\n\n-- Complex multiplication: (u1 + i v1)(u2 + i v2) = (u1 u2 - v1 v2) + i (u1 v2 + u2 v1)",
-    "summary": "def sub in Scaffold.lean (line 994)",
+    "summary": "def sub in Scaffold.lean (line 1016)",
     "kind": "def",
-    "lineNo": 994,
+    "lineNo": 1016,
     "uses": [
       "C_w"
     ],
@@ -26734,11 +26959,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def sub (z1 z2 : C_w) : C_w :=\n  \u27E8z1.re - z2.re, z1.im - z2.im\u27E9\n\n-- Complex multiplication: (u1 + i v1)(u2 + i v2) = (u1 u2 - v1 v2) + i (u1 v2 + u2 v1)",
-    "summary": "def sub in Scaffold.lean (line 994)",
+    "summary": "def sub in Scaffold.lean (line 1016)",
     "kind": "def",
-    "lineNo": 994,
+    "lineNo": 1016,
     "uses": [
       "C_w"
     ],
@@ -26762,11 +26987,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mul (z1 z2 : C_w) : C_w :=\n  \u27E8(z1.re * z2.re) - (z1.im * z2.im), (z1.re * z2.im) + (z2.re * z1.im)\u27E9\n\n-- Complex amplitude norm squared: |\u03C8|\xB2 = u\xB2 + v\xB2",
-    "summary": "def mul in Scaffold.lean (line 998)",
+    "summary": "def mul in Scaffold.lean (line 1020)",
     "kind": "def",
-    "lineNo": 998,
+    "lineNo": 1020,
     "uses": [
       "C_w"
     ],
@@ -26791,11 +27016,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def mul (z1 z2 : C_w) : C_w :=\n  \u27E8(z1.re * z2.re) - (z1.im * z2.im), (z1.re * z2.im) + (z2.re * z1.im)\u27E9\n\n-- Complex amplitude norm squared: |\u03C8|\xB2 = u\xB2 + v\xB2",
-    "summary": "def mul in Scaffold.lean (line 998)",
+    "summary": "def mul in Scaffold.lean (line 1020)",
     "kind": "def",
-    "lineNo": 998,
+    "lineNo": 1020,
     "uses": [
       "C_w"
     ],
@@ -26820,11 +27045,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def norm_sq (z : C_w) : R_w :=\n  (z.re * z.re) + (z.im * z.im)\n\ninstance : Add C_w where add := add\ninstance : Sub C_w where sub := sub\ninstance : Mul C_w where mul := mul\n\nend C_w",
-    "summary": "def norm_sq in Scaffold.lean (line 1002)",
+    "summary": "def norm_sq in Scaffold.lean (line 1024)",
     "kind": "def",
-    "lineNo": 1002,
+    "lineNo": 1024,
     "uses": [
       "R_w",
       "C_w",
@@ -26843,11 +27068,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def norm_sq (z : C_w) : R_w :=\n  (z.re * z.re) + (z.im * z.im)\n\ninstance : Add C_w where add := add\ninstance : Sub C_w where sub := sub\ninstance : Mul C_w where mul := mul\n\nend C_w",
-    "summary": "def norm_sq in Scaffold.lean (line 1002)",
+    "summary": "def norm_sq in Scaffold.lean (line 1024)",
     "kind": "def",
-    "lineNo": 1002,
+    "lineNo": 1024,
     "uses": [
       "R_w",
       "C_w",
@@ -26866,11 +27091,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite (x : R_w) : Prop :=\n  abs x < abs omega\n\n-- Standard part extraction: projects a finite transfinite element to its standard dyadic shadow in \u{1D53B}",
     "summary": "6. The Standard Part Shadow Map: st(\xB7) : { x : \u211D_\u03C9 // is_finite x } \u2192 \u{1D53B} Predicate identifying finite elements: strictly bounded within the Day \u03C9 horizon (|x| < |\u03C9|)",
     "kind": "def",
-    "lineNo": 1016,
+    "lineNo": 1038,
     "uses": [
       "omega",
       "R_w",
@@ -26890,11 +27115,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def is_finite (x : R_w) : Prop :=\n  abs x < abs omega\n\n-- Standard part extraction: projects a finite transfinite element to its standard dyadic shadow in \u{1D53B}",
     "summary": "6. The Standard Part Shadow Map: st(\xB7) : { x : \u211D_\u03C9 // is_finite x } \u2192 \u{1D53B} Predicate identifying finite elements: strictly bounded within the Day \u03C9 horizon (|x| < |\u03C9|)",
     "kind": "def",
-    "lineNo": 1016,
+    "lineNo": 1038,
     "uses": [
       "omega",
       "R_w",
@@ -26914,11 +27139,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom st_dyadic_id (d : D_w) (h : is_finite d.val) : (st \u27E8d.val, h\u27E9).val = d.val\n\n-- ----------------------------------------------------------------------------\n-- 6.1. Auxiliary Representation & Notation Bridges ((AuxDomain \xD7 Precision) \u2192 \u{1D53B})\n-- ----------------------------------------------------------------------------\n-- External notation and representation systems (fractions, base-10 decimals,\n-- designated constants) bridge into the dyadic lattice via constructive shadow maps.",
-    "summary": "axiom st_dyadic_id in Scaffold.lean (line 1023)",
+    "summary": "axiom st_dyadic_id in Scaffold.lean (line 1045)",
     "kind": "axiom",
-    "lineNo": 1023,
+    "lineNo": 1045,
     "uses": [
       "is_finite",
       "D_w",
@@ -26935,11 +27160,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom st_dyadic_id (d : D_w) (h : is_finite d.val) : (st \u27E8d.val, h\u27E9).val = d.val\n\n-- ----------------------------------------------------------------------------\n-- 6.1. Auxiliary Representation & Notation Bridges ((AuxDomain \xD7 Precision) \u2192 \u{1D53B})\n-- ----------------------------------------------------------------------------\n-- External notation and representation systems (fractions, base-10 decimals,\n-- designated constants) bridge into the dyadic lattice via constructive shadow maps.",
-    "summary": "axiom st_dyadic_id in Scaffold.lean (line 1023)",
+    "summary": "axiom st_dyadic_id in Scaffold.lean (line 1045)",
     "kind": "axiom",
-    "lineNo": 1023,
+    "lineNo": 1045,
     "uses": [
       "is_finite",
       "D_w",
@@ -26956,11 +27181,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure AuxShadowMap (\u03B1 : Type) where\n  toDyad : \u03B1 \u2192 Nat \u2192 D_w\n\n-- 1. Rational Fraction Notation: \u211A \u2261 \u2124 \xD7 \u2115",
-    "summary": "structure AuxShadowMap in Scaffold.lean (line 1031)",
+    "summary": "structure AuxShadowMap in Scaffold.lean (line 1053)",
     "kind": "structure",
-    "lineNo": 1031,
+    "lineNo": 1053,
     "uses": [
       "toDyad",
       "D_w"
@@ -26980,11 +27205,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure AuxShadowMap (\u03B1 : Type) where\n  toDyad : \u03B1 \u2192 Nat \u2192 D_w\n\n-- 1. Rational Fraction Notation: \u211A \u2261 \u2124 \xD7 \u2115",
-    "summary": "structure AuxShadowMap in Scaffold.lean (line 1031)",
+    "summary": "structure AuxShadowMap in Scaffold.lean (line 1053)",
     "kind": "structure",
-    "lineNo": 1031,
+    "lineNo": 1053,
     "uses": [
       "toDyad",
       "D_w"
@@ -27004,11 +27229,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure RatNotation where\n  num : Int\n  den : Nat\n\n-- 2. Base-10 Decimal Notation: Dec \u2261 \u2124 \xD7 \u2124 (mantissa \xB7 10^exp)",
-    "summary": "structure RatNotation in Scaffold.lean (line 1035)",
+    "summary": "structure RatNotation in Scaffold.lean (line 1057)",
     "kind": "structure",
-    "lineNo": 1035,
+    "lineNo": 1057,
     "uses": [],
     "usedBy": [
       "rat_shadow_eval",
@@ -27025,11 +27250,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure RatNotation where\n  num : Int\n  den : Nat\n\n-- 2. Base-10 Decimal Notation: Dec \u2261 \u2124 \xD7 \u2124 (mantissa \xB7 10^exp)",
-    "summary": "structure RatNotation in Scaffold.lean (line 1035)",
+    "summary": "structure RatNotation in Scaffold.lean (line 1057)",
     "kind": "structure",
-    "lineNo": 1035,
+    "lineNo": 1057,
     "uses": [],
     "usedBy": [
       "rat_shadow_eval",
@@ -27046,11 +27271,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure DecNotation where\n  mantissa : Int\n  exp      : Int\n\n-- 3. Designated Transcendental Constants Alphabet",
-    "summary": "structure DecNotation in Scaffold.lean (line 1040)",
+    "summary": "structure DecNotation in Scaffold.lean (line 1062)",
     "kind": "structure",
-    "lineNo": 1040,
+    "lineNo": 1062,
     "uses": [],
     "usedBy": [
       "dec_shadow_eval",
@@ -27067,11 +27292,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "structure DecNotation where\n  mantissa : Int\n  exp      : Int\n\n-- 3. Designated Transcendental Constants Alphabet",
-    "summary": "structure DecNotation in Scaffold.lean (line 1040)",
+    "summary": "structure DecNotation in Scaffold.lean (line 1062)",
     "kind": "structure",
-    "lineNo": 1040,
+    "lineNo": 1062,
     "uses": [],
     "usedBy": [
       "dec_shadow_eval",
@@ -27088,11 +27313,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive ConstNotation where\n  | pi : ConstNotation\n  | e  : ConstNotation",
-    "summary": "inductive ConstNotation in Scaffold.lean (line 1045)",
+    "summary": "inductive ConstNotation in Scaffold.lean (line 1067)",
     "kind": "inductive",
-    "lineNo": 1045,
+    "lineNo": 1067,
     "uses": [
       "pi"
     ],
@@ -27111,11 +27336,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive ConstNotation where\n  | pi : ConstNotation\n  | e  : ConstNotation",
-    "summary": "inductive ConstNotation in Scaffold.lean (line 1045)",
+    "summary": "inductive ConstNotation in Scaffold.lean (line 1067)",
     "kind": "inductive",
-    "lineNo": 1045,
+    "lineNo": 1067,
     "uses": [
       "pi"
     ],
@@ -27134,11 +27359,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom rat_shadow_eval : RatNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom rat_shadow_eval in Scaffold.lean (line 1049)",
+    "summary": "axiom rat_shadow_eval in Scaffold.lean (line 1071)",
     "kind": "axiom",
-    "lineNo": 1049,
+    "lineNo": 1071,
     "uses": [
       "RatNotation",
       "D_w"
@@ -27156,11 +27381,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom rat_shadow_eval : RatNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom rat_shadow_eval in Scaffold.lean (line 1049)",
+    "summary": "axiom rat_shadow_eval in Scaffold.lean (line 1071)",
     "kind": "axiom",
-    "lineNo": 1049,
+    "lineNo": 1071,
     "uses": [
       "RatNotation",
       "D_w"
@@ -27178,11 +27403,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def ratShadowMap : AuxShadowMap RatNotation where\n  toDyad := rat_shadow_eval",
-    "summary": "def ratShadowMap in Scaffold.lean (line 1050)",
+    "summary": "def ratShadowMap in Scaffold.lean (line 1072)",
     "kind": "def",
-    "lineNo": 1050,
+    "lineNo": 1072,
     "uses": [
       "rat_shadow_eval",
       "AuxShadowMap",
@@ -27200,11 +27425,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def ratShadowMap : AuxShadowMap RatNotation where\n  toDyad := rat_shadow_eval",
-    "summary": "def ratShadowMap in Scaffold.lean (line 1050)",
+    "summary": "def ratShadowMap in Scaffold.lean (line 1072)",
     "kind": "def",
-    "lineNo": 1050,
+    "lineNo": 1072,
     "uses": [
       "rat_shadow_eval",
       "AuxShadowMap",
@@ -27222,11 +27447,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dec_shadow_eval : DecNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom dec_shadow_eval in Scaffold.lean (line 1053)",
+    "summary": "axiom dec_shadow_eval in Scaffold.lean (line 1075)",
     "kind": "axiom",
-    "lineNo": 1053,
+    "lineNo": 1075,
     "uses": [
       "DecNotation",
       "D_w"
@@ -27244,11 +27469,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dec_shadow_eval : DecNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom dec_shadow_eval in Scaffold.lean (line 1053)",
+    "summary": "axiom dec_shadow_eval in Scaffold.lean (line 1075)",
     "kind": "axiom",
-    "lineNo": 1053,
+    "lineNo": 1075,
     "uses": [
       "DecNotation",
       "D_w"
@@ -27266,11 +27491,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def decShadowMap : AuxShadowMap DecNotation where\n  toDyad := dec_shadow_eval",
-    "summary": "def decShadowMap in Scaffold.lean (line 1054)",
+    "summary": "def decShadowMap in Scaffold.lean (line 1076)",
     "kind": "def",
-    "lineNo": 1054,
+    "lineNo": 1076,
     "uses": [
       "dec_shadow_eval",
       "AuxShadowMap",
@@ -27288,11 +27513,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def decShadowMap : AuxShadowMap DecNotation where\n  toDyad := dec_shadow_eval",
-    "summary": "def decShadowMap in Scaffold.lean (line 1054)",
+    "summary": "def decShadowMap in Scaffold.lean (line 1076)",
     "kind": "def",
-    "lineNo": 1054,
+    "lineNo": 1076,
     "uses": [
       "dec_shadow_eval",
       "AuxShadowMap",
@@ -27310,11 +27535,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom const_shadow_eval : ConstNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom const_shadow_eval in Scaffold.lean (line 1057)",
+    "summary": "axiom const_shadow_eval in Scaffold.lean (line 1079)",
     "kind": "axiom",
-    "lineNo": 1057,
+    "lineNo": 1079,
     "uses": [
       "ConstNotation",
       "D_w"
@@ -27332,11 +27557,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom const_shadow_eval : ConstNotation \u2192 Nat \u2192 D_w",
-    "summary": "axiom const_shadow_eval in Scaffold.lean (line 1057)",
+    "summary": "axiom const_shadow_eval in Scaffold.lean (line 1079)",
     "kind": "axiom",
-    "lineNo": 1057,
+    "lineNo": 1079,
     "uses": [
       "ConstNotation",
       "D_w"
@@ -27354,11 +27579,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def constShadowMap : AuxShadowMap ConstNotation where\n  toDyad := const_shadow_eval\n\n-- ----------------------------------------------------------------------------\n-- 6.2. Constructive Precision Shadow Function on Algebraic Expressions\n-- ----------------------------------------------------------------------------\n-- (No(\u03B5\u2080), +, *) provides the ambient model-theoretic field,\n-- while (\u211D_\u03C9, +, *) provides the symbolic universe of algebraic expressions.\n-- The standard part map is constructively realized as a precision-bounded evaluation\n-- function: taking an algebraic expression and a precision k : \u2115 (maximum birthday),\n-- it calculates dyadic approximations whose birthdays are strictly bounded by k.\n\n-- Algebraic expressions symbolizing numbers and operations in \u211D_\u03C9",
-    "summary": "def constShadowMap in Scaffold.lean (line 1058)",
+    "summary": "def constShadowMap in Scaffold.lean (line 1080)",
     "kind": "def",
-    "lineNo": 1058,
+    "lineNo": 1080,
     "uses": [
       "const_shadow_eval",
       "ConstNotation",
@@ -27376,11 +27601,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def constShadowMap : AuxShadowMap ConstNotation where\n  toDyad := const_shadow_eval\n\n-- ----------------------------------------------------------------------------\n-- 6.2. Constructive Precision Shadow Function on Algebraic Expressions\n-- ----------------------------------------------------------------------------\n-- (No(\u03B5\u2080), +, *) provides the ambient model-theoretic field,\n-- while (\u211D_\u03C9, +, *) provides the symbolic universe of algebraic expressions.\n-- The standard part map is constructively realized as a precision-bounded evaluation\n-- function: taking an algebraic expression and a precision k : \u2115 (maximum birthday),\n-- it calculates dyadic approximations whose birthdays are strictly bounded by k.\n\n-- Algebraic expressions symbolizing numbers and operations in \u211D_\u03C9",
-    "summary": "def constShadowMap in Scaffold.lean (line 1058)",
+    "summary": "def constShadowMap in Scaffold.lean (line 1080)",
     "kind": "def",
-    "lineNo": 1058,
+    "lineNo": 1080,
     "uses": [
       "const_shadow_eval",
       "ConstNotation",
@@ -27398,11 +27623,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive AlgExpr where\n  | constDyad  (d : D_w)               -- Exact dyadic point (born on finite day)\n  | constRat   (r : RatNotation)       -- Exact rational fraction (e.g., 1/3)\n  | constDec   (d : DecNotation)       -- Exact base-10 decimal literal (e.g., 0.1)\n  | constNamed (c : ConstNotation)     -- Designated transcendental constant (\u03C0, e)\n  | constOmega                         -- Transfinite horizon generator \u03C9\n  | constDx                            -- Infinitesimal differential dx = 1/\u03C9\n  | add        (e1 e2 : AlgExpr)\n  | sub        (e1 e2 : AlgExpr)\n  | mul        (e1 e2 : AlgExpr)\n  | neg        (e : AlgExpr)\n  | sqrt       (e : AlgExpr)           -- Active unary root operation\n\nnamespace AlgExpr\n\n-- Convenient constructor aliases:",
-    "summary": "inductive AlgExpr in Scaffold.lean (line 1071)",
+    "summary": "inductive AlgExpr in Scaffold.lean (line 1093)",
     "kind": "inductive",
-    "lineNo": 1071,
+    "lineNo": 1093,
     "uses": [
       "ConstNotation",
       "RatNotation",
@@ -27439,11 +27664,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "inductive AlgExpr where\n  | constDyad  (d : D_w)               -- Exact dyadic point (born on finite day)\n  | constRat   (r : RatNotation)       -- Exact rational fraction (e.g., 1/3)\n  | constDec   (d : DecNotation)       -- Exact base-10 decimal literal (e.g., 0.1)\n  | constNamed (c : ConstNotation)     -- Designated transcendental constant (\u03C0, e)\n  | constOmega                         -- Transfinite horizon generator \u03C9\n  | constDx                            -- Infinitesimal differential dx = 1/\u03C9\n  | add        (e1 e2 : AlgExpr)\n  | sub        (e1 e2 : AlgExpr)\n  | mul        (e1 e2 : AlgExpr)\n  | neg        (e : AlgExpr)\n  | sqrt       (e : AlgExpr)           -- Active unary root operation\n\nnamespace AlgExpr\n\n-- Convenient constructor aliases:",
-    "summary": "inductive AlgExpr in Scaffold.lean (line 1071)",
+    "summary": "inductive AlgExpr in Scaffold.lean (line 1093)",
     "kind": "inductive",
-    "lineNo": 1071,
+    "lineNo": 1093,
     "uses": [
       "ConstNotation",
       "RatNotation",
@@ -27480,11 +27705,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def rat (num : Int) (den : Nat) : AlgExpr := constRat \u27E8num, den\u27E9",
-    "summary": "def rat in Scaffold.lean (line 1087)",
+    "summary": "def rat in Scaffold.lean (line 1109)",
     "kind": "def",
-    "lineNo": 1087,
+    "lineNo": 1109,
     "uses": [
       "AlgExpr"
     ],
@@ -27499,11 +27724,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def rat (num : Int) (den : Nat) : AlgExpr := constRat \u27E8num, den\u27E9",
-    "summary": "def rat in Scaffold.lean (line 1087)",
+    "summary": "def rat in Scaffold.lean (line 1109)",
     "kind": "def",
-    "lineNo": 1087,
+    "lineNo": 1109,
     "uses": [
       "AlgExpr"
     ],
@@ -27518,11 +27743,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def dec (mantissa : Int) (exp : Int) : AlgExpr := constDec \u27E8mantissa, exp\u27E9",
-    "summary": "def dec in Scaffold.lean (line 1088)",
+    "summary": "def dec in Scaffold.lean (line 1110)",
     "kind": "def",
-    "lineNo": 1088,
+    "lineNo": 1110,
     "uses": [
       "AlgExpr"
     ],
@@ -27537,11 +27762,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def dec (mantissa : Int) (exp : Int) : AlgExpr := constDec \u27E8mantissa, exp\u27E9",
-    "summary": "def dec in Scaffold.lean (line 1088)",
+    "summary": "def dec in Scaffold.lean (line 1110)",
     "kind": "def",
-    "lineNo": 1088,
+    "lineNo": 1110,
     "uses": [
       "AlgExpr"
     ],
@@ -27556,11 +27781,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def piExpr : AlgExpr := constNamed ConstNotation.pi",
-    "summary": "def piExpr in Scaffold.lean (line 1089)",
+    "summary": "def piExpr in Scaffold.lean (line 1111)",
     "kind": "def",
-    "lineNo": 1089,
+    "lineNo": 1111,
     "uses": [
       "AlgExpr"
     ],
@@ -27575,11 +27800,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def piExpr : AlgExpr := constNamed ConstNotation.pi",
-    "summary": "def piExpr in Scaffold.lean (line 1089)",
+    "summary": "def piExpr in Scaffold.lean (line 1111)",
     "kind": "def",
-    "lineNo": 1089,
+    "lineNo": 1111,
     "uses": [
       "AlgExpr"
     ],
@@ -27594,11 +27819,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def eExpr  : AlgExpr := constNamed ConstNotation.e\n\n-- Native tree-path length (birthday / binary depth) of an exact dyadic rational:",
-    "summary": "def eExpr in Scaffold.lean (line 1090)",
+    "summary": "def eExpr in Scaffold.lean (line 1112)",
     "kind": "def",
-    "lineNo": 1090,
+    "lineNo": 1112,
     "uses": [
       "AlgExpr",
       "depth"
@@ -27614,11 +27839,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def eExpr  : AlgExpr := constNamed ConstNotation.e\n\n-- Native tree-path length (birthday / binary depth) of an exact dyadic rational:",
-    "summary": "def eExpr in Scaffold.lean (line 1090)",
+    "summary": "def eExpr in Scaffold.lean (line 1112)",
     "kind": "def",
-    "lineNo": 1090,
+    "lineNo": 1112,
     "uses": [
       "AlgExpr",
       "depth"
@@ -27634,11 +27859,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_length : D_w \u2192 Nat\n\n-- Truncation of a dyadic tree-path to prefix length k:",
-    "summary": "axiom dyad_length in Scaffold.lean (line 1093)",
+    "summary": "axiom dyad_length in Scaffold.lean (line 1115)",
     "kind": "axiom",
-    "lineNo": 1093,
+    "lineNo": 1115,
     "uses": [
       "D_w"
     ],
@@ -27656,11 +27881,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_length : D_w \u2192 Nat\n\n-- Truncation of a dyadic tree-path to prefix length k:",
-    "summary": "axiom dyad_length in Scaffold.lean (line 1093)",
+    "summary": "axiom dyad_length in Scaffold.lean (line 1115)",
     "kind": "axiom",
-    "lineNo": 1093,
+    "lineNo": 1115,
     "uses": [
       "D_w"
     ],
@@ -27678,11 +27903,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_truncate : D_w \u2192 Nat \u2192 D_w\n\n-- When precision surpasses native string length, evaluation stabilizes at its exact string:",
-    "summary": "axiom dyad_truncate in Scaffold.lean (line 1096)",
+    "summary": "axiom dyad_truncate in Scaffold.lean (line 1118)",
     "kind": "axiom",
-    "lineNo": 1096,
+    "lineNo": 1118,
     "uses": [
       "D_w"
     ],
@@ -27700,11 +27925,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_truncate : D_w \u2192 Nat \u2192 D_w\n\n-- When precision surpasses native string length, evaluation stabilizes at its exact string:",
-    "summary": "axiom dyad_truncate in Scaffold.lean (line 1096)",
+    "summary": "axiom dyad_truncate in Scaffold.lean (line 1118)",
     "kind": "axiom",
-    "lineNo": 1096,
+    "lineNo": 1118,
     "uses": [
       "D_w"
     ],
@@ -27722,11 +27947,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_truncate_surpassed (d : D_w) (k : Nat) (h : dyad_length d \u2264 k) :\n  dyad_truncate d k = d\n\n-- Constructive dyadic root extractor (bisection testing y^2 \u2264 d):",
-    "summary": "axiom dyad_truncate_surpassed in Scaffold.lean (line 1099)",
+    "summary": "axiom dyad_truncate_surpassed in Scaffold.lean (line 1121)",
     "kind": "axiom",
-    "lineNo": 1099,
+    "lineNo": 1121,
     "uses": [
       "dyad_truncate",
       "dyad_length",
@@ -27745,11 +27970,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyad_truncate_surpassed (d : D_w) (k : Nat) (h : dyad_length d \u2264 k) :\n  dyad_truncate d k = d\n\n-- Constructive dyadic root extractor (bisection testing y^2 \u2264 d):",
-    "summary": "axiom dyad_truncate_surpassed in Scaffold.lean (line 1099)",
+    "summary": "axiom dyad_truncate_surpassed in Scaffold.lean (line 1121)",
     "kind": "axiom",
-    "lineNo": 1099,
+    "lineNo": 1121,
     "uses": [
       "dyad_truncate",
       "dyad_length",
@@ -27768,11 +27993,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_sqrt : D_w \u2192 Nat \u2192 D_w\n\n-- Precision Shadow Evaluator: evaluates an algebraic expression to dyadics of birthday \u2264 prec",
-    "summary": "axiom dyadic_sqrt in Scaffold.lean (line 1103)",
+    "summary": "axiom dyadic_sqrt in Scaffold.lean (line 1125)",
     "kind": "axiom",
-    "lineNo": 1103,
+    "lineNo": 1125,
     "uses": [
       "D_w"
     ],
@@ -27790,11 +28015,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom dyadic_sqrt : D_w \u2192 Nat \u2192 D_w\n\n-- Precision Shadow Evaluator: evaluates an algebraic expression to dyadics of birthday \u2264 prec",
-    "summary": "axiom dyadic_sqrt in Scaffold.lean (line 1103)",
+    "summary": "axiom dyadic_sqrt in Scaffold.lean (line 1125)",
     "kind": "axiom",
-    "lineNo": 1103,
+    "lineNo": 1125,
     "uses": [
       "D_w"
     ],
@@ -27812,11 +28037,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def st_prec : AlgExpr \u2192 Nat \u2192 D_w\n  | constDyad d, prec => dyad_truncate d prec\n  | constRat r, prec => ratShadowMap.toDyad r prec\n  | constDec d, prec => decShadowMap.toDyad d prec\n  | constNamed c, prec => constShadowMap.toDyad c prec\n  | constOmega, _ => D_zero  -- Transfinite elements exceed finite birthday precision\n  | constDx, _ => D_zero     -- Infinitesimal dx = 1/\u03C9 is strictly finer than 1/2^k; evaluates to 0\n  | add e1 e2, prec => (st_prec e1 prec) + (st_prec e2 prec)\n  | sub e1 e2, prec => (st_prec e1 prec) - (st_prec e2 prec)\n  | mul e1 e2, prec => (st_prec e1 prec) * (st_prec e2 prec)\n  | neg e, prec => -(st_prec e prec)\n  | sqrt e, prec => dyadic_sqrt (st_prec e prec) prec\n\n-- Core Foundational Theorems:\n\n-- 1. Infinitesimal Annihilation: dx evaluates identically to 0 at any finite birthday precision",
-    "summary": "def st_prec in Scaffold.lean (line 1106)",
+    "summary": "def st_prec in Scaffold.lean (line 1128)",
     "kind": "def",
-    "lineNo": 1106,
+    "lineNo": 1128,
     "uses": [
       "dyad_truncate",
       "dyadic_sqrt",
@@ -27849,11 +28074,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def st_prec : AlgExpr \u2192 Nat \u2192 D_w\n  | constDyad d, prec => dyad_truncate d prec\n  | constRat r, prec => ratShadowMap.toDyad r prec\n  | constDec d, prec => decShadowMap.toDyad d prec\n  | constNamed c, prec => constShadowMap.toDyad c prec\n  | constOmega, _ => D_zero  -- Transfinite elements exceed finite birthday precision\n  | constDx, _ => D_zero     -- Infinitesimal dx = 1/\u03C9 is strictly finer than 1/2^k; evaluates to 0\n  | add e1 e2, prec => (st_prec e1 prec) + (st_prec e2 prec)\n  | sub e1 e2, prec => (st_prec e1 prec) - (st_prec e2 prec)\n  | mul e1 e2, prec => (st_prec e1 prec) * (st_prec e2 prec)\n  | neg e, prec => -(st_prec e prec)\n  | sqrt e, prec => dyadic_sqrt (st_prec e prec) prec\n\n-- Core Foundational Theorems:\n\n-- 1. Infinitesimal Annihilation: dx evaluates identically to 0 at any finite birthday precision",
-    "summary": "def st_prec in Scaffold.lean (line 1106)",
+    "summary": "def st_prec in Scaffold.lean (line 1128)",
     "kind": "def",
-    "lineNo": 1106,
+    "lineNo": 1128,
     "uses": [
       "dyad_truncate",
       "dyadic_sqrt",
@@ -27886,11 +28111,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_dx (k : Nat) : st_prec constDx k = D_zero := rfl\n\n-- 2. Exact Dyadic Stabilization: once precision surpasses native string length, evaluates to exact dyadic",
-    "summary": "theorem st_prec_dx in Scaffold.lean (line 1122)",
+    "summary": "theorem st_prec_dx in Scaffold.lean (line 1144)",
     "kind": "theorem",
-    "lineNo": 1122,
+    "lineNo": 1144,
     "uses": [
       "st_prec",
       "D_zero"
@@ -27906,11 +28131,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_dx (k : Nat) : st_prec constDx k = D_zero := rfl\n\n-- 2. Exact Dyadic Stabilization: once precision surpasses native string length, evaluates to exact dyadic",
-    "summary": "theorem st_prec_dx in Scaffold.lean (line 1122)",
+    "summary": "theorem st_prec_dx in Scaffold.lean (line 1144)",
     "kind": "theorem",
-    "lineNo": 1122,
+    "lineNo": 1144,
     "uses": [
       "st_prec",
       "D_zero"
@@ -27926,11 +28151,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_dyad_surpassed (d : D_w) (k : Nat) (h : dyad_length d \u2264 k) :\n    st_prec (constDyad d) k = d :=\n  dyad_truncate_surpassed d k h\n\n-- 3. Algebraic Homomorphism on Sums:",
-    "summary": "theorem st_prec_dyad_surpassed in Scaffold.lean (line 1125)",
+    "summary": "theorem st_prec_dyad_surpassed in Scaffold.lean (line 1147)",
     "kind": "theorem",
-    "lineNo": 1125,
+    "lineNo": 1147,
     "uses": [
       "dyad_truncate_surpassed",
       "dyad_length",
@@ -27948,11 +28173,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_dyad_surpassed (d : D_w) (k : Nat) (h : dyad_length d \u2264 k) :\n    st_prec (constDyad d) k = d :=\n  dyad_truncate_surpassed d k h\n\n-- 3. Algebraic Homomorphism on Sums:",
-    "summary": "theorem st_prec_dyad_surpassed in Scaffold.lean (line 1125)",
+    "summary": "theorem st_prec_dyad_surpassed in Scaffold.lean (line 1147)",
     "kind": "theorem",
-    "lineNo": 1125,
+    "lineNo": 1147,
     "uses": [
       "dyad_truncate_surpassed",
       "dyad_length",
@@ -27970,11 +28195,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_add (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (add e1 e2) k = st_prec e1 k + st_prec e2 k := rfl\n\n-- 4. Algebraic Homomorphism on Differences:",
-    "summary": "theorem st_prec_add in Scaffold.lean (line 1130)",
+    "summary": "theorem st_prec_add in Scaffold.lean (line 1152)",
     "kind": "theorem",
-    "lineNo": 1130,
+    "lineNo": 1152,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -27991,11 +28216,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_add (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (add e1 e2) k = st_prec e1 k + st_prec e2 k := rfl\n\n-- 4. Algebraic Homomorphism on Differences:",
-    "summary": "theorem st_prec_add in Scaffold.lean (line 1130)",
+    "summary": "theorem st_prec_add in Scaffold.lean (line 1152)",
     "kind": "theorem",
-    "lineNo": 1130,
+    "lineNo": 1152,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -28012,11 +28237,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_sub (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (sub e1 e2) k = st_prec e1 k - st_prec e2 k := rfl\n\n-- 5. Algebraic Homomorphism on Products:",
-    "summary": "theorem st_prec_sub in Scaffold.lean (line 1134)",
+    "summary": "theorem st_prec_sub in Scaffold.lean (line 1156)",
     "kind": "theorem",
-    "lineNo": 1134,
+    "lineNo": 1156,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -28033,11 +28258,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_sub (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (sub e1 e2) k = st_prec e1 k - st_prec e2 k := rfl\n\n-- 5. Algebraic Homomorphism on Products:",
-    "summary": "theorem st_prec_sub in Scaffold.lean (line 1134)",
+    "summary": "theorem st_prec_sub in Scaffold.lean (line 1156)",
     "kind": "theorem",
-    "lineNo": 1134,
+    "lineNo": 1156,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -28054,11 +28279,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_mul (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (mul e1 e2) k = st_prec e1 k * st_prec e2 k := rfl\n\n-- 6. Algebraic Homomorphism on Negation:",
-    "summary": "theorem st_prec_mul in Scaffold.lean (line 1138)",
+    "summary": "theorem st_prec_mul in Scaffold.lean (line 1160)",
     "kind": "theorem",
-    "lineNo": 1138,
+    "lineNo": 1160,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -28075,11 +28300,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_mul (e1 e2 : AlgExpr) (k : Nat) :\n    st_prec (mul e1 e2) k = st_prec e1 k * st_prec e2 k := rfl\n\n-- 6. Algebraic Homomorphism on Negation:",
-    "summary": "theorem st_prec_mul in Scaffold.lean (line 1138)",
+    "summary": "theorem st_prec_mul in Scaffold.lean (line 1160)",
     "kind": "theorem",
-    "lineNo": 1138,
+    "lineNo": 1160,
     "uses": [
       "AlgExpr",
       "st_prec",
@@ -28096,11 +28321,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_neg (e : AlgExpr) (k : Nat) :\n    st_prec (neg e) k = -st_prec e k := rfl\n\n-- 7. Operational Evaluation of Square Roots:",
-    "summary": "theorem st_prec_neg in Scaffold.lean (line 1142)",
+    "summary": "theorem st_prec_neg in Scaffold.lean (line 1164)",
     "kind": "theorem",
-    "lineNo": 1142,
+    "lineNo": 1164,
     "uses": [
       "AlgExpr",
       "st_prec"
@@ -28116,11 +28341,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_neg (e : AlgExpr) (k : Nat) :\n    st_prec (neg e) k = -st_prec e k := rfl\n\n-- 7. Operational Evaluation of Square Roots:",
-    "summary": "theorem st_prec_neg in Scaffold.lean (line 1142)",
+    "summary": "theorem st_prec_neg in Scaffold.lean (line 1164)",
     "kind": "theorem",
-    "lineNo": 1142,
+    "lineNo": 1164,
     "uses": [
       "AlgExpr",
       "st_prec"
@@ -28136,11 +28361,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_sqrt (e : AlgExpr) (k : Nat) :\n    st_prec (sqrt e) k = dyadic_sqrt (st_prec e k) k := rfl\n\n-- ----------------------------------------------------------------------------\n-- Directed-Pair Domain Grounding (Constructive Function Engine)\n-- ----------------------------------------------------------------------------\n-- An algebraic expression acts as an active computational rule over a DirectedPair domain:\n\n-- 1. Precision Evaluation Function: DirectedPair \u2115 \u2192 \u{1D53B}",
-    "summary": "theorem st_prec_sqrt in Scaffold.lean (line 1146)",
+    "summary": "theorem st_prec_sqrt in Scaffold.lean (line 1168)",
     "kind": "theorem",
-    "lineNo": 1146,
+    "lineNo": 1168,
     "uses": [
       "DirectedPair",
       "dyadic_sqrt",
@@ -28158,11 +28383,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem st_prec_sqrt (e : AlgExpr) (k : Nat) :\n    st_prec (sqrt e) k = dyadic_sqrt (st_prec e k) k := rfl\n\n-- ----------------------------------------------------------------------------\n-- Directed-Pair Domain Grounding (Constructive Function Engine)\n-- ----------------------------------------------------------------------------\n-- An algebraic expression acts as an active computational rule over a DirectedPair domain:\n\n-- 1. Precision Evaluation Function: DirectedPair \u2115 \u2192 \u{1D53B}",
-    "summary": "theorem st_prec_sqrt in Scaffold.lean (line 1146)",
+    "summary": "theorem st_prec_sqrt in Scaffold.lean (line 1168)",
     "kind": "theorem",
-    "lineNo": 1146,
+    "lineNo": 1168,
     "uses": [
       "DirectedPair",
       "dyadic_sqrt",
@@ -28180,11 +28405,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_eval_function (e : AlgExpr) : FunctionType Nat D_w where\n  channel := { dom := Nat, cod := D_w }\n  rule    := fun prec => st_prec e prec",
-    "summary": "def to_eval_function in Scaffold.lean (line 1155)",
+    "summary": "def to_eval_function in Scaffold.lean (line 1177)",
     "kind": "def",
-    "lineNo": 1155,
+    "lineNo": 1177,
     "uses": [
       "FunctionType",
       "AlgExpr",
@@ -28204,11 +28429,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_eval_function (e : AlgExpr) : FunctionType Nat D_w where\n  channel := { dom := Nat, cod := D_w }\n  rule    := fun prec => st_prec e prec",
-    "summary": "def to_eval_function in Scaffold.lean (line 1155)",
+    "summary": "def to_eval_function in Scaffold.lean (line 1177)",
     "kind": "def",
-    "lineNo": 1155,
+    "lineNo": 1177,
     "uses": [
       "FunctionType",
       "AlgExpr",
@@ -28228,11 +28453,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem to_eval_function_eval (e : AlgExpr) (prec : Nat) :\n    (to_eval_function e) prec = st_prec e prec := rfl\n\n-- 2. Transect Function Channel: DirectedPair \u211D_\u03C9 \u2192 \u211D_\u03C9",
-    "summary": "theorem to_eval_function_eval in Scaffold.lean (line 1159)",
+    "summary": "theorem to_eval_function_eval in Scaffold.lean (line 1181)",
     "kind": "theorem",
-    "lineNo": 1159,
+    "lineNo": 1181,
     "uses": [
       "to_eval_function",
       "DirectedPair",
@@ -28250,11 +28475,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "theorem to_eval_function_eval (e : AlgExpr) (prec : Nat) :\n    (to_eval_function e) prec = st_prec e prec := rfl\n\n-- 2. Transect Function Channel: DirectedPair \u211D_\u03C9 \u2192 \u211D_\u03C9",
-    "summary": "theorem to_eval_function_eval in Scaffold.lean (line 1159)",
+    "summary": "theorem to_eval_function_eval in Scaffold.lean (line 1181)",
     "kind": "theorem",
-    "lineNo": 1159,
+    "lineNo": 1181,
     "uses": [
       "to_eval_function",
       "DirectedPair",
@@ -28272,11 +28497,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_transect_channel (_e : AlgExpr) : DirectedPair R_w R_w :=\n  { dom := R_w, cod := R_w }\n\n-- Ambient continuum square root",
-    "summary": "def to_transect_channel in Scaffold.lean (line 1163)",
+    "summary": "def to_transect_channel in Scaffold.lean (line 1185)",
     "kind": "def",
-    "lineNo": 1163,
+    "lineNo": 1185,
     "uses": [
       "DirectedPair",
       "AlgExpr",
@@ -28293,11 +28518,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_transect_channel (_e : AlgExpr) : DirectedPair R_w R_w :=\n  { dom := R_w, cod := R_w }\n\n-- Ambient continuum square root",
-    "summary": "def to_transect_channel in Scaffold.lean (line 1163)",
+    "summary": "def to_transect_channel in Scaffold.lean (line 1185)",
     "kind": "def",
-    "lineNo": 1163,
+    "lineNo": 1185,
     "uses": [
       "DirectedPair",
       "AlgExpr",
@@ -28314,11 +28539,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_sqrt : R_w \u2192 R_w\n\n-- Embedding of algebraic expressions into the ambient continuum \u211D_\u03C9",
-    "summary": "axiom R_w_sqrt in Scaffold.lean (line 1167)",
+    "summary": "axiom R_w_sqrt in Scaffold.lean (line 1189)",
     "kind": "axiom",
-    "lineNo": 1167,
+    "lineNo": 1189,
     "uses": [
       "R_w"
     ],
@@ -28335,11 +28560,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "axiom R_w_sqrt : R_w \u2192 R_w\n\n-- Embedding of algebraic expressions into the ambient continuum \u211D_\u03C9",
-    "summary": "axiom R_w_sqrt in Scaffold.lean (line 1167)",
+    "summary": "axiom R_w_sqrt in Scaffold.lean (line 1189)",
     "kind": "axiom",
-    "lineNo": 1167,
+    "lineNo": 1189,
     "uses": [
       "R_w"
     ],
@@ -28356,11 +28581,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_R_w : AlgExpr \u2192 R_w\n  | constDyad d => d.val\n  | constRat r => (ofInt r.num) / (ofNat r.den)\n  | constDec d => (ofInt d.mantissa) -- simplified embedding\n  | constNamed .pi => pi\n  | constNamed .e  => 1\n  | constOmega => omega\n  | constDx => dx\n  | add e1 e2 => to_R_w e1 + to_R_w e2\n  | sub e1 e2 => to_R_w e1 - to_R_w e2\n  | mul e1 e2 => to_R_w e1 * to_R_w e2\n  | neg e => -to_R_w e\n  | sqrt e => R_w_sqrt (to_R_w e)\n\nend AlgExpr",
-    "summary": "def to_R_w in Scaffold.lean (line 1170)",
+    "summary": "def to_R_w in Scaffold.lean (line 1192)",
     "kind": "def",
-    "lineNo": 1170,
+    "lineNo": 1192,
     "uses": [
       "R_w_sqrt",
       "AlgExpr",
@@ -28385,11 +28610,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def to_R_w : AlgExpr \u2192 R_w\n  | constDyad d => d.val\n  | constRat r => (ofInt r.num) / (ofNat r.den)\n  | constDec d => (ofInt d.mantissa) -- simplified embedding\n  | constNamed .pi => pi\n  | constNamed .e  => 1\n  | constOmega => omega\n  | constDx => dx\n  | add e1 e2 => to_R_w e1 + to_R_w e2\n  | sub e1 e2 => to_R_w e1 - to_R_w e2\n  | mul e1 e2 => to_R_w e1 * to_R_w e2\n  | neg e => -to_R_w e\n  | sqrt e => R_w_sqrt (to_R_w e)\n\nend AlgExpr",
-    "summary": "def to_R_w in Scaffold.lean (line 1170)",
+    "summary": "def to_R_w in Scaffold.lean (line 1192)",
     "kind": "def",
-    "lineNo": 1170,
+    "lineNo": 1192,
     "uses": [
       "R_w_sqrt",
       "AlgExpr",
@@ -28414,11 +28639,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def satisfies_cauchy_riemann (u_x v_y u_y v_x : R_w) : Prop :=\n  u_x = v_y \u2227 u_y = -v_x\n\n-- Conformal Jacobian determinant: det(J) = a\xB2 + b\xB2 = |f'(z)|\xB2 \u2265 0",
     "summary": "7. 2D Cell Geometry & Cauchy Theorems Cauchy-Riemann coordinate symmetry conditions on \u2102_\u03C9: \u2202u/\u2202x = \u2202v/\u2202y  \u2227  \u2202u/\u2202y = -\u2202v/\u2202x",
     "kind": "def",
-    "lineNo": 1192,
+    "lineNo": 1214,
     "uses": [
       "R_w"
     ],
@@ -28433,11 +28658,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def satisfies_cauchy_riemann (u_x v_y u_y v_x : R_w) : Prop :=\n  u_x = v_y \u2227 u_y = -v_x\n\n-- Conformal Jacobian determinant: det(J) = a\xB2 + b\xB2 = |f'(z)|\xB2 \u2265 0",
     "summary": "7. 2D Cell Geometry & Cauchy Theorems Cauchy-Riemann coordinate symmetry conditions on \u2102_\u03C9: \u2202u/\u2202x = \u2202v/\u2202y  \u2227  \u2202u/\u2202y = -\u2202v/\u2202x",
     "kind": "def",
-    "lineNo": 1192,
+    "lineNo": 1214,
     "uses": [
       "R_w"
     ],
@@ -28452,11 +28677,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def conformal_jacobian_det (a b : R_w) : R_w :=\n  a * a + b * b\n\n-- Cauchy-Riemann derivative matching for holomorphic maps",
-    "summary": "def conformal_jacobian_det in Scaffold.lean (line 1196)",
+    "summary": "def conformal_jacobian_det in Scaffold.lean (line 1218)",
     "kind": "def",
-    "lineNo": 1196,
+    "lineNo": 1218,
     "uses": [
       "R_w"
     ],
@@ -28471,11 +28696,11 @@ var LEAN_CACHE = {
     "qed": true,
     "timeMs": 5,
     "engine": "Lean (version 4.33.1, x86_64-w64-windows-gnu, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6, Release)",
-    "verifiedAt": "2026-11-07T05:24:04.897Z",
+    "verifiedAt": "2026-11-07T18:23:08.311Z",
     "leanSnippet": "def conformal_jacobian_det (a b : R_w) : R_w :=\n  a * a + b * b\n\n-- Cauchy-Riemann derivative matching for holomorphic maps",
-    "summary": "def conformal_jacobian_det in Scaffold.lean (line 1196)",
+    "summary": "def conformal_jacobian_det in Scaffold.lean (line 1218)",
     "kind": "def",
-    "lineNo": 1196,
+    "lineNo": 1218,
     "uses": [
       "R_w"
     ],
@@ -32735,7 +32960,11 @@ var ArgumentCard = class _ArgumentCard extends Elt {
         "style",
         "display: flex; justify-content: space-between; color: #94a3b8; font-size: 10.5px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px; letter-spacing: 0.5px;"
       );
-      codeHeader.setV("<span>\u26A1 Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+      if (this.options?.isSessionDraft) {
+        codeHeader.setV("<span>\u26A1 Synthesized Lean 4 Formulation</span><span style='color:#38bdf8'>Target Specification (Session Draft)</span>");
+      } else {
+        codeHeader.setV("<span>\u26A1 Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+      }
       const pre = new Elt("pre");
       pre.setA("style", "margin: 0; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
       pre.setV(arg.leanSnippet);
@@ -32914,17 +33143,24 @@ var ArgumentCard = class _ArgumentCard extends Elt {
     }
   }
   getCachedVerification() {
+    if (this.options?.isSessionDraft) return void 0;
     const targetKey = this.arg.target || "";
-    if (LEAN_CACHE[targetKey]) return LEAN_CACHE[targetKey];
+    if (this.arg.statementId && LEAN_CACHE[this.arg.statementId]) return LEAN_CACHE[this.arg.statementId];
+    if (this.arg.scaffoldKey && LEAN_CACHE[this.arg.scaffoldKey]) return LEAN_CACHE[this.arg.scaffoldKey];
+    if (targetKey && LEAN_CACHE[targetKey]) return LEAN_CACHE[targetKey];
     if (this.arg.expression && LEAN_CACHE[this.arg.expression]) return LEAN_CACHE[this.arg.expression];
     const pickVal = this.arg.testOrPickValue || "";
     const arrowMatch = pickVal.match(/→\s*([a-zA-Z0-9_'.]+)/);
     if (arrowMatch && LEAN_CACHE[arrowMatch[1]]) {
       return LEAN_CACHE[arrowMatch[1]];
     }
+    const thmMatch = this.arg.leanSnippet?.match(/theorem\s+([a-zA-Z0-9_'.]+)/);
+    if (thmMatch && LEAN_CACHE[thmMatch[1]]) {
+      return LEAN_CACHE[thmMatch[1]];
+    }
     const entries = Object.values(LEAN_CACHE);
     return entries.find(
-      (c) => c.target && targetKey.includes(c.target) || c.key && (targetKey.includes(c.key) || pickVal.includes(c.key)) || c.expression && this.arg.expression && c.expression === this.arg.expression
+      (c) => c.target && (targetKey === c.target || targetKey === `scaffold:${c.target}`) || c.key && (targetKey === c.key || targetKey === `scaffold:${c.key}`) || c.expression && this.arg.expression && c.expression.trim() === this.arg.expression.trim()
     );
   }
   buildLineagePanel(cached) {
@@ -33190,7 +33426,18 @@ var ArgumentCard = class _ArgumentCard extends Elt {
           "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
         );
       }
-      if (cached) {
+      if (this.options?.isSessionDraft) {
+        this.statusPill.setA(
+          "style",
+          "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #e0f2fe; color: #0369a1; font-weight: 600;"
+        );
+        this.statusPill.setV("\u{1F535} Client Model Checked");
+        this.statusPill.setA("title", "Evaluated across finite domain bounds by in-browser model checker. Lean 4 kernel verification requires a running Lean server.");
+        this.footerNotice.setV("\u{1F6E1}\uFE0F Certified by Finite Model Checker (Static Session)");
+        if (this.verifyBtn) {
+          this.verifyBtn.setA("style", "display: none;");
+        }
+      } else if (cached) {
         this.statusPill.setA(
           "style",
           "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;"
@@ -33274,7 +33521,26 @@ ${cached.summary}`);
         "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
       );
     }
-    if (cached) {
+    if (this.options?.isSessionDraft) {
+      this.statusPill.setA(
+        "style",
+        "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #e0f2fe; color: #0369a1; font-weight: 600;"
+      );
+      this.statusPill.setV("\u{1F535} Session Draft (Model Checked)");
+      this.statusPill.setA(
+        "title",
+        "Session-level construction: evaluated across finite domain bounds. Connect to local Lean server to certify Q.E.D."
+      );
+      this.footerNotice.setV("\u{1F6E1}\uFE0F Evaluated by Client-Side Model Checker \xB7 Lean 4 Verification Pending Server");
+      if (this.verifyBtn) {
+        this.verifyBtn.setA(
+          "style",
+          "display: inline-block; padding: 3px 9px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid #0284c7; background: #0284c7; color: #ffffff; border-radius: 4px;"
+        );
+        this.verifyBtn.setV("\u26A1 Verify Draft in Lean");
+        this.verifyBtn.setA("title", "Send this newly constructed proposition to the local Lean server to certify Q.E.D.");
+      }
+    } else if (cached) {
       this.statusPill.setA(
         "style",
         "font-size: 11px; padding: 2px 7px; border-radius: 12px; background: #dcfce7; color: #15803d; font-weight: 600;"
@@ -37911,7 +38177,11 @@ end;`,
       this.renderMatrixVisualizer(container, finalStatementTruth, selPred.name, selPred.val);
     } else {
       const formalArg = this.buildFormalArgument(finalStatementTruth);
-      container.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+      if (this.isInspectionMode) {
+        formalArg.statementId = this.catalogTheoremName || this.pxe.exp;
+        formalArg.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+      }
+      container.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
     }
     this.applyScale();
   }
@@ -38711,7 +38981,11 @@ theorem fsd_set_mem : ${finalStatementTruth ? "True" : "\xACFalse"} := by trivia
         svgWrap2.append(info2);
         matrixBox.append(svgWrap2);
         const formalArg2 = this.buildFormalArgument(finalStatementTruth, colLabel);
-        matrixBox.append(new ArgumentCard(formalArg2, { disableCalculator: true }));
+        if (this.isInspectionMode) {
+          formalArg2.statementId = this.catalogTheoremName || this.pxe.exp;
+          formalArg2.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+        }
+        matrixBox.append(new ArgumentCard(formalArg2, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
         return;
       }
     }
@@ -38842,7 +39116,11 @@ theorem fsd_set_mem : ${finalStatementTruth ? "True" : "\xACFalse"} := by trivia
     svgWrap.append(info);
     matrixBox.append(svgWrap);
     const formalArg = this.buildFormalArgument(finalStatementTruth, colLabel, domX1, domX2);
-    matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true }));
+    if (this.isInspectionMode) {
+      formalArg.statementId = this.catalogTheoremName || this.pxe.exp;
+      formalArg.scaffoldKey = this.catalogTheoremName || this.getGoverningTheorem() || this.pxe.exp;
+    }
+    matrixBox.append(new ArgumentCard(formalArg, { disableCalculator: true, isSessionDraft: !this.isInspectionMode }));
   }
 };
 var fsd;
@@ -38947,6 +39225,36 @@ function parseStatementToFsdData(expr) {
 }
 
 // clientLib/stencilCalculator.ts
+function parseRealOmegaExpr(raw) {
+  if (raw === null || raw === void 0) return null;
+  if (typeof raw === "number") return isNaN(raw) || !isFinite(raw) ? null : raw;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  const direct = Number(trimmed);
+  if (!isNaN(direct) && isFinite(direct)) return direct;
+  try {
+    const sanitized = trimmed.replace(/π|\bpi\b/gi, "Math.PI").replace(/\be\b/g, "Math.E").replace(/\bsqrt\s*\(/gi, "Math.sqrt(").replace(/\bsin\s*\(/gi, "Math.sin(").replace(/\bcos\s*\(/gi, "Math.cos(").replace(/\^/g, "**").replace(/·/g, "*");
+    if (/[^0-9+\-*/().\sMathPIEsqrtinco]/.test(sanitized)) return null;
+    const fn = new Function(`return (${sanitized});`);
+    const val = fn();
+    return typeof val === "number" && !isNaN(val) && isFinite(val) ? val : null;
+  } catch {
+    return null;
+  }
+}
+function toDyadicAtPrecision(val, p = 10) {
+  const den = Math.pow(2, p);
+  const rawNum = Math.round(val * den);
+  let num = rawNum;
+  let curDen = den;
+  while (curDen > 1 && num % 2 === 0) {
+    num /= 2;
+    curDen /= 2;
+  }
+  const approx = rawNum / den;
+  const label = curDen === 1 ? `${num}` : `${rawNum} / 2^${p} (${num}/${curDen})`;
+  return { num: rawNum, den, approx, label };
+}
 function evaluateFormulaExpression(formulaExpr, variables) {
   try {
     let expr = formulaExpr.trim();
@@ -39010,7 +39318,7 @@ function mountStencilCalculator(options) {
   const paramSlots = slots.filter((s) => {
     if (s.slot_kind === "parameter") return true;
     if (s.slot_kind === "input") return false;
-    const isIndex = s.name === "n" || s.name === "k" || s.name === "t" || s.domain === "\u2115";
+    const isIndex = s.name === "n" || s.name === "k" || s.name === "t" || s.domain === "\u2115" || s.domain === "\u2115_\u03C9";
     return !isIndex && s.slot_order < 2;
   });
   const inputSlots = slots.filter((s) => {
@@ -39018,7 +39326,7 @@ function mountStencilCalculator(options) {
   });
   const paramValues = {};
   paramSlots.forEach((s) => {
-    const def = s.default_value !== null && s.default_value !== void 0 ? Number(s.default_value) : null;
+    const def = s.default_value !== null && s.default_value !== void 0 ? parseRealOmegaExpr(s.default_value) : null;
     paramValues[s.name] = def;
   });
   const inputValues = {};
@@ -39054,6 +39362,7 @@ function mountStencilCalculator(options) {
   const targetDom = equation.target_domain || "\u211D_\u03C9";
   const targetUnit = equation.target_unit ? ` (${equation.target_unit})` : "";
   const formulaDisplay = equation.formula_expr ? `${targetSym} = ${equation.formula_expr}` : equation.title;
+  const canonicalKey = equation.statement_key || equation.equation_key || `fs_${equation.id}`;
   header.innerHTML = `
     <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
       <span style="font-size: 16px;">\u{1F4D0}</span>
@@ -39061,7 +39370,7 @@ function mountStencilCalculator(options) {
         ${escapeHtml(formulaDisplay)}
       </span>
       <code style="background: #eff6ff; color: #1d4ed8; font-size: 11.5px; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #bfdbfe;">
-        ${escapeHtml(equation.equation_key)}
+        ${escapeHtml(canonicalKey)}
       </code>
       <span style="background: #f1f5f9; color: #475569; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: 600;">
         Codomain: ${escapeHtml(targetDom)}${escapeHtml(targetUnit)}
@@ -39162,11 +39471,8 @@ function mountStencilCalculator(options) {
       border-radius: 6px;
       padding: 10px 12px;
     `;
-    const min = slot.min_val !== null ? `min="${slot.min_val}"` : "";
-    const max = slot.max_val !== null ? `max="${slot.max_val}"` : "";
-    const step = slot.step_val !== null ? `step="${slot.step_val}"` : 'step="any"';
     const unitText = slot.unit ? ` <span style="font-size: 11px; color: #7c3aed; font-weight: 600;">(${escapeHtml(slot.unit)})</span>` : "";
-    const initialVal = paramValues[slot.name] !== null && paramValues[slot.name] !== void 0 ? paramValues[slot.name] : "";
+    const initialVal = slot.default_value !== null && slot.default_value !== void 0 ? slot.default_value : "";
     slotCard.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
         <label for="slot-input-${slot.name}" style="font-size: 12.5px; font-weight: 700; color: #4c1d95;">
@@ -39174,7 +39480,7 @@ function mountStencilCalculator(options) {
         </label>
         <span style="font-size: 10.5px; color: #6b21a8; font-weight: 600;">${escapeHtml(slot.domain)}</span>
       </div>
-      <input type="number" id="slot-input-${slot.name}" ${min} ${max} ${step} value="${initialVal}" placeholder="[ _ ]" style="
+      <input type="text" id="slot-input-${slot.name}" value="${initialVal}" placeholder="[ _ ] (e.g. 1, 1/3, pi, 2^(1/12))" style="
         width: 100%;
         box-sizing: border-box;
         padding: 6px 10px;
@@ -39190,7 +39496,7 @@ function mountStencilCalculator(options) {
     `;
     const input = slotCard.querySelector("input");
     input.addEventListener("input", () => {
-      const val = input.value.trim() === "" ? null : Number(input.value);
+      const val = parseRealOmegaExpr(input.value);
       paramValues[slot.name] = val;
       presetDropdown.value = "";
       activePreset = null;
@@ -39295,7 +39601,7 @@ function mountStencilCalculator(options) {
     const formattedNum = Number.isInteger(result) ? result.toString() : result.toFixed(3);
     const unitSuffix = equation.target_unit ? ` ${equation.target_unit}` : "";
     let noteHint = "";
-    if (equation.equation_key === "geom_ladder_step" && allVars["a"] === 440) {
+    if ((canonicalKey === "fs_geom_ladder_step" || canonicalKey === "geom_ladder_step") && allVars["a"] === 440) {
       const k = Math.round(allVars["k"] ?? allVars["n"] ?? 0);
       const noteMap = {
         0: "A4 (Unison)",
@@ -39314,7 +39620,9 @@ function mountStencilCalculator(options) {
       };
       if (noteMap[k]) noteHint = ` &nbsp;\u2022&nbsp; <span style="font-size: 15px; color: #6d28d9; font-weight: 600;">${noteMap[k]}</span>`;
     }
-    resultDisplay.innerHTML = `${formattedNum}${unitSuffix}${noteHint}`;
+    const isDyadicTarget = (equation.target_domain || "").includes("\u{1D53B}");
+    const dyadicBadge = isDyadicTarget ? ` <span style="font-size: 12px; font-weight: 600; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 2px 7px; border-radius: 10px; font-family: monospace; vertical-align: middle;">\u{1D53B}_\u03C9 (p=10): ${toDyadicAtPrecision(result, 10).label}</span>` : "";
+    resultDisplay.innerHTML = `${formattedNum}${unitSuffix}${noteHint}${dyadicBadge}`;
     stepBreakdown.textContent = formattedStep || "";
   }
   function applyPreset(preset) {
@@ -39322,10 +39630,10 @@ function mountStencilCalculator(options) {
     presetDropdown.value = preset.preset_key || String(preset.id);
     const vals = typeof preset.param_values === "object" ? preset.param_values : JSON.parse(preset.param_values || "{}");
     for (const [paramName, val] of Object.entries(vals)) {
-      const numVal = Number(val);
+      const numVal = parseRealOmegaExpr(val);
       paramValues[paramName] = numVal;
       const inputEl = paramSection.querySelector(`#slot-input-${paramName}`);
-      if (inputEl) inputEl.value = String(numVal);
+      if (inputEl) inputEl.value = String(val);
     }
     if (preset.input_defaults) {
       const inVals = typeof preset.input_defaults === "object" ? preset.input_defaults : JSON.parse(preset.input_defaults || "{}");
@@ -40207,10 +40515,10 @@ async function renderSegmentContentSurface(options) {
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
       if (id) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
       } else if (exp) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE expression = $1 OR init_packet LIKE $2 LIMIT 1;", [exp, `%"${exp}"%`]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE expression = $1 OR init_packet::text LIKE $2 LIMIT 1;", [exp, `%"${exp}"%`]);
         row = rows?.[0] || {
           expression: exp,
           title: PxeEngine.fmt(exp) || exp,
@@ -40222,17 +40530,19 @@ async function renderSegmentContentSurface(options) {
       return row;
     } else if (normTag === "fs-ref") {
       const id = el.getAttribute("id");
-      const key = el.getAttribute("statement-key");
+      const key = el.getAttribute("key") || el.getAttribute("statement-key");
       const desc = el.getAttribute("desc");
       const algo = el.getAttribute("algo");
       const cacheKey = id ? `fs:id:${id}` : `fs:key:${key || desc || algo}`;
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
-      if (id) {
+      if (id && /^\d+$/.test(id)) {
         const rows = await queryDatabase("SELECT * FROM formal_statements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
-      } else if (key) {
-        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE statement_key = $1 LIMIT 1;", [key]);
+      }
+      if (!row && (key || id)) {
+        const lookupKey = key || id;
+        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE statement_key = $1 OR scaffold_key = $1 LIMIT 1;", [lookupKey]);
         row = rows?.[0] || null;
       }
       if (!row && (desc || algo)) {
@@ -40246,16 +40556,18 @@ async function renderSegmentContentSurface(options) {
       if (row) entityMetaCache.set(cacheKey, row);
       return row;
     } else if (normTag === "interactive-stencil") {
-      const eqKey = el.getAttribute("equation-key");
+      const eqKey = el.getAttribute("key") || el.getAttribute("equation-key") || el.getAttribute("statement-key");
       const id = el.getAttribute("id");
       const cacheKey = eqKey ? `stencil:key:${eqKey}` : `stencil:id:${id}`;
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
-      if (eqKey) {
-        const rows = await queryDatabase("SELECT * FROM directed_equations WHERE equation_key = $1 LIMIT 1;", [eqKey]);
+      if (id && /^\d+$/.test(id)) {
+        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
-      } else if (id) {
-        const rows = await queryDatabase("SELECT * FROM directed_equations WHERE id = $1 LIMIT 1;", [id]);
+      }
+      if (!row && (eqKey || id)) {
+        const lookupKey = eqKey || id;
+        const rows = await queryDatabase("SELECT * FROM formal_statements WHERE statement_key = $1 OR scaffold_key = $1 LIMIT 1;", [lookupKey]);
         row = rows?.[0] || null;
       }
       if (row) entityMetaCache.set(cacheKey, row);
@@ -40266,7 +40578,7 @@ async function renderSegmentContentSurface(options) {
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
       if (id) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
       }
       if (row) entityMetaCache.set(cacheKey, row);
@@ -40287,12 +40599,14 @@ async function renderSegmentContentSurface(options) {
       if (row) entityMetaCache.set(cacheKey, row);
       return row;
     } else if (normTag === "preset-ref") {
-      const presetId = el.getAttribute("id") || el.getAttribute("preset-id") || el.getAttribute("preset-key");
-      const cacheKey = `preset:key:${presetId}`;
+      const presetId = el.getAttribute("id") || el.getAttribute("preset-id");
+      const presetKey = el.getAttribute("key") || el.getAttribute("preset-key");
+      const lookup = presetId || presetKey;
+      const cacheKey = `preset:key:${lookup}`;
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
-      if (presetId) {
-        const rows = await queryDatabase("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [presetId]);
+      if (lookup) {
+        const rows = await queryDatabase("SELECT * FROM stencil_presets WHERE preset_key = $1 OR id::text = $1 LIMIT 1;", [lookup]);
         row = rows?.[0] || null;
       }
       if (row) entityMetaCache.set(cacheKey, row);
@@ -40304,7 +40618,7 @@ async function renderSegmentContentSurface(options) {
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
       if (id) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
       }
       if (!row) {
@@ -40326,7 +40640,7 @@ async function renderSegmentContentSurface(options) {
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
       if (id) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
       }
       if (!row) {
@@ -40346,7 +40660,7 @@ async function renderSegmentContentSurface(options) {
       if (entityMetaCache.has(cacheKey)) return entityMetaCache.get(cacheKey);
       let row = null;
       if (id) {
-        const rows = await queryDatabase("SELECT * FROM interactive_demos WHERE id = $1 LIMIT 1;", [id]);
+        const rows = await queryDatabase("SELECT * FROM custom_elements WHERE id = $1 LIMIT 1;", [id]);
         row = rows?.[0] || null;
       }
       if (!row) {
@@ -40623,25 +40937,25 @@ async function renderSegmentContentSurface(options) {
   async function openQuickInspectorModal(chipEl) {
     const normTag = chipEl.tagName.toLowerCase();
     let kind = "ttd";
-    let tableName = "interactive_demos";
+    let tableName = "custom_elements";
     let badgeColor = "#991b1b";
     let badgeBg = "#fee2e2";
     let badgeText = "\u2696\uFE0F Truth Table Proposition";
     if (normTag === "fsd-ref") {
       kind = "fsd";
-      tableName = "interactive_demos";
+      tableName = "custom_elements";
       badgeColor = "#4338ca";
       badgeBg = "#e0e7ff";
       badgeText = "\u{1F52C} Formal Stage Visualizer";
     } else if (normTag === "btd-ref") {
       kind = "btd";
-      tableName = "interactive_demos";
+      tableName = "custom_elements";
       badgeColor = "#0f766e";
       badgeBg = "#ccfbf1";
       badgeText = "\u{1F332} 2-Successor Binary Tree";
     } else if (normTag === "bid-ref") {
       kind = "bid";
-      tableName = "interactive_demos";
+      tableName = "custom_elements";
       badgeColor = "#0369a1";
       badgeBg = "#e0f2fe";
       badgeText = "\u{1F522} Dyadic Integer Demo";
@@ -40653,10 +40967,10 @@ async function renderSegmentContentSurface(options) {
       badgeText = "\u{1F4DC} Formal Statement";
     } else if (normTag === "interactive-stencil") {
       kind = "stencil";
-      tableName = "directed_equations";
+      tableName = "formal_statements";
       badgeColor = "#166534";
       badgeBg = "#dcfce7";
-      badgeText = "\u{1F4D0} Computational Stencil";
+      badgeText = "\u{1F4D0} Directed Equality Stencil";
     } else if (normTag === "preset-ref") {
       kind = "preset";
       tableName = "stencil_presets";
@@ -40665,7 +40979,7 @@ async function renderSegmentContentSurface(options) {
       badgeText = "\u{1F39B}\uFE0F Stencil Preset";
     } else if (normTag === "visual-demo") {
       kind = "demo";
-      tableName = "interactive_demos";
+      tableName = "custom_elements";
       badgeColor = "#6b21a8";
       badgeBg = "#f3e8ff";
       badgeText = "\u{1F3A8} Interactive Demo";
@@ -41559,7 +41873,7 @@ async function renderSegmentContentSurface(options) {
       const items = [];
       if (kind === "ttd") {
         const rows = await queryDatabase(
-          "SELECT id, title, engine, mode, expression, status, init_packet FROM interactive_demos WHERE engine = 'ttd' ORDER BY id ASC;"
+          "SELECT id, title, engine, mode, expression, status, init_packet FROM custom_elements WHERE engine = 'ttd' ORDER BY id ASC;"
         );
         (rows || []).forEach((d) => {
           const exp = d.expression || "";
@@ -41569,7 +41883,7 @@ async function renderSegmentContentSurface(options) {
           items.push({
             id: String(d.id),
             label: `[#${d.id}] ${label}`,
-            sublabel: exp ? `Formula: ${fmt || exp} \xB7 [${d.mode || "logic"}]` : `interactive_demos \xB7 ID ${d.id}`,
+            sublabel: exp ? `Formula: ${fmt || exp} \xB7 [${d.mode || "logic"}]` : `custom_elements \xB7 ID ${d.id}`,
             badge: statusStr,
             badgeBg: "#fee2e2",
             badgeColor: "#991b1b",
@@ -41586,13 +41900,13 @@ async function renderSegmentContentSurface(options) {
         });
       } else if (kind === "fsd") {
         const rows = await queryDatabase(
-          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'fsd' ORDER BY id ASC;"
+          "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'fsd' ORDER BY id ASC;"
         );
         (rows || []).forEach((d) => {
           items.push({
             id: String(d.id),
             label: `[#${d.id}] ${d.title || "Formal Stage Scaffold"}`,
-            sublabel: `interactive_demos \xB7 engine: FSD \xB7 mode: ${d.mode || "stage_visualizer"}`,
+            sublabel: `custom_elements \xB7 engine: FSD \xB7 mode: ${d.mode || "stage_visualizer"}`,
             badge: "FSD",
             badgeBg: "#e0e7ff",
             badgeColor: "#4338ca",
@@ -41607,7 +41921,7 @@ async function renderSegmentContentSurface(options) {
         });
       } else if (kind === "btd") {
         const rows = await queryDatabase(
-          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'btd' ORDER BY id ASC;"
+          "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'btd' ORDER BY id ASC;"
         );
         (rows || []).forEach((d) => {
           items.push({
@@ -41649,13 +41963,13 @@ async function renderSegmentContentSurface(options) {
         });
       } else if (kind === "bid") {
         const rows = await queryDatabase(
-          "SELECT id, title, engine, mode, status FROM interactive_demos WHERE engine = 'bid' ORDER BY id ASC;"
+          "SELECT id, title, engine, mode, status FROM custom_elements WHERE engine = 'bid' ORDER BY id ASC;"
         );
         (rows || []).forEach((d) => {
           items.push({
             id: String(d.id),
             label: `[#${d.id}] ${d.title || d.mode}`,
-            sublabel: `interactive_demos \xB7 engine: BID \xB7 mode: ${d.mode}`,
+            sublabel: `custom_elements \xB7 engine: BID \xB7 mode: ${d.mode}`,
             badge: "BID",
             badgeBg: "#e0f2fe",
             badgeColor: "#0284c7",
@@ -41677,81 +41991,86 @@ async function renderSegmentContentSurface(options) {
         (rows || []).forEach((s) => {
           const kindStr = (s.statement_kind || "fs").toUpperCase();
           items.push({
-            id: s.statement_key,
-            label: `[${kindStr}] ${s.title || s.statement_key} (${s.statement_key})`,
+            id: String(s.id),
+            label: `[${kindStr}] ${s.title || s.statement_key} (#${s.id} \xB7 ${s.statement_key})`,
             sublabel: s.description || s.expression || `formal_statements \xB7 ID ${s.id}`,
             badge: kindStr,
             badgeBg: "#dbeafe",
             badgeColor: "#1e40af",
-            tagPreview: `<fs-ref statement-key="${s.statement_key}"></fs-ref>`,
+            tagPreview: `<fs-ref id="${s.id}" key="${s.statement_key}"></fs-ref>`,
             generateHtml: () => `
-<fs-ref statement-key="${s.statement_key}"></fs-ref>
+<fs-ref id="${s.id}" key="${s.statement_key}"></fs-ref>
 `,
             applyToTarget: (target) => {
-              target.setAttribute("statement-key", s.statement_key);
-              target.removeAttribute("id");
+              target.setAttribute("id", String(s.id));
+              target.setAttribute("key", s.statement_key);
+              target.removeAttribute("statement-key");
               target.removeAttribute("desc");
               target.removeAttribute("algo");
+              target.textContent = "";
             }
           });
         });
       } else if (kind === "stencil") {
         const rows = await queryDatabase(
-          "SELECT id, equation_key, title, label, formula_expr FROM directed_equations ORDER BY id ASC;"
+          "SELECT id, statement_key, scaffold_key, title, label, formula_expr FROM formal_statements WHERE statement_kind = 'directed_equality' ORDER BY id ASC;"
         );
         (rows || []).forEach((st) => {
+          const key = st.statement_key || st.scaffold_key;
           items.push({
-            id: st.equation_key,
-            label: `${st.title || st.label || st.equation_key} [${st.equation_key}]`,
-            sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `directed_equations \xB7 ID ${st.id}`,
-            badge: "STENCIL",
+            id: String(st.id),
+            label: `${st.title || st.label || key} [#${st.id} \xB7 ${key}]`,
+            sublabel: st.formula_expr ? `Formula: ${st.formula_expr}` : `formal_statements (DE) \xB7 ID ${st.id}`,
+            badge: "DE",
             badgeBg: "#dcfce7",
             badgeColor: "#15803d",
-            tagPreview: `<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>`,
+            tagPreview: `<fs-ref id="${st.id}" key="${key}"></fs-ref>`,
             generateHtml: () => `
-<interactive-stencil equation-key="${st.equation_key}"></interactive-stencil>
+<fs-ref id="${st.id}" key="${key}"></fs-ref>
 `,
             applyToTarget: (target) => {
-              target.setAttribute("equation-key", st.equation_key);
-              target.removeAttribute("id");
+              target.setAttribute("id", String(st.id));
+              target.setAttribute("key", key);
+              target.removeAttribute("equation-key");
+              target.textContent = "";
             }
           });
         });
       } else if (kind === "preset") {
         const rows = await queryDatabase(
-          "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.equation_id, de.equation_key, sp.param_values FROM stencil_presets sp LEFT JOIN directed_equations de ON de.id = sp.equation_id ORDER BY sp.id ASC;"
+          "SELECT sp.id, sp.preset_key, sp.title, sp.unit, sp.statement_id, fs.statement_key, sp.param_values FROM stencil_presets sp LEFT JOIN formal_statements fs ON fs.id = sp.statement_id ORDER BY sp.id ASC;"
         );
         (rows || []).forEach((p) => {
           const title = p.title || p.preset_key;
-          const stencilAttr = p.equation_key ? ` stencil="${p.equation_key}"` : "";
           items.push({
-            id: p.preset_key,
-            label: `${title} [${p.preset_key}]`,
-            sublabel: `${p.equation_key ? `Stencil: ${p.equation_key}` : `Preset #${p.id}`} ${p.param_values ? `\xB7 ${JSON.stringify(p.param_values)}` : ""}`,
+            id: String(p.id),
+            label: `${title} [#${p.id} \xB7 ${p.preset_key}]`,
+            sublabel: `${p.statement_key ? `DE: ${p.statement_key} (#${p.statement_id})` : `Preset #${p.id}`} ${p.param_values ? `\xB7 ${JSON.stringify(p.param_values)}` : ""}`,
             badge: "PRESET",
             badgeBg: "#ede9fe",
             badgeColor: "#6d28d9",
-            tagPreview: `<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>`,
+            tagPreview: `<preset-ref id="${p.id}" key="${p.preset_key}"></preset-ref>`,
             generateHtml: () => `
-<preset-ref id="${p.preset_key}"${stencilAttr}>${escapeHtml2(title)}</preset-ref>
+<preset-ref id="${p.id}" key="${p.preset_key}"></preset-ref>
 `,
             applyToTarget: (target) => {
-              target.setAttribute("id", p.preset_key);
-              if (p.equation_key) target.setAttribute("stencil", p.equation_key);
-              target.textContent = title;
+              target.setAttribute("id", String(p.id));
+              target.setAttribute("key", p.preset_key);
+              target.removeAttribute("stencil");
+              target.textContent = "";
             }
           });
         });
       } else if (kind === "demo") {
         const rows = await queryDatabase(
-          "SELECT id, title, engine, mode, status FROM interactive_demos ORDER BY id ASC;"
+          "SELECT id, title, engine, mode, status FROM custom_elements ORDER BY id ASC;"
         );
         (rows || []).forEach((d) => {
           const engStr = (d.engine || "demo").toUpperCase();
           items.push({
             id: String(d.id),
             label: `[#${d.id}] ${d.title || d.mode || "Demo"}`,
-            sublabel: `interactive_demos \xB7 engine: ${engStr} \xB7 mode: ${d.mode || "default"}`,
+            sublabel: `custom_elements \xB7 engine: ${engStr} \xB7 mode: ${d.mode || "default"}`,
             badge: engStr,
             badgeBg: "#f3e8ff",
             badgeColor: "#7e22ce",
@@ -42935,23 +43254,25 @@ var typeMap = {
   directed_equations: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equalities" },
   formal_statement: { table: "formal_statements", label: "All Formal Statements" },
   formal_statements: { table: "formal_statements", label: "All Formal Statements" },
-  computational_stencil: { table: "directed_equations", label: "Computational Stencil" },
-  computational_stencils: { table: "directed_equations", label: "Computational Stencils" },
-  stencil: { table: "directed_equations", label: "Computational Stencil" },
-  stencils: { table: "directed_equations", label: "Computational Stencils" },
+  computational_stencil: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equality (Stencil)" },
+  computational_stencils: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equalities (Stencils)" },
+  stencil: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equality (Stencil)" },
+  stencils: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equalities (Stencils)" },
   stencil_preset: { table: "stencil_presets", label: "Stencil Preset" },
   stencil_presets: { table: "stencil_presets", label: "Stencil Presets" },
   preset: { table: "stencil_presets", label: "Stencil Preset" },
   presets: { table: "stencil_presets", label: "Stencil Presets" },
-  truth_table: { table: "interactive_demos", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Display (TTD)" },
-  ttd: { table: "interactive_demos", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Demo (TTD)" },
-  btd: { table: "interactive_demos", filterKind: { column: "engine", value: "btd" }, label: "Binary Tree Demo (BTD)" },
-  bid: { table: "interactive_demos", filterKind: { column: "engine", value: "bid" }, label: "Binary Interval Demo (BID)" },
-  fsd: { table: "interactive_demos", filterKind: { column: "engine", value: "fsd" }, label: "Formal Statements Demo (FSD)" },
-  interactive_demo: { table: "interactive_demos", label: "Interactive Visual Demo" },
-  interactive_demos: { table: "interactive_demos", label: "Interactive Demos" },
-  demo_initialization: { table: "interactive_demos", label: "Demo Initialization" },
-  demo_initializations: { table: "interactive_demos", label: "Demo Initializations" },
+  truth_table: { table: "custom_elements", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Display (TTD)" },
+  ttd: { table: "custom_elements", filterKind: { column: "engine", value: "ttd" }, label: "Truth Table Demo (TTD)" },
+  btd: { table: "custom_elements", filterKind: { column: "engine", value: "btd" }, label: "Binary Tree Demo (BTD)" },
+  bid: { table: "custom_elements", filterKind: { column: "engine", value: "bid" }, label: "Binary Interval Demo (BID)" },
+  fsd: { table: "custom_elements", filterKind: { column: "engine", value: "fsd" }, label: "Formal Statements Demo (FSD)" },
+  custom_element: { table: "custom_elements", label: "Custom Element Instrument" },
+  custom_elements: { table: "custom_elements", label: "Custom Element Instruments" },
+  interactive_demo: { table: "custom_elements", label: "Custom Element Instrument" },
+  interactive_demos: { table: "custom_elements", label: "Custom Element Instruments" },
+  demo_initialization: { table: "custom_elements", label: "Custom Element Initialization" },
+  demo_initializations: { table: "custom_elements", label: "Custom Element Initializations" },
   pseudocode_algorithm: { table: "pseudocode_algorithms", label: "Pseudocode Algorithm" },
   pseudocode_algorithms: { table: "pseudocode_algorithms", label: "Pseudocode Algorithms" },
   algorithms: { table: "pseudocode_algorithms", label: "Pseudocode Algorithms" },
@@ -43037,13 +43358,12 @@ function getRecordFriendlyName(tableName, record) {
     case "curriculum_nav_items":
       return `#${record.sequence_order}: ${record.topic || record.nav_topic || "Nav Item"}`;
     case "segment_references":
-      return `${record.ref_type}: ${record.target_key}${record.anchor_text ? ` ("${record.anchor_text}")` : ""}`;
-    case "segment_prerequisites":
-      return `Prerequisite Seg #${record.prerequisite_segment_id} (${record.prereq_type || "prereq"})`;
+      return `${record.ref_type}: ${record.raw_tag || record.anchor_text || `Seg #${record.segment_id}`}`;
     case "segments":
       return `${record.title || record.slug || "Chapter"} (Seq: ${record.sequence_order || record.id})`;
     case "apps":
       return `${record.name || "App"} (${record.app_code || record.id})`;
+    case "custom_elements":
     case "interactive_demos": {
       if (record.engine === "ttd") {
         let initObj = null;
@@ -43093,6 +43413,7 @@ function getRecordUniqueKeyDisplay(tableName, record) {
         key: record.algo_key || `#${record.id}`,
         label: record.title || record.name || `Algorithm #${record.id}`
       };
+    case "custom_elements":
     case "interactive_demos":
       return {
         key: record.engine ? `${record.engine.toUpperCase()}: ${record.expression || record.id}` : `#${record.id}`,
@@ -44006,7 +44327,7 @@ async function selectInstanceDirectly(typeKey, instanceKeyOrId, label) {
   };
   if (/^\d+$/.test(strKey)) {
     record = await fetchRecordById(tableName, strKey);
-  } else if (tableName === "interactive_demos" && legacyDemoMap[strKey]) {
+  } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && legacyDemoMap[strKey]) {
     record = await fetchRecordById(tableName, legacyDemoMap[strKey].toString());
   }
   if (!record) {
@@ -44789,7 +45110,7 @@ async function renderAttributeCompleteCard(tableName, record) {
                     </div>
                 `;
       }
-    } else if (tableName === "interactive_demos" && colName === "expression") {
+    } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && colName === "expression") {
       const expStr = rawVal ? rawVal.toString() : "";
       const isFsd = record.engine === "fsd";
       if (isFsd) {
@@ -44826,7 +45147,7 @@ async function renderAttributeCompleteCard(tableName, record) {
                     </div>
                 `;
       }
-    } else if (tableName === "interactive_demos" && colName === "status") {
+    } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && colName === "status") {
       const st = rawVal ? rawVal.toString() : "";
       let badgeBg = "#f1f5f9";
       let badgeColor = "#475569";
@@ -44845,7 +45166,7 @@ async function renderAttributeCompleteCard(tableName, record) {
         badgeLabel = "Contingent [cont]";
       }
       tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml3(badgeLabel)}</span>`;
-    } else if (tableName === "interactive_demos" && colName === "init_packet") {
+    } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && colName === "init_packet") {
       tdVal.innerHTML = `
                 <details style="font-size: 11px; color: #64748b;">
                     <summary style="cursor: pointer; font-weight: 600;">View Raw JSON Packet</summary>
@@ -44878,18 +45199,18 @@ async function renderAttributeCompleteCard(tableName, record) {
     tbody.appendChild(tr);
   }
   card.appendChild(table);
-  if (tableName === "directed_equations") {
+  if (tableName === "formal_statements" && record.statement_kind === "directed_equality") {
     const stencilSection = document.createElement("div");
     stencilSection.className = "card-stencil-section";
     stencilSection.style.cssText = "margin-top: 20px;";
     card.appendChild(stencilSection);
     try {
       const slots = await queryDatabase(
-        "SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;",
+        "SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;",
         [record.id]
       );
       const presets = await queryDatabase(
-        "SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;",
+        "SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;",
         [record.id]
       );
       mountStencilCalculator({
@@ -44900,11 +45221,11 @@ async function renderAttributeCompleteCard(tableName, record) {
         isCrudMode: true,
         onSavePreset: async (newPreset) => {
           await executeSql(
-            `INSERT INTO stencil_presets (preset_key, equation_id, title, unit, param_values, description, created_at, updated_at)
+            `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
                          VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
             [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
           );
-          await renderEntityInspectorView("directed_equations");
+          await renderEntityInspectorView("formal_statements");
         }
       });
     } catch (stErr) {
@@ -44916,19 +45237,20 @@ async function renderAttributeCompleteCard(tableName, record) {
     stencilSection.style.cssText = "margin-top: 20px;";
     card.appendChild(stencilSection);
     try {
+      const parentStmtId = record.statement_id || record.equation_id;
       const eqRows = await queryDatabase(
-        "SELECT * FROM directed_equations WHERE id = $1;",
-        [record.equation_id]
+        "SELECT * FROM formal_statements WHERE id = $1;",
+        [parentStmtId]
       );
       if (eqRows && eqRows.length > 0) {
         const eqRecord = eqRows[0];
         const slots = await queryDatabase(
-          "SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;",
-          [record.equation_id]
+          "SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;",
+          [parentStmtId]
         );
         const presets = await queryDatabase(
-          "SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;",
-          [record.equation_id]
+          "SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;",
+          [parentStmtId]
         );
         mountStencilCalculator({
           container: stencilSection,
@@ -45397,14 +45719,14 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       textarea.style.maxWidth = "650px";
       textarea.value = val !== null && val !== void 0 ? typeof val === "object" ? JSON.stringify(val, null, 2) : val.toString() : "";
       inputElement = textarea;
-      if (tableName === "interactive_demos" && colName === "init_packet") {
+      if ((tableName === "custom_elements" || tableName === "interactive_demos") && colName === "init_packet") {
         const details = document.createElement("details");
         details.style.cssText = "margin-top: 4px; font-size: 12px; color: #64748b;";
         details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw JSON Packet</summary>`;
         details.appendChild(textarea);
         inputElement = details;
       }
-    } else if (tableName === "interactive_demos" && colName === "expression") {
+    } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && colName === "expression") {
       const expWrapper = document.createElement("div");
       expWrapper.style.cssText = "display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px;";
       const expVal = val !== null && val !== void 0 ? val.toString() : "";
@@ -45449,7 +45771,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
           let predEquations = [];
           try {
             predEquations = await queryDatabase(
-              "SELECT id, equation_key, title, formula_expr, target_symbol FROM directed_equations WHERE target_domain IN ('B_w', '\u{1D539}', 'B') ORDER BY id ASC;"
+              "SELECT id, COALESCE(scaffold_key, statement_key) AS equation_key, statement_key, title, formula_expr, target_symbol FROM formal_statements WHERE statement_kind = 'directed_equality' AND target_domain IN ('B_w', '\u{1D539}', 'B') ORDER BY id ASC;"
             ) || [];
           } catch (e) {
             console.error("[openEditor] Error loading predicate DEs:", e);
@@ -45794,7 +46116,7 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       input.value = val !== null && val !== void 0 ? val.toString() : "";
       inputElement = input;
     }
-    if (tableName !== "interactive_demos" && (colName === "formula_expr" || colName === "expression")) {
+    if (tableName !== "custom_elements" && tableName !== "interactive_demos" && (colName === "formula_expr" || colName === "expression")) {
       const symBar = document.createElement("div");
       symBar.style.cssText = "display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);";
       const syms = ["\u2192", "\u21D2", "\u2194", "\u2227", "\u2228", "\xAC", "\u22A2", "\u22A8", "\u211D_\u03C9", "\u{1D53B}", "\u2124", "\u2115", "\u{1D539}", "\xB7", "\u2260", "\u2208", "\u2200", "\u2203", "\u03C9", "dx", "\u2264", "\u2265", "\u2248", "\u2261", "\xD7", "\u03BB"];
@@ -45914,18 +46236,18 @@ async function traceDeleteImpact(tableName, record) {
   const id = record.id;
   if (!id) return trace;
   try {
-    if (tableName === "directed_equations") {
+    if (tableName === "formal_statements") {
       const directRefs = await queryDatabase(`
                 SELECT DISTINCT s.id, s.title, s.seg_key
                 FROM segment_references sr
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.equation_id = $1;
+                WHERE sr.statement_id = $1;
             `, [id]);
       if (directRefs.length > 0) {
         trace.isBlocked = true;
         trace.blockers.push({
-          entityType: "Directed Equation",
-          title: record.name || record.equation_key || `ID: ${id}`,
+          entityType: record.statement_kind === "directed_equality" ? "Directed Equality" : "Formal Statement",
+          title: record.title || record.statement_key || `ID: ${id}`,
           reason: "Directly cited in HTML segment text",
           segments: directRefs
         });
@@ -45935,7 +46257,7 @@ async function traceDeleteImpact(tableName, record) {
                 FROM stencil_presets sp
                 JOIN segment_references sr ON sr.preset_id = sp.id
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sp.equation_id = $1;
+                WHERE sp.statement_id = $1;
             `, [id]);
       if (presetRefs.length > 0) {
         trace.isBlocked = true;
@@ -45956,8 +46278,18 @@ async function traceDeleteImpact(tableName, record) {
           });
         }
       }
+      const childStmts = await queryDatabase(`
+                SELECT id, title, statement_key FROM formal_statements WHERE parent_id = $1;
+            `, [id]);
+      if (childStmts.length > 0) {
+        trace.cascades.push({
+          label: "Child Derivative Statements",
+          count: childStmts.length,
+          items: childStmts.map((s) => s.title || s.statement_key)
+        });
+      }
       const presets = await queryDatabase(`
-                SELECT id, title, preset_key FROM stencil_presets WHERE equation_id = $1;
+                SELECT id, title, preset_key FROM stencil_presets WHERE statement_id = $1;
             `, [id]);
       if (presets.length > 0) {
         trace.cascades.push({
@@ -45967,26 +46299,13 @@ async function traceDeleteImpact(tableName, record) {
         });
       }
       const slots = await queryDatabase(`
-                SELECT id, slot_name, slot_kind FROM mode_slots WHERE equation_id = $1;
+                SELECT id, name, symbol, slot_kind FROM mode_slots WHERE statement_id = $1;
             `, [id]);
       if (slots.length > 0) {
         trace.cascades.push({
           label: "Mode Slots & Parameters",
           count: slots.length,
-          items: slots.map((s) => `${s.slot_name} (${s.slot_kind})`)
-        });
-      }
-      const stmtLinks = await queryDatabase(`
-                SELECT esl.statement_id, fs.title, fs.statement_key
-                FROM equation_statement_links esl
-                JOIN formal_statements fs ON fs.id = esl.statement_id
-                WHERE esl.equation_id = $1;
-            `, [id]);
-      if (stmtLinks.length > 0) {
-        trace.cascades.push({
-          label: "Formal Statement Associations",
-          count: stmtLinks.length,
-          items: stmtLinks.map((l) => l.title || l.statement_key)
+          items: slots.map((s) => `${s.symbol || s.name} (${s.slot_kind})`)
         });
       }
     } else if (tableName === "stencil_presets") {
@@ -46005,75 +46324,33 @@ async function traceDeleteImpact(tableName, record) {
           segments: directRefs
         });
       }
-    } else if (tableName === "formal_statements") {
+    } else if (tableName === "interactive_demos" || tableName === "custom_elements") {
       const directRefs = await queryDatabase(`
                 SELECT DISTINCT s.id, s.title, s.seg_key
                 FROM segment_references sr
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.statement_id = $1;
+                WHERE sr.custom_element_id = $1;
             `, [id]);
       if (directRefs.length > 0) {
         trace.isBlocked = true;
         trace.blockers.push({
-          entityType: "Formal Statement",
-          title: record.title || record.statement_key || `ID: ${id}`,
-          reason: "Directly cited in HTML segment text",
-          segments: directRefs
-        });
-      }
-      const childStmts = await queryDatabase(`
-                SELECT id, title, statement_key FROM formal_statements WHERE parent_id = $1;
-            `, [id]);
-      if (childStmts.length > 0) {
-        trace.cascades.push({
-          label: "Child Derivative Statements",
-          count: childStmts.length,
-          items: childStmts.map((s) => s.title || s.statement_key)
-        });
-      }
-      const eqLinks = await queryDatabase(`
-                SELECT esl.equation_id, de.name, de.equation_key
-                FROM equation_statement_links esl
-                JOIN directed_equations de ON de.id = esl.equation_id
-                WHERE esl.statement_id = $1;
-            `, [id]);
-      if (eqLinks.length > 0) {
-        trace.cascades.push({
-          label: "Associated Directed Equations (Unlinked)",
-          count: eqLinks.length,
-          items: eqLinks.map((e) => e.name || e.equation_key)
-        });
-      }
-    } else if (tableName === "interactive_demos") {
-      const directRefs = await queryDatabase(`
-                SELECT DISTINCT s.id, s.title, s.seg_key
-                FROM segment_references sr
-                JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.demo_id = $1;
-            `, [id]);
-      if (directRefs.length > 0) {
-        trace.isBlocked = true;
-        trace.blockers.push({
-          entityType: "Interactive Demo",
+          entityType: "Custom Element Instrument",
           title: record.title || `ID: ${id}`,
           reason: "Directly cited in HTML segment text",
           segments: directRefs
         });
       }
     } else if (tableName === "pseudocode_algorithms") {
-      const directRefs = await queryDatabase(`
-                SELECT DISTINCT s.id, s.title, s.seg_key
-                FROM segment_references sr
-                JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.algo_id = $1;
+      const linkedStmts = await queryDatabase(`
+                SELECT id, title, statement_key
+                FROM formal_statements
+                WHERE pseudo_algo_id = $1;
             `, [id]);
-      if (directRefs.length > 0) {
-        trace.isBlocked = true;
-        trace.blockers.push({
-          entityType: "Pseudocode Algorithm",
-          title: record.name || record.algo_key || `ID: ${id}`,
-          reason: "Directly cited in HTML segment text",
-          segments: directRefs
+      if (linkedStmts.length > 0) {
+        trace.cascades.push({
+          label: "Formal Statements referencing this Algorithm (will be unlinked)",
+          count: linkedStmts.length,
+          items: linkedStmts.map((s) => s.title || s.statement_key)
         });
       }
     }
@@ -46217,17 +46494,13 @@ async function renderDeleteConfirmation(tableName, record) {
       if (beginRes.status === "error") {
         throw new Error(beginRes.message || "Could not begin database transaction.");
       }
-      if (tableName === "directed_equations") {
-        await tx.execute("DELETE FROM stencil_presets WHERE equation_id = $1;", [record.id]);
-        await tx.execute("DELETE FROM mode_slots WHERE equation_id = $1;", [record.id]);
-        await tx.execute("DELETE FROM equation_statement_links WHERE equation_id = $1;", [record.id]);
-        await tx.execute("DELETE FROM directed_equations WHERE id = $1;", [record.id]);
-      } else if (tableName === "stencil_presets") {
-        await tx.execute("DELETE FROM stencil_presets WHERE id = $1;", [record.id]);
-      } else if (tableName === "formal_statements") {
-        await tx.execute("DELETE FROM equation_statement_links WHERE statement_id = $1;", [record.id]);
+      if (tableName === "formal_statements") {
+        await tx.execute("DELETE FROM stencil_presets WHERE statement_id = $1;", [record.id]);
+        await tx.execute("DELETE FROM mode_slots WHERE statement_id = $1;", [record.id]);
         await tx.execute("DELETE FROM lean_verifications WHERE statement_id = $1;", [record.id]);
         await tx.execute("DELETE FROM formal_statements WHERE id = $1;", [record.id]);
+      } else if (tableName === "stencil_presets") {
+        await tx.execute("DELETE FROM stencil_presets WHERE id = $1;", [record.id]);
       } else {
         await tx.execute(`DELETE FROM ${tableName} WHERE id = $1;`, [record.id]);
       }

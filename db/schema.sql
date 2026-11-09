@@ -22,7 +22,8 @@ DROP VIEW IF EXISTS calculation_modes CASCADE;
 DROP TABLE IF EXISTS equation_statement_links CASCADE;
 DROP TABLE IF EXISTS directed_equations CASCADE;
 DROP TABLE IF EXISTS formal_statements CASCADE;
-DROP TABLE IF EXISTS interactive_demos CASCADE;
+DROP VIEW IF EXISTS interactive_demos CASCADE;
+DROP TABLE IF EXISTS custom_elements CASCADE;
 DROP TABLE IF EXISTS pseudocode_algorithms CASCADE;
 DROP TABLE IF EXISTS formalisms CASCADE;
 DROP TABLE IF EXISTS situations CASCADE;
@@ -47,7 +48,6 @@ CREATE TYPE statement_type AS ENUM ('math', 'physics', 'information');
 CREATE TYPE statement_tier AS ENUM ('constitutional', 'law', 'scenario');
 CREATE TYPE governing_seed AS ENUM ('conway_cut', 'shadow_map', 'boundary_law');
 CREATE TYPE editorial_status AS ENUM ('draft', 'staged', 'under_review', 'verified', 'published');
-CREATE TYPE prerequisite_type AS ENUM ('foundational', 'recommended', 'historical');
 
 -- ---------------------------------------------------------------------
 -- 2. Applications (Curriculum Publication Targets)
@@ -184,10 +184,10 @@ CREATE TABLE pseudocode_algorithms (
 COMMENT ON TABLE pseudocode_algorithms IS 'Middle Way structured pseudocode algorithms executable on the discrete dyadic machine.';
 
 -- ---------------------------------------------------------------------
--- 4b. Interactive Visual Demonstrations (BTD, BID, TTD Sandboxes)
+-- 4b. Custom Element Instruments (BTD, BID, TTD Sandboxes)
 -- ---------------------------------------------------------------------
 
-CREATE TABLE interactive_demos (
+CREATE TABLE custom_elements (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     engine VARCHAR(32) NOT NULL,                 -- 'btd' (Binary Tree), 'bid' (Binary Interval), 'ttd' (Truth Table)
     mode VARCHAR(64) NOT NULL,                   -- e.g. 'order', 'addition', 'multiplication', 'isomorphism', 'labeled'
@@ -200,29 +200,39 @@ CREATE TABLE interactive_demos (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE interactive_demos IS 'Independent interactive visual demonstrations and simulation sandboxes for intrinsic mathematical structures.';
+COMMENT ON TABLE custom_elements IS 'Independent interactive visual demonstrations and simulation sandboxes for intrinsic mathematical structures.';
+
+CREATE VIEW interactive_demos AS
+SELECT id, engine, mode, title, description, created_at, updated_at, init_packet, expression, status
+FROM custom_elements;
 
 -- ---------------------------------------------------------------------
--- 5. Middle Way Math Formal Statements (The Axiomatic Engine)
+-- 5. Middle Way Math Formal Statements & Directed Equations (Judgments)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE formal_statements (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    statement_key VARCHAR(64) UNIQUE NOT NULL,   -- e.g. 'fs_free_fall_accel'
+    statement_key VARCHAR(64) UNIQUE NOT NULL,   -- e.g. 'fs_free_fall_accel', 'fs_geom_ladder_step'
     scaffold_key VARCHAR(64) NOT NULL,
     domain_category VARCHAR(64) NOT NULL DEFAULT 'discrete_analysis', -- e.g. 'tree_topology', 'arithmetic', 'order_theory', 'discrete_analysis', 'complex_analysis', 'rotor_trig', 'quantum_bayes'
     subject_type statement_type NOT NULL DEFAULT 'math',              -- 'math', 'physics', 'information'
-    structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'defn', 'scenario', 'corollary', 'law'
+    structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'directed_equality'
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
     statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'axiom', 'theorem' (Lean 4 proof), 'directed_equality' (computational rule)
     pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
-    demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
     type statement_type NOT NULL DEFAULT 'math',
     tier statement_tier NOT NULL DEFAULT 'law',                        -- 'constitutional', 'law', 'scenario'
     governing_seed governing_seed,
     title VARCHAR(255) NOT NULL,
     description TEXT,
     expression TEXT NOT NULL,
+    label VARCHAR(128),                          -- Short stencil label (when statement_kind = 'directed_equality')
+    formula_expr TEXT,                           -- Computable expression (when statement_kind = 'directed_equality')
+    target_symbol VARCHAR(32),                   -- Output target symbol, e.g. 'F(k)', 'v', 'b'
+    target_domain VARCHAR(32) DEFAULT '𝔹',       -- Codomain, e.g. '𝔹' (propositions), '𝔻_ω', 'ℝ_ω', '𝔹_ω'
+    target_unit VARCHAR(32),                     -- Physical unit, e.g. 'm/s', 'Hz'
+    formula_description TEXT,
+    has_simulation BOOLEAN NOT NULL DEFAULT FALSE,
     lean_signature TEXT,
     lean_snippet TEXT,
     lean_decl_id BIGINT REFERENCES lean_declarations(id) ON DELETE SET NULL,
@@ -233,55 +243,18 @@ CREATE TABLE formal_statements (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE formal_statements IS 'Middle Way Math formal axiomatic statements, definitions, theorems, and identities.';
+COMMENT ON TABLE formal_statements IS 'Unified Middle Way Math formal judgments: axioms, theorems, and computable directed equalities.';
 
 -- ---------------------------------------------------------------------
--- 6. Active Directed Equations (Stencils / Computational Rules)
--- ---------------------------------------------------------------------
-
-CREATE TABLE directed_equations (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    equation_key VARCHAR(64) UNIQUE NOT NULL,    -- e.g. 'ff_v_from_v0_g_t'
-    title VARCHAR(255) NOT NULL,                 -- e.g. 'Kinematic Velocity Decrement'
-    label VARCHAR(128) NOT NULL,                 -- e.g. '(v₀, g, t) → v'
-    formula_expr TEXT NOT NULL,                  -- e.g. 'v0 - g * t'
-    target_symbol VARCHAR(32) NOT NULL,          -- e.g. 'v'
-    target_domain VARCHAR(32) NOT NULL,          -- e.g. 'ℝ_ω'
-    target_unit VARCHAR(32),                     -- e.g. 'm/s'
-    pseudo_algo_id BIGINT NOT NULL REFERENCES pseudocode_algorithms(id) ON DELETE RESTRICT,
-    formula_description TEXT NOT NULL,
-    has_simulation BOOLEAN NOT NULL DEFAULT FALSE,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
-
-COMMENT ON TABLE directed_equations IS 'Active directed equations and calculation stencils operating on the discrete dyadic machine.';
-
--- ---------------------------------------------------------------------
--- 6b. Equation-to-Statement Links (Instantiates & Has-Properties)
--- ---------------------------------------------------------------------
-
-CREATE TABLE equation_statement_links (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
-    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
-    relation_type VARCHAR(32) NOT NULL DEFAULT 'instantiates', -- 'instantiates' | 'has_property' | 'derived_from'
-    notes TEXT,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT uq_eq_stmt_rel UNIQUE(equation_id, statement_id, relation_type)
-);
-
-COMMENT ON TABLE equation_statement_links IS 'Relational bridge connecting active directed equations to their governing inactive formal statements.';
-
-
--- ---------------------------------------------------------------------
--- 7. Mode Slots (Input Variable Parameter Specs)
+-- 6. Mode Slots (Parameter & Input Variable Specs for Directed Equalities)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE mode_slots (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    equation_id BIGINT NOT NULL REFERENCES directed_equations(id) ON DELETE CASCADE,
+    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
     slot_order INTEGER NOT NULL DEFAULT 0,
+    slot_role VARCHAR(16) NOT NULL DEFAULT 'input', -- 'param' | 'input'
+    slot_kind VARCHAR(16) NOT NULL DEFAULT 'input', -- 'parameter' | 'input'
     name VARCHAR(64) NOT NULL,
     symbol VARCHAR(32) NOT NULL,
     domain VARCHAR(32) NOT NULL,
@@ -291,24 +264,42 @@ CREATE TABLE mode_slots (
     max_val NUMERIC,
     step_val NUMERIC,
     description TEXT,
-    CONSTRAINT uq_mode_slot_order UNIQUE(equation_id, slot_order)
+    CONSTRAINT uq_mode_slot_order UNIQUE(statement_id, slot_order)
 );
 
-COMMENT ON TABLE mode_slots IS 'Ordered input parameters with boundary ranges for calculation modes.';
+COMMENT ON TABLE mode_slots IS 'Ordered parameter and input slots for computable directed equalities.';
 
 -- ---------------------------------------------------------------------
--- 8. Relational Segment References (Embedded Stencil Links)
+-- 7. Stencil Presets (Curried Parameter Specializations of Directed Equalities)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE stencil_presets (
+    id SERIAL PRIMARY KEY,
+    preset_key TEXT UNIQUE NOT NULL,
+    statement_id BIGINT NOT NULL REFERENCES formal_statements(id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT,
+    param_values JSONB NOT NULL DEFAULT '{}'::jsonb,
+    input_defaults JSONB NOT NULL DEFAULT '{}'::jsonb,
+    unit TEXT,
+    status TEXT NOT NULL DEFAULT 'published',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE stencil_presets IS 'Curried parameter presets specializing a directed equality in formal_statements.';
+
+-- ---------------------------------------------------------------------
+-- 8. Relational Segment References (Embedded Custom Element Citations)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE segment_references (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
+    custom_element_id BIGINT REFERENCES custom_elements(id) ON DELETE CASCADE,
     statement_id BIGINT REFERENCES formal_statements(id) ON DELETE CASCADE,
-    equation_id BIGINT REFERENCES directed_equations(id) ON DELETE SET NULL,
-    demo_id BIGINT REFERENCES interactive_demos(id) ON DELETE SET NULL,
-    algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,
-    preset_id BIGINT REFERENCES stencil_presets(id) ON DELETE CASCADE,
-    ref_type VARCHAR(16) NOT NULL DEFAULT 'fs',  -- 'fs', 'stencil', 'ttd', 'demo', 'algo', 'preset'
+    preset_id INTEGER REFERENCES stencil_presets(id) ON DELETE CASCADE,
+    ref_type VARCHAR(16) NOT NULL DEFAULT 'fs',  -- 'fs', 'stencil', 'preset', 'demo', 'ttd', 'btd', 'bid'
     initial_focus VARCHAR(16) NOT NULL DEFAULT 'proof', -- 'proof', 'calculator', 'demo'
     occurrence_order INTEGER NOT NULL DEFAULT 0,
     anchor_text TEXT,
@@ -316,25 +307,10 @@ CREATE TABLE segment_references (
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE segment_references IS 'Tracks every interactive stencil citation embedded inside segment text.';
+COMMENT ON TABLE segment_references IS 'Tracks every custom element citation (custom_elements, formal_statements, stencil_presets) embedded inside segment HTML.';
 
 -- ---------------------------------------------------------------------
--- 10. Pedagogical Graph (Segment Prerequisites)
--- ---------------------------------------------------------------------
-
-CREATE TABLE segment_prerequisites (
-    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
-    depends_on_segment_id BIGINT NOT NULL REFERENCES segments(id) ON DELETE CASCADE,
-    prerequisite_type prerequisite_type NOT NULL DEFAULT 'foundational',
-    CONSTRAINT uq_segment_prereq UNIQUE(segment_id, depends_on_segment_id),
-    CONSTRAINT chk_no_self_prereq CHECK (segment_id <> depends_on_segment_id)
-);
-
-COMMENT ON TABLE segment_prerequisites IS 'Directed graph modeling learning prerequisites between curriculum chapters.';
-
--- ---------------------------------------------------------------------
--- 11. Verification Proof & CAS Caches (Relationally Connected)
+-- 9. Verification Proof & CAS Caches (Relationally Connected)
 -- ---------------------------------------------------------------------
 
 CREATE TABLE lean_verifications (
@@ -372,29 +348,19 @@ CREATE INDEX idx_formal_statements_domain ON formal_statements(domain_category);
 CREATE INDEX idx_formal_statements_key ON formal_statements(statement_key);
 CREATE INDEX idx_formal_statements_scaffold ON formal_statements(scaffold_key);
 CREATE INDEX idx_formal_statements_pseudo_algo ON formal_statements(pseudo_algo_id);
-CREATE INDEX idx_formal_statements_demo ON formal_statements(demo_id);
 
-CREATE INDEX idx_interactive_demos_engine ON interactive_demos(engine);
+CREATE INDEX idx_custom_elements_engine ON custom_elements(engine);
 
-CREATE INDEX idx_directed_equations_key ON directed_equations(equation_key);
-CREATE INDEX idx_directed_equations_pseudo_algo ON directed_equations(pseudo_algo_id);
+CREATE INDEX idx_mode_slots_stmt ON mode_slots(statement_id);
 
-CREATE INDEX idx_eq_stmt_links_eq ON equation_statement_links(equation_id);
-CREATE INDEX idx_eq_stmt_links_stmt ON equation_statement_links(statement_id);
-CREATE INDEX idx_eq_stmt_links_rel ON equation_statement_links(relation_type);
-
-CREATE INDEX idx_mode_slots_eq ON mode_slots(equation_id);
-
-CREATE INDEX idx_verified_presets_eq ON verified_presets(equation_id);
-CREATE INDEX idx_verified_presets_key ON verified_presets(preset_key);
+CREATE INDEX idx_stencil_presets_stmt ON stencil_presets(statement_id);
+CREATE INDEX idx_stencil_presets_key ON stencil_presets(preset_key);
 
 CREATE INDEX idx_segment_refs_segment ON segment_references(segment_id);
 CREATE INDEX idx_segment_refs_statement ON segment_references(statement_id);
-CREATE INDEX idx_segment_refs_equation ON segment_references(equation_id);
 CREATE INDEX idx_segment_refs_preset ON segment_references(preset_id);
-CREATE INDEX idx_segment_refs_demo ON segment_references(demo_id);
+CREATE INDEX idx_segment_refs_custom_elt ON segment_references(custom_element_id);
 
 CREATE INDEX idx_lean_verif_statement ON lean_verifications(statement_id);
 
-CREATE INDEX idx_presets_input_values ON verified_presets USING GIN (input_values);
 

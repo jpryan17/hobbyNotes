@@ -9,22 +9,28 @@ export const tables: TableConfig[] = [
     // -------------------------------------------------------------------------
     {
         table: 'formal_statements',
-        label: 'Formal Statements & Axioms',
+        label: 'Formal Statements & Directed Equalities',
         singularLabel: 'Formal Statement',
         columns: [
             { column: 'statement_key', label: 'Unique Key', canModify: true, len: 32 },
             { column: 'scaffold_key', label: 'Scaffold Key', canModify: true, len: 32 },
             { column: 'title', label: 'Statement Title', canModify: true, len: 45 },
+            { column: 'label', label: 'Short Label (DE)', canModify: true, len: 24 },
             { column: 'tier', label: 'Epistemic Tier (Role)', canModify: true, len: 20 },
             { column: 'type', label: 'Subject Type', canModify: true, len: 18 },
-            { column: 'statement_kind', label: 'Syntactic Kind (Form)', canModify: true, len: 20 },
+            { column: 'statement_kind', label: 'Syntactic Kind (axiom | theorem | directed_equality)', canModify: true, len: 20 },
             { column: 'domain_category', label: 'Domain Category', canModify: true, len: 24 },
             { column: 'governing_seed', label: 'Governing Seed', canModify: true, len: 20 },
             { column: 'expression', label: 'Mathematical Expression', canModify: true, len: 60, rows: 2 },
+            { column: 'formula_expr', label: 'Directed Formula Expression (DE)', canModify: true, len: 55, rows: 2 },
+            { column: 'target_symbol', label: 'Target Output Symbol (DE)', canModify: true, len: 12 },
+            { column: 'target_domain', label: 'Target Codomain (e.g. 𝔹, 𝔻_ω)', canModify: true, len: 16 },
+            { column: 'target_unit', label: 'Target Unit (DE)', canModify: true, len: 16 },
             { column: 'description', label: 'Conceptual Summary', canModify: true, len: 60, rows: 3, useHints: true },
+            { column: 'formula_description', label: 'Computational Formula Description (DE)', canModify: true, len: 60, rows: 3 },
             { column: 'parent_id', label: 'Parent Theorem / Statement', canModify: true, len: 28 },
             { column: 'pseudo_algo_id', label: 'Associated Pseudocode Algorithm', canModify: true, len: 28 },
-            { column: 'demo_id', label: 'Attached Interactive Demo / TTD', canModify: true, len: 28 },
+            { column: 'has_simulation', label: 'Simulation Sandbox Ready (DE)', canModify: true, len: 10 },
             { column: 'lean_signature', label: 'Lean 4 Signature', canModify: true, len: 60, rows: 2 },
             { column: 'lean_snippet', label: 'Lean Code Snippet', canModify: true, len: 60, rows: 4 },
             { column: 'lean_decl_id', label: 'Governing Lean Declaration', canModify: true, len: 28 },
@@ -76,31 +82,14 @@ export const tables: TableConfig[] = [
     },
 
     // -------------------------------------------------------------------------
-    // 2. Directed Equations, Slots, & Numerical Presets
+    // 2. Mode Slots & Numerical Presets (for Directed Equalities)
     // -------------------------------------------------------------------------
-    {
-        table: 'directed_equations',
-        label: 'Computational Stencils',
-        singularLabel: 'Computational Stencil',
-        columns: [
-            { column: 'equation_key', label: 'Equation Key', canModify: true, len: 32 },
-            { column: 'title', label: 'Equation Title', canModify: true, len: 45 },
-            { column: 'label', label: 'Short Label', canModify: true, len: 24 },
-            { column: 'formula_expr', label: 'Formula Expression', canModify: true, len: 55, rows: 2 },
-            { column: 'target_symbol', label: 'Target Output Symbol', canModify: true, len: 12 },
-            { column: 'target_domain', label: 'Target Domain (e.g. ℝ_ω, 𝔹)', canModify: true, len: 16 },
-            { column: 'target_unit', label: 'Target Unit', canModify: true, len: 16 },
-            { column: 'pseudo_algo_id', label: 'Linked Pseudocode Algorithm', canModify: true, len: 30 },
-            { column: 'formula_description', label: 'Formula Description', canModify: true, len: 60, rows: 3 },
-            { column: 'has_simulation', label: 'Simulation Sandbox Ready', canModify: true, len: 10 }
-        ]
-    },
     {
         table: 'mode_slots',
         label: 'Equation Mode Slots',
         singularLabel: 'Mode Slot',
         columns: [
-            { column: 'equation_id', label: 'Parent Equation', canModify: false, len: 24 },
+            { column: 'statement_id', label: 'Parent Directed Equality', canModify: false, len: 24 },
             { column: 'slot_order', label: 'Slot Order (#)', canModify: true, len: 8 },
             { column: 'slot_kind', label: 'Slot Role (parameter | input)', canModify: true, len: 16 },
             { column: 'name', label: 'Parameter Variable Name', canModify: true, len: 16 },
@@ -120,7 +109,7 @@ export const tables: TableConfig[] = [
         singularLabel: 'Stencil Preset',
         columns: [
             { column: 'preset_key', label: 'Preset Key', canModify: true, len: 32 },
-            { column: 'equation_id', label: 'Governing Stencil (Equation)', canModify: true, len: 24 },
+            { column: 'statement_id', label: 'Governing Directed Equality', canModify: true, len: 24 },
             { column: 'title', label: 'Preset Title', canModify: true, len: 45 },
             { column: 'unit', label: 'Unit', canModify: true, len: 16 },
             { column: 'param_values', label: 'Preset Parameter Values (JSON)', canModify: true, len: 60, rows: 3 },
@@ -203,26 +192,8 @@ export const tables: TableConfig[] = [
         singularLabel: 'Custom Element',
         columns: [
             { column: 'title', label: 'Instrument Title', canModify: true, len: 45 },
-            { column: 'engine', label: 'Engine Type (fsd | preset | btd | bid | ttd)', canModify: true, len: 16 },
+            { column: 'engine', label: 'Engine Type (btd | bid | ttd)', canModify: true, len: 16 },
             { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
-            { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
-            { column: 'preset_id', label: 'Linked Stencil Preset', canModify: true, len: 24 },
-            { column: 'expression', label: 'Proposition Formula / Expression', canModify: true, len: 45 },
-            { column: 'status', label: 'Status', canModify: true, len: 16 },
-            { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
-            { column: 'description', label: 'Instructional Description', canModify: true, len: 60, rows: 3 }
-        ]
-    },
-    {
-        table: 'interactive_demos',
-        label: 'Custom Element Instruments',
-        singularLabel: 'Custom Element',
-        columns: [
-            { column: 'title', label: 'Instrument Title', canModify: true, len: 45 },
-            { column: 'engine', label: 'Engine Type (fsd | preset | btd | bid | ttd)', canModify: true, len: 16 },
-            { column: 'mode', label: 'Canvas / Operational Mode', canModify: true, len: 24 },
-            { column: 'statement_id', label: 'Linked Formal Statement', canModify: true, len: 24 },
-            { column: 'preset_id', label: 'Linked Stencil Preset', canModify: true, len: 24 },
             { column: 'expression', label: 'Proposition Formula / Expression', canModify: true, len: 45 },
             { column: 'status', label: 'Status', canModify: true, len: 16 },
             { column: 'init_packet', label: 'Initialization JSON / Expression Packet', canModify: true, len: 55, rows: 4 },
@@ -231,7 +202,7 @@ export const tables: TableConfig[] = [
     },
 
     // -------------------------------------------------------------------------
-    // 5. Cross-References & Prerequisites
+    // 5. Cross-References
     // -------------------------------------------------------------------------
     {
         table: 'segment_references',
@@ -239,22 +210,13 @@ export const tables: TableConfig[] = [
         singularLabel: 'Segment Reference',
         columns: [
             { column: 'segment_id', label: 'Source Segment Chapter', canModify: false, len: 24 },
-            { column: 'ref_type', label: 'Reference Tag Type (fsd | preset | btd | bid)', canModify: true, len: 18 },
+            { column: 'ref_type', label: 'Reference Tag Type (fs | preset | btd | bid | ttd)', canModify: true, len: 18 },
             { column: 'custom_element_id', label: 'Instantiated Custom Element', canModify: true, len: 24 },
+            { column: 'statement_id', label: 'Referenced Formal Statement', canModify: true, len: 24 },
+            { column: 'preset_id', label: 'Referenced Stencil Preset', canModify: true, len: 24 },
             { column: 'anchor_text', label: 'Embedded Anchor Text', canModify: true, len: 36 },
             { column: 'occurrence_order', label: 'Occurrence Order (#)', canModify: true, len: 8 },
             { column: 'raw_tag', label: 'Raw HTML Tag Preview', canModify: false, len: 50 }
-        ]
-    },
-    {
-        table: 'segment_prerequisites',
-        label: 'Segment Prerequisites Graph',
-        singularLabel: 'Segment Prerequisite',
-        columns: [
-            { column: 'segment_id', label: 'Target Segment Chapter', canModify: false, len: 24 },
-            { column: 'prerequisite_segment_id', label: 'Prerequisite Segment', canModify: true, len: 24 },
-            { column: 'prereq_type', label: 'Prerequisite Dependency Kind', canModify: true, len: 20 },
-            { column: 'rationale', label: 'Pedagogical Rationale', canModify: true, len: 55, rows: 2 }
         ]
     },
     {
@@ -275,28 +237,22 @@ export const tables: TableConfig[] = [
 ];
 
 export const dependents: Dependent[] = [
-    { table: 'directed_equations', parent: 'formal_statements', displayColumns: ['equation_key', 'title'] },
     { table: 'lean_verifications', parent: 'formal_statements', displayColumns: ['theorem_name', 'proof_status'] },
-    { table: 'mode_slots', parent: 'directed_equations', displayColumns: ['slot_order', 'symbol', 'name'] },
-    { table: 'stencil_presets', parent: 'directed_equations', displayColumns: ['preset_key', 'title'] },
+    { table: 'mode_slots', parent: 'formal_statements', displayColumns: ['slot_order', 'symbol', 'name'] },
+    { table: 'stencil_presets', parent: 'formal_statements', displayColumns: ['preset_key', 'title'] },
     { table: 'curriculum_nav_items', parent: 'apps', displayColumns: ['sequence_order', 'topic'] },
-    { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'target_key'] },
-    { table: 'segment_references', parent: 'interactive_demos', displayColumns: ['ref_type', 'segment_id'] },
-    { table: 'segment_prerequisites', parent: 'segments', displayColumns: ['prerequisite_segment_id', 'prereq_type'] }
+    { table: 'segment_references', parent: 'segments', displayColumns: ['ref_type', 'raw_tag'] },
+    { table: 'segment_references', parent: 'formal_statements', displayColumns: ['ref_type', 'segment_id'] },
+    { table: 'segment_references', parent: 'stencil_presets', displayColumns: ['ref_type', 'segment_id'] },
+    { table: 'segment_references', parent: 'custom_elements', displayColumns: ['ref_type', 'segment_id'] }
 ];
 
 export const navigations: TableNavigationPath[] = [
     {
-        label: '📜 Axioms & Formal Statements',
+        label: '📜 Axioms, Theorems & Directed Equalities',
         children: [
             { table: 'formal_statements' },
-            { table: 'lean_verifications' }
-        ]
-    },
-    {
-        label: '📐 Computational Stencils',
-        children: [
-            { table: 'directed_equations' },
+            { table: 'lean_verifications' },
             { table: 'mode_slots' },
             { table: 'stencil_presets' }
         ]
@@ -310,17 +266,16 @@ export const navigations: TableNavigationPath[] = [
         ]
     },
     {
-        label: '💻 Algorithms & Demos',
+        label: '💻 Algorithms & Custom Elements',
         children: [
             { table: 'pseudocode_algorithms' },
-            { table: 'interactive_demos' }
+            { table: 'custom_elements' }
         ]
     },
     {
         label: '🔗 Cross-References & Citations',
         children: [
-            { table: 'segment_references' },
-            { table: 'segment_prerequisites' }
+            { table: 'segment_references' }
         ]
     }
 ];

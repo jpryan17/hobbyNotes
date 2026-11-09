@@ -23,10 +23,12 @@ export class EqRef extends HTMLElement {
         const desc = this.getAttribute('desc') || this.getAttribute('title') || '';
         const formula = this.getAttribute('formula') || this.getAttribute('expr') || '';
         const keyToNumId = {
-            linear_ladder_step: 32,
-            geom_ladder_step: 31,
-            music_et_scale_step: 29,
-            ff_v_from_v0_g_t: 1
+            linear_ladder_step: 42,
+            fs_linear_ladder_step: 42,
+            geom_ladder_step: 41,
+            fs_geom_ladder_step: 41,
+            ff_v_from_v0_g_t: 2,
+            fs_free_fall_accel: 2
         };
         const resolvedNumId = /^\d+$/.test(rawIdAttr)
             ? rawIdAttr

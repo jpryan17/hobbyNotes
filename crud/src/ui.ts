@@ -30,23 +30,25 @@ export const typeMap: Record<string, TypeMapping> = {
     directed_equations: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equalities' },
     formal_statement: { table: 'formal_statements', label: 'All Formal Statements' },
     formal_statements: { table: 'formal_statements', label: 'All Formal Statements' },
-    computational_stencil: { table: 'directed_equations', label: 'Computational Stencil' },
-    computational_stencils: { table: 'directed_equations', label: 'Computational Stencils' },
-    stencil: { table: 'directed_equations', label: 'Computational Stencil' },
-    stencils: { table: 'directed_equations', label: 'Computational Stencils' },
+    computational_stencil: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equality (Stencil)' },
+    computational_stencils: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equalities (Stencils)' },
+    stencil: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equality (Stencil)' },
+    stencils: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equalities (Stencils)' },
     stencil_preset: { table: 'stencil_presets', label: 'Stencil Preset' },
     stencil_presets: { table: 'stencil_presets', label: 'Stencil Presets' },
     preset: { table: 'stencil_presets', label: 'Stencil Preset' },
     presets: { table: 'stencil_presets', label: 'Stencil Presets' },
-    truth_table: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Display (TTD)' },
-    ttd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Demo (TTD)' },
-    btd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'btd' }, label: 'Binary Tree Demo (BTD)' },
-    bid: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'bid' }, label: 'Binary Interval Demo (BID)' },
-    fsd: { table: 'interactive_demos', filterKind: { column: 'engine', value: 'fsd' }, label: 'Formal Statements Demo (FSD)' },
-    interactive_demo: { table: 'interactive_demos', label: 'Interactive Visual Demo' },
-    interactive_demos: { table: 'interactive_demos', label: 'Interactive Demos' },
-    demo_initialization: { table: 'interactive_demos', label: 'Demo Initialization' },
-    demo_initializations: { table: 'interactive_demos', label: 'Demo Initializations' },
+    truth_table: { table: 'custom_elements', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Display (TTD)' },
+    ttd: { table: 'custom_elements', filterKind: { column: 'engine', value: 'ttd' }, label: 'Truth Table Demo (TTD)' },
+    btd: { table: 'custom_elements', filterKind: { column: 'engine', value: 'btd' }, label: 'Binary Tree Demo (BTD)' },
+    bid: { table: 'custom_elements', filterKind: { column: 'engine', value: 'bid' }, label: 'Binary Interval Demo (BID)' },
+    fsd: { table: 'custom_elements', filterKind: { column: 'engine', value: 'fsd' }, label: 'Formal Statements Demo (FSD)' },
+    custom_element: { table: 'custom_elements', label: 'Custom Element Instrument' },
+    custom_elements: { table: 'custom_elements', label: 'Custom Element Instruments' },
+    interactive_demo: { table: 'custom_elements', label: 'Custom Element Instrument' },
+    interactive_demos: { table: 'custom_elements', label: 'Custom Element Instruments' },
+    demo_initialization: { table: 'custom_elements', label: 'Custom Element Initialization' },
+    demo_initializations: { table: 'custom_elements', label: 'Custom Element Initializations' },
     pseudocode_algorithm: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithm' },
     pseudocode_algorithms: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithms' },
     algorithms: { table: 'pseudocode_algorithms', label: 'Pseudocode Algorithms' },
@@ -161,13 +163,12 @@ export function getRecordFriendlyName(tableName: string, record: any): string {
         case 'curriculum_nav_items':
             return `#${record.sequence_order}: ${record.topic || record.nav_topic || 'Nav Item'}`;
         case 'segment_references':
-            return `${record.ref_type}: ${record.target_key}${record.anchor_text ? ` ("${record.anchor_text}")` : ''}`;
-        case 'segment_prerequisites':
-            return `Prerequisite Seg #${record.prerequisite_segment_id} (${record.prereq_type || 'prereq'})`;
+            return `${record.ref_type}: ${record.raw_tag || record.anchor_text || `Seg #${record.segment_id}`}`;
         case 'segments':
             return `${record.title || record.slug || 'Chapter'} (Seq: ${record.sequence_order || record.id})`;
         case 'apps':
             return `${record.name || 'App'} (${record.app_code || record.id})`;
+        case 'custom_elements':
         case 'interactive_demos': {
             if (record.engine === 'ttd') {
                 let initObj: any = null;
@@ -221,6 +222,7 @@ export function getRecordUniqueKeyDisplay(tableName: string, record: any): { key
                 key: record.algo_key || `#${record.id}`,
                 label: record.title || record.name || `Algorithm #${record.id}`
             };
+        case 'custom_elements':
         case 'interactive_demos':
             return {
                 key: record.engine ? `${record.engine.toUpperCase()}: ${record.expression || record.id}` : `#${record.id}`,
@@ -1336,7 +1338,7 @@ export async function selectInstanceDirectly(typeKey: string, instanceKeyOrId: s
 
     if (/^\d+$/.test(strKey)) {
         record = await fetchRecordById(tableName, strKey);
-    } else if (tableName === 'interactive_demos' && legacyDemoMap[strKey]) {
+    } else if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && legacyDemoMap[strKey]) {
         record = await fetchRecordById(tableName, legacyDemoMap[strKey].toString());
     }
 
@@ -2262,7 +2264,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                     </div>
                 `;
             }
-        } else if (tableName === 'interactive_demos' && colName === 'expression') {
+        } else if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && colName === 'expression') {
             const expStr = rawVal ? rawVal.toString() : '';
             const isFsd = record.engine === 'fsd';
 
@@ -2301,7 +2303,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                     </div>
                 `;
             }
-        } else if (tableName === 'interactive_demos' && colName === 'status') {
+        } else if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && colName === 'status') {
             const st = rawVal ? rawVal.toString() : '';
             let badgeBg = '#f1f5f9';
             let badgeColor = '#475569';
@@ -2320,7 +2322,7 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                 badgeLabel = 'Contingent [cont]';
             }
             tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 12px; background: ${badgeBg}; color: ${badgeColor};">${escapeHtml(badgeLabel)}</span>`;
-        } else if (tableName === 'interactive_demos' && colName === 'init_packet') {
+        } else if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && colName === 'init_packet') {
             tdVal.innerHTML = `
                 <details style="font-size: 11px; color: #64748b;">
                     <summary style="cursor: pointer; font-weight: 600;">View Raw JSON Packet</summary>
@@ -2356,8 +2358,8 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
 
     card.appendChild(table);
 
-    // Live Schema-Driven Stencil Calculator (For Directed Equations & Stencil Presets)
-    if (tableName === 'directed_equations') {
+    // Live Schema-Driven Stencil Calculator (For Directed Equalities & Stencil Presets)
+    if (tableName === 'formal_statements' && record.statement_kind === 'directed_equality') {
         const stencilSection = document.createElement('div');
         stencilSection.className = 'card-stencil-section';
         stencilSection.style.cssText = 'margin-top: 20px;';
@@ -2365,11 +2367,11 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
 
         try {
             const slots = await queryDatabase<any>(
-                'SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;',
+                'SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;',
                 [record.id]
             );
             const presets = await queryDatabase<any>(
-                'SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;',
+                'SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;',
                 [record.id]
             );
 
@@ -2381,12 +2383,12 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                 isCrudMode: true,
                 onSavePreset: async (newPreset) => {
                     await executeSql(
-                        `INSERT INTO stencil_presets (preset_key, equation_id, title, unit, param_values, description, created_at, updated_at)
+                        `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
                          VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
                         [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
                     );
                     // Refresh view to display new preset in dropdown
-                    await renderEntityInspectorView('directed_equations');
+                    await renderEntityInspectorView('formal_statements');
                 }
             });
         } catch (stErr) {
@@ -2399,19 +2401,20 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
         card.appendChild(stencilSection);
 
         try {
+            const parentStmtId = record.statement_id || record.equation_id;
             const eqRows = await queryDatabase<any>(
-                'SELECT * FROM directed_equations WHERE id = $1;',
-                [record.equation_id]
+                'SELECT * FROM formal_statements WHERE id = $1;',
+                [parentStmtId]
             );
             if (eqRows && eqRows.length > 0) {
                 const eqRecord = eqRows[0];
                 const slots = await queryDatabase<any>(
-                    'SELECT * FROM mode_slots WHERE equation_id = $1 ORDER BY slot_order ASC;',
-                    [record.equation_id]
+                    'SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;',
+                    [parentStmtId]
                 );
                 const presets = await queryDatabase<any>(
-                    'SELECT * FROM stencil_presets WHERE equation_id = $1 ORDER BY id ASC;',
-                    [record.equation_id]
+                    'SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;',
+                    [parentStmtId]
                 );
 
                 mountStencilCalculator({
@@ -3050,14 +3053,14 @@ async function renderRecordForm(tableName: string, record: any = null, isNew: bo
             inputElement = textarea;
 
             // Interactive demo init_packet: clean collapsible details
-            if (tableName === 'interactive_demos' && colName === 'init_packet') {
+            if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && colName === 'init_packet') {
                 const details = document.createElement('details');
                 details.style.cssText = 'margin-top: 4px; font-size: 12px; color: #64748b;';
                 details.innerHTML = `<summary style="cursor: pointer; font-weight: 600; margin-bottom: 6px;">View / Direct Edit Raw JSON Packet</summary>`;
                 details.appendChild(textarea);
                 inputElement = details;
             }
-        } else if (tableName === 'interactive_demos' && colName === 'expression') {
+        } else if ((tableName === 'custom_elements' || tableName === 'interactive_demos') && colName === 'expression') {
             const expWrapper = document.createElement('div');
             expWrapper.style.cssText = 'display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 4px;';
             const expVal = val !== null && val !== undefined ? val.toString() : '';
@@ -3109,7 +3112,7 @@ async function renderRecordForm(tableName: string, record: any = null, isNew: bo
                     let predEquations: any[] = [];
                     try {
                         predEquations = (await queryDatabase<any>(
-                            "SELECT id, equation_key, title, formula_expr, target_symbol FROM directed_equations WHERE target_domain IN ('B_w', '𝔹', 'B') ORDER BY id ASC;"
+                            "SELECT id, COALESCE(scaffold_key, statement_key) AS equation_key, statement_key, title, formula_expr, target_symbol FROM formal_statements WHERE statement_kind = 'directed_equality' AND target_domain IN ('B_w', '𝔹', 'B') ORDER BY id ASC;"
                         )) || [];
                     } catch (e) {
                         console.error('[openEditor] Error loading predicate DEs:', e);
@@ -3501,8 +3504,8 @@ async function renderRecordForm(tableName: string, record: any = null, isNew: bo
             inputElement = input;
         }
 
-        // Quick Math Symbol Palette (only for directed equations, never for interactive_demos)
-        if (tableName !== 'interactive_demos' && (colName === 'formula_expr' || colName === 'expression')) {
+        // Quick Math Symbol Palette (only for formal statements, never for custom_elements)
+        if (tableName !== 'custom_elements' && tableName !== 'interactive_demos' && (colName === 'formula_expr' || colName === 'expression')) {
             const symBar = document.createElement('div');
             symBar.style.cssText = 'display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; background: #f8fafc; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border-color);';
             const syms = ['→', '⇒', '↔', '∧', '∨', '¬', '⊢', '⊨', 'ℝ_ω', '𝔻', 'ℤ', 'ℕ', '𝔹', '·', '≠', '∈', '∀', '∃', 'ω', 'dx', '≤', '≥', '≈', '≡', '×', 'λ'];
@@ -3668,20 +3671,20 @@ async function traceDeleteImpact(tableName: string, record: any): Promise<Delete
     if (!id) return trace;
 
     try {
-        if (tableName === 'directed_equations') {
-            // 1. Direct segment citations for DE
+        if (tableName === 'formal_statements') {
+            // 1. Direct segment citations for FS / DE
             const directRefs = await queryDatabase<any>(`
                 SELECT DISTINCT s.id, s.title, s.seg_key
                 FROM segment_references sr
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.equation_id = $1;
+                WHERE sr.statement_id = $1;
             `, [id]);
 
             if (directRefs.length > 0) {
                 trace.isBlocked = true;
                 trace.blockers.push({
-                    entityType: 'Directed Equation',
-                    title: record.name || record.equation_key || `ID: ${id}`,
+                    entityType: record.statement_kind === 'directed_equality' ? 'Directed Equality' : 'Formal Statement',
+                    title: record.title || record.statement_key || `ID: ${id}`,
                     reason: 'Directly cited in HTML segment text',
                     segments: directRefs
                 });
@@ -3693,7 +3696,7 @@ async function traceDeleteImpact(tableName: string, record: any): Promise<Delete
                 FROM stencil_presets sp
                 JOIN segment_references sr ON sr.preset_id = sp.id
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sp.equation_id = $1;
+                WHERE sp.statement_id = $1;
             `, [id]);
 
             if (presetRefs.length > 0) {
@@ -3717,8 +3720,19 @@ async function traceDeleteImpact(tableName: string, record: any): Promise<Delete
             }
 
             // 3. Downstream cascades if deleted
+            const childStmts = await queryDatabase<any>(`
+                SELECT id, title, statement_key FROM formal_statements WHERE parent_id = $1;
+            `, [id]);
+            if (childStmts.length > 0) {
+                trace.cascades.push({
+                    label: 'Child Derivative Statements',
+                    count: childStmts.length,
+                    items: childStmts.map(s => s.title || s.statement_key)
+                });
+            }
+
             const presets = await queryDatabase<any>(`
-                SELECT id, title, preset_key FROM stencil_presets WHERE equation_id = $1;
+                SELECT id, title, preset_key FROM stencil_presets WHERE statement_id = $1;
             `, [id]);
             if (presets.length > 0) {
                 trace.cascades.push({
@@ -3729,27 +3743,13 @@ async function traceDeleteImpact(tableName: string, record: any): Promise<Delete
             }
 
             const slots = await queryDatabase<any>(`
-                SELECT id, slot_name, slot_kind FROM mode_slots WHERE equation_id = $1;
+                SELECT id, name, symbol, slot_kind FROM mode_slots WHERE statement_id = $1;
             `, [id]);
             if (slots.length > 0) {
                 trace.cascades.push({
                     label: 'Mode Slots & Parameters',
                     count: slots.length,
-                    items: slots.map(s => `${s.slot_name} (${s.slot_kind})`)
-                });
-            }
-
-            const stmtLinks = await queryDatabase<any>(`
-                SELECT esl.statement_id, fs.title, fs.statement_key
-                FROM equation_statement_links esl
-                JOIN formal_statements fs ON fs.id = esl.statement_id
-                WHERE esl.equation_id = $1;
-            `, [id]);
-            if (stmtLinks.length > 0) {
-                trace.cascades.push({
-                    label: 'Formal Statement Associations',
-                    count: stmtLinks.length,
-                    items: stmtLinks.map(l => l.title || l.statement_key)
+                    items: slots.map(s => `${s.symbol || s.name} (${s.slot_kind})`)
                 });
             }
         } else if (tableName === 'stencil_presets') {
@@ -3769,80 +3769,35 @@ async function traceDeleteImpact(tableName: string, record: any): Promise<Delete
                     segments: directRefs
                 });
             }
-        } else if (tableName === 'formal_statements') {
+        } else if (tableName === 'interactive_demos' || tableName === 'custom_elements') {
             const directRefs = await queryDatabase<any>(`
                 SELECT DISTINCT s.id, s.title, s.seg_key
                 FROM segment_references sr
                 JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.statement_id = $1;
+                WHERE sr.custom_element_id = $1;
             `, [id]);
 
             if (directRefs.length > 0) {
                 trace.isBlocked = true;
                 trace.blockers.push({
-                    entityType: 'Formal Statement',
-                    title: record.title || record.statement_key || `ID: ${id}`,
-                    reason: 'Directly cited in HTML segment text',
-                    segments: directRefs
-                });
-            }
-
-            const childStmts = await queryDatabase<any>(`
-                SELECT id, title, statement_key FROM formal_statements WHERE parent_id = $1;
-            `, [id]);
-            if (childStmts.length > 0) {
-                trace.cascades.push({
-                    label: 'Child Derivative Statements',
-                    count: childStmts.length,
-                    items: childStmts.map(s => s.title || s.statement_key)
-                });
-            }
-
-            const eqLinks = await queryDatabase<any>(`
-                SELECT esl.equation_id, de.name, de.equation_key
-                FROM equation_statement_links esl
-                JOIN directed_equations de ON de.id = esl.equation_id
-                WHERE esl.statement_id = $1;
-            `, [id]);
-            if (eqLinks.length > 0) {
-                trace.cascades.push({
-                    label: 'Associated Directed Equations (Unlinked)',
-                    count: eqLinks.length,
-                    items: eqLinks.map(e => e.name || e.equation_key)
-                });
-            }
-        } else if (tableName === 'interactive_demos') {
-            const directRefs = await queryDatabase<any>(`
-                SELECT DISTINCT s.id, s.title, s.seg_key
-                FROM segment_references sr
-                JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.demo_id = $1;
-            `, [id]);
-
-            if (directRefs.length > 0) {
-                trace.isBlocked = true;
-                trace.blockers.push({
-                    entityType: 'Interactive Demo',
+                    entityType: 'Custom Element Instrument',
                     title: record.title || `ID: ${id}`,
                     reason: 'Directly cited in HTML segment text',
                     segments: directRefs
                 });
             }
         } else if (tableName === 'pseudocode_algorithms') {
-            const directRefs = await queryDatabase<any>(`
-                SELECT DISTINCT s.id, s.title, s.seg_key
-                FROM segment_references sr
-                JOIN segments s ON s.id = sr.segment_id
-                WHERE sr.algo_id = $1;
+            const linkedStmts = await queryDatabase<any>(`
+                SELECT id, title, statement_key
+                FROM formal_statements
+                WHERE pseudo_algo_id = $1;
             `, [id]);
 
-            if (directRefs.length > 0) {
-                trace.isBlocked = true;
-                trace.blockers.push({
-                    entityType: 'Pseudocode Algorithm',
-                    title: record.name || record.algo_key || `ID: ${id}`,
-                    reason: 'Directly cited in HTML segment text',
-                    segments: directRefs
+            if (linkedStmts.length > 0) {
+                trace.cascades.push({
+                    label: 'Formal Statements referencing this Algorithm (will be unlinked)',
+                    count: linkedStmts.length,
+                    items: linkedStmts.map(s => s.title || s.statement_key)
                 });
             }
         }
@@ -4001,17 +3956,13 @@ async function renderDeleteConfirmation(tableName: string, record: any) {
             }
 
             // Transactional cascade execution
-            if (tableName === 'directed_equations') {
-                await tx.execute('DELETE FROM stencil_presets WHERE equation_id = $1;', [record.id]);
-                await tx.execute('DELETE FROM mode_slots WHERE equation_id = $1;', [record.id]);
-                await tx.execute('DELETE FROM equation_statement_links WHERE equation_id = $1;', [record.id]);
-                await tx.execute('DELETE FROM directed_equations WHERE id = $1;', [record.id]);
-            } else if (tableName === 'stencil_presets') {
-                await tx.execute('DELETE FROM stencil_presets WHERE id = $1;', [record.id]);
-            } else if (tableName === 'formal_statements') {
-                await tx.execute('DELETE FROM equation_statement_links WHERE statement_id = $1;', [record.id]);
+            if (tableName === 'formal_statements') {
+                await tx.execute('DELETE FROM stencil_presets WHERE statement_id = $1;', [record.id]);
+                await tx.execute('DELETE FROM mode_slots WHERE statement_id = $1;', [record.id]);
                 await tx.execute('DELETE FROM lean_verifications WHERE statement_id = $1;', [record.id]);
                 await tx.execute('DELETE FROM formal_statements WHERE id = $1;', [record.id]);
+            } else if (tableName === 'stencil_presets') {
+                await tx.execute('DELETE FROM stencil_presets WHERE id = $1;', [record.id]);
             } else {
                 await tx.execute(`DELETE FROM ${tableName} WHERE id = $1;`, [record.id]);
             }

@@ -253,18 +253,10 @@ export const navigationMenuTree: MenuItem[] = [
                         ]
                     },
                     {
-                        label: 'Directed Equalities (when DE)',
+                        label: 'Directed Equalities (DE)',
                         typeKey: 'directed_equality',
                         filterKind: { column: 'statement_kind', value: 'directed_equality' },
                         children: [
-                            {
-                                label: 'Computational Stencils (Equations)',
-                                typeKey: 'directed_equations',
-                                subject: 'all',
-                                children: [
-                                    { label: 'Browse All Stencils', typeKey: 'directed_equations', subject: 'all' }
-                                ]
-                            },
                             { label: 'Browse Mode Slots', typeKey: 'mode_slots', subject: 'all' },
                             { label: 'Browse Stencil Presets', typeKey: 'stencil_presets', subject: 'all' },
                             { label: 'Browse Pseudocode Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' },
@@ -528,7 +520,7 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
             }
 
             // 2b. Sync Stencil Presets
-            const presetRows = await queryFn<any>('SELECT id, preset_key, title, equation_id FROM stencil_presets ORDER BY id ASC;');
+            const presetRows = await queryFn<any>('SELECT id, preset_key, title, statement_id FROM stencil_presets ORDER BY id ASC;');
             const presetNode = customElementsNode.children.find((c) => c.typeKey === 'stencil_presets');
             if (presetRows && presetRows.length > 0 && presetNode) {
                 presetNode.children = [
