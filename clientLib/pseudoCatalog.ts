@@ -486,6 +486,103 @@ end;`,
     },
   },
 
+  arithmetic_ladder: {
+    id: 'arithmetic_ladder',
+    funcName: 'ArithmeticLadder',
+    name: 'Arithmetic Ladder: Linear March on Tree1 (𝔻_ω, +)',
+    badge: '1-Successor Discrete March',
+    signature: '(ℝ_ω × ℝ_ω × ℕ_ω) → Array of 𝔻_ω',
+    summary:
+      'Evaluates the parameterized inductive sequence F(0) = a, F(k + 1) = F(k) ⊕ d (with a, d ∈ ℝ_ω resolved to dyadic rationals at current precision), generating an array of n + 1 terms in 𝔻_ω with uniform forward difference ΔF(k) = d.',
+    domain: 'a, d ∈ ℝ_ω (Base Anchor & Difference), n ∈ ℕ_ω (Clock Ticks) ⟹ Array of 𝔻_ω',
+    primitives: [
+      'CreateArray(n + 1)',
+      '⊕ (exact dyadic ring addition)',
+      'seq[k + 1] := seq[k] ⊕ d',
+    ],
+    complexity: {
+      tree: 'O(n) linear march along unary Tree1 clock ticks',
+      dyadic: 'n ring additions in (𝔻, +, ·) with exact power-of-two alignment',
+    },
+    code: `rule ArithmeticLadder(a: Dyadic, d: Dyadic, n: Integer) : Array of Dyadic ≔
+var
+    seq: Array of Dyadic;
+    k: Integer;
+begin
+    seq := CreateArray(n + 1);
+    seq[0] := a;
+    for k := 0 to n - 1 do
+    begin
+        seq[k + 1] := seq[k] ⊕ d;   // Linear March: ΔF(k) = d
+    end;
+    return seq;
+end;`,
+    explanation: [
+      'The foundational 1-successor discrete ladder corresponding to Peano counting and Tree1.',
+      'Parameterized by base anchor a, step increment d, and tick count n.',
+      'Every step satisfies the invariant ΔF(k) = F(k + 1) - F(k) = d exactly.',
+      'Forms the discrete basis for uniform motion, linear functions, and Riemann-Euler integration.',
+    ],
+    example: {
+      inputs: ['a = 0 (root [])', 'd = 1/2 ([+ -])', 'n = 4'],
+      steps: [
+        'k = 0: seq[1] := 0 ⊕ 1/2 = 1/2',
+        'k = 1: seq[2] := 1/2 ⊕ 1/2 = 1',
+        'k = 2: seq[3] := 1 ⊕ 1/2 = 1&1/2',
+        'k = 3: seq[4] := 1&1/2 ⊕ 1/2 = 2',
+      ],
+      result: 'ArithmeticLadder(0, 1/2, 4) = [0, 1/2, 1, 1&1/2, 2]',
+    },
+  },
+
+  geometric_ladder: {
+    id: 'geometric_ladder',
+    funcName: 'GeometricLadder',
+    name: 'Geometric Ladder: Multiplicative Scaling on Tree2 (𝔻_ω, ·)',
+    badge: '2-Successor Discrete Scaling',
+    signature: '(ℝ_ω × ℝ_ω × ℕ_ω) → Array of 𝔻_ω',
+    summary:
+      'Evaluates the parameterized inductive sequence G(0) = a, G(k + 1) = G(k) ⊗ r (with a, r ∈ ℝ_ω resolved to dyadic rationals at current precision), generating an array of n + 1 terms in 𝔻_ω with difference proportional to value ΔG(k) = G(k) · (r - 1).',
+    domain: 'a, r ∈ ℝ_ω (Base Anchor & Ratio), n ∈ ℕ_ω (Generation Depth) ⟹ Array of 𝔻_ω',
+    primitives: [
+      'CreateArray(n + 1)',
+      '⊗ (exact dyadic ring multiplication)',
+      'seq[k + 1] := seq[k] ⊗ r',
+    ],
+    complexity: {
+      tree: 'O(n) binary branching depth down Tree2',
+      dyadic: 'n ring multiplications in (𝔻, ·) with exact scale composition',
+    },
+    code: `rule GeometricLadder(a: Dyadic, r: Dyadic, n: Integer) : Array of Dyadic ≔
+var
+    seq: Array of Dyadic;
+    k: Integer;
+begin
+    seq := CreateArray(n + 1);
+    seq[0] := a;
+    for k := 0 to n - 1 do
+    begin
+        seq[k + 1] := seq[k] ⊗ r;   // Multiplicative Scaling: ΔG(k) = G(k) · (r - 1)
+    end;
+    return seq;
+end;`,
+    explanation: [
+      'The foundational 2-successor discrete ladder corresponding to binary branching and Tree2.',
+      'Parameterized by base anchor a, common ratio r, and generation count n.',
+      'Every step satisfies the self-referential growth invariant ΔG(k) = G(k) · (r - 1).',
+      'Forms the discrete basis for compound interest, exponential growth, and wave cascades.',
+    ],
+    example: {
+      inputs: ['a = 1 ([+])', 'r = 3/2 ([+ + -])', 'n = 3'],
+      steps: [
+        'k = 0: seq[1] := 1 ⊗ 3/2 = 3/2',
+        'k = 1: seq[2] := 3/2 ⊗ 3/2 = 9/4 (2&1/4)',
+        'k = 2: seq[3] := 9/4 ⊗ 3/2 = 27/8 (3&3/8)',
+      ],
+      result: 'GeometricLadder(1, 3/2, 3) = [1, 1&1/2, 2&1/4, 3&3/8]',
+    },
+  },
+
   euler_compounding: {
     id: 'euler_compounding',
     funcName: 'EulerExp',
@@ -1272,6 +1369,12 @@ export const PSEUDO_CATALOG: Record<string, IPseudoAlgorithm> = {
   CordicRotor: MODULE_CATALOG.rotor_trig_cordic,
   HeatDiffusionStep: MODULE_CATALOG.laplacian_heat_step,
   BayesUpdate: MODULE_CATALOG.bayes_discrete_update,
+  ArithmeticLadder: MODULE_CATALOG.arithmetic_ladder,
+  GeometricLadder: MODULE_CATALOG.geometric_ladder,
+  LinearLadderStep: MODULE_CATALOG.arithmetic_ladder,
+  GeometricLadderStep: MODULE_CATALOG.geometric_ladder,
+  algo_linear_ladder_step: MODULE_CATALOG.arithmetic_ladder,
+  algo_geometric_ladder_step: MODULE_CATALOG.geometric_ladder,
 
   // Primitive aliases
   Maximum: MODULE_CATALOG.maximum,

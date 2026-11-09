@@ -5,7 +5,7 @@
  * Generated automatically by nodeUtils/buildCatalog.ts
  */
 export const FS_CATALOG = {
-    "generatedAt": "2026-11-07T22:03:25.910Z",
+    "generatedAt": "2026-11-09T08:08:18.373Z",
     "version": "2.0.0",
     "formalStatements": [
         {
@@ -506,10 +506,11 @@ export const FS_CATALOG = {
             "description": "Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a · r^k.",
             "scaffoldKey": "geometric_ladder",
             "expression": "F(k + 1) = r · F(k)  ⟹  F(k) = a · r^k",
+            "leanSignature": "theorem geometric_step (a r : R_w) (k : Nat) : geometric_seq a r (k + 1) = geometric_seq a r k * r",
             "referencedInSegments": [
                 "sequencesAndSums"
             ],
-            "leanStatus": "pending"
+            "leanStatus": "certified"
         },
         {
             "numId": 40,
@@ -541,11 +542,10 @@ export const FS_CATALOG = {
             "description": "Discrete multiplicative scaling progression advancing by constant ratio r.",
             "scaffoldKey": "geom_ladder_step",
             "expression": "F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k",
+            "leanSignature": "def geometric_closed (a r : R_w) (k : Nat) : R_w",
             "pseudoAlgoId": "algo_geometric_ladder_step",
-            "referencedInSegments": [
-                "sequencesAndSums"
-            ],
-            "leanStatus": "pending"
+            "referencedInSegments": [],
+            "leanStatus": "certified"
         },
         {
             "numId": 42,
@@ -558,11 +558,10 @@ export const FS_CATALOG = {
             "description": "Discrete uniform stepping progression advancing by constant forward difference d.",
             "scaffoldKey": "linear_ladder_step",
             "expression": "F(k + 1) ≔ F(k) + d  ∧  F(k) ≔ a + k · d",
+            "leanSignature": "def arithmetic_closed (a d : R_w) (k : Nat) : R_w",
             "pseudoAlgoId": "algo_linear_ladder_step",
-            "referencedInSegments": [
-                "sequencesAndSums"
-            ],
-            "leanStatus": "pending"
+            "referencedInSegments": [],
+            "leanStatus": "certified"
         }
     ],
     "calculationModes": [
@@ -1051,7 +1050,7 @@ export const FS_CATALOG = {
                 {
                     "name": "a",
                     "symbol": "a",
-                    "domain": "𝔻",
+                    "domain": "ℝ_ω",
                     "defaultValue": 0,
                     "min": -1000,
                     "max": 1000,
@@ -1061,7 +1060,7 @@ export const FS_CATALOG = {
                 {
                     "name": "d",
                     "symbol": "d",
-                    "domain": "𝔻",
+                    "domain": "ℝ_ω",
                     "defaultValue": 1,
                     "min": -100,
                     "max": 100,
@@ -1071,7 +1070,7 @@ export const FS_CATALOG = {
                 {
                     "name": "k",
                     "symbol": "k",
-                    "domain": "ℕ",
+                    "domain": "ℕ_ω",
                     "defaultValue": 1,
                     "min": 0,
                     "max": 100,
@@ -1092,7 +1091,7 @@ export const FS_CATALOG = {
                 {
                     "name": "a",
                     "symbol": "a",
-                    "domain": "𝔻",
+                    "domain": "ℝ_ω",
                     "defaultValue": 1,
                     "min": -1000,
                     "max": 1000,
@@ -1102,7 +1101,7 @@ export const FS_CATALOG = {
                 {
                     "name": "r",
                     "symbol": "r",
-                    "domain": "𝔻",
+                    "domain": "ℝ_ω",
                     "defaultValue": 2,
                     "min": -100,
                     "max": 100,
@@ -1112,7 +1111,7 @@ export const FS_CATALOG = {
                 {
                     "name": "k",
                     "symbol": "k",
-                    "domain": "ℕ",
+                    "domain": "ℕ_ω",
                     "defaultValue": 1,
                     "min": 0,
                     "max": 50,
@@ -1126,7 +1125,7 @@ export const FS_CATALOG = {
             "statementId": "fs_music_et_scale",
             "label": "Chromatic Frequency f_k = f₀ · (2^(1/12))^k",
             "targetSymbol": "f_k",
-            "targetDomain": "ℝ_ω",
+            "targetDomain": "𝔻_ω",
             "targetUnit": "Hz",
             "formulaDescription": "f_k = f₀ · (2^(1/12))^k",
             "formulaExpr": "f0 * Math.pow(2, k / 12)",
@@ -1134,7 +1133,7 @@ export const FS_CATALOG = {
                 {
                     "name": "f0",
                     "symbol": "f₀",
-                    "domain": "ℝ⁺",
+                    "domain": "ℝ_ω",
                     "unit": "Hz",
                     "defaultValue": 440,
                     "min": 20,
@@ -1145,7 +1144,7 @@ export const FS_CATALOG = {
                 {
                     "name": "k",
                     "symbol": "k",
-                    "domain": "ℕ",
+                    "domain": "ℕ_ω",
                     "unit": "semitones",
                     "defaultValue": 0,
                     "min": 0,
@@ -1161,6 +1160,7 @@ export const FS_CATALOG = {
             "id": "ex_equal_temperament_c5",
             "modeId": "music_et_scale_step",
             "statementId": "fs_music_et_scale",
+            "presetKey": "preset_12tet_scale",
             "title": "Concert Pitch A4 to Middle C5 (3 Semitones)",
             "values": {
                 "f0": 440,

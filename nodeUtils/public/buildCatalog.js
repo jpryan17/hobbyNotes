@@ -546,6 +546,7 @@ function buildCurricularCatalog() {
             description: 'Discrete multiplicative scaling law: in any geometric progression, the ratio between consecutive steps is constant r, yielding the closed-form progression F(k) = a · r^k.',
             scaffoldKey: 'geometric_ladder',
             expression: 'F(k + 1) = r · F(k)  ⟹  F(k) = a · r^k',
+            leanSignature: 'theorem geometric_step (a r : R_w) (k : Nat) : geometric_seq a r (k + 1) = geometric_seq a r k * r',
             referencedInSegments: getRefs('fs_geometric_ladder', 39, ['sequencesAndSums'])
         },
         {
@@ -575,8 +576,9 @@ function buildCurricularCatalog() {
             description: 'Discrete multiplicative scaling progression advancing by constant ratio r.',
             scaffoldKey: 'geom_ladder_step',
             expression: 'F(k + 1) ≔ r · F(k)  ∧  F(k) ≔ a · r^k',
+            leanSignature: 'def geometric_closed (a r : R_w) (k : Nat) : R_w',
             pseudoAlgoId: 'algo_geometric_ladder_step',
-            referencedInSegments: getRefs('fs_geom_ladder_step', 41, ['sequencesAndSums'])
+            referencedInSegments: getRefs('fs_geom_ladder_step', 41, [])
         },
         {
             numId: 42,
@@ -589,8 +591,9 @@ function buildCurricularCatalog() {
             description: 'Discrete uniform stepping progression advancing by constant forward difference d.',
             scaffoldKey: 'linear_ladder_step',
             expression: 'F(k + 1) ≔ F(k) + d  ∧  F(k) ≔ a + k · d',
+            leanSignature: 'def arithmetic_closed (a d : R_w) (k : Nat) : R_w',
             pseudoAlgoId: 'algo_linear_ladder_step',
-            referencedInSegments: getRefs('fs_linear_ladder_step', 42, ['sequencesAndSums'])
+            referencedInSegments: getRefs('fs_linear_ladder_step', 42, [])
         }
     ];
     // Dynamic Lean 4 Scaffold Verification:
@@ -823,9 +826,9 @@ function buildCurricularCatalog() {
             formulaDescription: 'F_k = a + k · d',
             formulaExpr: 'a + k * d',
             inputs: [
-                { name: 'a', symbol: 'a', domain: '𝔻', defaultValue: 0.0, min: -1000.0, max: 1000.0, step: 0.5, description: 'Initial anchor value (F_0)' },
-                { name: 'd', symbol: 'd', domain: '𝔻', defaultValue: 1.0, min: -100.0, max: 100.0, step: 0.1, description: 'Common difference per step' },
-                { name: 'k', symbol: 'k', domain: 'ℕ', defaultValue: 1, min: 0, max: 100, step: 1.0, description: 'Step index' }
+                { name: 'a', symbol: 'a', domain: 'ℝ_ω', defaultValue: 0.0, min: -1000.0, max: 1000.0, step: 0.5, description: 'Initial anchor value (F_0)' },
+                { name: 'd', symbol: 'd', domain: 'ℝ_ω', defaultValue: 1.0, min: -100.0, max: 100.0, step: 0.1, description: 'Common difference per step' },
+                { name: 'k', symbol: 'k', domain: 'ℕ_ω', defaultValue: 1, min: 0, max: 100, step: 1.0, description: 'Step index' }
             ]
         },
         {
@@ -837,9 +840,9 @@ function buildCurricularCatalog() {
             formulaDescription: 'F_k = a · r^k',
             formulaExpr: 'a * Math.pow(r, k)',
             inputs: [
-                { name: 'a', symbol: 'a', domain: '𝔻', defaultValue: 1.0, min: -1000.0, max: 1000.0, step: 0.1, description: 'Initial seed value (F_0)' },
-                { name: 'r', symbol: 'r', domain: '𝔻', defaultValue: 2.0, min: -100.0, max: 100.0, step: 0.05, description: 'Common ratio per step' },
-                { name: 'k', symbol: 'k', domain: 'ℕ', defaultValue: 1, min: 0, max: 50, step: 1.0, description: 'Step index' }
+                { name: 'a', symbol: 'a', domain: 'ℝ_ω', defaultValue: 1.0, min: -1000.0, max: 1000.0, step: 0.1, description: 'Initial seed value (F_0)' },
+                { name: 'r', symbol: 'r', domain: 'ℝ_ω', defaultValue: 2.0, min: -100.0, max: 100.0, step: 0.05, description: 'Common ratio per step' },
+                { name: 'k', symbol: 'k', domain: 'ℕ_ω', defaultValue: 1, min: 0, max: 50, step: 1.0, description: 'Step index' }
             ]
         },
         {
@@ -847,13 +850,13 @@ function buildCurricularCatalog() {
             statementId: 'fs_music_et_scale',
             label: 'Chromatic Frequency f_k = f₀ · (2^(1/12))^k',
             targetSymbol: 'f_k',
-            targetDomain: 'ℝ_ω',
+            targetDomain: '𝔻_ω',
             targetUnit: 'Hz',
             formulaDescription: 'f_k = f₀ · (2^(1/12))^k',
             formulaExpr: 'f0 * Math.pow(2, k / 12)',
             inputs: [
-                { name: 'f0', symbol: 'f₀', domain: 'ℝ⁺', unit: 'Hz', defaultValue: 440.0, min: 20.0, max: 20000.0, step: 1.0, description: 'Reference base pitch (e.g., Concert A = 440 Hz)' },
-                { name: 'k', symbol: 'k', domain: 'ℕ', unit: 'semitones', defaultValue: 0, min: 0, max: 24, step: 1.0, description: 'Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)' }
+                { name: 'f0', symbol: 'f₀', domain: 'ℝ_ω', unit: 'Hz', defaultValue: 440.0, min: 20.0, max: 20000.0, step: 1.0, description: 'Reference base pitch (e.g., Concert A = 440 Hz)' },
+                { name: 'k', symbol: 'k', domain: 'ℕ_ω', unit: 'semitones', defaultValue: 0, min: 0, max: 24, step: 1.0, description: 'Semitone index offset (0 = unison, 12 = octave, 24 = two octaves)' }
             ]
         }
     ];
@@ -862,6 +865,7 @@ function buildCurricularCatalog() {
             id: 'ex_equal_temperament_c5',
             modeId: 'music_et_scale_step',
             statementId: 'fs_music_et_scale',
+            presetKey: 'preset_12tet_scale',
             title: 'Concert Pitch A4 to Middle C5 (3 Semitones)',
             values: { f0: 440.0, k: 3 },
             displayResult: '523.251 Hz',

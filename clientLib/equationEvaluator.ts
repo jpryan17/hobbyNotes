@@ -168,32 +168,33 @@ export function executeDirectedEquality(
       hardPart: valStr,
       dustPart: "0",
       isHard: true,
-      domainBadge: spec.rhsDomain || "ℝ_ω",
+      domainBadge: spec.rhsDomain || "𝔻_ω",
       details: [
         `Linear Ladder Step: a + n·d = ${a} + (${n} · ${d}) = ${valStr}`,
-        `Parameters: a = ${a} (anchor), d = ${d} (step difference)`,
-        `Input: n = ${n} (ladder step index)`
+        `Parameters: a = ${a} ∈ ℝ_ω (anchor), d = ${d} ∈ ℝ_ω (step difference)`,
+        `Input: n = ${n} ∈ ℕ_ω (ladder step index)`
       ]
     };
   }
 
-  if (spec.id === "geom_ladder_step") {
+  if (spec.id === "geom_ladder_step" || spec.id === "preset_12tet_scale") {
     const a = args[0] ?? 1;
     const r = args[1] ?? 2;
     const n = Math.round(args[2] ?? 0);
     const val = a * Math.pow(r, n);
     const valStr = Number.isInteger(val) ? val.toString() : val.toFixed(4);
+    const unitSuffix = spec.targetUnit ? ` ${spec.targetUnit}` : "";
     return {
       resultValue: val,
-      displayValue: valStr,
+      displayValue: `${valStr}${unitSuffix}`,
       hardPart: valStr,
       dustPart: "0",
       isHard: true,
-      domainBadge: spec.rhsDomain || "ℝ_ω",
+      domainBadge: spec.rhsDomain || "𝔻_ω",
       details: [
-        `Geometric Ladder Step: a · rⁿ = ${a} · (${r})^${n} = ${valStr}`,
-        `Parameters: a = ${a} (scale), r = ${r} (ratio)`,
-        `Input: n = ${n} (ladder step index)`
+        `Geometric Ladder Step: a · rⁿ = ${a} · (${r})^${n} = ${valStr}${unitSuffix}`,
+        `Parameters: a = ${a} ∈ ℝ_ω (scale), r = ${r} ∈ ℝ_ω (ratio)`,
+        `Input: n = ${n} ∈ ℕ_ω (ladder step index)`
       ]
     };
   }
@@ -299,12 +300,12 @@ export const DEFAULT_EQUATIONS: Record<string, EquationSpec> = {
     governingTheorem: "linear_ladder_step",
     lhsFormula: "a + n · d",
     rhsSymbol: "y",
-    rhsDomain: "ℝ_ω",
-    description: "Evaluates the primitive Tree 1 stepping rule LS: ℕ → ℝ_ω with anchor parameter a, difference parameter d, and input index n.",
+    rhsDomain: "𝔻_ω",
+    description: "Evaluates the primitive Tree 1 stepping rule LS(n : ℕ_ω) : 𝔻_ω ≔ (a : ℝ_ω + d : ℝ_ω · n : ℕ_ω) : numeric_exp.",
     inputs: [
       { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 0, step: 1, min: -100, max: 100, description: "Anchor parameter a" },
       { name: "d", symbol: "d", domain: "ℝ_ω", defaultValue: 1, step: 0.5, min: -50, max: 50, description: "Difference parameter d" },
-      { name: "n", symbol: "n", domain: "ℕ", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
+      { name: "n", symbol: "n", domain: "ℕ_ω", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
     ],
     evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["linear_ladder_step"], vals)
   },
@@ -316,14 +317,32 @@ export const DEFAULT_EQUATIONS: Record<string, EquationSpec> = {
     governingTheorem: "geom_ladder_step",
     lhsFormula: "a · rⁿ",
     rhsSymbol: "y",
-    rhsDomain: "ℝ_ω",
-    description: "Evaluates the primitive Tree 2 stepping rule GS: ℕ → ℝ_ω with base scale parameter a, ratio parameter r, and input index n.",
+    rhsDomain: "𝔻_ω",
+    description: "Evaluates the primitive Tree 2 stepping rule GS(k : ℕ_ω) : 𝔻_ω ≔ (a : ℝ_ω · (r : ℝ_ω)^(k : ℕ_ω)) : numeric_exp.",
     inputs: [
       { name: "a", symbol: "a", domain: "ℝ_ω", defaultValue: 1, step: 1, min: 0.01, max: 1000, description: "Scale parameter a" },
       { name: "r", symbol: "r", domain: "ℝ_ω", defaultValue: 2, step: 0.1, min: 0.01, max: 10, description: "Common ratio parameter r" },
-      { name: "n", symbol: "n", domain: "ℕ", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
+      { name: "n", symbol: "n", domain: "ℕ_ω", defaultValue: 0, step: 1, min: 0, max: 100, description: "Stepping index input n" }
     ],
     evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["geom_ladder_step"], vals)
+  },
+
+  preset_12tet_scale: {
+    id: "preset_12tet_scale",
+    title: "12-TET Chromatic Pitch Scale (Concert A4 = 440 Hz)",
+    formalStatementId: "fs_geom_ladder_step",
+    governingTheorem: "geom_ladder_step",
+    lhsFormula: "a · rⁿ",
+    rhsSymbol: "f_n",
+    rhsDomain: "𝔻_ω",
+    targetUnit: "Hz",
+    description: "Acoustic equal temperament preset of the Geometric Ladder Stencil: anchor frequency a = 440 Hz ∈ ℝ_ω, semitone ratio r = 2^(1/12) ≈ 1.059463094 ∈ ℝ_ω.",
+    inputs: [
+      { name: "a", symbol: "a", domain: "ℝ_ω", unit: "Hz", defaultValue: 440, step: 1, min: 20, max: 20000, description: "Concert A4 anchor pitch (440 Hz)" },
+      { name: "r", symbol: "r", domain: "ℝ_ω", defaultValue: 1.059463094359, step: 0.001, min: 0.5, max: 2.0, description: "Equal-tempered semitone ratio 2^(1/12)" },
+      { name: "n", symbol: "n", domain: "ℕ_ω", unit: "semitones", defaultValue: 0, step: 1, min: 0, max: 24, description: "Semitone step offset (0 = A4, 3 = C5, 12 = A5)" }
+    ],
+    evaluate: (vals) => executeDirectedEquality(DEFAULT_EQUATIONS["preset_12tet_scale"], vals)
   }
 };
 

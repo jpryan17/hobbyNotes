@@ -912,8 +912,8 @@ export async function syncSegmentReferences(segId: number, contentHtml: string):
         } else if (tagName === 'eq-ref' || tagName === 'interactive-stencil') {
             refType = 'stencil';
             initialFocus = 'calculator';
-            const deMatch = /(?:de-id|equation-id)=["']([^"']+)["']/i.exec(attrs);
-            const targetEq = idVal || (deMatch ? deMatch[1] : null);
+            const deMatch = /(?:de-id|equation-id|equation-key|eq-id)=["']([^"']+)["']/i.exec(attrs);
+            const targetEq = (deMatch ? deMatch[1] : null) || idVal;
             if (targetEq) {
                 if (/^\d+$/.test(targetEq) && eqIdSet.has(parseInt(targetEq, 10))) {
                     equationId = parseInt(targetEq, 10);

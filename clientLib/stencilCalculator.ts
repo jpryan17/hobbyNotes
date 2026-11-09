@@ -61,6 +61,53 @@ export interface StencilCalculatorOptions {
 }
 
 /**
+ * Parses a numeric or symbolic ℝ_ω expression (such as "1/3", "pi", "2^(1/12)", "sqrt(2)", "440")
+ * into a floating-point approximation for dyadic projection at the active precision.
+ */
+export function parseRealOmegaExpr(raw: unknown): number | null {
+  if (raw === null || raw === undefined) return null;
+  if (typeof raw === 'number') return isNaN(raw) || !isFinite(raw) ? null : raw;
+  const trimmed = String(raw).trim();
+  if (!trimmed) return null;
+  const direct = Number(trimmed);
+  if (!isNaN(direct) && isFinite(direct)) return direct;
+
+  try {
+    const sanitized = trimmed
+      .replace(/π|\bpi\b/gi, 'Math.PI')
+      .replace(/\be\b/g, 'Math.E')
+      .replace(/\bsqrt\s*\(/gi, 'Math.sqrt(')
+      .replace(/\bsin\s*\(/gi, 'Math.sin(')
+      .replace(/\bcos\s*\(/gi, 'Math.cos(')
+      .replace(/\^/g, '**')
+      .replace(/·/g, '*');
+    if (/[^0-9+\-*/().\sMathPIEsqrtinco]/.test(sanitized)) return null;
+    const fn = new Function(`return (${sanitized});`);
+    const val = fn();
+    return typeof val === 'number' && !isNaN(val) && isFinite(val) ? val : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Projects a real number onto the dyadic ring 𝔻_ω at precision exponent p (denominator 2^p).
+ */
+export function toDyadicAtPrecision(val: number, p: number = 10): { num: number; den: number; approx: number; label: string } {
+  const den = Math.pow(2, p);
+  const rawNum = Math.round(val * den);
+  let num = rawNum;
+  let curDen = den;
+  while (curDen > 1 && num % 2 === 0) {
+    num /= 2;
+    curDen /= 2;
+  }
+  const approx = rawNum / den;
+  const label = curDen === 1 ? `${num}` : `${rawNum} / 2^${p} (${num}/${curDen})`;
+  return { num: rawNum, den, approx, label };
+}
+
+/**
  * Evaluates a mathematical formula given variable assignments.
  * Supports standard algebraic operators (+, -, *, /, ^, Math functions).
  */
@@ -153,7 +200,7 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
     if (s.slot_kind === 'parameter') return true;
     if (s.slot_kind === 'input') return false;
     // Fallback heuristic: single index letters (n, k, t, x) with integer/natural domain are inputs
-    const isIndex = s.name === 'n' || s.name === 'k' || s.name === 't' || s.domain === 'ℕ';
+    const isIndex = s.name === 'n' || s.name === 'k' || s.name === 't' || s.domain === 'ℕ' || s.domain === 'ℕ_ω';
     return !isIndex && s.slot_order < 2;
   });
 
@@ -164,7 +211,7 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
   // State
   const paramValues: Record<string, number | null> = {};
   paramSlots.forEach((s) => {
-    const def = s.default_value !== null && s.default_value !== undefined ? Number(s.default_value) : null;
+    const def = s.default_value !== null && s.default_value !== undefined ? parseRealOmegaExpr(s.default_value) : null;
     paramValues[s.name] = def;
   });
 
@@ -338,11 +385,8 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
       padding: 10px 12px;
     `;
 
-    const min = slot.min_val !== null ? `min="${slot.min_val}"` : '';
-    const max = slot.max_val !== null ? `max="${slot.max_val}"` : '';
-    const step = slot.step_val !== null ? `step="${slot.step_val}"` : 'step="any"';
     const unitText = slot.unit ? ` <span style="font-size: 11px; color: #7c3aed; font-weight: 600;">(${escapeHtml(slot.unit)})</span>` : '';
-    const initialVal = paramValues[slot.name] !== null && paramValues[slot.name] !== undefined ? paramValues[slot.name] : '';
+    const initialVal = slot.default_value !== null && slot.default_value !== undefined ? slot.default_value : '';
 
     slotCard.innerHTML = `
       <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
@@ -351,7 +395,7 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
         </label>
         <span style="font-size: 10.5px; color: #6b21a8; font-weight: 600;">${escapeHtml(slot.domain)}</span>
       </div>
-      <input type="number" id="slot-input-${slot.name}" ${min} ${max} ${step} value="${initialVal}" placeholder="[ _ ]" style="
+      <input type="text" id="slot-input-${slot.name}" value="${initialVal}" placeholder="[ _ ] (e.g. 1, 1/3, pi, 2^(1/12))" style="
         width: 100%;
         box-sizing: border-box;
         padding: 6px 10px;
@@ -368,7 +412,7 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
 
     const input = slotCard.querySelector('input') as HTMLInputElement;
     input.addEventListener('input', () => {
-      const val = input.value.trim() === '' ? null : Number(input.value);
+      const val = parseRealOmegaExpr(input.value);
       paramValues[slot.name] = val;
       // Clear preset dropdown selection since parameters were modified manually
       presetDropdown.value = '';
@@ -519,7 +563,12 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
       if (noteMap[k]) noteHint = ` &nbsp;•&nbsp; <span style="font-size: 15px; color: #6d28d9; font-weight: 600;">${noteMap[k]}</span>`;
     }
 
-    resultDisplay.innerHTML = `${formattedNum}${unitSuffix}${noteHint}`;
+    const isDyadicTarget = (equation.target_domain || '').includes('𝔻');
+    const dyadicBadge = isDyadicTarget
+      ? ` <span style="font-size: 12px; font-weight: 600; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 2px 7px; border-radius: 10px; font-family: monospace; vertical-align: middle;">𝔻_ω (p=10): ${toDyadicAtPrecision(result, 10).label}</span>`
+      : '';
+
+    resultDisplay.innerHTML = `${formattedNum}${unitSuffix}${noteHint}${dyadicBadge}`;
     stepBreakdown.textContent = formattedStep || '';
   }
 
@@ -531,10 +580,10 @@ export function mountStencilCalculator(options: StencilCalculatorOptions): {
     // Apply param_values
     const vals = typeof preset.param_values === 'object' ? preset.param_values : JSON.parse(preset.param_values || '{}');
     for (const [paramName, val] of Object.entries(vals)) {
-      const numVal = Number(val);
+      const numVal = parseRealOmegaExpr(val);
       paramValues[paramName] = numVal;
       const inputEl = paramSection.querySelector(`#slot-input-${paramName}`) as HTMLInputElement | null;
-      if (inputEl) inputEl.value = String(numVal);
+      if (inputEl) inputEl.value = String(val);
     }
 
     // Apply input defaults if provided

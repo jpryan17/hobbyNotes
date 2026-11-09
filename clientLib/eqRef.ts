@@ -8,7 +8,11 @@ import { eqDemo, setEqDemo } from './eqDemo.js';
  */
 export class EqRef extends HTMLElement {
   static stdColor = '#047857';
-  static overColor = '#064e3b';
+  static overColor = '#065f46';
+  static stdBg = '#ecfdf5';
+  static overBg = '#d1fae5';
+  static stdBorder = '#a7f3d0';
+  static overBorder = '#6ee7b7';
 
   constructor() {
     super();
@@ -16,34 +20,49 @@ export class EqRef extends HTMLElement {
 
   connectedCallback(): void {
     const rawHtml = this.innerHTML.trim();
-    const eqId = this.getAttribute('id') || this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || this.getAttribute('equation-key') || '';
+    const rawIdAttr = this.getAttribute('id') || this.getAttribute('de-id') || '';
+    const eqKeyAttr = this.getAttribute('equation-key') || this.getAttribute('eq-id') || this.getAttribute('calc-id') || this.getAttribute('eqId') || '';
+    const eqId = eqKeyAttr || rawIdAttr;
     const desc = this.getAttribute('desc') || this.getAttribute('title') || '';
     const formula = this.getAttribute('formula') || this.getAttribute('expr') || '';
 
-    if (!rawHtml) {
-      const displayLabel = desc || formula || (eqId ? `Eq #${eqId}` : 'Equation');
-      this.innerHTML = `«Eq: ${displayLabel}»`;
-    } else if (!rawHtml.startsWith('«') && !rawHtml.startsWith('&laquo;') && !rawHtml.startsWith('<<')) {
-      this.innerHTML = `«Eq: ${rawHtml}»`;
+    const keyToNumId: Record<string, number> = {
+      linear_ladder_step: 32,
+      geom_ladder_step: 31,
+      music_et_scale_step: 29,
+      ff_v_from_v0_g_t: 1
+    };
+    const resolvedNumId = /^\d+$/.test(rawIdAttr)
+      ? rawIdAttr
+      : (keyToNumId[eqId] ? String(keyToNumId[eqId]) : '');
+    const badgeHtml = resolvedNumId
+      ? `<span style="margin-left:5px;font-size:0.75em;background:#d1fae5;color:#065f46;padding:1px 5px;border-radius:10px;font-weight:700;">#${resolvedNumId}</span>`
+      : '';
+
+    const cleanText = rawHtml.replace(/^«Eq:\s*/i, '').replace(/»$/, '').trim();
+    const displayLabel = desc || cleanText || formula || (eqId ? `Stencil ${eqId}` : 'Directed Equation');
+
+    if (!rawHtml.startsWith('📐')) {
+      this.innerHTML = `<span style="font-size:0.88em;opacity:0.95;margin-right:3px;">📐</span><span>${displayLabel}</span>${badgeHtml}`;
     }
 
     this.setAttribute(
       'style',
-      `display:inline-block;color:${EqRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;padding:2px 6px;border-radius:4px;transition:background 0.15s, color 0.15s;`
+      `display:inline-flex;align-items:center;gap:3px;color:${EqRef.stdColor};background:${EqRef.stdBg};border:1px solid ${EqRef.stdBorder};font-weight:600;font-size:0.92em;cursor:pointer;padding:2px 8px;border-radius:6px;line-height:1.4;margin:1px 2px;transition:all 0.15s ease;text-decoration:none;`
     );
 
     this.addEventListener('mouseover', () => {
-      this.setAttribute(
-        'style',
-        `display:inline-block;color:${EqRef.overColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#059669;text-underline-offset:3px;background:#ecfdf5;padding:2px 6px;border-radius:4px;`
-      );
+      this.style.background = EqRef.overBg;
+      this.style.color = EqRef.overColor;
+      this.style.borderColor = EqRef.overBorder;
+      this.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
     });
 
     this.addEventListener('mouseout', () => {
-      this.setAttribute(
-        'style',
-        `display:inline-block;color:${EqRef.stdColor};font-weight:bold;cursor:pointer;text-decoration:underline;text-decoration-color:#34d399;text-underline-offset:3px;background:transparent;padding:2px 6px;border-radius:4px;`
-      );
+      this.style.background = EqRef.stdBg;
+      this.style.color = EqRef.stdColor;
+      this.style.borderColor = EqRef.stdBorder;
+      this.style.boxShadow = 'none';
     });
 
     this.addEventListener('click', (e) => {
