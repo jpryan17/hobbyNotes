@@ -2,6 +2,8 @@ import { Elt } from "./elt.js";
 import { LEAN_CACHE, LeanCacheEntry } from "./leanCache.js";
 import { Nav } from "./navFW.js";
 import { FsCalculator, inferFsCalculationModes } from "./fsCalculator.js";
+import { FS_CATALOG } from "./fsCatalog.js";
+import { mountStencilCalculator, StencilModeSlot, StencilPreset } from "./stencilCalculator.js";
 
 export interface ArgumentCheck {
   label: string;
@@ -77,11 +79,14 @@ export class ArgumentCard extends Elt {
       "margin-top: 16px; margin-bottom: 36px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06); font-family: system-ui, -apple-system, sans-serif; max-width: 650px;"
     );
 
+    const isDE = arg.statementKind === "directed_equality";
     const isTrue = arg.verdict;
-    const headerBg = isTrue ? "#f0fdf4" : "#fef2f2";
-    const headerBorder = isTrue ? "#bbf7d0" : "#fecaca";
-    const badgeBg = isTrue ? "#22c55e" : "#ef4444";
-    const badgeText = isTrue ? "Verified True ✓" : "Disproven ✗";
+    const headerBg = isDE ? "#f5f3ff" : (isTrue ? "#f0fdf4" : "#fef2f2");
+    const headerBorder = isDE ? "#ddd6fe" : (isTrue ? "#bbf7d0" : "#fecaca");
+    const badgeBg = isDE ? "#6d28d9" : (isTrue ? "#22c55e" : "#ef4444");
+    const badgeText = isDE
+      ? `DE · Typed & Ready (${arg.codomain || "𝔻_ω"})`
+      : `Prop : {T, F} · ${isTrue ? "Verified True ✓" : "Disproven ✗"}`;
 
     // Header
     const header = new Elt("div");
@@ -93,22 +98,12 @@ export class ArgumentCard extends Elt {
     const titleWrap = new Elt("div");
     titleWrap.setA("style", "display: flex; align-items: center; gap: 8px; flex-wrap: wrap;");
     const icon = new Elt("span");
-    icon.setV(arg.statementKind === "directed_equality" ? "⚡" : "📜");
+    icon.setV(isDE ? "⚡" : "📜");
     const title = new Elt("span");
     title.setA("style", "font-weight: 700; font-size: 13px; color: #1e293b; letter-spacing: 0.5px; text-transform: uppercase;");
     title.setV(arg.title || "Formal Reasoning");
     titleWrap.append(icon);
     titleWrap.append(title);
-
-    if (arg.statementId) {
-      const idBadge = new Elt("span");
-      idBadge.setA(
-        "style",
-        "font-size: 10.5px; font-weight: 800; background: #0284c7; color: #ffffff; padding: 1px 7px; border-radius: 10px;"
-      );
-      idBadge.setV(`#${arg.statementId}`);
-      titleWrap.append(idBadge);
-    }
 
     if (arg.tier) {
       const tierBadge = new Elt("span");
@@ -147,19 +142,23 @@ export class ArgumentCard extends Elt {
     const body = new Elt("div");
     body.setA("style", "padding: 14px; font-size: 13px; line-height: 1.6; color: #334155;");
 
-    // Formal Proposition Banner (Prominent)
+    // Formal Banner (Distinguishes Prop:{T,F} vs DE: Typed & Ready)
     if (arg.expression || arg.target) {
       const formalBox = new Elt("div");
       formalBox.setA(
         "style",
-        "margin-bottom: 14px; padding: 10px 14px; background: #f8fafc; border-left: 4px solid #0284c7; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);"
+        `margin-bottom: 14px; padding: 10px 14px; background: ${isDE ? "#faf5ff" : "#f8fafc"}; border-left: 4px solid ${isDE ? "#7c3aed" : "#0284c7"}; border-top: 1px solid #e2e8f0; border-right: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; border-radius: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);`
       );
       const formalLabel = new Elt("div");
       formalLabel.setA(
         "style",
-        "font-size: 11px; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;"
+        `font-size: 11px; font-weight: 700; color: ${isDE ? "#6d28d9" : "#0284c7"}; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;`
       );
-      formalLabel.setV("<span>📐</span> Formal Expression / Proposition");
+      formalLabel.setV(
+        isDE
+          ? "<span>⚡</span> Directed Equality — Typed &amp; Ready for Action"
+          : "<span>📐</span> Formal Proposition (→ {T, F})"
+      );
       const formalExpr = new Elt("div");
       formalExpr.setA(
         "style",
@@ -168,117 +167,223 @@ export class ArgumentCard extends Elt {
       formalExpr.setV(arg.expression || arg.target);
       formalBox.append(formalLabel);
       formalBox.append(formalExpr);
+      if (isDE && (arg.docstring || arg.conflictOrSupport)) {
+        const descDiv = new Elt("div");
+        descDiv.setA("style", "margin-top: 6px; font-size: 12px; color: #475569;");
+        descDiv.setV(arg.docstring || arg.conflictOrSupport || "");
+        formalBox.append(descDiv);
+      }
       body.append(formalBox);
     }
 
-    // Target
-    const targetRow = new Elt("div");
-    targetRow.setA("style", "margin-bottom: 10px; display: flex; gap: 8px;");
-    const targetLabel = new Elt("span");
-    targetLabel.setA("style", "font-weight: 700; color: #0f172a; min-width: 55px;");
-    targetLabel.setV("Target:");
-    const targetVal = new Elt("span");
-    targetVal.setA("style", "color: #0369a1; font-weight: 600;");
-    targetVal.setV(arg.target);
-    targetRow.append(targetLabel);
-    targetRow.append(targetVal);
-    body.append(targetRow);
+    // Look up matching catalog statement & calculation modes for Stencil Calculator
+    const catalogStmt = FS_CATALOG.formalStatements.find(
+      s =>
+        (arg.statementId !== undefined && (s.numId === Number(arg.statementId) || s.id === String(arg.statementId))) ||
+        (arg.scaffoldKey && s.scaffoldKey === arg.scaffoldKey)
+    );
+    const stmtModes = catalogStmt
+      ? FS_CATALOG.calculationModes.filter(m => m.statementId === catalogStmt.id)
+      : [];
+    const stmtExamples = catalogStmt
+      ? FS_CATALOG.examples.filter(ex => ex.statementId === catalogStmt.id)
+      : [];
 
-    // Test / Pick
-    const pickRow = new Elt("div");
-    pickRow.setA("style", "margin-bottom: 10px; display: flex; gap: 8px;");
-    const pickLabel = new Elt("span");
-    pickLabel.setA("style", "font-weight: 700; color: #0f172a; min-width: 55px;");
-    pickLabel.setV(`${arg.testOrPickLabel}:`);
-    const pickVal = new Elt("span");
-    pickVal.setA("style", "background: #f1f5f9; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; color: #0f172a;");
-    pickVal.setV(arg.testOrPickValue);
-    pickRow.append(pickLabel);
-    pickRow.append(pickVal);
-    body.append(pickRow);
-
-    // Checks
-    if (arg.checks && arg.checks.length > 0) {
-      const checksWrap = new Elt("div");
-      checksWrap.setA("style", "margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;");
-      const checksTitle = new Elt("div");
-      checksTitle.setA("style", "font-weight: 700; font-size: 12px; color: #475569; margin-bottom: 4px;");
-      checksTitle.setV("Checks (Deductive Verification Steps):");
-      checksWrap.append(checksTitle);
-
-      arg.checks.forEach((c) => {
-        const cRow = new Elt("div");
-        cRow.setA("style", "display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0;");
-        const qSpan = new Elt("span");
-        qSpan.setV(`• <b>${c.label}:</b> ${c.question}`);
-        const resSpan = new Elt("span");
-        resSpan.setA("style", `font-weight: 700; color: ${c.passed ? '#16a34a' : '#dc2626'};`);
-        resSpan.setV(c.detail || (c.passed ? "→ Yes" : "→ No"));
-        cRow.append(qSpan);
-        cRow.append(resSpan);
-        checksWrap.append(cRow);
-      });
-      body.append(checksWrap);
-    }
-
-    // Conflict or Support
-    if (arg.conflictOrSupport) {
-      const conflictRow = new Elt("div");
-      conflictRow.setA(
-        "style",
-        `margin-bottom: 10px; padding: 6px 10px; border-radius: 4px; font-size: 12px; font-style: italic; background: ${isTrue ? '#f0fdf4' : '#fff1f2'}; color: ${isTrue ? '#166534' : '#991b1b'};`
-      );
-      conflictRow.setV(`<b>Note:</b> ${arg.conflictOrSupport}`);
-      body.append(conflictRow);
-    }
-
-    // Conclusion
-    const conclusionRow = new Elt("div");
-    conclusionRow.setA("style", "margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0;");
-    const conclLabel = new Elt("span");
-    conclLabel.setA("style", "font-weight: 700; color: #0f172a; margin-right: 6px;");
-    conclLabel.setV("Conclusion:");
-    const conclVal = new Elt("span");
-    conclVal.setA("style", "color: #334155;");
-    conclVal.setV(arg.conclusion);
-    conclusionRow.append(conclLabel);
-    conclusionRow.append(conclVal);
-    body.append(conclusionRow);
-
-    // Establishing Lean 4 Proof / Scaffold Block (Prominent)
-    if (arg.leanSnippet) {
-      const codeWrap = new Elt("div");
-      codeWrap.setA(
-        "style",
-        "margin-top: 12px; padding: 10px 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; font-family: monospace; font-size: 12px; line-height: 1.5; overflow-x: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);"
-      );
-      const codeHeader = new Elt("div");
-      codeHeader.setA(
-        "style",
-        "display: flex; justify-content: space-between; color: #94a3b8; font-size: 10.5px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px; letter-spacing: 0.5px;"
-      );
-      if (this.options?.isSessionDraft) {
-        codeHeader.setV("<span>⚡ Synthesized Lean 4 Formulation</span><span style='color:#38bdf8'>Target Specification (Session Draft)</span>");
-      } else {
-        codeHeader.setV("<span>⚡ Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+    if (isDE) {
+      // 1. Operational MWM Pseudocode (Primary display for DEs — open by default)
+      if (arg.pseudocode) {
+        body.append(this.buildPseudocodePanel(arg.pseudocode, true));
       }
-      const pre = new Elt("pre");
-      pre.setA("style", "margin: 0; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
-      pre.setV(arg.leanSnippet);
-      codeWrap.append(codeHeader);
-      codeWrap.append(pre);
-      body.append(codeWrap);
-    }
 
-    // Deductive Lineage Panel (Lean 4 DAG Upstream & Downstream References)
-    const cachedLineage = this.getCachedVerification();
-    if (cachedLineage && ((cachedLineage.uses && cachedLineage.uses.length > 0) || (cachedLineage.usedBy && cachedLineage.usedBy.length > 0))) {
-      body.append(this.buildLineagePanel(cachedLineage));
-    }
+      // 2. Schema-Driven Stencil Calculator (Mounted directly when mode_slots exist in FS_CATALOG)
+      if (stmtModes.length > 0 && catalogStmt) {
+        const activeMode = (options?.activeModeId && stmtModes.find(m => m.id === options.activeModeId)) || stmtModes[0];
+        const stencilWrap = new Elt("div");
+        body.append(stencilWrap);
 
-    // Algorithmic Pseudocode & Complexity Trace (for Active / Computational FS)
-    if (arg.pseudocode) {
-      body.append(this.buildPseudocodePanel(arg.pseudocode));
+        const mappedSlots: StencilModeSlot[] = activeMode.inputs.map((inp, idx) => ({
+          slot_order: idx,
+          slot_kind: (inp.domain === "ℕ" || inp.domain === "ℕ_ω" || inp.name === "k" || inp.name === "n") ? "input" : "parameter",
+          name: inp.name,
+          symbol: inp.symbol,
+          domain: inp.domain,
+          unit: inp.unit || "",
+          default_value: Array.isArray(inp.defaultValue) ? inp.defaultValue[0] : inp.defaultValue,
+          min_val: inp.min ?? null,
+          max_val: inp.max ?? null,
+          step_val: inp.step ?? null,
+          description: inp.description || ""
+        }));
+
+        const paramNames = new Set(mappedSlots.filter(s => s.slot_kind === "parameter").map(s => s.name));
+        const mappedPresets: StencilPreset[] = stmtExamples.map((ex, idx) => {
+          const paramVals: Record<string, number | string> = {};
+          const inputDefs: Record<string, number | string> = {};
+          for (const [k, v] of Object.entries(ex.values || {})) {
+            if (paramNames.has(k)) paramVals[k] = v;
+            else inputDefs[k] = v;
+          }
+          return {
+            id: idx + 1,
+            preset_key: ex.presetKey || ex.id,
+            statement_id: catalogStmt.numId || catalogStmt.id,
+            title: ex.title,
+            unit: activeMode.targetUnit || "",
+            param_values: paramVals,
+            input_defaults: inputDefs,
+            description: ex.notes || ""
+          };
+        });
+
+        mountStencilCalculator({
+          container: stencilWrap.elt as HTMLElement,
+          equation: {
+            id: catalogStmt.numId || catalogStmt.id,
+            statement_key: catalogStmt.id,
+            title: catalogStmt.title,
+            label: activeMode.label,
+            formula_expr: activeMode.formulaExpr,
+            target_symbol: activeMode.targetSymbol,
+            target_domain: activeMode.targetDomain,
+            target_unit: activeMode.targetUnit || "",
+            formula_description: activeMode.formulaDescription
+          },
+          slots: mappedSlots,
+          presets: mappedPresets,
+          initialPresetKeyOrId: options?.presetKey,
+          isCrudMode: false
+        });
+      }
+
+      // 3. Compact Lean 4 Type Definition (Collapsible at bottom so it doesn't crowd Pseudocode & Stencil)
+      if (arg.leanSnippet) {
+        const leanDetails = new Elt("details");
+        leanDetails.setA(
+          "style",
+          "margin-top: 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; padding: 8px 12px; font-family: monospace; font-size: 12px;"
+        );
+        const leanSummary = new Elt("summary");
+        leanSummary.setA(
+          "style",
+          "cursor: pointer; color: #94a3b8; font-size: 11px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; user-select: none;"
+        );
+        leanSummary.setV("<span>⚙️ Lean 4 Type Signature &amp; Ring Specification</span><span style='color:#38bdf8'>MiddleWayLean/DyadicRing.lean</span>");
+        const pre = new Elt("pre");
+        pre.setA("style", "margin: 8px 0 0 0; padding-top: 8px; border-top: 1px solid #334155; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
+        pre.setV(arg.leanSnippet);
+        leanDetails.append(leanSummary);
+        leanDetails.append(pre);
+        body.append(leanDetails);
+      }
+    } else {
+      // Proposition / Theorem Layout
+      const targetRow = new Elt("div");
+      targetRow.setA("style", "margin-bottom: 10px; display: flex; gap: 8px;");
+      const targetLabel = new Elt("span");
+      targetLabel.setA("style", "font-weight: 700; color: #0f172a; min-width: 55px;");
+      targetLabel.setV("Target:");
+      const targetVal = new Elt("span");
+      targetVal.setA("style", "color: #0369a1; font-weight: 600;");
+      targetVal.setV(arg.target);
+      targetRow.append(targetLabel);
+      targetRow.append(targetVal);
+      body.append(targetRow);
+
+      // Test / Pick
+      const pickRow = new Elt("div");
+      pickRow.setA("style", "margin-bottom: 10px; display: flex; gap: 8px;");
+      const pickLabel = new Elt("span");
+      pickLabel.setA("style", "font-weight: 700; color: #0f172a; min-width: 55px;");
+      pickLabel.setV(`${arg.testOrPickLabel}:`);
+      const pickVal = new Elt("span");
+      pickVal.setA("style", "background: #f1f5f9; padding: 2px 7px; border-radius: 4px; font-family: monospace; font-size: 12px; font-weight: 600; color: #0f172a;");
+      pickVal.setV(arg.testOrPickValue);
+      pickRow.append(pickLabel);
+      pickRow.append(pickVal);
+      body.append(pickRow);
+
+      // Checks
+      if (arg.checks && arg.checks.length > 0) {
+        const checksWrap = new Elt("div");
+        checksWrap.setA("style", "margin-bottom: 10px; padding: 8px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;");
+        const checksTitle = new Elt("div");
+        checksTitle.setA("style", "font-weight: 700; font-size: 12px; color: #475569; margin-bottom: 4px;");
+        checksTitle.setV("Checks (Deductive Verification Steps):");
+        checksWrap.append(checksTitle);
+
+        arg.checks.forEach((c) => {
+          const cRow = new Elt("div");
+          cRow.setA("style", "display: flex; justify-content: space-between; font-size: 12px; padding: 2px 0;");
+          const qSpan = new Elt("span");
+          qSpan.setV(`• <b>${c.label}:</b> ${c.question}`);
+          const resSpan = new Elt("span");
+          resSpan.setA("style", `font-weight: 700; color: ${c.passed ? '#16a34a' : '#dc2626'};`);
+          resSpan.setV(c.detail || (c.passed ? "→ Yes" : "→ No"));
+          cRow.append(qSpan);
+          cRow.append(resSpan);
+          checksWrap.append(cRow);
+        });
+        body.append(checksWrap);
+      }
+
+      // Conflict or Support
+      if (arg.conflictOrSupport) {
+        const conflictRow = new Elt("div");
+        conflictRow.setA(
+          "style",
+          `margin-bottom: 10px; padding: 6px 10px; border-radius: 4px; font-size: 12px; font-style: italic; background: ${isTrue ? '#f0fdf4' : '#fff1f2'}; color: ${isTrue ? '#166534' : '#991b1b'};`
+        );
+        conflictRow.setV(`<b>Note:</b> ${arg.conflictOrSupport}`);
+        body.append(conflictRow);
+      }
+
+      // Conclusion
+      const conclusionRow = new Elt("div");
+      conclusionRow.setA("style", "margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e2e8f0;");
+      const conclLabel = new Elt("span");
+      conclLabel.setA("style", "font-weight: 700; color: #0f172a; margin-right: 6px;");
+      conclLabel.setV("Conclusion:");
+      const conclVal = new Elt("span");
+      conclVal.setA("style", "color: #334155;");
+      conclVal.setV(arg.conclusion);
+      conclusionRow.append(conclLabel);
+      conclusionRow.append(conclVal);
+      body.append(conclusionRow);
+
+      // Establishing Lean 4 Proof / Scaffold Block (Prominent for Theorems)
+      if (arg.leanSnippet) {
+        const codeWrap = new Elt("div");
+        codeWrap.setA(
+          "style",
+          "margin-top: 12px; padding: 10px 12px; background: #0f172a; color: #f8fafc; border-radius: 6px; font-family: monospace; font-size: 12px; line-height: 1.5; overflow-x: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);"
+        );
+        const codeHeader = new Elt("div");
+        codeHeader.setA(
+          "style",
+          "display: flex; justify-content: space-between; color: #94a3b8; font-size: 10.5px; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid #334155; padding-bottom: 4px; letter-spacing: 0.5px;"
+        );
+        if (this.options?.isSessionDraft) {
+          codeHeader.setV("<span>⚡ Synthesized Lean 4 Formulation</span><span style='color:#38bdf8'>Target Specification (Session Draft)</span>");
+        } else {
+          codeHeader.setV("<span>⚡ Establishing Lean 4 verification</span><span style='color:#38bdf8'>MiddleWayLean/Scaffold.lean</span>");
+        }
+        const pre = new Elt("pre");
+        pre.setA("style", "margin: 0; white-space: pre-wrap; font-family: 'Fira Code', Consolas, Monaco, monospace; color: #7dd3fc;");
+        pre.setV(arg.leanSnippet);
+        codeWrap.append(codeHeader);
+        codeWrap.append(pre);
+        body.append(codeWrap);
+      }
+
+      // Deductive Lineage Panel (Lean 4 DAG Upstream & Downstream References)
+      const cachedLineage = this.getCachedVerification();
+      if (cachedLineage && ((cachedLineage.uses && cachedLineage.uses.length > 0) || (cachedLineage.usedBy && cachedLineage.usedBy.length > 0))) {
+        body.append(this.buildLineagePanel(cachedLineage));
+      }
+
+      if (arg.pseudocode) {
+        body.append(this.buildPseudocodePanel(arg.pseudocode, false));
+      }
     }
 
     // Collapsible Algebraic Reduction & Invariant Evaluation (NavFW Compatible)
@@ -402,19 +507,22 @@ export class ArgumentCard extends Elt {
     this.studioBtn.elt.addEventListener("click", () => this.launchStudio());
     devBtnGroup.append(this.studioBtn);
 
-    // Calculator Button (Available whenever meaningful calculation modes exist and not inhibited by theorem or relational statement display)
+    // Calculator Button (Available for legacy calculation modes when not already mounted inline as a DE Stencil Calculator)
+    const hasInlineStencil = isDE && stmtModes.length > 0;
     const isRelationalProposition =
-      arg.target?.startsWith("scaffold:") ||
-      arg.title?.toLowerCase().includes("constitutional scaffold") ||
-      arg.title?.toLowerCase().includes("formal reasoning") ||
-      arg.title?.toLowerCase().includes("theorem") ||
-      arg.title?.toLowerCase().includes("axiom") ||
-      arg.expression?.includes("∀") ||
-      arg.expression?.includes("∃") ||
-      arg.expression?.includes(":") ||
-      arg.codomain === "𝔹";
+      !isDE && (
+        arg.target?.startsWith("scaffold:") ||
+        arg.title?.toLowerCase().includes("constitutional scaffold") ||
+        arg.title?.toLowerCase().includes("formal reasoning") ||
+        arg.title?.toLowerCase().includes("theorem") ||
+        arg.title?.toLowerCase().includes("axiom") ||
+        arg.expression?.includes("∀") ||
+        arg.expression?.includes("∃") ||
+        arg.codomain === "𝔹"
+      );
 
     const shouldInhibitCalc =
+      hasInlineStencil ||
       options?.disableCalculator ||
       (!options?.activeModeId && !options?.presetKey && !arg.casCalculation?.command && isRelationalProposition);
 
@@ -715,8 +823,11 @@ export class ArgumentCard extends Elt {
     return wrap;
   }
 
-  private buildPseudocodePanel(algo: any): Elt {
+  private buildPseudocodePanel(algo: any, defaultOpen: boolean = false): Elt {
     const wrap = new Elt("details");
+    if (defaultOpen) {
+      wrap.setA("open", "true");
+    }
     wrap.setA(
       "style",
       "margin-top: 14px; background: #f8fafc; border: 1.5px solid #6366f1; border-radius: 6px; padding: 10px 14px;"
@@ -732,7 +843,7 @@ export class ArgumentCard extends Elt {
     summaryLeft.setV(`<span>💻</span> <b>Discrete Machine Algorithm: ${algo.name || algo.funcName}</b>`);
     const summaryPrompt = new Elt("span");
     summaryPrompt.setA("style", "font-size: 11px; font-weight: normal; color: #6366f1; opacity: 0.85;");
-    summaryPrompt.setV("(Click to Expand Algorithm)");
+    summaryPrompt.setV(defaultOpen ? "(Click to Collapse Algorithm)" : "(Click to Expand Algorithm)");
     summary.append(summaryLeft);
     summary.append(summaryPrompt);
     wrap.append(summary);

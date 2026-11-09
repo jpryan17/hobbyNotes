@@ -42,11 +42,10 @@ export class FSRef extends HTMLElement {
             FS_CATALOG.calculationModes.some(m => m.statementId === stmt.id) ||
             !!stmt.pseudoAlgoId;
         const icon = isActive ? '⚡' : '📜';
-        const displayLabel = desc || stmt.title || (cleanId ? `Statement #${cleanId}` : 'Formal Statement');
-        const badgeLabel = stmt.numId ? `#${stmt.numId}` : (isNum ? `#${cleanId}` : '');
+        const displayLabel = desc || stmt.title || (cleanId ? `Statement` : 'Formal Statement');
         const rawHtml = this.innerHTML.trim();
         if (!rawHtml) {
-            this.innerHTML = `<span style="font-size:0.88em;opacity:0.9;margin-right:3px;">${icon}</span><span>${displayLabel}</span>${badgeLabel ? `<span style="margin-left:5px;font-size:0.75em;background:${isActive ? '#ede9fe' : '#e0f2fe'};color:${isActive ? '#6b21a8' : '#0369a1'};padding:1px 5px;border-radius:10px;font-weight:700;">${badgeLabel}</span>` : ''}`;
+            this.innerHTML = `<span style="font-size:0.88em;opacity:0.9;margin-right:3px;">${icon}</span><span>${displayLabel}</span>`;
         }
         const baseBg = isActive ? '#faf5ff' : FSRef.stdBg;
         const baseBorder = isActive ? '#e9d5ff' : FSRef.stdBorder;

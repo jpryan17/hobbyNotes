@@ -1143,6 +1143,34 @@ axiom No_eps0_add : No_eps0 → No_eps0 → No_eps0`
 -- (x - xᴸ)(y - yᴸ) > 0 cross-product option cuts
 axiom No_eps0_is_field : Field No_eps0
 axiom No_eps0_mul : No_eps0 → No_eps0 → No_eps0`
+  },
+
+  linear_ladder_step: {
+    title: "Directed Equality: Arithmetic (Linear) Ladder Step",
+    expression: "LS(k : ℕ_ω) : 𝔻_ω ≔ (a : ℝ_ω + d : ℝ_ω · k : ℕ_ω)",
+    leanSignature: "def arithmetic_closed (a d : R_w) (k : Nat) : D_w := to_D_w (a + (k : R_w) * d)",
+    testOrPickValue: "MiddleWayLean/DyadicRing.lean → arithmetic_closed",
+    checks: [],
+    conflictOrSupport: "Typed constructive progression rule projecting initial anchor a ∈ ℝ_ω and constant step difference d ∈ ℝ_ω into the dyadic calculation ring 𝔻_ω at the active precision.",
+    conclusion: "Well-typed and total over k ∈ ℕ_ω; evaluates in 𝔻_ω.",
+    leanSnippet: `-- Arithmetic (Linear) Ladder Step in 𝔻_ω
+-- Parameters a, d ∈ ℝ_ω resolved at current dyadic precision
+def arithmetic_closed (a d : R_w) (k : Nat) : D_w :=
+  to_D_w (a + (k : R_w) * d)`
+  },
+
+  geom_ladder_step: {
+    title: "Directed Equality: Geometric Ladder Step",
+    expression: "GS(k : ℕ_ω) : 𝔻_ω ≔ (a : ℝ_ω · (r : ℝ_ω)^k : ℕ_ω)",
+    leanSignature: "def geometric_closed (a r : R_w) (k : Nat) : D_w := to_D_w (a * (r ^ k))",
+    testOrPickValue: "MiddleWayLean/DyadicRing.lean → geometric_closed",
+    checks: [],
+    conflictOrSupport: "Typed constructive scaling rule projecting base anchor a ∈ ℝ_ω and common ratio r ∈ ℝ_ω into the dyadic calculation ring 𝔻_ω at the active precision.",
+    conclusion: "Well-typed and total over k ∈ ℕ_ω; evaluates in 𝔻_ω.",
+    leanSnippet: `-- Geometric Ladder Step in 𝔻_ω
+-- Parameters a, r ∈ ℝ_ω resolved at current dyadic precision
+def geometric_closed (a r : R_w) (k : Nat) : D_w :=
+  to_D_w (a * (r ^ k))`
   }
 };
 

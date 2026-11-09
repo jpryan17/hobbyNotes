@@ -179,9 +179,11 @@ export function mountStencilCalculator(options) {
       <span style="font-family: 'Cambria Math', Georgia, serif; font-size: 18px; font-weight: 700; color: #1e3a8a;">
         ${escapeHtml(formulaDisplay)}
       </span>
-      <code style="background: #eff6ff; color: #1d4ed8; font-size: 11.5px; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #bfdbfe;">
-        ${escapeHtml(canonicalKey)}
-      </code>
+      ${isCrudMode
+        ? `<code style="background: #eff6ff; color: #1d4ed8; font-size: 11.5px; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #bfdbfe;">
+               ${escapeHtml(canonicalKey)}
+             </code>`
+        : ''}
       <span style="background: #f1f5f9; color: #475569; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: 600;">
         Codomain: ${escapeHtml(targetDom)}${escapeHtml(targetUnit)}
       </span>

@@ -4,7 +4,7 @@ import { fsd, setFSD, QuantifierBinding, DomainType, parseDomainSpec, formatDoma
 import { ArgumentCard, FormalArgument } from "./argumentCard.js";
 import { getScaffoldReflection, SCAFFOLD_REGISTRY } from "./scaffoldReflection.js";
 import { FS_CATALOG } from "./fsCatalog.js";
-import { MODULE_CATALOG } from "./pseudoCatalog.js";
+import { MODULE_CATALOG, getPseudoModule } from "./pseudoCatalog.js";
 
 export class FSDRef extends HTMLElement {
   static stdColor = "firebrick";
@@ -204,18 +204,31 @@ export class FSDRef extends HTMLElement {
 
     const effectiveScaffold = catalogStmt?.scaffoldKey || scaffoldOrId;
     const formalArg = getScaffoldReflection(effectiveScaffold, titleAttr || catalogStmt?.title);
-    if (catalogStmt?.expression) {
-      formalArg.expression = catalogStmt.expression;
-      formalArg.target = catalogStmt.title;
+    if (catalogStmt) {
+      if (!SCAFFOLD_REGISTRY[effectiveScaffold]) {
+        formalArg.verdict = true;
+        formalArg.title = catalogStmt.title;
+        formalArg.testOrPickValue = `MiddleWayLean/Scaffold.lean → ${catalogStmt.scaffoldKey}`;
+        formalArg.checks = [];
+        formalArg.conflictOrSupport = catalogStmt.description;
+        formalArg.conclusion = catalogStmt.statementKind === 'directed_equality'
+          ? 'Typed & ready for evaluation in the Middle Way calculation ring.'
+          : (catalogStmt.description || 'Registered in Middle Way Formal Statements Catalog.');
+        formalArg.leanSnippet = catalogStmt.leanSnippet || catalogStmt.leanSignature || `-- ${catalogStmt.title}\n-- ${catalogStmt.expression}`;
+      }
+      if (catalogStmt.expression) {
+        formalArg.expression = catalogStmt.expression;
+        formalArg.target = catalogStmt.title;
+      }
     }
 
     const stmtModes = FS_CATALOG.calculationModes.filter(m => m.statementId === catalogStmt?.id);
     const stmtExamples = FS_CATALOG.examples.filter(ex => ex.statementId === catalogStmt?.id);
-    const explicitAlgoKey = options?.algoKey || (MODULE_CATALOG[cleanId] ? cleanId : '');
+    const explicitAlgoKey = options?.algoKey || (getPseudoModule(cleanId) ? cleanId : '');
     const descLower = (titleAttr || '').toLowerCase();
 
     let matchedAlgo = explicitAlgoKey
-      ? (MODULE_CATALOG[explicitAlgoKey] || Object.values(MODULE_CATALOG).find(m => m.id === explicitAlgoKey || m.funcName.toLowerCase() === explicitAlgoKey.toLowerCase()))
+      ? (getPseudoModule(explicitAlgoKey) || Object.values(MODULE_CATALOG).find(m => m.id === explicitAlgoKey || m.funcName.toLowerCase() === explicitAlgoKey.toLowerCase()))
       : undefined;
 
     if (!matchedAlgo && descLower) {
@@ -246,9 +259,9 @@ export class FSDRef extends HTMLElement {
       }
     }
 
-    const stmtAlgoKey = matchedAlgo?.id || catalogStmt?.pseudoAlgoId || (MODULE_CATALOG[catalogStmt?.scaffoldKey || ''] ? catalogStmt?.scaffoldKey : undefined);
+    const stmtAlgoKey = matchedAlgo?.id || catalogStmt?.pseudoAlgoId || (getPseudoModule(catalogStmt?.scaffoldKey || '') ? catalogStmt?.scaffoldKey : undefined);
     const stmtAlgo = matchedAlgo || (stmtAlgoKey
-      ? (MODULE_CATALOG[String(stmtAlgoKey)] || Object.values(MODULE_CATALOG).find(m => m.id === String(stmtAlgoKey) || m.funcName.toLowerCase() === String(stmtAlgoKey).toLowerCase()))
+      ? (getPseudoModule(String(stmtAlgoKey)) || Object.values(MODULE_CATALOG).find(m => m.id === String(stmtAlgoKey) || m.funcName.toLowerCase() === String(stmtAlgoKey).toLowerCase()))
       : undefined);
 
     const hasActiveDimensions = (stmtModes.length > 0) || (stmtExamples.length > 0) || !!stmtAlgo || (catalogStmt?.statementKind === 'directed_equality') || !!matchedMode || !!matchedExample;
@@ -264,6 +277,9 @@ export class FSDRef extends HTMLElement {
       formalArg.scaffoldKey = catalogStmt.scaffoldKey;
       formalArg.leanSignature = catalogStmt.leanSignature;
       formalArg.docstring = catalogStmt.description;
+      if (stmtModes.length > 0 && stmtModes[0].targetDomain) {
+        formalArg.codomain = stmtModes[0].targetDomain;
+      }
       if (catalogStmt.demoRef) {
         formalArg.demoRef = catalogStmt.demoRef;
       }
@@ -287,11 +303,14 @@ export class FSDRef extends HTMLElement {
 
     const scrollWrap = new Elt("div");
     scrollWrap.setA("style", "width:100%;min-height:100%;box-sizing:border-box;display:flow-root;padding-bottom:60px;");
+    const shouldAutoOpenCalc = isPureTheorem
+      ? false
+      : Boolean(options?.autoOpenCalc || formalArg.statementKind === 'directed_equality' || !!matchedMode || !!matchedExample);
     scrollWrap.append(
       new ArgumentCard(formalArg, {
-        autoOpenCalculator: isPureTheorem ? false : (options?.autoOpenCalc || !!matchedMode || !!matchedExample),
+        autoOpenCalculator: shouldAutoOpenCalc,
         presetKey: options?.presetKey || (matchedExample ? (matchedExample.presetKey || matchedExample.id) : undefined),
-        activeModeId: options?.activeModeId || (matchedMode ? matchedMode.id : undefined),
+        activeModeId: options?.activeModeId || (matchedMode ? matchedMode.id : (stmtModes[0] ? stmtModes[0].id : undefined)),
         disableCalculator: isPureTheorem
       })
     );
