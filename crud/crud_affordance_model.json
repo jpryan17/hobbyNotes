@@ -64,6 +64,18 @@
             "theorem",
             "directed_equality"
           ],
+          "structure_kind_filter": [
+            "axiom",
+            "theorem",
+            "predicate",
+            "numeric_exp",
+            "transform"
+          ],
+          "de_submenus": {
+            "de_predicate": "⚖️ Predicates (→ 𝔹) — structure_kind = 'predicate'",
+            "de_numeric": "🧮 Numeric Expressions (→ 𝔻_ω) — structure_kind = 'numeric_exp'",
+            "de_transform": "🔄 Transforms & Operators — structure_kind = 'transform'"
+          },
           "delete_policy": "restricted_guard"
         },
         "pseudocode_algorithms": {
@@ -78,6 +90,8 @@
           "label": "Calculation Mode Slots",
           "primary_key": "id",
           "parent_fk": "statement_id",
+          "parent_table": "formal_statements",
+          "access_pattern": "Child of Directed Equality; accessed/modified via parent DE card",
           "display_col": "symbol",
           "delete_policy": "restricted_guard"
         },
@@ -86,6 +100,8 @@
           "label": "Stencil Presets",
           "primary_key": "id",
           "parent_fk": "statement_id",
+          "parent_table": "formal_statements",
+          "access_pattern": "Child of Directed Equality; accessed, built (via Save as Preset), and deleted via parent DE card",
           "display_col": "preset_key",
           "delete_policy": "restricted_guard"
         },

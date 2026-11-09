@@ -202,10 +202,6 @@ CREATE TABLE custom_elements (
 
 COMMENT ON TABLE custom_elements IS 'Independent interactive visual demonstrations and simulation sandboxes for intrinsic mathematical structures.';
 
-CREATE VIEW interactive_demos AS
-SELECT id, engine, mode, title, description, created_at, updated_at, init_packet, expression, status
-FROM custom_elements;
-
 -- ---------------------------------------------------------------------
 -- 5. Middle Way Math Formal Statements & Directed Equations (Judgments)
 -- ---------------------------------------------------------------------
@@ -216,7 +212,7 @@ CREATE TABLE formal_statements (
     scaffold_key VARCHAR(64) NOT NULL,
     domain_category VARCHAR(64) NOT NULL DEFAULT 'discrete_analysis', -- e.g. 'tree_topology', 'arithmetic', 'order_theory', 'discrete_analysis', 'complex_analysis', 'rotor_trig', 'quantum_bayes'
     subject_type statement_type NOT NULL DEFAULT 'math',              -- 'math', 'physics', 'information'
-    structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'directed_equality'
+    structure_kind VARCHAR(32) NOT NULL DEFAULT 'theorem',            -- 'axiom', 'theorem', 'predicate', 'numeric_exp', 'transform'
     parent_id BIGINT REFERENCES formal_statements(id) ON DELETE SET NULL,
     statement_kind statement_kind NOT NULL DEFAULT 'theorem',         -- 'axiom', 'theorem' (Lean 4 proof), 'directed_equality' (computational rule)
     pseudo_algo_id BIGINT REFERENCES pseudocode_algorithms(id) ON DELETE SET NULL,

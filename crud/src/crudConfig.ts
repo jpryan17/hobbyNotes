@@ -19,6 +19,7 @@ export const tables: TableConfig[] = [
             { column: 'tier', label: 'Epistemic Tier (Role)', canModify: true, len: 20 },
             { column: 'type', label: 'Subject Type', canModify: true, len: 18 },
             { column: 'statement_kind', label: 'Syntactic Kind (axiom | theorem | directed_equality)', canModify: true, len: 20 },
+            { column: 'structure_kind', label: 'Structure Kind (axiom | theorem | predicate | numeric_exp | transform)', canModify: true, len: 20 },
             { column: 'domain_category', label: 'Domain Category', canModify: true, len: 24 },
             { column: 'governing_seed', label: 'Governing Seed', canModify: true, len: 20 },
             { column: 'expression', label: 'Mathematical Expression', canModify: true, len: 60, rows: 2 },

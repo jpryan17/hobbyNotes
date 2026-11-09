@@ -28,6 +28,9 @@ export const typeMap: Record<string, TypeMapping> = {
     directed_equality: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equality (Formal)' },
     directed_equalities: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equalities' },
     directed_equations: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equalities' },
+    de_predicate: { table: 'formal_statements', filterKind: { column: 'structure_kind', value: 'predicate' }, label: 'DE Predicate (→ 𝔹)' },
+    de_numeric: { table: 'formal_statements', filterKind: { column: 'structure_kind', value: 'numeric_exp' }, label: 'DE Numeric Expression (→ 𝔻_ω)' },
+    de_transform: { table: 'formal_statements', filterKind: { column: 'structure_kind', value: 'transform' }, label: 'DE Transform & Operator' },
     formal_statement: { table: 'formal_statements', label: 'All Formal Statements' },
     formal_statements: { table: 'formal_statements', label: 'All Formal Statements' },
     computational_stencil: { table: 'formal_statements', filterKind: { column: 'statement_kind', value: 'directed_equality' }, label: 'Directed Equality (Stencil)' },
@@ -2251,6 +2254,37 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
                 kIcon = '⇌';
             }
             tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml(kVal)}</span>`;
+        } else if (tableName === 'formal_statements' && colName === 'structure_kind') {
+            const skVal = rawVal ? rawVal.toString() : '';
+            let skBg = '#f8fafc';
+            let skColor = '#334155';
+            let skIcon = '📌';
+            let skLabel = skVal;
+            if (skVal === 'axiom') {
+                skBg = '#fffbeb';
+                skColor = '#b45309';
+                skIcon = '📜';
+            } else if (skVal === 'theorem') {
+                skBg = '#f0fdfa';
+                skColor = '#0f766e';
+                skIcon = '💎';
+            } else if (skVal === 'predicate') {
+                skBg = '#f5f3ff';
+                skColor = '#6d28d9';
+                skIcon = '⚖️';
+                skLabel = 'predicate (→ 𝔹)';
+            } else if (skVal === 'numeric_exp') {
+                skBg = '#eff6ff';
+                skColor = '#1d4ed8';
+                skIcon = '🧮';
+                skLabel = 'numeric_exp (→ 𝔻_ω)';
+            } else if (skVal === 'transform') {
+                skBg = '#ecfeff';
+                skColor = '#0e7490';
+                skIcon = '🔄';
+                skLabel = 'transform ([exp] → [exp])';
+            }
+            tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${skBg}; color: ${skColor}; display: inline-flex; align-items: center; gap: 4px;">${skIcon} ${escapeHtml(skLabel)}</span>`;
         } else if (tableName === 'formal_statements' && colName === 'domain_category') {
             tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml(rawVal.toString())}</span>`;
         } else if (tableName === 'formal_statements' && colName === 'referenced_segments') {
@@ -2360,37 +2394,51 @@ async function renderAttributeCompleteCard(tableName: string, record: any): Prom
 
     // Live Schema-Driven Stencil Calculator (For Directed Equalities & Stencil Presets)
     if (tableName === 'formal_statements' && record.statement_kind === 'directed_equality') {
-        const stencilSection = document.createElement('div');
-        stencilSection.className = 'card-stencil-section';
-        stencilSection.style.cssText = 'margin-top: 20px;';
-        card.appendChild(stencilSection);
-
         try {
-            const slots = await queryDatabase<any>(
-                'SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;',
-                [record.id]
-            );
-            const presets = await queryDatabase<any>(
-                'SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;',
-                [record.id]
-            );
+            if (record.structure_kind !== 'predicate') {
+                const stencilSection = document.createElement('div');
+                stencilSection.className = 'card-stencil-section';
+                stencilSection.style.cssText = 'margin-top: 20px;';
+                card.appendChild(stencilSection);
 
-            mountStencilCalculator({
-                container: stencilSection,
-                equation: record,
-                slots: slots || [],
-                presets: presets || [],
-                isCrudMode: true,
-                onSavePreset: async (newPreset) => {
-                    await executeSql(
-                        `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
-                         VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
-                        [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
-                    );
-                    // Refresh view to display new preset in dropdown
-                    await renderEntityInspectorView('formal_statements');
-                }
-            });
+                const slots = await queryDatabase<any>(
+                    'SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;',
+                    [record.id]
+                );
+                const presets = await queryDatabase<any>(
+                    'SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;',
+                    [record.id]
+                );
+
+                mountStencilCalculator({
+                    container: stencilSection,
+                    equation: record,
+                    slots: slots || [],
+                    presets: presets || [],
+                    isCrudMode: true,
+                    onSavePreset: async (newPreset) => {
+                        await executeSql(
+                            `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
+                             VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
+                            [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
+                        );
+                        // Refresh view to display new preset in dropdown
+                        await renderEntityInspectorView('formal_statements');
+                    }
+                });
+
+                // Child Stencil Presets (Accessed / Built / Deleted via parent Numeric DE)
+                const presetsChildTarget = document.createElement('div');
+                presetsChildTarget.style.cssText = 'margin-top: 12px;';
+                card.appendChild(presetsChildTarget);
+                await renderChildRecordsList('stencil_presets', 'statement_id', record.id, 'Child Stencil Presets', presetsChildTarget);
+            }
+
+            // Child Mode Slots (Parameters & Bound Arguments)
+            const slotsChildTarget = document.createElement('div');
+            slotsChildTarget.style.cssText = 'margin-top: 10px;';
+            card.appendChild(slotsChildTarget);
+            await renderChildRecordsList('mode_slots', 'statement_id', record.id, 'Child Mode Slots (Parameters & Inputs)', slotsChildTarget);
         } catch (stErr) {
             console.error('[renderAttributeCompleteCard] Error mounting stencil calculator:', stErr);
         }
@@ -2705,7 +2753,18 @@ async function renderRecordForm(tableName: string, record: any = null, isNew: bo
             if (colName === 'statement_kind') {
                 if (currentTypeKey === 'axiom') val = 'axiom';
                 else if (currentTypeKey === 'theorem') val = 'theorem';
-                else if (currentTypeKey === 'directed_equality') val = 'directed_equality';
+                else if (currentTypeKey === 'directed_equality' || currentTypeKey === 'de_predicate' || currentTypeKey === 'de_numeric' || currentTypeKey === 'de_transform') val = 'directed_equality';
+            }
+            if (colName === 'structure_kind') {
+                if (currentTypeKey === 'axiom') val = 'axiom';
+                else if (currentTypeKey === 'theorem') val = 'theorem';
+                else if (currentTypeKey === 'de_predicate') val = 'predicate';
+                else if (currentTypeKey === 'de_numeric' || currentTypeKey === 'directed_equality') val = 'numeric_exp';
+                else if (currentTypeKey === 'de_transform') val = 'transform';
+            }
+            if (colName === 'target_domain') {
+                if (currentTypeKey === 'de_predicate' || currentTypeKey === 'axiom' || currentTypeKey === 'theorem') val = '𝔹';
+                else if (currentTypeKey === 'de_numeric' || currentTypeKey === 'de_transform' || currentTypeKey === 'directed_equality') val = '𝔻_ω';
             }
         }
 
@@ -2780,6 +2839,27 @@ async function renderRecordForm(tableName: string, record: any = null, isNew: bo
             });
 
             inputElement = container;
+        } else if (tableName === 'formal_statements' && colName === 'structure_kind') {
+            const select = document.createElement('select');
+            select.id = `field-${colName}`;
+            select.name = colName;
+            select.className = 'form-select';
+            select.style.maxWidth = '340px';
+            const skOpts = [
+                { val: 'axiom', label: '📜 axiom (Prop : {T, F})' },
+                { val: 'theorem', label: '💎 theorem (Prop : {T, F})' },
+                { val: 'predicate', label: '⚖️ predicate (DE → 𝔹)' },
+                { val: 'numeric_exp', label: '🧮 numeric_exp (DE → 𝔻_ω)' },
+                { val: 'transform', label: '🔄 transform ([exp] → [exp])' }
+            ];
+            for (const optDef of skOpts) {
+                const opt = document.createElement('option');
+                opt.value = optDef.val;
+                opt.textContent = optDef.label;
+                if (val === optDef.val) opt.selected = true;
+                select.appendChild(opt);
+            }
+            inputElement = select;
         } else if (colMeta.isEnum) {
             const select = document.createElement('select');
             select.id = `field-${colName}`;

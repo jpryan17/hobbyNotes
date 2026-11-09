@@ -257,9 +257,30 @@ export const navigationMenuTree: MenuItem[] = [
                         typeKey: 'directed_equality',
                         filterKind: { column: 'statement_kind', value: 'directed_equality' },
                         children: [
-                            { label: 'Browse Mode Slots', typeKey: 'mode_slots', subject: 'all' },
-                            { label: 'Browse Stencil Presets', typeKey: 'stencil_presets', subject: 'all' },
-                            { label: 'Browse Pseudocode Algorithms', typeKey: 'pseudocode_algorithms', subject: 'all' },
+                            {
+                                label: '⚖️ Predicates (→ 𝔹)',
+                                typeKey: 'de_predicate',
+                                filterKind: { column: 'structure_kind', value: 'predicate' },
+                                children: [
+                                    { label: 'Browse All Predicates', typeKey: 'de_predicate', subject: 'all' }
+                                ]
+                            },
+                            {
+                                label: '🧮 Numeric Expressions (→ 𝔻_ω)',
+                                typeKey: 'de_numeric',
+                                filterKind: { column: 'structure_kind', value: 'numeric_exp' },
+                                children: [
+                                    { label: 'Browse All Numeric Expressions', typeKey: 'de_numeric', subject: 'all' }
+                                ]
+                            },
+                            {
+                                label: '🔄 Transforms & Operators',
+                                typeKey: 'de_transform',
+                                filterKind: { column: 'structure_kind', value: 'transform' },
+                                children: [
+                                    { label: 'Browse All Transforms & Operators', typeKey: 'de_transform', subject: 'all' }
+                                ]
+                            },
                             { label: 'Browse All Directed Equalities', typeKey: 'directed_equality', subject: 'all' }
                         ]
                     },
@@ -269,20 +290,7 @@ export const navigationMenuTree: MenuItem[] = [
             },
 
             // -----------------------------------------------------------------
-            // Sub-Index 2: Stencil Input Default Presets (Preset)
-            // -----------------------------------------------------------------
-            {
-                label: 'Stencil Input Default Presets (Preset)',
-                icon: '🎛️',
-                typeKey: 'stencil_presets',
-                subject: 'all',
-                children: [
-                    { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
-                ]
-            },
-
-            // -----------------------------------------------------------------
-            // Sub-Index 3: Conway Binary Tree Instruments (BTD)
+            // Sub-Index 2: Conway Binary Tree Instruments (BTD)
             // -----------------------------------------------------------------
             {
                 label: 'Binary Tree Instruments (BTD)',
@@ -489,10 +497,10 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
         if (customElementsNode && customElementsNode.children) {
 
             // 2a. Sync Formal Statements (FSD)
-            const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
+            const stmts = await queryFn<any>('SELECT id, statement_key, title, statement_kind, structure_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;');
             const fsTopNode = customElementsNode.children.find((c) => c.typeKey === 'formal_statement');
             if (stmts && stmts.length > 0 && fsTopNode && fsTopNode.children) {
-                for (const kind of ['axiom', 'theorem', 'directed_equality']) {
+                for (const kind of ['axiom', 'theorem']) {
                     const kindNode = fsTopNode.children.find((c) => c.typeKey === kind);
                     if (kindNode) {
                         const kindStmts = stmts.filter((s) => s.statement_kind === kind);
@@ -510,32 +518,61 @@ export async function syncMenuTreeFromDatabase(queryFn: <T = any>(sql: string, p
                                 };
                             }),
                             {
-                                label: `Browse All ${kind === 'directed_equality' ? 'Directed Equalities' : kind.charAt(0).toUpperCase() + kind.slice(1) + 's'}`,
+                                label: `Browse All ${kind.charAt(0).toUpperCase() + kind.slice(1) + 's'}`,
                                 typeKey: kind,
                                 subject: 'all'
                             }
                         ];
                     }
                 }
+
+                // Populate Directed Equalities (DE) -> a) Predicates, b) Numeric Expressions, c) Transforms
+                const deNode = fsTopNode.children.find((c) => c.typeKey === 'directed_equality');
+                if (deNode) {
+                    const deSubSpecs = [
+                        { typeKey: 'de_predicate', structureKind: 'predicate', label: '⚖️ Predicates (→ 𝔹)', browseLabel: 'Browse All Predicates' },
+                        { typeKey: 'de_numeric', structureKind: 'numeric_exp', label: '🧮 Numeric Expressions (→ 𝔻_ω)', browseLabel: 'Browse All Numeric Expressions' },
+                        { typeKey: 'de_transform', structureKind: 'transform', label: '🔄 Transforms & Operators', browseLabel: 'Browse All Transforms & Operators' }
+                    ];
+                    const deStmts = stmts.filter((s) => s.statement_kind === 'directed_equality');
+                    deNode.children = [
+                        ...deSubSpecs.map((spec) => {
+                            const matching = deStmts.filter((s) => s.structure_kind === spec.structureKind);
+                            matching.sort((a, b) => (a.statement_key || '').localeCompare(b.statement_key || ''));
+                            return {
+                                label: spec.label,
+                                typeKey: spec.typeKey,
+                                filterKind: { column: 'structure_kind', value: spec.structureKind },
+                                children: [
+                                    ...matching.map((s) => {
+                                        const subj = inferSubject(s.title, s.statement_key, s.domain_category);
+                                        const key = s.statement_key || `fs_${s.id}`;
+                                        const displayLabel = s.title ? `${key} — ${s.title}` : key;
+                                        return {
+                                            label: displayLabel,
+                                            typeKey: spec.typeKey,
+                                            instanceKey: s.statement_key,
+                                            subject: subj
+                                        };
+                                    }),
+                                    {
+                                        label: spec.browseLabel,
+                                        typeKey: spec.typeKey,
+                                        subject: 'all'
+                                    }
+                                ]
+                            };
+                        }),
+                        {
+                            label: 'Browse All Directed Equalities',
+                            typeKey: 'directed_equality',
+                            subject: 'all'
+                        }
+                    ];
+                }
             }
 
-            // 2b. Sync Stencil Presets
-            const presetRows = await queryFn<any>('SELECT id, preset_key, title, statement_id FROM stencil_presets ORDER BY id ASC;');
-            const presetNode = customElementsNode.children.find((c) => c.typeKey === 'stencil_presets');
-            if (presetRows && presetRows.length > 0 && presetNode) {
-                presetNode.children = [
-                    ...presetRows.map((p) => ({
-                        label: p.title || p.preset_key || `Preset #${p.id}`,
-                        typeKey: 'stencil_presets',
-                        instanceId: Number(p.id),
-                        instanceKey: p.preset_key,
-                        subject: inferSubject(p.title, p.preset_key)
-                    })),
-                    { label: 'Browse All Stencil Presets', typeKey: 'stencil_presets', subject: 'all' }
-                ];
-            }
-
-            // 2c. Sync Custom Elements (BTD, BID, TTD, FSD)
+            // 2b. Sync Custom Elements (BTD, BID, TTD, FSD)
             const demoRows = await queryFn<any>('SELECT id, engine, mode, title FROM custom_elements ORDER BY id ASC;');
             if (demoRows && demoRows.length > 0) {
                 for (const eng of ['btd', 'bid', 'ttd', 'fsd']) {

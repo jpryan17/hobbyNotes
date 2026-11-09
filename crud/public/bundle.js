@@ -11680,6 +11680,7 @@ var tables = [
       { column: "tier", label: "Epistemic Tier (Role)", canModify: true, len: 20 },
       { column: "type", label: "Subject Type", canModify: true, len: 18 },
       { column: "statement_kind", label: "Syntactic Kind (axiom | theorem | directed_equality)", canModify: true, len: 20 },
+      { column: "structure_kind", label: "Structure Kind (axiom | theorem | predicate | numeric_exp | transform)", canModify: true, len: 20 },
       { column: "domain_category", label: "Domain Category", canModify: true, len: 24 },
       { column: "governing_seed", label: "Governing Seed", canModify: true, len: 20 },
       { column: "expression", label: "Mathematical Expression", canModify: true, len: 60, rows: 2 },
@@ -12433,9 +12434,30 @@ var navigationMenuTree = [
             typeKey: "directed_equality",
             filterKind: { column: "statement_kind", value: "directed_equality" },
             children: [
-              { label: "Browse Mode Slots", typeKey: "mode_slots", subject: "all" },
-              { label: "Browse Stencil Presets", typeKey: "stencil_presets", subject: "all" },
-              { label: "Browse Pseudocode Algorithms", typeKey: "pseudocode_algorithms", subject: "all" },
+              {
+                label: "\u2696\uFE0F Predicates (\u2192 \u{1D539})",
+                typeKey: "de_predicate",
+                filterKind: { column: "structure_kind", value: "predicate" },
+                children: [
+                  { label: "Browse All Predicates", typeKey: "de_predicate", subject: "all" }
+                ]
+              },
+              {
+                label: "\u{1F9EE} Numeric Expressions (\u2192 \u{1D53B}_\u03C9)",
+                typeKey: "de_numeric",
+                filterKind: { column: "structure_kind", value: "numeric_exp" },
+                children: [
+                  { label: "Browse All Numeric Expressions", typeKey: "de_numeric", subject: "all" }
+                ]
+              },
+              {
+                label: "\u{1F504} Transforms & Operators",
+                typeKey: "de_transform",
+                filterKind: { column: "structure_kind", value: "transform" },
+                children: [
+                  { label: "Browse All Transforms & Operators", typeKey: "de_transform", subject: "all" }
+                ]
+              },
               { label: "Browse All Directed Equalities", typeKey: "directed_equality", subject: "all" }
             ]
           },
@@ -12444,19 +12466,7 @@ var navigationMenuTree = [
         ]
       },
       // -----------------------------------------------------------------
-      // Sub-Index 2: Stencil Input Default Presets (Preset)
-      // -----------------------------------------------------------------
-      {
-        label: "Stencil Input Default Presets (Preset)",
-        icon: "\u{1F39B}\uFE0F",
-        typeKey: "stencil_presets",
-        subject: "all",
-        children: [
-          { label: "Browse All Stencil Presets", typeKey: "stencil_presets", subject: "all" }
-        ]
-      },
-      // -----------------------------------------------------------------
-      // Sub-Index 3: Conway Binary Tree Instruments (BTD)
+      // Sub-Index 2: Conway Binary Tree Instruments (BTD)
       // -----------------------------------------------------------------
       {
         label: "Binary Tree Instruments (BTD)",
@@ -12614,10 +12624,10 @@ async function syncMenuTreeFromDatabase(queryFn) {
     }
     const customElementsNode = navigationMenuTree.find((n) => n.typeKey === "custom_elements");
     if (customElementsNode && customElementsNode.children) {
-      const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;");
+      const stmts = await queryFn("SELECT id, statement_key, title, statement_kind, structure_kind, domain_category FROM formal_statements ORDER BY statement_key ASC;");
       const fsTopNode = customElementsNode.children.find((c) => c.typeKey === "formal_statement");
       if (stmts && stmts.length > 0 && fsTopNode && fsTopNode.children) {
-        for (const kind of ["axiom", "theorem", "directed_equality"]) {
+        for (const kind of ["axiom", "theorem"]) {
           const kindNode = fsTopNode.children.find((c) => c.typeKey === kind);
           if (kindNode) {
             const kindStmts = stmts.filter((s) => s.statement_kind === kind);
@@ -12635,27 +12645,56 @@ async function syncMenuTreeFromDatabase(queryFn) {
                 };
               }),
               {
-                label: `Browse All ${kind === "directed_equality" ? "Directed Equalities" : kind.charAt(0).toUpperCase() + kind.slice(1) + "s"}`,
+                label: `Browse All ${kind.charAt(0).toUpperCase() + kind.slice(1) + "s"}`,
                 typeKey: kind,
                 subject: "all"
               }
             ];
           }
         }
-      }
-      const presetRows = await queryFn("SELECT id, preset_key, title, statement_id FROM stencil_presets ORDER BY id ASC;");
-      const presetNode = customElementsNode.children.find((c) => c.typeKey === "stencil_presets");
-      if (presetRows && presetRows.length > 0 && presetNode) {
-        presetNode.children = [
-          ...presetRows.map((p) => ({
-            label: p.title || p.preset_key || `Preset #${p.id}`,
-            typeKey: "stencil_presets",
-            instanceId: Number(p.id),
-            instanceKey: p.preset_key,
-            subject: inferSubject(p.title, p.preset_key)
-          })),
-          { label: "Browse All Stencil Presets", typeKey: "stencil_presets", subject: "all" }
-        ];
+        const deNode = fsTopNode.children.find((c) => c.typeKey === "directed_equality");
+        if (deNode) {
+          const deSubSpecs = [
+            { typeKey: "de_predicate", structureKind: "predicate", label: "\u2696\uFE0F Predicates (\u2192 \u{1D539})", browseLabel: "Browse All Predicates" },
+            { typeKey: "de_numeric", structureKind: "numeric_exp", label: "\u{1F9EE} Numeric Expressions (\u2192 \u{1D53B}_\u03C9)", browseLabel: "Browse All Numeric Expressions" },
+            { typeKey: "de_transform", structureKind: "transform", label: "\u{1F504} Transforms & Operators", browseLabel: "Browse All Transforms & Operators" }
+          ];
+          const deStmts = stmts.filter((s) => s.statement_kind === "directed_equality");
+          deNode.children = [
+            ...deSubSpecs.map((spec) => {
+              const matching = deStmts.filter((s) => s.structure_kind === spec.structureKind);
+              matching.sort((a, b) => (a.statement_key || "").localeCompare(b.statement_key || ""));
+              return {
+                label: spec.label,
+                typeKey: spec.typeKey,
+                filterKind: { column: "structure_kind", value: spec.structureKind },
+                children: [
+                  ...matching.map((s) => {
+                    const subj = inferSubject(s.title, s.statement_key, s.domain_category);
+                    const key = s.statement_key || `fs_${s.id}`;
+                    const displayLabel = s.title ? `${key} \u2014 ${s.title}` : key;
+                    return {
+                      label: displayLabel,
+                      typeKey: spec.typeKey,
+                      instanceKey: s.statement_key,
+                      subject: subj
+                    };
+                  }),
+                  {
+                    label: spec.browseLabel,
+                    typeKey: spec.typeKey,
+                    subject: "all"
+                  }
+                ]
+              };
+            }),
+            {
+              label: "Browse All Directed Equalities",
+              typeKey: "directed_equality",
+              subject: "all"
+            }
+          ];
+        }
       }
       const demoRows = await queryFn("SELECT id, engine, mode, title FROM custom_elements ORDER BY id ASC;");
       if (demoRows && demoRows.length > 0) {
@@ -43344,6 +43383,9 @@ var typeMap = {
   directed_equality: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equality (Formal)" },
   directed_equalities: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equalities" },
   directed_equations: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equalities" },
+  de_predicate: { table: "formal_statements", filterKind: { column: "structure_kind", value: "predicate" }, label: "DE Predicate (\u2192 \u{1D539})" },
+  de_numeric: { table: "formal_statements", filterKind: { column: "structure_kind", value: "numeric_exp" }, label: "DE Numeric Expression (\u2192 \u{1D53B}_\u03C9)" },
+  de_transform: { table: "formal_statements", filterKind: { column: "structure_kind", value: "transform" }, label: "DE Transform & Operator" },
   formal_statement: { table: "formal_statements", label: "All Formal Statements" },
   formal_statements: { table: "formal_statements", label: "All Formal Statements" },
   computational_stencil: { table: "formal_statements", filterKind: { column: "statement_kind", value: "directed_equality" }, label: "Directed Equality (Stencil)" },
@@ -45189,6 +45231,37 @@ async function renderAttributeCompleteCard(tableName, record) {
         kIcon = "\u21CC";
       }
       tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${kBg}; color: ${kColor}; display: inline-flex; align-items: center; gap: 4px;">${kIcon} ${escapeHtml3(kVal)}</span>`;
+    } else if (tableName === "formal_statements" && colName === "structure_kind") {
+      const skVal = rawVal ? rawVal.toString() : "";
+      let skBg = "#f8fafc";
+      let skColor = "#334155";
+      let skIcon = "\u{1F4CC}";
+      let skLabel = skVal;
+      if (skVal === "axiom") {
+        skBg = "#fffbeb";
+        skColor = "#b45309";
+        skIcon = "\u{1F4DC}";
+      } else if (skVal === "theorem") {
+        skBg = "#f0fdfa";
+        skColor = "#0f766e";
+        skIcon = "\u{1F48E}";
+      } else if (skVal === "predicate") {
+        skBg = "#f5f3ff";
+        skColor = "#6d28d9";
+        skIcon = "\u2696\uFE0F";
+        skLabel = "predicate (\u2192 \u{1D539})";
+      } else if (skVal === "numeric_exp") {
+        skBg = "#eff6ff";
+        skColor = "#1d4ed8";
+        skIcon = "\u{1F9EE}";
+        skLabel = "numeric_exp (\u2192 \u{1D53B}_\u03C9)";
+      } else if (skVal === "transform") {
+        skBg = "#ecfeff";
+        skColor = "#0e7490";
+        skIcon = "\u{1F504}";
+        skLabel = "transform ([exp] \u2192 [exp])";
+      }
+      tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 12px; background: ${skBg}; color: ${skColor}; display: inline-flex; align-items: center; gap: 4px;">${skIcon} ${escapeHtml3(skLabel)}</span>`;
     } else if (tableName === "formal_statements" && colName === "domain_category") {
       tdVal.innerHTML = `<span style="font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #f1f5f9; color: #1e293b; border: 1px solid #cbd5e1; font-family: var(--font-mono);">${escapeHtml3(rawVal.toString())}</span>`;
     } else if (tableName === "formal_statements" && colName === "referenced_segments") {
@@ -45292,34 +45365,44 @@ async function renderAttributeCompleteCard(tableName, record) {
   }
   card.appendChild(table);
   if (tableName === "formal_statements" && record.statement_kind === "directed_equality") {
-    const stencilSection = document.createElement("div");
-    stencilSection.className = "card-stencil-section";
-    stencilSection.style.cssText = "margin-top: 20px;";
-    card.appendChild(stencilSection);
     try {
-      const slots = await queryDatabase(
-        "SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;",
-        [record.id]
-      );
-      const presets = await queryDatabase(
-        "SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;",
-        [record.id]
-      );
-      mountStencilCalculator({
-        container: stencilSection,
-        equation: record,
-        slots: slots || [],
-        presets: presets || [],
-        isCrudMode: true,
-        onSavePreset: async (newPreset) => {
-          await executeSql(
-            `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
-                         VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
-            [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
-          );
-          await renderEntityInspectorView("formal_statements");
-        }
-      });
+      if (record.structure_kind !== "predicate") {
+        const stencilSection = document.createElement("div");
+        stencilSection.className = "card-stencil-section";
+        stencilSection.style.cssText = "margin-top: 20px;";
+        card.appendChild(stencilSection);
+        const slots = await queryDatabase(
+          "SELECT * FROM mode_slots WHERE statement_id = $1 ORDER BY slot_order ASC;",
+          [record.id]
+        );
+        const presets = await queryDatabase(
+          "SELECT * FROM stencil_presets WHERE statement_id = $1 ORDER BY id ASC;",
+          [record.id]
+        );
+        mountStencilCalculator({
+          container: stencilSection,
+          equation: record,
+          slots: slots || [],
+          presets: presets || [],
+          isCrudMode: true,
+          onSavePreset: async (newPreset) => {
+            await executeSql(
+              `INSERT INTO stencil_presets (preset_key, statement_id, title, unit, param_values, description, created_at, updated_at)
+                             VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW());`,
+              [newPreset.preset_key, record.id, newPreset.title, newPreset.unit, JSON.stringify(newPreset.param_values), newPreset.description]
+            );
+            await renderEntityInspectorView("formal_statements");
+          }
+        });
+        const presetsChildTarget = document.createElement("div");
+        presetsChildTarget.style.cssText = "margin-top: 12px;";
+        card.appendChild(presetsChildTarget);
+        await renderChildRecordsList("stencil_presets", "statement_id", record.id, "Child Stencil Presets", presetsChildTarget);
+      }
+      const slotsChildTarget = document.createElement("div");
+      slotsChildTarget.style.cssText = "margin-top: 10px;";
+      card.appendChild(slotsChildTarget);
+      await renderChildRecordsList("mode_slots", "statement_id", record.id, "Child Mode Slots (Parameters & Inputs)", slotsChildTarget);
     } catch (stErr) {
       console.error("[renderAttributeCompleteCard] Error mounting stencil calculator:", stErr);
     }
@@ -45368,6 +45451,73 @@ async function renderAttributeCompleteCard(tableName, record) {
     });
   });
   return container;
+}
+async function renderChildRecordsList(childTable, fkColumn, parentId, childLabel, target) {
+  target.style.display = "block";
+  target.innerHTML = `<div style="padding: 12px; color: #64748b;">Loading child records for ${escapeHtml3(childLabel)}...</div>`;
+  const childMeta = appMetadata[childTable];
+  try {
+    const sql = `SELECT * FROM ${childTable} WHERE "${fkColumn}" = $1 ORDER BY id ASC;`;
+    const rows = await queryDatabase(sql, [parentId]);
+    if (!rows || rows.length === 0) {
+      target.innerHTML = `
+                <div style="padding: 14px; background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px;">
+                    <div style="color: #64748b; font-size: 13px;">No child records found in <strong>${escapeHtml3(childTable)}</strong> for this record.</div>
+                </div>
+            `;
+      return;
+    }
+    const singular = childMeta?.singularLabel || childLabel;
+    if (rows.length === 1) {
+      const child = rows[0];
+      const friendlyName = getRecordFriendlyName(childTable, child);
+      target.innerHTML = `
+                <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; padding: 14px 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                        <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">
+                            ${escapeHtml3(singular)}:
+                        </span>
+                        <input type="text" readonly value="${escapeHtml3(friendlyName)}" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #f8fafc; color: #0f172a;" />
+                        <button type="button" class="btn btn-sm action-btn primary goto-child-single-btn" data-id="${child.id}" data-name="${escapeHtml3(friendlyName)}" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                            Inspect ${escapeHtml3(singular)} \u2197
+                        </button>
+                    </div>
+                </div>
+            `;
+      target.querySelector(".goto-child-single-btn")?.addEventListener("click", () => {
+        navigateToEntity(childTable, child.id.toString(), friendlyName);
+      });
+    } else {
+      target.innerHTML = `
+                <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; padding: 14px 16px;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+                        <span style="font-size: 13px; font-weight: 600; color: #334155; min-width: 170px;">
+                            ${escapeHtml3(childLabel)} (${rows.length}):
+                        </span>
+                        <select class="child-select-menu" style="flex: 1; padding: 6px 10px; font-size: 13px; border: 1px solid var(--border-color); border-radius: 4px; background: #ffffff; color: #0f172a;">
+                            ${rows.map((r) => {
+        const friendlyName = getRecordFriendlyName(childTable, r);
+        return `<option value="${r.id}" data-name="${escapeHtml3(friendlyName)}">${escapeHtml3(friendlyName)}</option>`;
+      }).join("")}
+                        </select>
+                        <button type="button" class="btn btn-sm action-btn primary goto-child-multi-btn" style="padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;">
+                            Inspect Selected \u2197
+                        </button>
+                    </div>
+                </div>
+            `;
+      const selectEl = target.querySelector(".child-select-menu");
+      target.querySelector(".goto-child-multi-btn")?.addEventListener("click", () => {
+        if (selectEl && selectEl.value) {
+          const opt = selectEl.selectedOptions[0];
+          const friendlyName = opt?.getAttribute("data-name") || `${singular} #${selectEl.value}`;
+          navigateToEntity(childTable, selectEl.value, friendlyName);
+        }
+      });
+    }
+  } catch (e) {
+    target.innerHTML = `<div style="padding: 12px; color: #dc2626;">Error loading child records: ${e.message}</div>`;
+  }
 }
 async function renderRecordForm(tableName, record = null, isNew = false) {
   if (!displayArea) return;
@@ -45511,7 +45661,18 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
       if (colName === "statement_kind") {
         if (currentTypeKey === "axiom") val = "axiom";
         else if (currentTypeKey === "theorem") val = "theorem";
-        else if (currentTypeKey === "directed_equality") val = "directed_equality";
+        else if (currentTypeKey === "directed_equality" || currentTypeKey === "de_predicate" || currentTypeKey === "de_numeric" || currentTypeKey === "de_transform") val = "directed_equality";
+      }
+      if (colName === "structure_kind") {
+        if (currentTypeKey === "axiom") val = "axiom";
+        else if (currentTypeKey === "theorem") val = "theorem";
+        else if (currentTypeKey === "de_predicate") val = "predicate";
+        else if (currentTypeKey === "de_numeric" || currentTypeKey === "directed_equality") val = "numeric_exp";
+        else if (currentTypeKey === "de_transform") val = "transform";
+      }
+      if (colName === "target_domain") {
+        if (currentTypeKey === "de_predicate" || currentTypeKey === "axiom" || currentTypeKey === "theorem") val = "\u{1D539}";
+        else if (currentTypeKey === "de_numeric" || currentTypeKey === "de_transform" || currentTypeKey === "directed_equality") val = "\u{1D53B}_\u03C9";
       }
     }
     const tr = document.createElement("tr");
@@ -45573,6 +45734,27 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
         }
       });
       inputElement = container;
+    } else if (tableName === "formal_statements" && colName === "structure_kind") {
+      const select = document.createElement("select");
+      select.id = `field-${colName}`;
+      select.name = colName;
+      select.className = "form-select";
+      select.style.maxWidth = "340px";
+      const skOpts = [
+        { val: "axiom", label: "\u{1F4DC} axiom (Prop : {T, F})" },
+        { val: "theorem", label: "\u{1F48E} theorem (Prop : {T, F})" },
+        { val: "predicate", label: "\u2696\uFE0F predicate (DE \u2192 \u{1D539})" },
+        { val: "numeric_exp", label: "\u{1F9EE} numeric_exp (DE \u2192 \u{1D53B}_\u03C9)" },
+        { val: "transform", label: "\u{1F504} transform ([exp] \u2192 [exp])" }
+      ];
+      for (const optDef of skOpts) {
+        const opt = document.createElement("option");
+        opt.value = optDef.val;
+        opt.textContent = optDef.label;
+        if (val === optDef.val) opt.selected = true;
+        select.appendChild(opt);
+      }
+      inputElement = select;
     } else if (colMeta.isEnum) {
       const select = document.createElement("select");
       select.id = `field-${colName}`;
