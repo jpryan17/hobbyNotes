@@ -3123,7 +3123,7 @@ var FS_CATALOG;
 var init_fsCatalog = __esm({
   "clientLib/fsCatalog.ts"() {
     FS_CATALOG = {
-      "generatedAt": "2026-11-09T11:43:10.778Z",
+      "generatedAt": "2026-11-09T13:22:44.145Z",
       "version": "2.0.0",
       "formalStatements": [
         {
@@ -44516,8 +44516,15 @@ async function selectInstanceDirectly(typeKey, instanceKeyOrId, label) {
     return;
   }
   if (tableName === "formal_statements" && record.statement_kind) {
-    resolvedTypeKey = record.statement_kind;
-  } else if (tableName === "interactive_demos" && record.engine && typeMap[record.engine]) {
+    if (record.statement_kind === "directed_equality") {
+      if (record.structure_kind === "predicate") resolvedTypeKey = "de_predicate";
+      else if (record.structure_kind === "numeric_exp") resolvedTypeKey = "de_numeric";
+      else if (record.structure_kind === "transform") resolvedTypeKey = "de_transform";
+      else resolvedTypeKey = "directed_equality";
+    } else {
+      resolvedTypeKey = record.statement_kind;
+    }
+  } else if ((tableName === "custom_elements" || tableName === "interactive_demos") && record.engine && typeMap[record.engine]) {
     resolvedTypeKey = record.engine;
   }
   currentTypeKey = resolvedTypeKey;
@@ -44691,6 +44698,14 @@ async function renderEntityInstancePickerForAction(tableName, action, filterKind
     ).join("")}
         `;
     const triggerActionOnRecord = async (record) => {
+      const mapping = typeMap[currentTypeKey] || { table: tableName, label: tableInfo.label };
+      navHistory.push({
+        mode: currentMode,
+        typeKey: currentTypeKey,
+        tableName,
+        id: null,
+        title: `${mapping.label} List`
+      });
       currentSelectedId = record.id.toString();
       currentTitle = getRecordFriendlyName(tableName, record);
       updateBreadcrumbs();
@@ -44827,6 +44842,19 @@ async function renderEntityInspectorView(tableName, filterKind) {
         </div>
     `;
   try {
+    if (currentSelectedId) {
+      const fullRecord = await fetchRecordById(tableName, currentSelectedId);
+      const cardTarget2 = document.getElementById("inspector-card-target");
+      if (fullRecord && cardTarget2) {
+        currentTitle = getRecordFriendlyName(tableName, fullRecord);
+        updateBreadcrumbs();
+        cardTarget2.innerHTML = "";
+        const card = await renderAttributeCompleteCard(tableName, fullRecord);
+        cardTarget2.appendChild(card);
+        return;
+      }
+      currentSelectedId = null;
+    }
     let sql = `SELECT * FROM ${tableName}`;
     const params = [];
     if (filterKind) {
@@ -44891,9 +44919,9 @@ async function renderEntityInspectorView(tableName, filterKind) {
     const labelEl = document.getElementById("instance-select-label");
     const populateSelectOptions = (list) => {
       selectEl.innerHTML = `
-                <option value="" ${!currentSelectedId ? "selected" : ""}>-- Select ${tableInfo.singularLabel || tableInfo.label} (${list.length}${list.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
+                <option value="" selected>-- Select ${tableInfo.singularLabel || tableInfo.label} (${list.length}${list.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
                 ${list.map(
-        (r) => `<option value="${r.id}" ${currentSelectedId === r.id.toString() ? "selected" : ""}>
+        (r) => `<option value="${r.id}">
                                 ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
                             </option>`
       ).join("")}
@@ -44903,10 +44931,21 @@ async function renderEntityInspectorView(tableName, filterKind) {
       }
     };
     populateSelectOptions(activeFilteredRecords);
+    const mapping = typeMap[currentTypeKey] || { table: tableName, label: tableInfo.label };
+    const inspectFromList = async (id) => {
+      navHistory.push({
+        mode: currentMode,
+        typeKey: currentTypeKey,
+        tableName,
+        id: null,
+        title: `${mapping.label} List`
+      });
+      currentSelectedId = id;
+      await renderEntityInspectorView(tableName, filterKind);
+    };
     const showInstanceSelectionMenu = () => {
       currentSelectedId = null;
       selectEl.value = "";
-      const mapping = typeMap[currentTypeKey] || { table: tableName, label: tableInfo.label };
       currentTitle = mapping.label;
       updateBreadcrumbs();
       const filterScopeBanner = currentSubject !== "all" ? `
@@ -44965,58 +45004,22 @@ async function renderEntityInspectorView(tableName, filterKind) {
       cardTarget.querySelectorAll(".instance-menu-item").forEach((item) => {
         item.addEventListener("click", () => {
           const id = item.getAttribute("data-id");
-          inspectInstance(id);
+          inspectFromList(id);
         });
       });
-    };
-    const inspectInstance = async (id) => {
-      currentSelectedId = id;
-      selectEl.value = id;
-      const fullRecord = records.find((r) => r.id.toString() === id) || await fetchRecordById(tableName, id);
-      if (fullRecord) {
-        currentTitle = getRecordFriendlyName(tableName, fullRecord);
-        updateBreadcrumbs();
-        cardTarget.innerHTML = `
-                    <button class="back-to-menu-btn" id="btn-back-to-menu">
-                        <span>\u2039 Back to ${tableInfo.label} Selection Menu</span>
-                    </button>
-                `;
-        const card = await renderAttributeCompleteCard(tableName, fullRecord);
-        cardTarget.appendChild(card);
-        document.getElementById("btn-back-to-menu")?.addEventListener("click", () => {
-          showInstanceSelectionMenu();
-        });
-      }
     };
     const facetBar = displayArea.querySelector("#filter-facet-bar");
     if (facetBar) {
       bindFacetPillEvents(facetBar, () => {
         activeFilteredRecords = filterRecordsByActiveFacets(records);
         populateSelectOptions(activeFilteredRecords);
-        if (!currentSelectedId) {
-          showInstanceSelectionMenu();
-        } else {
-          const stillExists = activeFilteredRecords.some((r) => r.id.toString() === currentSelectedId);
-          if (!stillExists) {
-            if (activeFilteredRecords.length > 0) {
-              inspectInstance(activeFilteredRecords[0].id.toString());
-            } else {
-              showInstanceSelectionMenu();
-            }
-          }
-        }
+        showInstanceSelectionMenu();
       });
     }
-    if (currentSelectedId) {
-      await inspectInstance(currentSelectedId);
-    } else {
-      showInstanceSelectionMenu();
-    }
+    showInstanceSelectionMenu();
     selectEl.addEventListener("change", async () => {
-      if (selectEl.value === "") {
-        showInstanceSelectionMenu();
-      } else {
-        await inspectInstance(selectEl.value);
+      if (selectEl.value !== "") {
+        await inspectFromList(selectEl.value);
       }
     });
   } catch (err) {
@@ -45441,7 +45444,7 @@ async function renderAttributeCompleteCard(tableName, record) {
     }
   }
   container.appendChild(card);
-  card.querySelectorAll(".btn-nav-child-arrow, .fk-goto-btn").forEach((btn) => {
+  card.querySelectorAll(".fk-goto-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const fkTable = btn.getAttribute("data-table") || btn.getAttribute("data-fktable");
       const fkId = btn.getAttribute("data-id") || btn.getAttribute("data-fkid");
@@ -45522,48 +45525,12 @@ async function renderChildRecordsList(childTable, fkColumn, parentId, childLabel
 async function renderRecordForm(tableName, record = null, isNew = false) {
   if (!displayArea) return;
   const tableInfo = appMetadata[tableName];
-  const displayCol = getDisplayColumnName(tableName);
   const activeMapping = typeMap[currentTypeKey || ""];
   const entityLabel = activeMapping?.label || tableInfo.singularLabel || tableInfo.label;
   const formTitle = isNew ? `Create New ${entityLabel}` : `Modify ${entityLabel}: ${record ? getRecordFriendlyName(tableName, record) || `ID: ${record.id}` : ""}`;
-  let records = [];
-  if (!isNew) {
-    try {
-      let sql = `SELECT * FROM ${tableName}`;
-      const params = [];
-      if (activeMapping?.filterKind) {
-        sql += ` WHERE "${activeMapping.filterKind.column}" = $1`;
-        params.push(activeMapping.filterKind.value);
-      }
-      sql += ` ORDER BY "${displayCol}" ASC;`;
-      const allRecords = await queryDatabase(sql, params) || [];
-      records = allRecords.filter((r) => matchesCurrentSubject(tableName, r));
-    } catch (e) {
-      console.error("[renderRecordForm] Error fetching records:", e);
-    }
-  }
-  const facets = !isNew ? detectFilterFacets(tableName, records) : [];
-  let activeFilteredRecords = !isNew ? filterRecordsByActiveFacets(records) : [];
-  const instanceBarHtml = !isNew ? `
-        <div class="instance-bar">
-            ${renderFacetPillBar(facets)}
-            <div class="instance-select-group">
-                <span class="instance-select-label" id="instance-select-label">Select ${tableInfo.singularLabel || tableInfo.label}:</span>
-                <select id="entity-instance-select" class="instance-select">
-                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
-                    ${activeFilteredRecords.map(
-    (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
-                                    ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
-                                </option>`
-  ).join("")}
-                </select>
-            </div>
-        </div>
-    ` : "";
   displayArea.innerHTML = `
         <div class="entity-inspector-view">
             <div class="inspector-container">
-                ${instanceBarHtml}
                 <div id="inspector-card-target">
                     <form id="active-crud-form">
                         <div class="attribute-card">
@@ -45607,41 +45574,6 @@ async function renderRecordForm(tableName, record = null, isNew = false) {
     `;
   const fieldsTarget = document.getElementById("form-fields-target");
   const form = document.getElementById("active-crud-form");
-  const selectEl = document.getElementById("entity-instance-select");
-  if (selectEl) {
-    selectEl.addEventListener("change", async () => {
-      const nextId = selectEl.value;
-      if (nextId) {
-        currentSelectedId = nextId;
-        const nextRec = await fetchRecordById(tableName, nextId);
-        if (nextRec) {
-          currentTitle = getRecordFriendlyName(tableName, nextRec);
-          updateBreadcrumbs();
-          await renderRecordForm(tableName, nextRec, false);
-        }
-      }
-    });
-  }
-  const facetBar = displayArea.querySelector("#filter-facet-bar");
-  if (facetBar && !isNew) {
-    bindFacetPillEvents(facetBar, () => {
-      activeFilteredRecords = filterRecordsByActiveFacets(records);
-      if (selectEl) {
-        selectEl.innerHTML = `
-                    <option value="">-- Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` matching of ${records.length}` : ""}) --</option>
-                    ${activeFilteredRecords.map(
-          (r) => `<option value="${r.id}" ${record && record.id === r.id ? "selected" : ""}>
-                                    ${escapeHtml3(getRecordFriendlyName(tableName, r))} (ID: ${r.id})
-                                </option>`
-        ).join("")}
-                `;
-      }
-      const labelEl = document.getElementById("instance-select-label");
-      if (labelEl) {
-        labelEl.textContent = `Select ${tableInfo.singularLabel || tableInfo.label} (${activeFilteredRecords.length}${activeFilteredRecords.length !== records.length ? ` of ${records.length}` : ""}):`;
-      }
-    });
-  }
   for (const colName of Object.keys(tableInfo.columns)) {
     const colMeta = tableInfo.columns[colName];
     if (colMeta.isPrimaryKey && isNew) continue;

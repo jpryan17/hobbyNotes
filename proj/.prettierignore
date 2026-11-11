@@ -1,7 +1,0 @@
-# .prettierignore
-
-# Ignore dependencies
-node_modules/
-
-# Ignore environment files
-.env
